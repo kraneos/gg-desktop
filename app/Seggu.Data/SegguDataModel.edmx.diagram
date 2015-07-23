@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0a1ecd9c1fe14d7bb63dff1f67813e86" Name="Diagram1" ZoomLevel="82" >
+        <EntityTypeShape EntityType="SegguDataModel.Locality" Width="1.5" PointX="5.125" PointY="0.625" />
+        <EntityTypeShape EntityType="SegguDataModel.Province" Width="1.5" PointX="0.5" PointY="0.625" />
+        <EntityTypeShape EntityType="SegguDataModel.Address" PointX="7.375" PointY="0.625" Width="1.5" />
+        <AssociationConnector Association="SegguDataModel.LocalityAddress" />
+        <EntityTypeShape EntityType="SegguDataModel.Client" Width="1.5" PointX="9.75" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SegguDataModel.Policy" Width="1.5" PointX="7.375" PointY="12.25" />
+        <AssociationConnector Association="SegguDataModel.ClientPolicy" />
+        <EntityTypeShape EntityType="SegguDataModel.Endorse" Width="1.5" PointX="0.5" PointY="12.5" />
+        <EntityTypeShape EntityType="SegguDataModel.Risk" Width="1.5" PointX="7.875" PointY="6.875" />
+        <EntityTypeShape EntityType="SegguDataModel.Vehicle" Width="1.5" PointX="5.375" PointY="29.25" />
+        <EntityTypeShape EntityType="SegguDataModel.Brand" Width="1.5" PointX="10" PointY="29.25" />
+        <EntityTypeShape EntityType="SegguDataModel.Company" PointX="5.125" PointY="7.125" Width="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SegguDataModel.AccessoryType" Width="1.5" PointX="2.875" PointY="29.375" />
+        <EntityTypeShape EntityType="SegguDataModel.CasualtyType" Width="1.5" PointX="9.625" PointY="17.25" />
+        <EntityTypeShape EntityType="SegguDataModel.Casualty" Width="1.5" PointX="10.375" PointY="12.375" />
+        <AssociationConnector Association="SegguDataModel.CasualtyTypeCasualty" />
+        <EntityTypeShape EntityType="SegguDataModel.Accessory" Width="1.5" PointX="0.5" PointY="29.25" />
+        <EntityTypeShape EntityType="SegguDataModel.CreditCard" Width="1.5" PointX="7.375" PointY="25.125" />
+        <EntityTypeShape EntityType="SegguDataModel.Bank" Width="1.5" PointX="2.625" PointY="25" />
+        <EntityTypeShape EntityType="SegguDataModel.ClientCreditCard" Width="1.5" PointX="5" PointY="25" />
+        <AssociationConnector Association="SegguDataModel.ClientClientCreditCard" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="SegguDataModel.ClientCreditCardCreditCard" />
+        <AssociationConnector Association="SegguDataModel.BankClientCreditCard" />
+        <EntityTypeShape EntityType="SegguDataModel.Producer" Width="1.5" PointX="0.5" PointY="7.125" />
+        <AssociationConnector Association="SegguDataModel.AccessoryTypeAccessory" />
+        <EntityTypeShape EntityType="SegguDataModel.Bodywork" Width="1.5" PointX="9.75" PointY="32.75" />
+        <EntityTypeShape EntityType="SegguDataModel.Use" Width="1.5" PointX="0.5" PointY="32.5" />
+        <EntityTypeShape EntityType="SegguDataModel.ProducerCode" Width="1.5" PointX="2.875" PointY="7.125" />
+        <AssociationConnector Association="SegguDataModel.ProducerProducerCode" />
+        <AssociationConnector Association="SegguDataModel.CompanyProducerCode" />
+        <EntityTypeShape EntityType="SegguDataModel.Cheque" Width="1.5" PointX="0.5" PointY="25" />
+        <AssociationConnector Association="SegguDataModel.BankCheque" />
+        <EntityTypeShape EntityType="SegguDataModel.LedgerAccount" Width="1.5" PointX="0.875" PointY="22.75" />
+        <EntityTypeShape EntityType="SegguDataModel.CashAccount" Width="1.5" PointX="2.875" PointY="20.75" />
+        <AssociationConnector Association="SegguDataModel.LedgerAccountCashAccount" />
+        <EntityTypeShape EntityType="SegguDataModel.Fee" Width="1.75" PointX="5.125" PointY="20.375" />
+        <AssociationConnector Association="SegguDataModel.PolicyFee" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="SegguDataModel.CreditCardCompany" />
+        <AssociationConnector Association="SegguDataModel.ProducerCashAccount" />
+        <EntityTypeShape EntityType="SegguDataModel.Coverage" Width="1.5" PointX="10.375" PointY="9.25" />
+        <EntityTypeShape EntityType="SegguDataModel.Employee" Width="1.5" PointX="4.875" PointY="14.75" />
+        <AssociationConnector Association="SegguDataModel.PolicyCasualty" />
+        <EntityTypeShape EntityType="SegguDataModel.Asset" Width="1.5" PointX="0.75" PointY="20.75" />
+        <AssociationConnector Association="SegguDataModel.AssetCashAccount" />
+        <EntityTypeShape EntityType="SegguDataModel.FeeState" Width="1.5" PointX="16.625" PointY="7.375" />
+        <AssociationConnector Association="SegguDataModel.FeeStateFee" />
+        <EntityTypeShape EntityType="SegguDataModel.Liquidation" Width="1.5" PointX="9.625" PointY="21.125" />
+        <EntityTypeShape EntityType="SegguDataModel.VehicleType" Width="1.5" PointX="3" PointY="32.25" />
+        <AssociationConnector Association="SegguDataModel.VehicleTypeUse" />
+        <AssociationConnector Association="SegguDataModel.VehicleAccessory" />
+        <AssociationConnector Association="SegguDataModel.PolicyEmployee" />
+        <AssociationConnector Association="SegguDataModel.FeeCashAccount" />
+        <AssociationConnector Association="SegguDataModel.BodyworkVehicleType" ManuallyRouted="true" >
+          <ConnectorPoint PointX="9.75" PointY="34.01149576822916" />
+          <ConnectorPoint PointX="8.0175" PointY="34.01149576822916" />
+          <ConnectorPoint PointX="8.0175" PointY="34.285631650186858" />
+          <ConnectorPoint PointX="6.2325" PointY="34.285631650186858" />
+          <ConnectorPoint PointX="6.2325" PointY="34.585428398043533" />
+          <ConnectorPoint PointX="5.071725" PointY="34.585428398043533" />
+          <ConnectorPoint PointX="5.071725" PointY="34.973131650186858" />
+          <ConnectorPoint PointX="4.68866925" PointY="34.973131650186858" />
+          <ConnectorPoint PointX="4.68866925" PointY="34.230286458333332" />
+          <ConnectorPoint PointX="4.1521690063664431" PointY="34.230286458333332" />
+        </AssociationConnector>
+        <AssociationConnector Association="SegguDataModel.LiquidationFeeSelection" />
+        <AssociationConnector Association="SegguDataModel.PolicyVehicle" />
+        <EntityTypeShape EntityType="SegguDataModel.Integral" Width="1.5" PointX="4.75" PointY="12.125" />
+        <AssociationConnector Association="SegguDataModel.PolicyEndorse" />
+        <AssociationConnector Association="SegguDataModel.EndorseEmployee" />
+        <AssociationConnector Association="SegguDataModel.EndorseVehicle" />
+        <AssociationConnector Association="SegguDataModel.ClientEndorse" />
+        <EntityTypeShape EntityType="SegguDataModel.Contact" Width="1.5" PointX="5.375" PointY="3.5" />
+        <AssociationConnector Association="SegguDataModel.CompanyContact" />
+        <AssociationConnector Association="SegguDataModel.CompanyRisk" />
+        <AssociationConnector Association="SegguDataModel.ProducerPolicy" />
+        <EntityTypeShape EntityType="SegguDataModel.VehicleModel" Width="1.5" PointX="7.875" PointY="29.375" />
+        <AssociationConnector Association="SegguDataModel.BrandVehicleModel" />
+        <AssociationConnector Association="SegguDataModel.VehicleTypeVehicleModel" />
+        <AssociationConnector Association="SegguDataModel.VehicleModelVehicle" />
+        <AssociationConnector Association="SegguDataModel.UseVehicle" />
+        <AssociationConnector Association="SegguDataModel.BodyworkVehicle" />
+        <EntityTypeShape EntityType="SegguDataModel.FeeSelection" Width="1.5" PointX="7.625" PointY="21.25" />
+        <AssociationConnector Association="SegguDataModel.FeeSelectionFee" />
+        <AssociationConnector Association="SegguDataModel.CompanyLiquidation" />
+        <AssociationConnector Association="SegguDataModel.EndorseFee" />
+        <AssociationConnector Association="SegguDataModel.ProducerPolicyCollector" />
+        <EntityTypeShape EntityType="SegguDataModel.District" Width="1.5" PointX="2.875" PointY="0.625" />
+        <AssociationConnector Association="SegguDataModel.ProvinceDistrict" />
+        <AssociationConnector Association="SegguDataModel.DistrictLocality" />
+        <EntityTypeShape EntityType="SegguDataModel.AttachedFile" Width="1.5" PointX="3" PointY="16.25" />
+        <AssociationConnector Association="SegguDataModel.EndorseAttachedFile" />
+        <AssociationConnector Association="SegguDataModel.PolicyAttachedFile" />
+        <AssociationConnector Association="SegguDataModel.CasualtyAttachedFile" />
+        <AssociationConnector Association="SegguDataModel.CashAccountAttachedFile" />
+        <AssociationConnector Association="SegguDataModel.IntegralCoverage" />
+        <AssociationConnector Association="SegguDataModel.EmployeeCoverage" />
+        <AssociationConnector Association="SegguDataModel.VehicleCoverage" />
+        <EntityTypeShape EntityType="SegguDataModel.CoveragesPack" Width="1.5" PointX="10.375" PointY="6.75" />
+        <AssociationConnector Association="SegguDataModel.RiskCoveragesPack" />
+        <AssociationConnector Association="SegguDataModel.RiskPolicy" />
+        <AssociationConnector Association="SegguDataModel.RiskCoverage" />
+        <AssociationConnector Association="SegguDataModel.CoveragesPackCoverage" />
+        <AssociationConnector Association="SegguDataModel.ClientAddress" />
+        <AssociationConnector Association="SegguDataModel.PolicyIntegral" />
+        <AssociationConnector Association="SegguDataModel.EndorseIntegral" />
+        <AssociationConnector Association="SegguDataModel.IntegralAddress" />
+        <EntityTypeShape EntityType="SegguDataModel.User" Width="1.5" PointX="1.125" PointY="3" IsExpanded="true" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

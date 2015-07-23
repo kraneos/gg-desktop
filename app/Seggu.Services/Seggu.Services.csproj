@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12BEB30D-6C15-49B1-8A97-E4EA81DAB443}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Seggu.Services</RootNamespace>
+    <AssemblyName>Seggu.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConsoleTest|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ConsoleTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessoryService.cs" />
+    <Compile Include="AccessoryTypeService.cs" />
+    <Compile Include="AssetService.cs" />
+    <Compile Include="AttachedFileService.cs" />
+    <Compile Include="BankService.cs" />
+    <Compile Include="BodyworkService.cs" />
+    <Compile Include="BrandService.cs" />
+    <Compile Include="CashAccountService.cs" />
+    <Compile Include="CasualtyService.cs" />
+    <Compile Include="CasualtyTypeService.cs" />
+    <Compile Include="ClientService.cs" />
+    <Compile Include="CollectionService.cs" />
+    <Compile Include="CompanyService.cs" />
+    <Compile Include="ContactService.cs" />
+    <Compile Include="CoverageService.cs" />
+    <Compile Include="CoveragesPackService.cs" />
+    <Compile Include="DistrictService.cs" />
+    <Compile Include="DtoMappers\AccessoryDtoMapper.cs" />
+    <Compile Include="DtoMappers\AccessoryTypeDtoMapper.cs" />
+    <Compile Include="DtoMappers\AddressDtoMapper.cs" />
+    <Compile Include="DtoMappers\AssetDtoMapper.cs" />
+    <Compile Include="DtoMappers\AttachedFileDtoMapper.cs" />
+    <Compile Include="DtoMappers\BankDtoMapper.cs" />
+    <Compile Include="DtoMappers\BodyworkDtoMapper.cs" />
+    <Compile Include="DtoMappers\BrandDtoMapper.cs" />
+    <Compile Include="DtoMappers\CashAccountDtoMapper.cs" />
+    <Compile Include="DtoMappers\CasualtyDtoMapper.cs" />
+    <Compile Include="DtoMappers\CasualtyTypeDtoMapper.cs" />
+    <Compile Include="DtoMappers\ClientCreditCardDtoMapper.cs" />
+    <Compile Include="DtoMappers\ClientDtoMapper.cs" />
+    <Compile Include="DtoMappers\CompanyDtoMapper.cs" />
+    <Compile Include="DtoMappers\ContactDtoMapper.cs" />
+    <Compile Include="DtoMappers\CoverageDtoMapper.cs" />
+    <Compile Include="DtoMappers\CoveragesPackDtoMapper.cs" />
+    <Compile Include="DtoMappers\DistrictDtoMapper.cs" />
+    <Compile Include="DtoMappers\EmployeeDtoMapper.cs" />
+    <Compile Include="DtoMappers\EndorseDtoMapper.cs" />
+    <Compile Include="DtoMappers\EndorseTypeDtoMapper.cs" />
+    <Compile Include="DtoMappers\FeeDtoMapper.cs" />
+    <Compile Include="DtoMappers\FeeSelectionDtoMapper.cs" />
+    <Compile Include="DtoMappers\FeeStateDtoMapper.cs" />
+    <Compile Include="DtoMappers\IdTypeDtoMapper.cs" />
+    <Compile Include="DtoMappers\IntegralDtoMapper.cs" />
+    <Compile Include="DtoMappers\IvaDtoMapper.cs" />
+    <Compile Include="DtoMappers\KeyValueDtoMapper.cs" />
+    <Compile Include="DtoMappers\LedgerAccountDtoMapper.cs" />
+    <Compile Include="DtoMappers\LiquidationDtoMapper.cs" />
+    <Compile Include="DtoMappers\LocalityDtoMapper.cs" />
+    <Compile Include="DtoMappers\MaritalStatusDtoMapper.cs" />
+    <Compile Include="DtoMappers\OriginDtoMapper.cs" />
+    <Compile Include="DtoMappers\PeriodDtoMapper.cs" />
+    <Compile Include="DtoMappers\PolicyDtoMapper.cs" />
+    <Compile Include="DtoMappers\ProducerCodeDtoMapper.cs" />
+    <Compile Include="DtoMappers\ProducerDtoMapper.cs" />
+    <Compile Include="DtoMappers\RiskDtoMapper.cs" />
+    <Compile Include="DtoMappers\ProvinceDtoMapper.cs" />
+    <Compile Include="DtoMappers\RiskTypeDtoMapper.cs" />
+    <Compile Include="DtoMappers\SexDtoMapper.cs" />
+    <Compile Include="DtoMappers\UseDtoMapper.cs" />
+    <Compile Include="DtoMappers\VehicleDtoMapper.cs" />
+    <Compile Include="DtoMappers\VehicleModelDtoMapper.cs" />
+    <Compile Include="DtoMappers\VehicleTypeDtoMapper.cs" />
+    <Compile Include="EmployeeService.cs" />
+    <Compile Include="EndorseService.cs" />
+    <Compile Include="FeeSelectionService.cs" />
+    <Compile Include="FeeService.cs" />
+    <Compile Include="LedgerAccountService.cs" />
+    <Compile Include="LiquidationService.cs" />
+    <Compile Include="LocalityService.cs" />
+    <Compile Include="MasterDataService.cs" />
+    <Compile Include="PolicyService.cs" />
+    <Compile Include="PrintService.cs" />
+    <Compile Include="ProducerService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ProvinceService.cs" />
+    <Compile Include="RiskService.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="UseService.cs" />
+    <Compile Include="VehicleModelService.cs" />
+    <Compile Include="VehicleService.cs" />
+    <Compile Include="VehicleTypeService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seggu.Daos.Interfaces\Seggu.Daos.Interfaces.csproj">
+      <Project>{2ff36e2a-a0da-43d8-8bca-92f0eabfc17c}</Project>
+      <Name>Seggu.Daos.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Data\Seggu.Data.csproj">
+      <Project>{c604fb07-487a-428d-a6c3-8967c0dda26e}</Project>
+      <Name>Seggu.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Dtos\Seggu.Dtos.csproj">
+      <Project>{8b0390d7-29c8-463b-a016-b22961c634a0}</Project>
+      <Name>Seggu.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Helpers\Seggu.Helpers.csproj">
+      <Project>{2c292ae3-da51-4417-a1ad-56a4e93e418f}</Project>
+      <Name>Seggu.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Services.Interfaces\Seggu.Services.Interfaces.csproj">
+      <Project>{ed582ff0-f547-49a8-a62f-55b3f96ab02f}</Project>
+      <Name>Seggu.Services.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

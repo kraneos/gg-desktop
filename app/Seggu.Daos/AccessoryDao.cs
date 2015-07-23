@@ -1,0 +1,17 @@
+﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Seggu.Daos
+{
+    public sealed class AccessoryDao: GenericDao<Accessory>, IAccessoryDao
+    {
+        public IEnumerable<Accessory> GetByVehicleId(Guid id)
+        {
+            return this.Set
+                .Where(x => x.VehicleId == id);
+        }
+    }
+}
