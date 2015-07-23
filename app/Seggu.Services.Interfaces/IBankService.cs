@@ -14,5 +14,6 @@ namespace Seggu.Services.Interfaces
         void Delete(string id);
         bool ExistNumber(string number);
         bool ExistName(string name);
+        bool HasAssociatedRecords(string id);
     }
 }

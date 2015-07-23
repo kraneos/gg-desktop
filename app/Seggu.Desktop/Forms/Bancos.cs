@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Seggu.Dtos;
+using Seggu.Helpers;
 
 namespace Seggu.Desktop.Forms
 {
@@ -77,10 +78,20 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = bankGrid.SelectedCells[0].Value.ToString();
-                    bankService.Delete(Id);
-                    this.InitializeIndex();
-                    MessageBox.Show("Banco eliminado exitosamente.");
+                    string id = bankGrid.SelectedCells[0].Value.ToString();
+                    if (!this.bankService.HasAssociatedRecords(id))
+                    {
+                        if (MessageBox.Show("Esta a punto de eliminar un banco. Esta seguro?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            bankService.Delete(id);
+                            this.InitializeIndex();
+                            MessageBox.Show("Banco eliminado exitosamente.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("El banco seleccionado posee tarjetas de credito o cheques asociados.");
+                    }
                 }
                 catch (Exception)
                 {
@@ -134,10 +145,17 @@ namespace Seggu.Desktop.Forms
 
             isNew = false;
             CancelarAccion();
-            currentBank = new BankDto();
-            currentBank.Id = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Id"].Value.ToString();
-            currentBank.Number = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Numero"].Value.ToString();
-            currentBank.Name = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Nombre"].Value.ToString();
+            if (bankGrid.CurrentRow != null && bankGrid.CurrentRow.Index > -1)
+            {
+                currentBank = new BankDto();
+                currentBank.Id = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Id"].Value.ToString();
+                currentBank.Number = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Numero"].Value.ToString();
+                currentBank.Name = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Nombre"].Value.ToString();
+            }
+            else
+            {
+                currentBank = null;
+            }
             //currentBank = (BankDto)bankGrid.CurrentRow.DataBoundItem;
             fillBank();
         }
@@ -145,8 +163,11 @@ namespace Seggu.Desktop.Forms
 
         private void fillBank()
         {
-            txtNombre.Text = currentBank.Name;
-            txtNumero.Text = currentBank.Number;
+            if (currentBank != null)
+            {
+                txtNombre.Text = currentBank.Name;
+                txtNumero.Text = currentBank.Number;
+            }
         }
         private void CancelarAccion()
         {
@@ -168,6 +189,7 @@ namespace Seggu.Desktop.Forms
             {
                 BankDto bank;
                 bank = this.GetFormData();
+
                 if (bank.Name == string.Empty || bank.Number == string.Empty)
                 {
                     MessageBox.Show("El nombre del banco o su número no pueden estar vacíos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -186,6 +208,12 @@ namespace Seggu.Desktop.Forms
                     return;
                 }
 
+                if (!bank.Number.IsAllNumbers())
+                {
+                    MessageBox.Show("El codigo del banco debe ser un numero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 try
                 {
                     this.bankService.Save(bank);
@@ -197,7 +225,8 @@ namespace Seggu.Desktop.Forms
                     MessageBox.Show("Error al crear el banco.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
-            }else
+            }
+            else
             {
                 if (currentBank == null)
                 {
@@ -217,6 +246,12 @@ namespace Seggu.Desktop.Forms
                 if (bankService.ExistName(currentBank.Name) && bankService.ExistNumber(currentBank.Number))
                 {
                     MessageBox.Show("El nombre y número del banco ingresado ya existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!currentBank.Number.IsAllNumbers())
+                {
+                    MessageBox.Show("El codigo del banco debe ser un numero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

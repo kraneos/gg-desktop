@@ -71,6 +71,7 @@
             this.bankGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.bankGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bankGrid.Location = new System.Drawing.Point(12, 43);
+            this.bankGrid.MultiSelect = false;
             this.bankGrid.Name = "bankGrid";
             this.bankGrid.ReadOnly = true;
             this.bankGrid.RowHeadersVisible = false;
@@ -118,6 +119,7 @@
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(563, 79);
+            this.txtNombre.MaxLength = 15;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(205, 25);
