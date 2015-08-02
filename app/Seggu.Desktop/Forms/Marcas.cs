@@ -91,9 +91,16 @@ namespace Seggu.Desktop.Forms
                 try
                 {
                     string Id = brandGrid.SelectedCells[0].Value.ToString();
-                    brandService.Delete(Id);
-                    this.InitializeIndex();
-                    MessageBox.Show("Marca eliminada exitosamente.");
+                    if (brandService.HasRelatedRecords(Id))
+                    {
+                        MessageBox.Show("La marca ya esta asociada a uno o mas modelos de vehiculos. Debe eliminarlos antes realizar esta accion.");
+                    }
+                    else
+                    {
+                        brandService.Delete(Id);
+                        this.InitializeIndex();
+                        MessageBox.Show("Marca eliminada exitosamente.");
+                    }
                 }
                 catch (Exception)
                 {
