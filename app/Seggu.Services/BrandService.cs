@@ -57,5 +57,17 @@ namespace Seggu.Services
         {
             return brandDao.GetByName(name);
         }
+
+        public bool HasRelatedRecords(string id)
+        {
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                var container = this.brandDao.GetContainer();
+                var brandId = new Guid(id);
+                return container.VehicleModels.Any(x => x.BrandId == brandId);
+            }
+
+            return false;
+        }
     }
 }
