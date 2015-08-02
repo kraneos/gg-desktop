@@ -216,9 +216,13 @@ namespace Seggu.Desktop.Forms
 
                 try
                 {
-                    this.bankService.Save(bank);
+                    if (MessageBox.Show("Esta seguro/a que desea crear este banco?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        this.bankService.Save(bank);
+                        MessageBox.Show("Banco guardado exitosamente.");
+                    }
                     this.InitializeIndex();
-                    MessageBox.Show("Banco guardado exitosamente.");
+
                 }
                 catch
                 {
@@ -257,8 +261,11 @@ namespace Seggu.Desktop.Forms
 
                 try
                 {
-                    bankService.Update(currentBank);
-                    MessageBox.Show("Banco modificado exitosamente.");
+                    if (MessageBox.Show("Esta seguro/a que desea guardar los cambios?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        bankService.Update(currentBank);
+                        MessageBox.Show("Banco modificado exitosamente.");
+                    }
                     this.InitializeIndex();
 
                 }
