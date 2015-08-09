@@ -115,7 +115,7 @@ namespace Seggu.Desktop.Forms
             txtNumero.Clear();
             isNew = true;
             currentBank = null;
-
+            this.bankGrid.ClearSelection();
         }
 
         private BankDto GetFormData()
@@ -128,7 +128,10 @@ namespace Seggu.Desktop.Forms
 
         private void bankGrid_SelectionChanged(object sender, EventArgs e)
         {
-            PopulateForm();
+            if (this.bankGrid.SelectedRows.Count > 0)
+            {
+                PopulateForm();
+            }
         }
 
 
@@ -179,8 +182,9 @@ namespace Seggu.Desktop.Forms
             btnEliminar.Show();
             txtNombre.ReadOnly = true;
             txtNumero.ReadOnly = true;
-            txtNombre.Clear();
-            txtNumero.Clear();
+
+            //txtNombre.Clear();
+            //txtNumero.Clear();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

@@ -16,7 +16,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>E:\vm\sharedfolders\SeGGu-with-server\app\</PublishUrl>
+    <PublishUrl>E:\files\VMware\shared\SeGGu\app\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
