@@ -303,7 +303,7 @@ namespace Seggu.Desktop.Forms
             btnEliminar.Hide();
             btnGuardar.Show();
             btnCancelar.Show();
-            txtNumero.ReadOnly = false;
+            //txtNumero.ReadOnly = false;
             txtNombre.ReadOnly = false;
             isNew = false;
         }
