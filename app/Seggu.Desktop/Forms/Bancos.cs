@@ -74,32 +74,37 @@ namespace Seggu.Desktop.Forms
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             //eliminar selected row
-            if (bankGrid.DataSource != null)
+            if (this.bankGrid.SelectedRows.Count > 0)
             {
-                try
+                if (bankGrid.DataSource != null)
                 {
-                    string id = bankGrid.SelectedCells[0].Value.ToString();
-                    if (!this.bankService.HasAssociatedRecords(id))
+                    try
                     {
-                        if (MessageBox.Show("Esta a punto de eliminar un banco. Esta seguro?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                        string id = bankGrid.SelectedCells[0].Value.ToString();
+                        if (!this.bankService.HasAssociatedRecords(id))
                         {
-                            bankService.Delete(id);
-                            this.InitializeIndex();
-                            MessageBox.Show("Banco eliminado exitosamente.");
+                            if (MessageBox.Show("Esta a punto de eliminar un banco. Esta seguro?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                bankService.Delete(id);
+                                this.InitializeIndex();
+                                MessageBox.Show("Banco eliminado exitosamente.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("El banco seleccionado posee tarjetas de credito o cheques asociados.");
                         }
                     }
-                    else
+                    catch (Exception)
                     {
-                        MessageBox.Show("El banco seleccionado posee tarjetas de credito o cheques asociados.");
+                        MessageBox.Show("Error al intentar eliminar el banco. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error al intentar eliminar el banco. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
             }
-
+            else
+            {
+                MessageBox.Show("Primero debe seleccionar un banco.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -147,7 +152,6 @@ namespace Seggu.Desktop.Forms
             }
 
             isNew = false;
-            CancelarAccion();
             if (bankGrid.CurrentRow != null && bankGrid.CurrentRow.Index > -1)
             {
                 currentBank = new BankDto();
@@ -162,7 +166,6 @@ namespace Seggu.Desktop.Forms
             //currentBank = (BankDto)bankGrid.CurrentRow.DataBoundItem;
             fillBank();
         }
-
 
         private void fillBank()
         {
@@ -183,6 +186,11 @@ namespace Seggu.Desktop.Forms
             txtNombre.ReadOnly = true;
             txtNumero.ReadOnly = true;
 
+            if (this.bankGrid.SelectedRows.Count > 0)
+            {
+                this.bankGrid.Select();
+                PopulateForm();
+            }
             //txtNombre.Clear();
             //txtNumero.Clear();
         }
@@ -292,12 +300,12 @@ namespace Seggu.Desktop.Forms
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (currentBank == null)
+            if (currentBank == null || this.bankGrid.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Primero debe seleccionar un banco.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-
             }
+
             btnAgregar.Hide();
             btnEditar.Hide();
             btnEliminar.Hide();
