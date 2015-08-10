@@ -14,7 +14,7 @@ namespace Seggu.Desktop.Forms
     public partial class Marcas : Form
     {
         #region Private Members
-        private  IBrandService brandService;
+        private IBrandService brandService;
         #endregion
 
         #region Constructor
@@ -90,16 +90,30 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = brandGrid.SelectedCells[0].Value.ToString();
-                    if (brandService.HasRelatedRecords(Id))
+                    if (this.brandGrid.SelectedRows.Count > 0)
                     {
-                        MessageBox.Show("La marca ya esta asociada a uno o mas modelos de vehiculos. Debe eliminarlos antes realizar esta accion.");
+                        string id = (string)brandGrid.SelectedCells[0].Value;
+                        if (!string.IsNullOrWhiteSpace(id))
+                        {
+                            if (brandService.HasRelatedRecords(id))
+                            {
+                                MessageBox.Show("La marca ya esta asociada a uno o mas modelos de vehiculos. Debe eliminarlos antes realizar esta accion.");
+                            }
+                            else
+                            {
+                                brandService.Delete(id);
+                                this.InitializeIndex();
+                                MessageBox.Show("Marca eliminada exitosamente.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Debe seleccionar una marca.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        brandService.Delete(Id);
-                        this.InitializeIndex();
-                        MessageBox.Show("Marca eliminada exitosamente.");
+                        MessageBox.Show("Debe seleccionar una marca.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception)
