@@ -56,7 +56,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(264, 25);
-            this.txtNombre.TabIndex = 0;
+            this.txtNombre.TabIndex = 10;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtMatricula
@@ -97,6 +97,7 @@
             // 
             this.grdProductores.AllowUserToAddRows = false;
             this.grdProductores.AllowUserToDeleteRows = false;
+            this.grdProductores.AllowUserToOrderColumns = true;
             this.grdProductores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdProductores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdProductores.Location = new System.Drawing.Point(17, 54);
@@ -108,7 +109,7 @@
             this.grdProductores.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.grdProductores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdProductores.Size = new System.Drawing.Size(386, 428);
-            this.grdProductores.TabIndex = 6;
+            this.grdProductores.TabIndex = 0;
             this.grdProductores.SelectionChanged += new System.EventHandler(this.grdProductores_SelectionChanged);
             // 
             // btnEditar
@@ -190,7 +191,6 @@
             this.btnEditarProductor.TabIndex = 32;
             this.btnEditarProductor.Text = "Editar";
             this.btnEditarProductor.UseVisualStyleBackColor = true;
-            this.btnEditarProductor.Visible = false;
             this.btnEditarProductor.Click += new System.EventHandler(this.btnEditarProductor_Click);
             // 
             // btnCancelar

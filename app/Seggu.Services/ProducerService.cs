@@ -75,14 +75,12 @@ namespace Seggu.Services
             }
         }
 
-
         public bool HasCompany(string producerId)
         {
             var id = new Guid(producerId);
             var validation = producerCodeDao.ProducerHasCompany(id);
             return validation; 
         }
-
 
         public IEnumerable<ProducerCodeDto> GetByCompanyId(string companyId)
         {
@@ -92,5 +90,16 @@ namespace Seggu.Services
             
         }
 
+        public bool HasPolicies(string producerId)
+        {
+            if (!string.IsNullOrWhiteSpace(producerId))
+            {
+                var guid = new Guid(producerId);
+
+                return this.producerCodeDao.GetContainer().Policies.Any(x => x.ProducerId == guid);
+            }
+            
+            return false;
+        }
     }
 }

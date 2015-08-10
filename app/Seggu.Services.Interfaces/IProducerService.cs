@@ -17,5 +17,7 @@ namespace Seggu.Services.Interfaces
         void Delete(string id);
         void Save(ProducerDto producer);
         IEnumerable<ProducerCodeDto> GetByCompanyId(string companyId);
+
+        bool HasPolicies(string p);
     }
 }
