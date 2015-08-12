@@ -66,7 +66,10 @@
             // 
             // bankGrid
             // 
+            this.bankGrid.AllowUserToAddRows = false;
+            this.bankGrid.AllowUserToDeleteRows = false;
             this.bankGrid.AllowUserToOrderColumns = true;
+            this.bankGrid.AllowUserToResizeRows = false;
             this.bankGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.bankGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.bankGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

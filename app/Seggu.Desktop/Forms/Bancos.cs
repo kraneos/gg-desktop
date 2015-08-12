@@ -116,11 +116,14 @@ namespace Seggu.Desktop.Forms
             btnCancelar.Show();
             txtNombre.ReadOnly = false;
             txtNumero.ReadOnly = false;
+            txtNombre.Enabled = true;
+            txtNumero.Enabled = true;
             txtNombre.Clear();
             txtNumero.Clear();
             isNew = true;
             currentBank = null;
             this.bankGrid.ClearSelection();
+            this.bankGrid.Enabled = false;
         }
 
         private BankDto GetFormData()
@@ -185,6 +188,8 @@ namespace Seggu.Desktop.Forms
             btnEliminar.Show();
             txtNombre.ReadOnly = true;
             txtNumero.ReadOnly = true;
+            txtNombre.Enabled = false;
+            txtNumero.Enabled = false;
 
             if (this.bankGrid.SelectedRows.Count > 0)
             {
@@ -287,6 +292,8 @@ namespace Seggu.Desktop.Forms
                     MessageBox.Show("Error al guardar los cambios del banco.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            this.bankGrid.Enabled = true;
         }
 
         private void txtNumero_KeyPress(object sender, KeyPressEventArgs e)
@@ -300,7 +307,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (currentBank == null || this.bankGrid.SelectedRows.Count == 0)
+            if (currentBank == null || this.bankGrid.SelectedRows.Count == 0 || this.bankGrid.SelectedRows[0].Cells[0] == null)
             {
                 MessageBox.Show("Primero debe seleccionar un banco.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -313,12 +320,30 @@ namespace Seggu.Desktop.Forms
             btnCancelar.Show();
             //txtNumero.ReadOnly = false;
             txtNombre.ReadOnly = false;
+            txtNombre.Enabled = true;
             isNew = false;
+            this.bankGrid.Enabled = false;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             CancelarAccion();
+
+            if (this.bankGrid.SelectedRows.Count > 0)
+            {
+                var row = this.bankGrid.SelectedRows[0];
+                this.txtNumero.Text = (string)row.Cells[1].Value;
+                this.txtNombre.Text = (string)row.Cells[2].Value;
+            }
+            else
+            {
+                this.txtNumero.Clear();
+                this.txtNumero.Enabled = false;
+                this.txtNombre.Clear();
+                this.txtNombre.Enabled = false;
+            }
+
+            this.bankGrid.Enabled = true;
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
