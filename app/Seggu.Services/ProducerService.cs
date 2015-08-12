@@ -96,7 +96,7 @@ namespace Seggu.Services
             {
                 var guid = new Guid(producerId);
 
-                return this.producerCodeDao.GetContainer().Policies.Any(x => x.ProducerId == guid);
+                return this.producerCodeDao.GetContainer().Policies.Any(x => x.ProducerId == guid || x.CollectorId == guid);
             }
             
             return false;

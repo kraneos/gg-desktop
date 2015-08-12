@@ -98,6 +98,7 @@
             this.grdProductores.AllowUserToAddRows = false;
             this.grdProductores.AllowUserToDeleteRows = false;
             this.grdProductores.AllowUserToOrderColumns = true;
+            this.grdProductores.AllowUserToResizeRows = false;
             this.grdProductores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdProductores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdProductores.Location = new System.Drawing.Point(17, 54);
