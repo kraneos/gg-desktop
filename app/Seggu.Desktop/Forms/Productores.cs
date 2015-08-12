@@ -18,7 +18,7 @@ namespace Seggu.Desktop.Forms
         private ProducerDto currentProducer = new ProducerDto();
         private ProducerDto modificationProducer = new ProducerDto();
         private bool isNew;
-        
+
         public Productores(IProducerService producerService)
         {
             this.producerService = producerService;
@@ -35,7 +35,7 @@ namespace Seggu.Desktop.Forms
             //grdProductores.DataSource = producers;
             grdProductores.Columns["Id"].Visible = false;
             grdProductores.Columns["Cobrador"].Visible = false;
-            
+
             foreach (DataGridViewColumn column in this.grdProductores.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
@@ -44,7 +44,7 @@ namespace Seggu.Desktop.Forms
             grdProductores.Focus();
             //ClearAndAddDataBindings(producers);
         }
-        
+
         private DataTable GetProducerDataTable()
         {
             var table = new DataTable();
@@ -105,6 +105,8 @@ namespace Seggu.Desktop.Forms
                 btnQuitar.Visible = false;
                 btnNuevo.Visible = false;
             }
+
+            this.grdProductores.Enabled = false;
         }
 
         private void btnQuitar_Click(object sender, EventArgs e)
@@ -118,7 +120,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (producer.Id == null)
+            if (string.IsNullOrWhiteSpace(producer.Id))
             {
                 MessageBox.Show("Primero debe seleccionar un Productor para eliminarlo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -167,7 +169,7 @@ namespace Seggu.Desktop.Forms
 
             return ok;
         }
-        
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             var producer = this.GetProducerFromForm();
@@ -193,9 +195,9 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("Matrícula existente. El número de matrícula no puede repetirse", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
+            this.grdProductores.Enabled = true;
         }
-        
+
         private ProducerDto GetProducerFromForm()
         {
             if (isNew)
@@ -232,7 +234,7 @@ namespace Seggu.Desktop.Forms
             btnQuitar.Visible = false;
             btnNuevo.Visible = false;
             btnCancelar.Visible = true;
-
+            this.grdProductores.Enabled = false;
         }
 
         private void grdProductores_SelectionChanged(object sender, EventArgs e)
@@ -257,7 +259,7 @@ namespace Seggu.Desktop.Forms
         private ProducerDto GetCurrentProducer()
         {
             var producer = new ProducerDto();
-            
+
             if (this.grdProductores.SelectedRows.Count > 0)
             {
                 var row = this.grdProductores.SelectedRows[0];
@@ -303,10 +305,8 @@ namespace Seggu.Desktop.Forms
                 txtNombre.ReadOnly = false;
                 chkCobrador.Enabled = true;
                 btnCancelar.Visible = true;
-
+                this.grdProductores.Enabled = false;
             }
-
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -316,6 +316,8 @@ namespace Seggu.Desktop.Forms
             {
                 grdProductores_SelectionChanged(null, null);
             }
+
+            this.grdProductores.Enabled = true;
         }
 
         private void CancelarAccion()
@@ -331,6 +333,7 @@ namespace Seggu.Desktop.Forms
             EhProducers.Clear();
             this.txtMatricula.Text = string.Empty;
             this.txtNombre.Text = string.Empty;
+            this.isNew = false;
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
