@@ -13,12 +13,21 @@ namespace Seggu.Daos
             return this.Set.Any(c => c.Name == name);
         }
 
-
         public IEnumerable<Risk> GetByCompany(Guid idCompany)
         {
             return
                 from r in this.Set
                 where r.CompanyId == idCompany
+                orderby r.Name
+                select r;
+        }
+
+        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(Guid idCompany)
+        {
+            return
+                from r in this.Set.Include("CoveragesPacks.Coverages")
+                where r.CompanyId == idCompany
+                orderby r.Name
                 select r;
         }
 

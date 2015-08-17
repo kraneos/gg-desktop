@@ -15,5 +15,6 @@ namespace Seggu.Services.Interfaces
         void Create(CompanyDto company);
         void Update(CompanyDto company);
         bool ExistName(string name);
+        IEnumerable<CompanyDto> GetActive();
     }
 }

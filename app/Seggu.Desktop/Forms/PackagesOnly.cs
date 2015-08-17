@@ -75,7 +75,7 @@ namespace Seggu.Desktop.Forms
         {
 
             lastCompanyIndex = grdCompañias.CurrentCell == null ? 0 : grdCompañias.CurrentCell.RowIndex;
-            grdCompañias.DataSource = companyService.GetAll().ToList();
+            grdCompañias.DataSource = companyService.GetActive().ToList();
             FormatCompanyGrid();
             PopulateComboboxes();
             grdCompañias.CurrentCell = grdCompañias.Rows[lastCompanyIndex].Cells["Name"];
@@ -83,6 +83,7 @@ namespace Seggu.Desktop.Forms
             InitializeRisks();
             InitializeCoveragePacks();
         }
+        
         private void FormatCompanyGrid()
         {
             foreach (DataGridViewColumn c in grdCompañias.Columns)
@@ -90,6 +91,7 @@ namespace Seggu.Desktop.Forms
             grdCompañias.Columns["Name"].Visible = true;
             grdCompañias.Columns["Name"].HeaderText = "Nombre";
         }
+        
         private void PopulateComboboxes()
         {
             cmbTipoRiesgos.ValueMember = "Id";
@@ -99,15 +101,18 @@ namespace Seggu.Desktop.Forms
 
         private void grdCompañias_SelectionChanged(object sender, EventArgs e)
         {
-            PopulateForm();
+            if (this.grdCompañias.SelectedRows.Count == 0)
+            {
+                HideEdition();
+            }
+            else
+            {
+                PopulateForm(); 
+            }
         }
-        private void grdCompañias_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            PopulateForm();
-        }
+        
         private void PopulateForm()
         {
-
             if (!grdCompañias.Focused)
             {
                 grdCompañias.ClearSelection();
@@ -123,8 +128,11 @@ namespace Seggu.Desktop.Forms
             InitializaAddedCoverages();
             currentCompany = (CompanyDto)grdCompañias.CurrentRow.DataBoundItem;
             riesgos = riskService.GetByCompany(currentCompany.Id).ToList();
+            
             if (riesgos != null)
+            {
                 FillLsbRiesgos();
+            }
 
             ShowEdition();
         }
@@ -146,6 +154,7 @@ namespace Seggu.Desktop.Forms
             btnQuitarPaquete.Hide();
             btnEditar.Hide();
         }
+
         private void FillLsbRiesgos()
         {
             if (currentCompany == null) return;
@@ -155,6 +164,7 @@ namespace Seggu.Desktop.Forms
             lsbRiesgos.DisplayMember = "Name";
             lsbRiesgos.DataSource = riesgos.Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
         }
+        
         private void FillLsbCoberturas(bool fromRisk)
         {
             lsbCoberturas.ValueMember = "Id";
@@ -232,7 +242,7 @@ namespace Seggu.Desktop.Forms
             btnQuitarPaquete.Show();
             txtCoveragesPack.ReadOnly = true;
             txtCoveragesPack.Clear();
-            
+
         }
 
         private void btnAgregarPaquete_Click(object sender, EventArgs e)
@@ -246,6 +256,7 @@ namespace Seggu.Desktop.Forms
             txtCoveragesPack.Clear();
             isNew = true;
         }
+
         private void btnQuitarPaquete_Click(object sender, EventArgs e)
         {
             if (grdCoveragesPack.CurrentRow == null)
@@ -254,7 +265,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if ( currentPackage == null)
+            if (currentPackage == null)
             {
                 MessageBox.Show("Primero debe seleccionar un paquete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -263,23 +274,23 @@ namespace Seggu.Desktop.Forms
             if (MessageBox.Show("¿Está seguro de eliminar este paquete? Se eliminara también las coberturas asociadas.", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
 
-            
-            try
-            {
-                currentPackage = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
-                coveragesPackService.Delete(currentPackage.Id);
-                MessageBox.Show("Paquete eliminado exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Error al intentar eliminar el Paquete, existen pólizas asociadas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                InitializeCoveragePacks();
-                InitializaAddedCoverages();
-                FillgrdCoveragesPack();
-            }
+
+                try
+                {
+                    currentPackage = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
+                    coveragesPackService.Delete(currentPackage.Id);
+                    MessageBox.Show("Paquete eliminado exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Error al intentar eliminar el Paquete, existen pólizas asociadas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    InitializeCoveragePacks();
+                    InitializaAddedCoverages();
+                    FillgrdCoveragesPack();
+                }
             }
         }
 
@@ -303,7 +314,7 @@ namespace Seggu.Desktop.Forms
             }
 
 
-            if (txtCoveragesPack.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(txtCoveragesPack.Text))
             {
                 MessageBox.Show("Ingrese un el nombre del Paquete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -474,7 +485,7 @@ namespace Seggu.Desktop.Forms
                         coveragesPack.Coverages.Add(coverage);
                         agregadas++;
                     }
-                    
+
                 }
 
                 coveragesPackService.Update(coveragesPack);
@@ -544,12 +555,7 @@ namespace Seggu.Desktop.Forms
             {
                 e.Handled = false;
             }
-            
+
         }
-
-
-
-
-
     }
 }

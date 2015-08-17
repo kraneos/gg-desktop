@@ -21,38 +21,33 @@ namespace Seggu.Services
             this.coveragePackDao = coveragePackDao;
         }
 
-        public IEnumerable<RiskCompanyDto> GetByCompany(string Id)
+        public IEnumerable<RiskCompanyDto> GetByCompany(string id)
         {
-            Guid companyId = new Guid(Id);
-            var risks = this.riskDao.GetAll()
-                .OrderBy(x => x.Name)
-                .Where(r => r.Company.Id == companyId);
-            return
-                from x in risks
-                select RiskDtoMapper.GetRiskCompanyDto(x);
+            Guid companyId = new Guid(id);
+            var risks = this.riskDao.GetByCompanyWithCoveragePacks(companyId);
+            return risks.Select(x => RiskDtoMapper.GetRiskCompanyDto(x));
         }
+        
         public void Delete(string id)
         {
             var guid = new Guid(id);
             riskDao.Delete(guid);
         }
+        
         public void Create(RiskCompanyDto risk)
         {
             riskDao.Save(RiskDtoMapper.GetObject(risk));
         }
-
 
         public bool ExistName(string name)
         {
             return riskDao.GetByName(name);
         }
 
-
         public void Update(RiskCompanyDto risk)
         {
             riskDao.Update(RiskDtoMapper.GetObject(risk));
         }
-
 
         public bool ExistNameId(string name, string id)
         {
@@ -65,7 +60,6 @@ namespace Seggu.Services
             return riskDao.BetByNameId(name, riskId);
         }
 
-
         public bool HasCoverages(string id)
         {
             if (id == null)
@@ -76,7 +70,6 @@ namespace Seggu.Services
             Guid riskId = new Guid(id);
             return coverageDao.RiskHasCoverage(riskId);
         }
-
 
         public bool HasPackages(string id)
         {

@@ -74,5 +74,13 @@ namespace Seggu.Desktop.Forms
             
 
         }
+
+        private void ValidateAccept(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.Aceptar(null, null);
+            }
+        }
     }
 }
