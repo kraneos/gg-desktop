@@ -81,7 +81,6 @@
             this.grdCompañias.Size = new System.Drawing.Size(188, 548);
             this.grdCompañias.TabIndex = 16;
             this.grdCompañias.TabStop = false;
-            this.grdCompañias.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCompañias_CellContentClick);
             this.grdCompañias.SelectionChanged += new System.EventHandler(this.grdCompañias_SelectionChanged);
             // 
             // btnAgregarPaquete
@@ -138,6 +137,7 @@
             // 
             // cmbTipoRiesgos
             // 
+            this.cmbTipoRiesgos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoRiesgos.FormattingEnabled = true;
             this.cmbTipoRiesgos.Location = new System.Drawing.Point(90, 30);
             this.cmbTipoRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -185,7 +185,7 @@
             this.label9.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(268, 6);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(291, 30);
+            this.label9.Size = new System.Drawing.Size(290, 30);
             this.label9.TabIndex = 15;
             this.label9.Text = "PAQUETES DE COBERTURAS";
             // 

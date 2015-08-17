@@ -8,6 +8,7 @@ namespace Seggu.Daos.Interfaces
     {
         bool GetByName(string name);
         IEnumerable<Risk> GetByCompany(Guid idCompany);
+        IEnumerable<Risk> GetByCompanyWithCoveragePacks(Guid idCompany);
         bool BetByNameId(string name, Guid id);
     }
 }

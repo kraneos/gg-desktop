@@ -6,7 +6,9 @@ namespace Seggu.Daos.Interfaces
 {
     public interface ICompanyDao : IGenericDao<Company>
     {
-        IEnumerable<Company> GetIndex();
+        IEnumerable<Company> GetActive();
+
+        IEnumerable<Company> GetOrderedActive();
 
         Company GetById(Guid guid);
 

@@ -66,6 +66,7 @@
             this.UsuarioTextBox.Size = new System.Drawing.Size(193, 20);
             this.UsuarioTextBox.TabIndex = 0;
             this.UsuarioTextBox.TextChanged += new System.EventHandler(this.ValidateText);
+            this.UsuarioTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ValidateAccept);
             // 
             // ContrasenaTextBox
             // 
@@ -81,6 +82,7 @@
             this.ContrasenaTextBox.TabIndex = 1;
             this.ContrasenaTextBox.UseSystemPasswordChar = true;
             this.ContrasenaTextBox.TextChanged += new System.EventHandler(this.ValidateText);
+            this.ContrasenaTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ValidateAccept);
             // 
             // AceptarButton
             // 
@@ -123,6 +125,7 @@
             this.Name = "Login";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ingreso";
             this.ResumeLayout(false);
             this.PerformLayout();
