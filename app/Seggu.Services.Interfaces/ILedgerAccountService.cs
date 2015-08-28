@@ -9,7 +9,7 @@ namespace Seggu.Services.Interfaces
 
         void Create(LedgerAccountDto la);
 
-        string GetCobranzaId();
+        int GetCobranzaId();
         //void Update(LedgerAccountDto ledgerAccount);
         //void Delete(string id);
     }

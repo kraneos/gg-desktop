@@ -110,6 +110,10 @@
       <Project>{c604fb07-487a-428d-a6c3-8967c0dda26e}</Project>
       <Name>Seggu.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
+      <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
+      <Name>Seggu.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

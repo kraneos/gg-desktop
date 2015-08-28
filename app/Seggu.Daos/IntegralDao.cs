@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;                            
 using System.Text;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Daos.Interfaces;
 using System.Data.Entity;       
 

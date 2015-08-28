@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +9,7 @@ namespace Seggu.Daos
 {
     public sealed class EmployeeDao : GenericDao<Employee> , IEmployeeDao
     {
-        public IEnumerable<Employee> GetByPolicyId(Guid policyId)
+        public IEnumerable<Employee> GetByPolicyId(int policyId)
         {
             return this.Set.Where(x => x.PolicyId == policyId);
         }

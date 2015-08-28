@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
@@ -18,18 +18,18 @@ namespace Seggu.Services
             this.attachedFileDao = attachedFileDao;
         }
 
-        public IEnumerable<AttachedFileDto> GetByPolicyId(string id)
+        public IEnumerable<AttachedFileDto> GetByPolicyId(int id)
         {
-            var policyId = new Guid(id);
+            var policyId = id;
             var fees = this.attachedFileDao.GetByPolicyId(policyId);
             return fees.Select(x => AttachedFileDtoMapper.GetDto(x));
         }
 
         public void Save(List<AttachedFileDto> attFiles)
         {
-            foreach(AttachedFileDto file in attFiles)
+            foreach (AttachedFileDto file in attFiles)
             {
-                bool isNew = string.IsNullOrEmpty(file.Id);
+                bool isNew = file.Id == default(int);
                 if (isNew)
                     attachedFileDao.Save(AttachedFileDtoMapper.GetObject(file));
                 //else

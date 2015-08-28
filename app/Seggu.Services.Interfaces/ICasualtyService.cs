@@ -6,7 +6,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface ICasualtyService
     {
-        IEnumerable<CasualtyDto> GetByPolicyId(string id);
+        IEnumerable<CasualtyDto> GetByPolicyId(int id);
 
         void Save(CasualtyDto submitCasualtyFormDto);
     }

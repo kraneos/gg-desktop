@@ -7,7 +7,7 @@ namespace Seggu.Dtos
     public class CoverageDto : KeyValueDto
     {
         public string Description { get; set; }
-        public string RiskId { get; set; }
+        public int RiskId { get; set; }
         public IEnumerable<CoveragesPackDto> CoveragesPacks { get; set; }
     }
 }

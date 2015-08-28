@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -8,8 +8,8 @@ namespace Seggu.Daos.Interfaces
     { 
         IEnumerable<Policy> GetByPolicyNumber(string polNum);
         IEnumerable<Policy> GetByVehiclePlate(string plate);
-        IEnumerable<Policy> GetValidsByClient(Guid clientId);
-        IEnumerable<Policy> GetNotValidsByClient(Guid clientId);
+        IEnumerable<Policy> GetValidsByClient(int clientId);
+        IEnumerable<Policy> GetNotValidsByClient(int clientId);
         void Edit(Policy newPolicy);
     }
 }

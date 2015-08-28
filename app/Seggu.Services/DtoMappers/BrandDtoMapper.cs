@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 
@@ -9,15 +9,15 @@ namespace Seggu.Services.DtoMappers
         public static BrandDto GetDto(Brand b)
         {
             var dto = new BrandDto();
-            dto.Id = b.Id.ToString();
+            dto.Id = b.Id;
             dto.Name = b.Name;
             return dto;
         }
 
-        public static Data.Brand GetObject(BrandDto brand)
+        public static Brand GetObject(BrandDto brand)
         {
             var b = new Brand();
-            b.Id = new Guid(brand.Id);
+            b.Id = brand.Id;
             b.Name = brand.Name;
             return b;
         }

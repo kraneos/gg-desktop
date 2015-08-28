@@ -15,9 +15,9 @@ namespace Seggu.Services
         {
             this.accessoryDao = accessoryDao;
         }
-        public IEnumerable<AccessoryDto> GetByVehicleId(string id)
+        public IEnumerable<AccessoryDto> GetByVehicleId(int id)
         {
-            var vehicleId = new Guid(id);
+            var vehicleId = id;
             var list = this.accessoryDao.GetByVehicleId(vehicleId);
             return list.OrderByDescending(x => x.ExpirationDate)
                 .Select(x => AccessoryDtoMapper.GetDto(x));
@@ -25,7 +25,7 @@ namespace Seggu.Services
 
         public void Save(AccessoryDto dto)
         {
-            var isNew = string.IsNullOrEmpty(dto.Id);
+            var isNew = dto.Id == default(int);
             var accessory = AccessoryDtoMapper.GetObject(dto);
 
             if (isNew)

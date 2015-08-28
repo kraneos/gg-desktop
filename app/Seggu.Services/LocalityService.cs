@@ -17,9 +17,9 @@ namespace Seggu.Services
             this.localityDao = localityDao;
         }
 
-        public IEnumerable<LocalityDto> GetByDistrictId(string districtId)
+        public IEnumerable<LocalityDto> GetByDistrictId(int districtId)
         {
-            Guid Id = new Guid(districtId);
+            var Id = districtId;
             return
                 from d in this.localityDao.GetByDistrictId(Id)
                 select LocalityDtoMapper.GetDto(d);

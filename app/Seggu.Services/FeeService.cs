@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
@@ -18,43 +18,43 @@ namespace Seggu.Services
             this.feeDao = feeDao;
             this.companyDao = companyDao;
         }
-        public IEnumerable<FeeDto> GetByPolicyId(string id)
+        public IEnumerable<FeeDto> GetByPolicyId(int id)
         {
-            var policyId = new Guid(id);
+            var policyId = id;
             var fees = this.feeDao.GetByPolicyId(policyId).OrderBy(X => X.ExpirationDate).ThenBy(x => x.Number);
             return fees.Select(x => FeeDtoMapper.GetDto(x));
         }
-        public IEnumerable<FeeDto> GetByEndorseId(string id)
+        public IEnumerable<FeeDto> GetByEndorseId(int id)
         {
-            var endorseId = new Guid(id);
+            var endorseId = id;
             var fees = this.feeDao.GetByEndorseId(endorseId).OrderBy(X => X.ExpirationDate).ThenBy(x => x.Number);
             return fees.Select(x => FeeDtoMapper.GetDto(x));
         }
-        public IEnumerable<FeeDto> GetByFeeSelectionId(string id)
+        public IEnumerable<FeeDto> GetByFeeSelectionId(int id)
         {
-            var list = this.feeDao.GetByFeeSelectionId(new Guid(id))
+            var list = this.feeDao.GetByFeeSelectionId(id)
                 .OrderBy(x => x.Number)
                 .ThenBy(x => x.FeeSelectionId);
 
             return list.Select(x => FeeDtoMapper.GetDto(x)).OrderBy(x => x.Cliente);
         }
-        public IEnumerable<FeeDto> GetCandidatesByCompany(string id, DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<FeeDto> GetCandidatesByCompany(int id, DateTime dateFrom, DateTime dateTo)
         {
-            var companyId = new Guid(id);
+            var companyId = id;
             var fees = this.feeDao.GetByCompanyId(companyId, dateFrom, dateTo);
             var list = fees.Select(x => FeeDtoMapper.GetDto(x)).OrderBy(x => x.Cliente)
-                .Where(x => x.FeeSelectionId == "");
+                .Where(x => x.FeeSelectionId == default(int));
             return list;
         }
-        public IEnumerable<FeeDto> GetPayedByCompany(string company_Id, DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<FeeDto> GetPayedByCompany(int company_Id, DateTime dateFrom, DateTime dateTo)
         {
-            var companyId = new Guid(company_Id);
+            var companyId = company_Id;
             var fees = this.feeDao.GetByCompanyId(companyId, dateFrom, dateTo);
             return fees.Select(x => FeeDtoMapper.GetDto(x)).OrderBy(x => x.Cliente).Where(x => x.Estado == "Pagado");
         }
-        public FeeDto GetById(string Id)
+        public FeeDto GetById(int Id)
         {
-            var id = new Guid(Id);
+            var id = Id;
             var fee = this.feeDao.Get(id);
             return FeeDtoMapper.GetDto(fee);
 
@@ -65,7 +65,7 @@ namespace Seggu.Services
         }
         public void UpdateMany(IEnumerable<FeeDto> fees)
         {
-            IEnumerable<Seggu.Data.Fee> objs = fees.Select(x => FeeDtoMapper.GetObject(x));
+            IEnumerable<Fee> objs = fees.Select(x => FeeDtoMapper.GetObject(x));
             feeDao.AssignFeeSelection(objs);
         }
         public int TodayExpirationFeesCount()
@@ -88,7 +88,7 @@ namespace Seggu.Services
                 }
             }
         }
-            private DateTime GetLastPaymentDay(Guid companyId)
+            private DateTime GetLastPaymentDay(int companyId)
             {
                 var company = companyDao.GetById(companyId);
                 int today = DateTime.Today.Day;

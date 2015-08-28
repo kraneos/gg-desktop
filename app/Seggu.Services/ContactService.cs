@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Seggu.Services
 {
-    public sealed class ContactService: IContactService
+    public sealed class ContactService : IContactService
     {
         private IContactDao contactDao;
 
@@ -24,16 +24,16 @@ namespace Seggu.Services
             return contacts.OrderBy(x => x.FirstName).Select(b => ContactDtoMapper.GetDto(b));
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 contactDao.Delete(guid);
             }
             catch (Exception) { throw; }
         }
-        
+
         public void Create(ContactFullDto contact)
         {
             this.contactDao.Save(ContactDtoMapper.GetObject(contact));

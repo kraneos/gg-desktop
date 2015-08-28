@@ -5,7 +5,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface IVehicleService
     {
-        VehicleDto GetByPolicyId(string policyId);
+        VehicleDto GetByPolicyId(int policyId);
         void Save(VehicleDto vehicle);
     }
 }

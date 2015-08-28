@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ namespace Seggu.Daos.Interfaces
 
         IEnumerable<Company> GetOrderedActive();
 
-        Company GetById(Guid guid);
+        Company GetById(int guid);
 
         bool GetByName(string name);
     }

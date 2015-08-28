@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 using System.IO;
@@ -11,13 +11,13 @@ namespace Seggu.Services.DtoMappers
         public static AttachedFileDto GetDto(AttachedFile obj)
         {
             var dto = new AttachedFileDto();
-            dto.CashAccountId = obj.CashAccountId.ToString();
-            dto.CasualtyId = obj.CasualtyId.ToString();
-            dto.EndorseId = obj.EndorseId.ToString();
+            dto.CashAccountId = obj.CashAccountId ?? default(int);
+            dto.CasualtyId = obj.CasualtyId ?? default(int);
+            dto.EndorseId = obj.EndorseId ?? default(int);
             dto.FilePath = obj.FilePath;
-            dto.Id = obj.Id.ToString();
-            dto.PolicyId = obj.PolicyId.ToString();
-            dto.EndorseId = obj.EndorseId.ToString();
+            dto.Id = obj.Id;
+            dto.PolicyId = obj.PolicyId ?? default(int);
+            dto.EndorseId = obj.EndorseId ?? default(int);
             return dto;
         }
 
@@ -25,12 +25,12 @@ namespace Seggu.Services.DtoMappers
         {
             var obj = new AttachedFile();
 
-            obj.Id = string.IsNullOrEmpty(dto.Id) ? Guid.Empty : new Guid(dto.Id);
+            obj.Id = dto.Id;
             obj.FilePath = dto.FilePath;
-            obj.EndorseId = string.IsNullOrEmpty(dto.EndorseId) ? (Guid?)null : new Guid(dto.EndorseId);
-            obj.PolicyId = string.IsNullOrEmpty(dto.PolicyId) ? (Guid?)null : new Guid(dto.PolicyId);
-            obj.CashAccountId = string.IsNullOrEmpty(dto.CashAccountId) ? (Guid?)null : new Guid(dto.CashAccountId);
-            obj.CasualtyId = string.IsNullOrEmpty(dto.CasualtyId) ? (Guid?)null : new Guid(dto.CasualtyId);
+            obj.EndorseId = dto.EndorseId ;
+            obj.PolicyId = dto.PolicyId;
+            obj.CashAccountId = dto.CashAccountId;
+            obj.CasualtyId = dto.CasualtyId;
 
             return obj;
         }

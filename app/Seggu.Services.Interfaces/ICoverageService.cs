@@ -5,14 +5,14 @@ namespace Seggu.Services.Interfaces
 {
     public interface ICoverageService
     {
-        IEnumerable<CoverageDto> GetAllByRiskId(string Id);
-        IEnumerable<CoverageDto> GetByPackId(string Id);
-        void Delete(string id);
+        IEnumerable<CoverageDto> GetAllByRiskId(int Id);
+        IEnumerable<CoverageDto> GetByPackId(int Id);
+        void Delete(int id);
         void DeleteMany(IEnumerable<CoverageDto> coverages);
         void Update(CoverageDto coverage);
         void Save(CoverageDto coverage);
         bool ExistName(string name);
-        bool ExistNameRisk(string name, string idRisk);
-        bool ExistNameId(string name, string id, string riskId);
+        bool ExistNameRisk(string name, int idRisk);
+        bool ExistNameId(string name, int id, int riskId);
     }
 }

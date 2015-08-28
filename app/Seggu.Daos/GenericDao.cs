@@ -1,5 +1,6 @@
 ﻿using Seggu.Daos.Interfaces;
 using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -36,7 +37,7 @@ namespace Seggu.Daos
             return this.container.Set<T>();
         }
 
-        public virtual T Get(Guid id)
+        public virtual T Get(int id)
         {
             return this.container.Set<T>().Find(id);
         }
@@ -90,7 +91,7 @@ namespace Seggu.Daos
             }
         }
 
-        public void Delete(Guid id)
+        public void Delete(int id)
         {
             using (var scope = new TransactionScope())
             {

@@ -6,8 +6,8 @@ namespace Seggu.Dtos
     [Serializable]
     public class EmployeeDto: EntityWithIdDto
     {
-        public string PolicyId { get; set; }
-        public string EndorseId { get; set; }
+        public int PolicyId { get; set; }
+        public int EndorseId { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public DateTime Fecha_Nacimiento { get; set; }

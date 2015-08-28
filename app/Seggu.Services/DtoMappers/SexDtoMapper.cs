@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 
 namespace Seggu.Services.DtoMappers
 {

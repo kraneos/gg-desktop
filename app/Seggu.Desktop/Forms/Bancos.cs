@@ -80,7 +80,7 @@ namespace Seggu.Desktop.Forms
                 {
                     try
                     {
-                        string id = bankGrid.SelectedCells[0].Value.ToString();
+                        var id = (int)bankGrid.SelectedCells[0].Value;
                         if (!this.bankService.HasAssociatedRecords(id))
                         {
                             if (MessageBox.Show("Esta a punto de eliminar un banco. Esta seguro?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
@@ -158,7 +158,7 @@ namespace Seggu.Desktop.Forms
             if (bankGrid.CurrentRow != null && bankGrid.CurrentRow.Index > -1)
             {
                 currentBank = new BankDto();
-                currentBank.Id = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Id"].Value.ToString();
+                currentBank.Id = (int)bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Id"].Value;
                 currentBank.Number = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Numero"].Value.ToString();
                 currentBank.Name = bankGrid.Rows[bankGrid.CurrentRow.Index].Cells["Nombre"].Value.ToString();
             }

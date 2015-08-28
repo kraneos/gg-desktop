@@ -16,9 +16,9 @@ namespace Seggu.Services
             this.vehicleDao = vehicleDao;
         }
 
-        public VehicleDto GetByPolicyId(string policyId)
+        public VehicleDto GetByPolicyId(int policyId)
         {
-            var vehicle = vehicleDao.GetByPolicyId(new Guid(policyId));
+            var vehicle = vehicleDao.GetByPolicyId(policyId);
             return VehicleDtoMapper.GetDto(vehicle);
         }
 

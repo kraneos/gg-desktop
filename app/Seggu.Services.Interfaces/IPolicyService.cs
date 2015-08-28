@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace Seggu.Services.Interfaces
 {
     public interface IPolicyService
-    { 
-        IEnumerable<PolicyFullDto> GetValidsByClient(string clientId);
-        IEnumerable<PolicyFullDto> GetNotValidsByClient(string clientId);
+    {
+        IEnumerable<PolicyFullDto> GetValidsByClient(int clientId);
+        IEnumerable<PolicyFullDto> GetNotValidsByClient(int clientId);
         void SavePolicy(PolicyFullDto policy);
-        PolicyFullDto GetById(string policyId);
+        PolicyFullDto GetById(int policyId);
         IEnumerable<PolicyFullDto> GetByPlate(string plate);
         IEnumerable<PolicyFullDto> GetByPolicyNumber(string polNum);
     }

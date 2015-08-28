@@ -10,14 +10,13 @@ namespace Seggu.Services.Interfaces
     {
         IEnumerable<ProducerDto> GetCollectors();
         IEnumerable<ProducerDto> GetProducers();
-        ProducerCompanyDto GetByIdAndCompanyId(string producerId, string companyId);
-        Boolean HasCompany(string producerId);
-        ProducerDto GetById(string producerId);
-        bool GetByRegistrationNumber(string registrationNumber, string producerId);
-        void Delete(string id);
+        ProducerCompanyDto GetByIdAndCompanyId(int producerId, int companyId);
+        Boolean HasCompany(int producerId);
+        ProducerDto GetById(int producerId);
+        bool GetByRegistrationNumber(string registrationNumber, int producerId);
+        void Delete(int id);
         void Save(ProducerDto producer);
-        IEnumerable<ProducerCodeDto> GetByCompanyId(string companyId);
-
-        bool HasPolicies(string p);
+        IEnumerable<ProducerCodeDto> GetByCompanyId(int companyId);
+        bool HasPolicies(int p);
     }
 }

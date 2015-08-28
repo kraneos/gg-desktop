@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Data.Entity;
 using System.Transactions;
@@ -8,7 +8,7 @@ namespace Seggu.Daos
 {
     public sealed class FeeSelectionDao : GenericDao<FeeSelection>, IFeeSelectionDao
     {
-        public void Save(FeeSelection obj, Guid id)
+        public int Save(FeeSelection obj, int id)
         {
             using (var scope = new TransactionScope())
             {
@@ -18,6 +18,8 @@ namespace Seggu.Daos
                 this.container.SaveChanges();
                 scope.Complete();
             }
+
+            return obj.Id;
         }
     }
 }

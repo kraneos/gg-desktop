@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Seggu.Daos
             return this.Set.Any(c => c.Name == name);
         }
 
-        public IEnumerable<Risk> GetByCompany(Guid idCompany)
+        public IEnumerable<Risk> GetByCompany(int idCompany)
         {
             return
                 from r in this.Set
@@ -22,7 +22,7 @@ namespace Seggu.Daos
                 select r;
         }
 
-        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(Guid idCompany)
+        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(int idCompany)
         {
             return
                 from r in this.Set.Include("CoveragesPacks.Coverages")
@@ -32,7 +32,7 @@ namespace Seggu.Daos
         }
 
 
-        public bool BetByNameId(string name, Guid id)
+        public bool BetByNameId(string name, int id)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name);
             if (prod == null)

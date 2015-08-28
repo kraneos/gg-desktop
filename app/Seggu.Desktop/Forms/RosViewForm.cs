@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Seggu.Data;
 using System.Xml;
 using System.Xml.Linq;
+using Seggu.Domain;
 
 namespace Seggu.Desktop.Forms
 {

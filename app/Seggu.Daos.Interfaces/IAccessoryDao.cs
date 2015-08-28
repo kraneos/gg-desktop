@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IAccessoryDao: IGenericDao<Accessory>
     {
-        IEnumerable<Accessory> GetByVehicleId(Guid id);
+        IEnumerable<Accessory> GetByVehicleId(int id);
     }
 }

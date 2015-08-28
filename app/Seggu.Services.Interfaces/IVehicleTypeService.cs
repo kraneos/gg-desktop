@@ -6,10 +6,10 @@ namespace Seggu.Services.Interfaces
     public interface IVehicleTypeService
     {
         IEnumerable<VehicleTypeDto> GetAll();
-        VehicleTypeDto Get(string vehicleTypeId);
+        VehicleTypeDto Get(int vehicleTypeId);
         void Save(VehicleTypeDto vType);
 
-        void Delete(string Id);
+        void Delete(int Id);
         bool ExistName(string name);
     }
 }

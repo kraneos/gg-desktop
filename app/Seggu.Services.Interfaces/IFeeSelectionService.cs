@@ -5,8 +5,8 @@ namespace Seggu.Services.Interfaces
 {
     public interface IFeeSelectionService
     {
-        IEnumerable<FeeSelectionDto> GetByLiquidation(string liquidationId);
-        string Save(FeeSelectionDto feeSelection);
+        IEnumerable<FeeSelectionDto> GetByLiquidation(int liquidationId);
+        int Save(FeeSelectionDto feeSelection);
         void Delete(FeeSelectionDto dto);
     }
 }

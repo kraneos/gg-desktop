@@ -7,12 +7,12 @@ namespace Seggu.Services.Interfaces
     public interface IFeeService
     {
         int TodayExpirationFeesCount();
-        IEnumerable<FeeDto> GetByPolicyId(string p);
-        IEnumerable<FeeDto> GetByEndorseId(string id);
-        IEnumerable<FeeDto> GetByFeeSelectionId(string id);
-        IEnumerable<FeeDto> GetCandidatesByCompany(string companyId, DateTime dateFrom, DateTime dateTo);
-        IEnumerable<FeeDto> GetPayedByCompany(string id, DateTime dateFrom, DateTime dateTo);
-        FeeDto GetById(string Id);
+        IEnumerable<FeeDto> GetByPolicyId(int p);
+        IEnumerable<FeeDto> GetByEndorseId(int id);
+        IEnumerable<FeeDto> GetByFeeSelectionId(int id);
+        IEnumerable<FeeDto> GetCandidatesByCompany(int companyId, DateTime dateFrom, DateTime dateTo);
+        IEnumerable<FeeDto> GetPayedByCompany(int id, DateTime dateFrom, DateTime dateTo);
+        FeeDto GetById(int Id);
         void Update(FeeDto fee);
         void UpdateMany(IEnumerable<FeeDto> fees);
         void UpdateFeeStates();

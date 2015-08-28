@@ -35,73 +35,73 @@ namespace Seggu.Desktop.Forms
             InitializeComboboxes();
             InitializeIndex();
         }
-            private void InitializeComboboxes()
+        private void InitializeComboboxes()
+        {
+            cmbActivos.DataSource = assetService.GetAll().ToList();
+            cmbActivos.ValueMember = "Id";
+            cmbActivos.DisplayMember = "Name";
+
+            cmbCuentasContables.DataSource = ledgerAccountService.GetAll().ToList();
+            cmbCuentasContables.ValueMember = "Id";
+            cmbCuentasContables.DisplayMember = "Name";
+
+            cmbCobrador.DataSource = producerService.GetCollectors().ToList();
+            cmbCobrador.ValueMember = "Id";
+            cmbCobrador.DisplayMember = "Name";
+            cmbCobrador.SelectedIndex = 0;
+        }
+        private void InitializeIndex()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id");
+            table.Columns.Add("Activo");
+            table.Columns.Add("Cuenta");
+            table.Columns.Add("Fecha", typeof(DateTime));
+            table.Columns.Add("Descripción");
+            table.Columns.Add("Valor", typeof(int));
+            table.Columns.Add("Balance");
+
+            var index = cashAccountService.GetAll();
+
+            foreach (var x in index)
             {
-                cmbActivos.DataSource = assetService.GetAll().ToList();
-                cmbActivos.ValueMember = "Id";
-                cmbActivos.DisplayMember = "Name";
-
-                cmbCuentasContables.DataSource = ledgerAccountService.GetAll().ToList();
-                cmbCuentasContables.ValueMember = "Id";
-                cmbCuentasContables.DisplayMember = "Name";
-
-                cmbCobrador.DataSource = producerService.GetCollectors().ToList();
-                cmbCobrador.ValueMember = "Id";
-                cmbCobrador.DisplayMember = "Name";
-                cmbCobrador.SelectedIndex = 0;
+                var row = table.NewRow();
+                row["Id"] = x.Id;
+                row["Activo"] = x.AssetName;
+                row["Cuenta"] = x.LedgerAccountName;
+                row["Fecha"] = x.Date;
+                row["Descripción"] = x.Description;
+                row["Valor"] = x.Amount;
+                row["Balance"] = x.Balance;
+                table.Rows.Add(row);
             }
-            private void InitializeIndex()
-            {
-                var table = new DataTable();
-                table.Columns.Add("Id");
-                table.Columns.Add("Activo");
-                table.Columns.Add("Cuenta");
-                table.Columns.Add("Fecha", typeof(DateTime));
-                table.Columns.Add("Descripción");
-                table.Columns.Add("Valor", typeof(int));
-                table.Columns.Add("Balance");
+            grdControlCaja.DataSource = table;
+            grdControlCaja.Columns["Id"].Visible = false;
 
-                var index = cashAccountService.GetAll();
-
-                foreach(var x in index)
-                {
-                    var row = table.NewRow();
-                    row["Id"] = x.Id;
-                    row["Activo"] = x.AssetName;
-                    row["Cuenta"] = x.LedgerAccountName;
-                    row["Fecha"] = x.Date;
-                    row["Descripción"] = x.Description;
-                    row["Valor"] = x.Amount;
-                    row["Balance"] = x.Balance;
-                    table.Rows.Add(row);
-                }           
-                grdControlCaja.DataSource = table;
-                grdControlCaja.Columns["Id"].Visible = false;
-
-                //txtDescripcion.DataBindings.Add("text", index, "Descripción");
-                //txtValor.DataBindings.Add("text", index, "Valor");
-                //cmbActivos.DataBindings.Add("text", index, "Activo");
-                grdControlCaja.Select();
-                CleanTxts();
-            }
-                private void CleanTxts()
-                {
-                    txtValor.Text = "Valor";
-                    txtDescripcion.Text = "Descripción";
-                    txtDescripcion.Enabled = true;
-                    errorProvider1.Clear();
-                    cmbCuentasContables.Text = "Cuentas Contables";
-                    cmbCuentasContables.Enabled = true;
-                    cmbCobrador.Enabled = true;
-                    //cmbCobrador.SelectedIndex = cmbCobrador.FindString("OF");
-                    cmbActivos.Text = "Activos";
-                    cmbAccion.Text = "Acción";
-                }
+            //txtDescripcion.DataBindings.Add("text", index, "Descripción");
+            //txtValor.DataBindings.Add("text", index, "Valor");
+            //cmbActivos.DataBindings.Add("text", index, "Activo");
+            grdControlCaja.Select();
+            CleanTxts();
+        }
+        private void CleanTxts()
+        {
+            txtValor.Text = "Valor";
+            txtDescripcion.Text = "Descripción";
+            txtDescripcion.Enabled = true;
+            errorProvider1.Clear();
+            cmbCuentasContables.Text = "Cuentas Contables";
+            cmbCuentasContables.Enabled = true;
+            cmbCobrador.Enabled = true;
+            //cmbCobrador.SelectedIndex = cmbCobrador.FindString("OF");
+            cmbActivos.Text = "Activos";
+            cmbAccion.Text = "Acción";
+        }
 
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if(txtActivos.Visible)
+            if (txtActivos.Visible)
             {
                 txtCuentas.Visible = false;
                 txtActivos.Visible = false;
@@ -169,7 +169,7 @@ namespace Seggu.Desktop.Forms
             string str = txtValor.Text;
             int num;
             bool isNume = int.TryParse(str, out num);
-            
+
             if (txtActivos.Text != "Nuevo Activo")
             {
                 if (isNume)
@@ -186,7 +186,7 @@ namespace Seggu.Desktop.Forms
                     errorProvider1.Clear();
                 }
                 else
-                 errorProvider1.SetError(txtValor, "ingrese un número solamente");
+                    errorProvider1.SetError(txtValor, "ingrese un número solamente");
             }
         }
 
@@ -203,7 +203,7 @@ namespace Seggu.Desktop.Forms
                 btnEditar.PerformClick();
                 btnEditar.PerformClick();
                 InitializeComboboxes();
-            }            
+            }
         }
 
 
@@ -212,8 +212,8 @@ namespace Seggu.Desktop.Forms
             string accion = cmbAccion.Text;
             string num = txtValor.Text;
             int valor;
-            bool isNume = int.TryParse(num, out valor); 
-            if(isNume)
+            bool isNume = int.TryParse(num, out valor);
+            if (isNume)
             {
                 if (cmbActivos.Text.Trim() != "Activos" && cmbActivos.Text.Trim() != ""
                     && cmbCuentasContables.Text.Trim() != "Cuentas Contables" && cmbCuentasContables.Text.Trim() != ""
@@ -230,52 +230,52 @@ namespace Seggu.Desktop.Forms
             else
                 errorProvider1.SetError(txtValor, "ingrese un número solamente");
         }
-            private void SaveTransaction(string accion, int valor)
+        private void SaveTransaction(string accion, int valor)
+        {
+            AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
+            decimal AssetTotal = selectedAsset.Amount;
+
+            CashAccountDto obj = new CashAccountDto();
+            obj.Amount = valor;
+            obj.AssetId = (int)cmbActivos.SelectedValue;
+            obj.Date = dtpFechaTransaccion.Value;
+            obj.LedgerAccountId = (int)cmbCuentasContables.SelectedValue;
+            obj.Description = txtDescripcion.Text.Trim();
+            obj.ProducerId = (int)cmbCobrador.SelectedValue;
+            // ver que accion y determinar si suma resta o ajusta
+            switch (accion)
             {
-                AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
-                decimal AssetTotal = selectedAsset.Amount;
-
-                CashAccountDto obj = new CashAccountDto();
-                obj.Amount = valor;
-                obj.AssetId = cmbActivos.SelectedValue.ToString();
-                obj.Date = dtpFechaTransaccion.Value;
-                obj.LedgerAccountId = cmbCuentasContables.SelectedValue.ToString();
-                obj.Description = txtDescripcion.Text.Trim();
-                obj.ProducerId = cmbCobrador.SelectedValue.ToString();
-                // ver que accion y determinar si suma resta o ajusta
-                switch (accion)
-                {
-                    case "Pago": selectedAsset.Amount = AssetTotal - valor;
-                        break;
-                    case "Depósito": selectedAsset.Amount = AssetTotal + valor;
-                        break;
-                    case "Ajuste": selectedAsset.Amount = valor;
-                        break;
-                    case "Transferencia": CreateSecondCashaccountForTransfer(valor, selectedAsset, obj);
-                        break;
-                }
-                assetService.Update(selectedAsset);
-                obj.Balance = selectedAsset.Amount;
-                this.cashAccountService.Save(obj);
+                case "Pago": selectedAsset.Amount = AssetTotal - valor;
+                    break;
+                case "Depósito": selectedAsset.Amount = AssetTotal + valor;
+                    break;
+                case "Ajuste": selectedAsset.Amount = valor;
+                    break;
+                case "Transferencia": CreateSecondCashaccountForTransfer(valor, selectedAsset, obj);
+                    break;
             }
-                private void CreateSecondCashaccountForTransfer(int valor, AssetDto selectedAsset, CashAccountDto obj)
-            {
-                CashAccountDto cashAcc1 = new CashAccountDto();
-                cashAcc1.Amount = valor;
-                cashAcc1.AssetId = firstSelectedAsset.Id;
-                cashAcc1.Date = obj.Date;
-                cashAcc1.LedgerAccountId = obj.LedgerAccountId;
-                cashAcc1.Description = firstSelectedAsset.Name + "/" + selectedAsset.Name;
-                cashAcc1.ProducerId = obj.ProducerId;
-                obj.Description = cashAcc1.Description;
+            assetService.Update(selectedAsset);
+            obj.Balance = selectedAsset.Amount;
+            this.cashAccountService.Save(obj);
+        }
+        private void CreateSecondCashaccountForTransfer(int valor, AssetDto selectedAsset, CashAccountDto obj)
+        {
+            CashAccountDto cashAcc1 = new CashAccountDto();
+            cashAcc1.Amount = valor;
+            cashAcc1.AssetId = firstSelectedAsset.Id;
+            cashAcc1.Date = obj.Date;
+            cashAcc1.LedgerAccountId = obj.LedgerAccountId;
+            cashAcc1.Description = firstSelectedAsset.Name + "/" + selectedAsset.Name;
+            cashAcc1.ProducerId = obj.ProducerId;
+            obj.Description = cashAcc1.Description;
 
-                selectedAsset.Amount += valor;
-                firstSelectedAsset.Amount -= valor;
-                assetService.Update(firstSelectedAsset);
+            selectedAsset.Amount += valor;
+            firstSelectedAsset.Amount -= valor;
+            assetService.Update(firstSelectedAsset);
 
-                cashAcc1.Balance = firstSelectedAsset.Amount;
-                cashAccountService.Save(cashAcc1);
-            }
+            cashAcc1.Balance = firstSelectedAsset.Amount;
+            cashAccountService.Save(cashAcc1);
+        }
 
 
         private void cmbAccion_SelectedIndexChanged(object sender, EventArgs e)

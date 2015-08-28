@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,13 +17,13 @@ namespace Seggu.Daos
 
 
 
-        public bool RiskHasCoverage(Guid riskId)
+        public bool RiskHasCoverage(int riskId)
         {
             return this.Set.Any(c => c.RiskId == riskId);
         }
 
 
-        public bool BetByNameId(string name, Guid id, Guid riskId)
+        public bool BetByNameId(string name, int id, int riskId)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
             if (prod == null)
@@ -38,7 +38,7 @@ namespace Seggu.Daos
         }
 
 
-        public bool BetByNameRisk(string name, Guid idRisk)
+        public bool BetByNameRisk(string name, int idRisk)
         {
             return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
         }

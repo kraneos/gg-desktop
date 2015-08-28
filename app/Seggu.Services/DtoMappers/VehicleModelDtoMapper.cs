@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using System.Linq;
@@ -11,11 +11,11 @@ namespace Seggu.Services.DtoMappers
         public static VehicleModelDto GetDto(VehicleModel obj)
         {
             var dto = new VehicleModelDto();
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             dto.Name = obj.Name;
-            dto.BrandId = obj.BrandId.ToString();
+            dto.BrandId = obj.BrandId;
             dto.Origin = OriginDtoMapper.ToString(obj.Origin);
-            dto.VehicleTypeId = obj.VehicleTypeId.ToString();
+            dto.VehicleTypeId = obj.VehicleTypeId;
             dto.Bodyworks = obj.VehicleType.Bodyworks
                 .OrderBy(b => b.Name).Select(bw => BodyworkDtoMapper.GetDto(bw)).ToList();
             dto.Uses = obj.VehicleType.Uses
@@ -26,11 +26,11 @@ namespace Seggu.Services.DtoMappers
         public static VehicleModel GetObject(VehicleModelDto dto)
         {
             var obj = new VehicleModel();
-            obj.BrandId = new Guid(dto.BrandId);
-            obj.Id = string.IsNullOrEmpty(dto.Id) ? Guid.Empty : new Guid(dto.Id);
+            obj.BrandId = dto.BrandId;
+            obj.Id = dto.Id;
             obj.Name = dto.Name;
             obj.Origin = OriginDtoMapper.ToEnum(dto.Origin);
-            obj.VehicleTypeId = new Guid(dto.VehicleTypeId);
+            obj.VehicleTypeId = dto.VehicleTypeId;
             return obj;
         }
 

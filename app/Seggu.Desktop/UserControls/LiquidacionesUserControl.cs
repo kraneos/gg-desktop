@@ -88,7 +88,7 @@ namespace Seggu.Desktop.UserControls
         private void CreateNewCurrentLiquidationObject()
         {
             currentLiquidation = new LiquidationDto();
-            currentLiquidation.Id = Guid.NewGuid().ToString();//necesito el Id sin tener que traer el obj guardado con su nuevo Id
+            //currentLiquidation.Id = Guid.NewGuid().ToString();//necesito el Id sin tener que traer el obj guardado con su nuevo Id
             currentLiquidation.Fecha = DateTime.Now.ToShortDateString();
             currentLiquidation.Total = 0;
             currentLiquidation.Registered = false;
@@ -114,7 +114,7 @@ namespace Seggu.Desktop.UserControls
         private void SetConvenioAndDateRange()
         {
             DateTime fechaInicio, fechaFin, fechaConvenio;
-            currentLiquidation.CompanyId = cmbCompañia.SelectedValue.ToString();
+            currentLiquidation.CompanyId = (int)cmbCompañia.SelectedValue;
             currentCompany = companyService.GetById(currentLiquidation.CompanyId);
             int today = DateTime.Today.Day;
             int year = DateTime.Today.Year;
@@ -153,7 +153,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void FillGrids()
         {
-            string companyId = cmbCompañia.SelectedValue.ToString();
+            var companyId = (int)cmbCompañia.SelectedValue;
             var dateFrom = dtpInicio.Value;
             var dateTo = dtpFin.Value;
 
@@ -250,7 +250,7 @@ namespace Seggu.Desktop.UserControls
             feeSelectionService.Save(_selectedFeeSelection);
             return _selectedFeeSelection;
         }
-        private void UpdateFees(string FeeSelectionId)
+        private void UpdateFees(int FeeSelectionId)
         {
             List<FeeDto> fees = new List<FeeDto>();
             foreach (DataGridViewRow row in grdSelectedFees.Rows)

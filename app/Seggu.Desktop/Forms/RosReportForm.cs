@@ -1,4 +1,5 @@
 ﻿using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

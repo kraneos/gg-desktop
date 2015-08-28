@@ -71,7 +71,7 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = useGrid.SelectedCells[0].Value.ToString();
+                    var Id = (int)useGrid.SelectedCells[0].Value;
                     useService.Delete(Id);
                     this.InitializeIndex();
                     MessageBox.Show("Uso eliminado exitosamente.");

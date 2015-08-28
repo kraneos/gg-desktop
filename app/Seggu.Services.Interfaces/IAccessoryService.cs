@@ -5,7 +5,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface IAccessoryService
     {
-        IEnumerable<AccessoryDto> GetByVehicleId(string Id);
+        IEnumerable<AccessoryDto> GetByVehicleId(int Id);
         void Save(AccessoryDto dto);
     }
 }

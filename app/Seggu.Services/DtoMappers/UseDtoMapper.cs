@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 
@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static UseDto GetDto(Use b)
         {
             var dto = new UseDto();
-            dto.Id = b.Id.ToString();
+            dto.Id = b.Id;
             dto.Name = b.Name;
             return dto;
         }

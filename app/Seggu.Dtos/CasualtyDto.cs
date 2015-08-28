@@ -7,9 +7,9 @@ namespace Seggu.Dtos
     [Serializable]
     public class CasualtyDto : EntityWithIdDto
     {
-        public string PolicyId { get; set; }
+        public int PolicyId { get; set; }
         public string Number { get; set; }
-        public string CasualtyTypeId { get; set; }
+        public int CasualtyTypeId { get; set; }
         public string FilePath { get; set; }
         public bool OurCharge { get; set; }
         public string OccurredDate { get; set; }

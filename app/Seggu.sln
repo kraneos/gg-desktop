@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Services", "Seggu.Services\Seggu.Services.csproj", "{12BEB30D-6C15-49B1-8A97-E4EA81DAB443}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -36,49 +36,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Infrastructure", "Seg
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{3B4A1366-E34C-41E1-B641-64323F604FBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Domain", "Seggu.Domain\Seggu.Domain.csproj", "{3C5E7DA4-2020-4998-A843-8CEFDBB78933}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6159589-4FB9-4EA8-8F8F-72C0310E23E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Tests", "Seggu.Tests\Seggu.Tests.csproj", "{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Seggu.Services\\Seggu.Services.csproj
-		SccProjectTopLevelParentUniqueName1 = Seggu.sln
-		SccProjectName1 = Seggu.Services
-		SccLocalPath1 = Seggu.Services
-		SccProjectUniqueName2 = Seggu.Services.Interfaces\\Seggu.Services.Interfaces.csproj
-		SccProjectTopLevelParentUniqueName2 = Seggu.sln
-		SccProjectName2 = Seggu.Services.Interfaces
-		SccLocalPath2 = Seggu.Services.Interfaces
-		SccProjectUniqueName3 = Seggu.Data\\Seggu.Data.csproj
-		SccProjectTopLevelParentUniqueName3 = Seggu.sln
-		SccProjectName3 = Seggu.Data
-		SccLocalPath3 = Seggu.Data
-		SccProjectUniqueName4 = Seggu.Daos.Interfaces\\Seggu.Daos.Interfaces.csproj
-		SccProjectTopLevelParentUniqueName4 = Seggu.sln
-		SccProjectName4 = Seggu.Daos.Interfaces
-		SccLocalPath4 = Seggu.Daos.Interfaces
-		SccProjectUniqueName5 = Seggu.Daos\\Seggu.Daos.csproj
-		SccProjectTopLevelParentUniqueName5 = Seggu.sln
-		SccProjectName5 = Seggu.Daos
-		SccLocalPath5 = Seggu.Daos
-		SccProjectUniqueName6 = Seggu.Dtos\\Seggu.Dtos.csproj
-		SccProjectTopLevelParentUniqueName6 = Seggu.sln
-		SccProjectName6 = Seggu.Dtos
-		SccLocalPath6 = Seggu.Dtos
-		SccProjectUniqueName7 = Seggu.Desktop\\Seggu.Desktop.csproj
-		SccProjectTopLevelParentUniqueName7 = Seggu.sln
-		SccProjectName7 = Seggu.Desktop
-		SccLocalPath7 = Seggu.Desktop
-		SccProjectUniqueName8 = Seggu.Helpers\\Seggu.Helpers.csproj
-		SccProjectTopLevelParentUniqueName8 = Seggu.sln
-		SccProjectName8 = Seggu.Helpers
-		SccLocalPath8 = Seggu.Helpers
-		SccProjectUniqueName9 = Seggu.Infrastructure\\Seggu.Infrastructure.csproj
-		SccProjectTopLevelParentUniqueName9 = Seggu.sln
-		SccProjectName9 = Seggu.Infrastructure
-		SccLocalPath9 = Seggu.Infrastructure
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ConsoleTest|Any CPU = ConsoleTest|Any CPU
 		ConsoleTest|Mixed Platforms = ConsoleTest|Mixed Platforms
@@ -226,6 +190,36 @@ Global
 		{15DE0369-C38D-47B4-85AD-56651EFB0D30}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{15DE0369-C38D-47B4-85AD-56651EFB0D30}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{15DE0369-C38D-47B4-85AD-56651EFB0D30}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.ConsoleTest|Any CPU.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.ConsoleTest|Any CPU.Build.0 = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.ConsoleTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.ConsoleTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.ConsoleTest|x86.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933}.Release|x86.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.ConsoleTest|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.ConsoleTest|Any CPU.Build.0 = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.ConsoleTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.ConsoleTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.ConsoleTest|x86.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -243,6 +237,8 @@ Global
 		{2C292AE3-DA51-4417-A1AD-56A4E93E418F} = {5DFF1ACD-88EB-456D-ADC2-BA8360CFF51F}
 		{15DE0369-C38D-47B4-85AD-56651EFB0D30} = {3B4A1366-E34C-41E1-B641-64323F604FBD}
 		{3B4A1366-E34C-41E1-B641-64323F604FBD} = {48BC48E8-1CF0-4203-B074-B0F41F0C7362}
+		{3C5E7DA4-2020-4998-A843-8CEFDBB78933} = {CA4A5F1D-BC28-47D2-B3F5-50428524984B}
+		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

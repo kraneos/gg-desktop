@@ -36,10 +36,10 @@ namespace Seggu.Desktop.UserControls
             coveragePackService = _coveragePackService;
         }
 
-        public void InitializeIndex(string riskId)
+        public void InitializeIndex(int riskId)
         {
             currentPolicy = MainForm.currentPolicy;
-            var riskGuid = new Guid(riskId);
+            var riskGuid = riskId;
             
             var table = BuildEmployeeTable();
             grdEmployees.DataSource = table;
@@ -55,7 +55,7 @@ namespace Seggu.Desktop.UserControls
                 {
                     var coverages = currentPolicy.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
                     if (coverages.Any())
-                        cmbCoberturas.SelectedValue = new Guid(coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId));
+                        cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace Seggu.Desktop.UserControls
                     {
                         var coverages = currentEndorse.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
                         if (coverages.Any())
-                            cmbCoberturas.SelectedValue = new Guid(coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId));
+                            cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
                     }
 
                 }
@@ -118,12 +118,12 @@ namespace Seggu.Desktop.UserControls
         {
             var employees = new List<EmployeeDto>();
             var table = (DataTable)grdEmployees.DataSource;
-            var coverages = coverageService.GetByPackId(((Guid)cmbCoberturas.SelectedValue).ToString());
+            var coverages = coverageService.GetByPackId(((int)cmbCoberturas.SelectedValue));
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 var row = table.Rows[i];
                 var employee = new EmployeeDto();
-                employee.Id = row["Id"] is DBNull ? string.Empty : (string)row["Id"];
+                employee.Id = row["Id"] is DBNull ? default(int) : (int)row["Id"];
                 employee.Apellido = row["Apellido"] is DBNull ? string.Empty : (string)row["Apellido"];
                 employee.Nombre = row["Nombre"] is DBNull ? string.Empty : (string)row["Nombre"];
                 employee.DNI = row["DNI"] is DBNull ? "Sin DNI" : (string)row["DNI"];

@@ -1,4 +1,5 @@
 ﻿using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,13 @@ namespace Seggu.Desktop.Forms
 {
     public partial class User : Form
     {
-        public Data.User UserObj { get; set; }
+        public Domain.User UserObj { get; set; }
         private bool isNew;
 
         public User()
         {
             InitializeComponent();
-            this.UserObj = new Data.User();
+            this.UserObj = new Domain.User();
             this.isNew = true;
             this.InitializeCombobox();
         }
@@ -35,7 +36,7 @@ namespace Seggu.Desktop.Forms
             this.RolComboBox.DisplayMember = "Value";
         }
 
-        public User(Data.User user)
+        public User(Domain.User user)
         {
             InitializeComponent();
             this.UserObj = user;
@@ -52,11 +53,11 @@ namespace Seggu.Desktop.Forms
             {
                 this.UserObj.Password = this.ContrasenaTextBox.Text;
                 this.UserObj.Username = this.UsernameTextBox.Text;
-                this.UserObj.Role = (Data.Role)((int)this.RolComboBox.SelectedValue);
+                this.UserObj.Role = (Role)((int)this.RolComboBox.SelectedValue);
 
                 if (this.isNew)
                 {
-                    this.UserObj.Id = Guid.NewGuid();
+                    //this.UserObj.Id = Guid.NewGuid();
                     SegguContainer.Instance.Users.Add(this.UserObj);
                 }
 

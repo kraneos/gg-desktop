@@ -5,8 +5,8 @@ namespace Seggu.Dtos
     [Serializable]
     public class ProducerCodeDto
     {
-        public string ProducerId { get; set; }
-        public string CompanyId { get; set; }
+        public int ProducerId { get; set; }
+        public int CompanyId { get; set; }
         public string Code { get; set; }
     }
 }

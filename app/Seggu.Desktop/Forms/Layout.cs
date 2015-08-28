@@ -1,6 +1,7 @@
 ﻿using Seggu.Data;
 using Seggu.Desktop.Helpers;
 using Seggu.Desktop.UserControls;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Infrastructure;

@@ -1,23 +1,24 @@
 ﻿using System;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
+using Seggu.Domain;
 
 namespace Seggu.Services.DtoMappers
 {
     public static class VehicleTypeDtoMapper
     {
-        public static VehicleTypeDto GetDto(Data.VehicleType vt)
+        public static VehicleTypeDto GetDto(VehicleType vt)
         {
             var dto = new VehicleTypeDto();
-            dto.Id = vt.Id.ToString();
+            dto.Id = vt.Id;
             dto.Name = vt.Name;
             return dto;
         }
 
-        public static Data.VehicleType GetObject(VehicleTypeDto VehicleType)
+        public static VehicleType GetObject(VehicleTypeDto VehicleType)
         {
             var b = new VehicleType();
-            b.Id = new Guid(VehicleType.Id);
+            b.Id = VehicleType.Id;
             b.Name = VehicleType.Name;
             return b;
         }

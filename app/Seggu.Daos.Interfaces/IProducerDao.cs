@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
@@ -6,7 +6,7 @@ namespace Seggu.Daos.Interfaces
     public interface IProducerDao : IGenericDao<Producer>
     {
         IEnumerable<Producer> GetCollectors();
-        bool GetByRegistrationNumberId(string registrationNumber, System.Guid id);
+        bool GetByRegistrationNumberId(string registrationNumber, int id);
         bool GetByRegistrationNumber(string registrationNumber);  
     }
 }

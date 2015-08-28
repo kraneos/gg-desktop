@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Seggu.Daos
             return this.container.Companies.Where(c => c.Active);
         }
 
-        public Company GetById(Guid guid)
+        public Company GetById(int guid)
         {
             return this.Set.First(c => c.Id == guid);
         }

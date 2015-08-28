@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +18,7 @@ namespace Seggu.Daos
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;
         }
-        public IEnumerable<Endorse> GetByPolicyId(Guid Id)
+        public IEnumerable<Endorse> GetByPolicyId(int Id)
         {
             return
                 from e in this.Set
@@ -28,18 +28,18 @@ namespace Seggu.Daos
 
         public void SaveEndorse(Endorse obj)
         {
-            obj.Id = Guid.NewGuid();
+            //obj.Id = Guid.NewGuid();
             using (var scope = new TransactionScope())
             {
                 if (obj.Vehicles != null)
-                    foreach (var vehicle in obj.Vehicles)
-                        vehicle.Id = Guid.NewGuid();
+                    foreach (var vehicle in obj.Vehicles) { }
+                        //vehicle.Id = Guid.NewGuid();
                 if (obj.Fees != null)
-                    foreach (var fee in obj.Fees)
-                        fee.Id = Guid.NewGuid();
+                    foreach (var fee in obj.Fees) { }
+                        //fee.Id = Guid.NewGuid();
                 if (obj.Employees != null)
-                    foreach (var employee in obj.Employees)
-                        employee.Id = Guid.NewGuid();
+                    foreach (var employee in obj.Employees) { }
+                        //employee.Id = Guid.NewGuid();
 
                 var entry = this.container.Entry(obj);
                 entry.State = EntityState.Added;
@@ -176,8 +176,8 @@ namespace Seggu.Daos
             {
                 foreach (var fee in endorse.Fees)
                 {
-                    if (fee.Id == Guid.Empty)
-                        fee.Id = Guid.NewGuid();
+                    //if (fee.Id == Guid.Empty)
+                    //    fee.Id = Guid.NewGuid();
                     fee.EndorseId = endorse.Id;
                 }
 

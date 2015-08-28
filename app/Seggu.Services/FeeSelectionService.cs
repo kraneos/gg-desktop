@@ -15,21 +15,19 @@ namespace Seggu.Services
         {
             this.feeSelectionDao = feeSelectionDao;
         }
-        public IEnumerable<FeeSelectionDto> GetByLiquidation(string liquidationId)
+        public IEnumerable<FeeSelectionDto> GetByLiquidation(int liquidationId)
         {
             var list = this.feeSelectionDao.GetAll();
-            return list.Where(x => x.LiquidationId == new Guid(liquidationId))
+            return list.Where(x => x.LiquidationId == liquidationId)
                 .OrderBy(x => x.Name).Select(x => FeeSelectionDtoMapper.GetDto(x));
         }
-        public string Save(FeeSelectionDto feeSelection)
+        public int Save(FeeSelectionDto feeSelection)
         {
-            bool isNew = string.IsNullOrEmpty(feeSelection.Id);
+            bool isNew = feeSelection.Id == default(int);
             var feeSelect = FeeSelectionDtoMapper.GetObject(feeSelection);
             if (isNew)
             {
-                Guid guid = Guid.NewGuid();
-                feeSelectionDao.Save(feeSelect, guid);
-                return guid.ToString();
+                return feeSelectionDao.Save(feeSelect, default(int));
             }
             else
             {

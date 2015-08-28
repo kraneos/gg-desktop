@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using System;
@@ -12,7 +12,7 @@ namespace Seggu.Services.DtoMappers
         public static Client GetObject(ClientFullDto dto)
         {
             var obj = new Client();
-            obj.Id = string.IsNullOrEmpty(dto.Id) ? Guid.Empty : new Guid(dto.Id);
+            obj.Id = dto.Id;
 
             obj.BankingCode = dto.BankingCode;
             obj.BirthDate = dto.BirthDate.ToNullableDateTime();
@@ -40,7 +40,7 @@ namespace Seggu.Services.DtoMappers
             var dto = new ClientIndexDto();
             dto.FullName = obj.LastName + ", " + obj.FirstName;
             dto.Nombre = obj.FirstName;
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             dto.Apellido = obj.LastName;
             dto.Mail = obj.Mail;
             dto.Tel_Móvil = obj.CellPhone;
@@ -52,7 +52,7 @@ namespace Seggu.Services.DtoMappers
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
             var dto = new ClientFullDto();
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             SetHomeAddress(dto, obj);
             SetCollectionAddress(dto, obj);
             dto.BankingCode = obj.BankingCode;
@@ -82,12 +82,12 @@ namespace Seggu.Services.DtoMappers
             var collectionAddress = obj.Addresses.FirstOrDefault(x => x.AddressType == AddressType.Collection);
             if (collectionAddress != null)
             {
-                dto.CollectionAddressId = collectionAddress.Id.ToString();
+                dto.CollectionAddressId = collectionAddress.Id;
                 dto.CollectionAppartment = collectionAddress.Appartment;
                 dto.CollectionFloor = collectionAddress.Floor;
-                dto.CollectionLocalityId = collectionAddress.LocalityId.ToString();
-                dto.CollectionDistrictId = collectionAddress.Locality.DistrictId.ToString();
-                dto.CollectionProvinceId = collectionAddress.Locality.District.ProvinceId.ToString();
+                dto.CollectionLocalityId = collectionAddress.LocalityId ?? default(int);
+                dto.CollectionDistrictId = collectionAddress.Locality.DistrictId;
+                dto.CollectionProvinceId = collectionAddress.Locality.District.ProvinceId;
                 dto.CollectionNumber = collectionAddress.Number;
                 dto.CollectionPhone = collectionAddress.Phone;
                 dto.CollectionPostalCode = collectionAddress.PostalCode;
@@ -100,13 +100,13 @@ namespace Seggu.Services.DtoMappers
             var homeAddress = obj.Addresses.FirstOrDefault(x => x.AddressType == AddressType.Home);
             if (homeAddress != null)
             {
-                dto.HomeAddressId = homeAddress.Id.ToString();
+                dto.HomeAddressId = homeAddress.Id;
                 dto.HomeAppartment = homeAddress.Appartment;
                 dto.HomeFloor = homeAddress.Floor;
-                dto.HomeLocalityId = homeAddress.LocalityId.ToString();
+                dto.HomeLocalityId = homeAddress.LocalityId ?? default(int);
                 dto.HomeLocality = homeAddress.Locality.Name;
-                dto.HomeDistrictId = homeAddress.Locality.DistrictId.ToString();
-                dto.HomeProvinceId = homeAddress.Locality.District.ProvinceId.ToString();
+                dto.HomeDistrictId = homeAddress.Locality.DistrictId;
+                dto.HomeProvinceId = homeAddress.Locality.District.ProvinceId;
                 dto.HomeNumber = homeAddress.Number;
                 dto.HomePhone = homeAddress.Phone;
                 dto.HomePostalCode = homeAddress.PostalCode;

@@ -120,7 +120,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(producer.Id))
+            if (producer.Id == default(int))
             {
                 MessageBox.Show("Primero debe seleccionar un Productor para eliminarlo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -139,7 +139,7 @@ namespace Seggu.Desktop.Forms
 
                 if (MessageBox.Show("¿Está seguro de eliminar el Productor?", "Eliminar Productor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    producerService.Delete(grdProductores.SelectedCells[0].Value.ToString());
+                    producerService.Delete((int)grdProductores.SelectedCells[0].Value);
                     InitializeIndex();
                     if (this.grdProductores.Rows.Count > 0)
                     {
@@ -202,7 +202,7 @@ namespace Seggu.Desktop.Forms
         {
             if (isNew)
             {
-                modificationProducer.Id = null;
+                modificationProducer.Id = default(int);
                 modificationProducer.Name = txtNombre.Text;
                 modificationProducer.Matrícula = txtMatricula.Text;
                 modificationProducer.Cobrador = chkCobrador.Checked ? true : false;
@@ -263,7 +263,7 @@ namespace Seggu.Desktop.Forms
             if (this.grdProductores.SelectedRows.Count > 0)
             {
                 var row = this.grdProductores.SelectedRows[0];
-                producer.Id = (string)row.Cells["Id"].Value;
+                producer.Id = (int)row.Cells["Id"].Value;
                 producer.Name = (string)row.Cells["Nombre"].Value;
                 producer.Matrícula = (string)row.Cells["Matrícula"].Value;
                 producer.Cobrador = Convert.ToBoolean(row.Cells["Cobrador"].Value);
@@ -280,7 +280,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (currentProducer.Id == null || currentProducer.Id == String.Empty)
+            if (currentProducer.Id == null || currentProducer.Id == default(int))
             {
                 MessageBox.Show("Primero debe seleccionar un Productor para poder editarlo.");
             }

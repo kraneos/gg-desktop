@@ -16,15 +16,15 @@ namespace Seggu.Services
             this.employeeDao = employeeDao;
         }
 
-        public IEnumerable<EmployeeDto> GetByPolicyId(string policyId)
+        public IEnumerable<EmployeeDto> GetByPolicyId(int policyId)
         {
-            var employees = employeeDao.GetByPolicyId(new Guid(policyId));
+            var employees = employeeDao.GetByPolicyId(policyId);
             return employees.Select(x => EmployeeDtoMapper.GetDto(x));
         }
 
         public void Save(EmployeeDto dto)
         {
-            bool isNew = dto.Id == null;
+            bool isNew = dto.Id == default(int);
             var obj = EmployeeDtoMapper.GetObject(dto);
             if (isNew)
                 employeeDao.Save(obj);

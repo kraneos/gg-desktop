@@ -24,7 +24,7 @@ namespace Seggu.Services
                 select LedgerAccountDtoMapper.GetDto(x);
         }
 
-        public string GetCobranzaId()
+        public int GetCobranzaId()
         {
             return ledgerAccountDao.GetCobranzaId();
         }

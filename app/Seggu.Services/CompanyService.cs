@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
@@ -28,21 +28,21 @@ namespace Seggu.Services
             return companies.Select(c => CompanyDtoMapper.GetDto(c));
         }        
         
-        public CompanyFullDto GetFullById(string id)
+        public CompanyFullDto GetFullById(int id)
         {
-            var obj = this.companyDao.GetById(new Guid(id));           
+            var obj = this.companyDao.GetById(id);           
             return CompanyDtoMapper.GetFormDto(obj);
         }
         
-        public CompanyDto GetById(string id)
+        public CompanyDto GetById(int id)
         {
-            return CompanyDtoMapper.GetDto(companyDao.GetById(new Guid(id)));
+            return CompanyDtoMapper.GetDto(companyDao.GetById(id));
         }
         
-        public void DeleteProducerCode(string companyId, string producerId)
+        public void DeleteProducerCode(int companyId, int producerId)
         {
-            var idC = new Guid(companyId);
-            var idP = new Guid(producerId);
+            var idC = companyId;
+            var idP = producerId;
             var obj = producerCodeDao.GetByCompanyProducer(idC, idP);
             producerCodeDao.Delete(obj);
             

@@ -7,8 +7,8 @@ namespace Seggu.Dtos
     public class VehicleModelDto : KeyValueDto
     {
         public string Origin { get; set; }
-        public string BrandId { get; set; }
-        public string VehicleTypeId { get; set; }
+        public int BrandId { get; set; }
+        public int VehicleTypeId { get; set; }
         public IEnumerable<BodyworkDto> Bodyworks { get; set; }
         public IEnumerable<UseDto> Uses { get; set; }
     }

@@ -7,11 +7,11 @@ namespace Seggu.Dtos
     {
         public string Appartment { get; set; }
         public string AddressType { get; set; }
-        public string ClientId { get; set; }
+        public int ClientId { get; set; }
         public string Floor { get; set; }
-        public string LocalityId { get; set; }
-        public string ProvinceId { get; set; }
-        public string DistrictId { get; set; }
+        public int LocalityId { get; set; }
+        public int ProvinceId { get; set; }
+        public int DistrictId { get; set; }
 
         public string Number { get; set; }
         public string Phone { get; set; }

@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Seggu.Services.DtoMappers
         public static ProducerDto GetDto(Producer x)
         {
             var dto = new ProducerDto();
-            dto.Id = x.Id.ToString();
+            dto.Id = x.Id;
             dto.Name = x.Name;
             dto.Matrícula = x.RegistrationNumber;
             dto.Cobrador = x.IsCollector;
@@ -22,7 +22,7 @@ namespace Seggu.Services.DtoMappers
         public static ProducerCompanyDto GetProducerCompanyDto(ProducerCode pc)
         {
             var dto = new ProducerCompanyDto();
-            dto.Id = pc.ProducerId.ToString();
+            dto.Id = pc.ProducerId;
             dto.Name = pc.Producer.Name;
             dto.Code = pc.Code;
             dto.RegistrationNumber = pc.Producer.RegistrationNumber;
@@ -32,7 +32,7 @@ namespace Seggu.Services.DtoMappers
         public static Producer GetObject(ProducerDto producer)
         {
             var obj = new Producer();
-            obj.Id = string.IsNullOrEmpty(producer.Id) ? Guid.Empty : new Guid(producer.Id);
+            obj.Id = producer.Id;
             obj.Name = producer.Name;
             obj.RegistrationNumber = producer.Matrícula;
             obj.IsCollector = producer.Cobrador;

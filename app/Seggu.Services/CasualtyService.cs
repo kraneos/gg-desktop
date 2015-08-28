@@ -17,16 +17,16 @@ namespace Seggu.Services
             this.casualtyDao = casualtyDao;
         }
 
-        public IEnumerable<CasualtyDto> GetByPolicyId(string id)
+        public IEnumerable<CasualtyDto> GetByPolicyId(int id)
         {
-            var policyId = new Guid(id);
+            var policyId = id;
             var casualties = this.casualtyDao.GetByPolicyId(policyId).OrderBy(X => X.Number);
             return casualties.Select(x => CasualtyDtoMapper.GetDto(x));
         }
 
         public void Save(CasualtyDto dto)
         {
-            var isNew = string.IsNullOrEmpty(dto.Id);
+            var isNew = dto.Id == default(int);
             var casualty = CasualtyDtoMapper.GetObject(dto);
 
             if (isNew)

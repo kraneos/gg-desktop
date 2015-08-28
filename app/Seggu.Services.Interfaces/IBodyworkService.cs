@@ -9,7 +9,7 @@ namespace Seggu.Services.Interfaces
 
         void Save(BodyworkDto bodywork);
 
-        void Delete(string Id);
+        void Delete(int Id);
         bool ExistName(string name);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using System;
@@ -13,16 +13,16 @@ namespace Seggu.Services.DtoMappers
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
             var dto = new CasualtyDto();
-            dto.CasualtyTypeId = obj.CasualtyTypeId.ToString();
+            dto.CasualtyTypeId = obj.CasualtyTypeId;
             dto.DefinedCompensation = obj.DefinedCompensation;
             dto.EstimatedCompensation = obj.EstimatedCompensation;
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             dto.Notes = obj.Notes;
             dto.Number = obj.Number.ToString();
             dto.OccurredDate = obj.OccurredDate.ToShortDateString();
             dto.OurCharge = obj.OurCharge;
             dto.PoliceReportDate = obj.PoliceReportDate == null ? date : obj.PoliceReportDate.Value.ToShortDateString();
-            dto.PolicyId = obj.PolicyId.ToString();
+            dto.PolicyId = obj.PolicyId;
             dto.ReceiveDate = obj.ReceiveDate.ToShortDateString();
             dto.Producer = obj.Policy.Producer.Name;
             dto.Client = ClientDtoMapper.GetDto(obj.Policy.Client);
@@ -34,16 +34,16 @@ namespace Seggu.Services.DtoMappers
         public static Casualty GetObject(CasualtyDto dto)
         {
             Casualty obj = new Casualty();
-            obj.CasualtyTypeId = string.IsNullOrEmpty(dto.CasualtyTypeId) ? Guid.Empty : new Guid(dto.CasualtyTypeId);
+            obj.CasualtyTypeId = dto.CasualtyTypeId;
             obj.DefinedCompensation = dto.DefinedCompensation;
             obj.EstimatedCompensation = dto.EstimatedCompensation;
-            obj.Id = string.IsNullOrEmpty(dto.Id)? Guid.Empty : new Guid(dto.Id);
+            obj.Id = dto.Id;
             obj.Notes = dto.Notes;
             obj.Number = short.Parse(dto.Number);
             obj.OccurredDate = DateTime.Parse(dto.OccurredDate);
             obj.OurCharge = dto.OurCharge;
             obj.PoliceReportDate = DateTime.Parse(dto.PoliceReportDate);
-            obj.PolicyId = string.IsNullOrEmpty(dto.PolicyId) ? Guid.Empty : new Guid(dto.PolicyId);
+            obj.PolicyId = dto.PolicyId;
             obj.ReceiveDate = DateTime.Parse(dto.ReceiveDate);
             
             return obj;
