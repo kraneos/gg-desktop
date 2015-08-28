@@ -12,22 +12,22 @@ namespace Seggu.Services
     public sealed class CoveragesPackService : ICoveragesPackService
     {
         ICoveragesPackDao coveragesPackDao;
-               
+
         public CoveragesPackService(ICoveragesPackDao coveragesPackDao)
         {
             this.coveragesPackDao = coveragesPackDao;
         }
-        public IEnumerable<CoveragesPackDto> GetById(string selectedCovPackid)
+        public IEnumerable<CoveragesPackDto> GetById(int selectedCovPackid)
         {
-            var co =  coveragesPackDao.GetAll();
-            return co.Where(cp => cp.Id == new Guid(selectedCovPackid))
+            var co = coveragesPackDao.GetAll();
+            return co.Where(cp => cp.Id == selectedCovPackid)
                 .Select(cp => CoveragesPackDtoMapper.GetDto(cp));
         }
-        public IEnumerable<CoveragesPackDto> GetAllByRiskId(string riskId)
+        public IEnumerable<CoveragesPackDto> GetAllByRiskId(int riskId)
         {
             var coveragePack = this.coveragesPackDao.GetAll();
             var list = coveragePack.OrderBy(x => x.Name)
-                .Where(c => c.RiskId == new Guid(riskId))
+                .Where(c => c.RiskId == riskId)
                 .Select(c => CoveragesPackDtoMapper.GetDto(c));
             return list;
         }
@@ -35,42 +35,36 @@ namespace Seggu.Services
         {
             coveragesPackDao.Save(CoveragesPackDtoMapper.GetObject(coveragesPack));
         }
-        public string GetPackIdByCoverageId(string id, string riskId)
+        public int GetPackIdByCoverageId(int id, int riskId)
         {
-            var coveragesPacks = coveragesPackDao.GetByRiskId(new Guid(riskId));
+            var coveragesPacks = coveragesPackDao.GetByRiskId(riskId);
             return coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
-                && cp.Coverages.Any(x => x.Id == new Guid(id))).Id.ToString();
+                && cp.Coverages.Any(x => x.Id == id)).Id;
         }
         public void Update(CoveragesPackDto coveragesPack)
         {
             var c = CoveragesPackDtoMapper.GetObject(coveragesPack);
             coveragesPackDao.UpdateCoveragesPack(c);
         }
-
-
-        public void Delete(string id)
+        public void Delete(int id)
         {
-            var idPack = new Guid(id);
+            var idPack = id;
             coveragesPackDao.Delete(idPack);
         }
-
-
         public bool ExistName(string name)
         {
             return coveragesPackDao.GetByName(name);
         }
-
-        public bool ExistNameRisk(string name, string idRisk)
+        public bool ExistNameRisk(string name, int idRisk)
         {
             if (idRisk == null)
             {
                 return true;
             }
-            Guid id = new Guid(idRisk);
+            var id = idRisk;
             return coveragesPackDao.BetByNameRisk(name, id);
         }
-
-        public bool ExistNameId(string name, string id, string riskId)
+        public bool ExistNameId(string name, int id, int riskId)
         {
             if (id == null)
             {
@@ -82,10 +76,9 @@ namespace Seggu.Services
                 return true;
             }
 
-            Guid coverageId = new Guid(id);
-            Guid riskIds = new Guid(riskId);
+            var coverageId = id;
+            var riskIds = riskId;
             return coveragesPackDao.BetByNameId(name, coverageId, riskIds);
         }
     }
-
 }

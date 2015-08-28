@@ -6,7 +6,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface ILocalityService
     {
-        IEnumerable<LocalityDto> GetByDistrictId(string districtId);
+        IEnumerable<LocalityDto> GetByDistrictId(int districtId);
         IEnumerable<LocalityDto> GetAll();
     }
 }

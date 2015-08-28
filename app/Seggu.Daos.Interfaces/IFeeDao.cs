@@ -1,4 +1,5 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -6,11 +7,11 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IFeeDao : IGenericDao<Fee>
     {
-        IEnumerable<Fee> GetByPolicyId(Guid guid);
-        IEnumerable<Fee> GetByEndorseId(Guid guid);
-        IEnumerable<Fee> GetByFeeSelectionId(Guid guid);
-        IEnumerable<Fee> GetByCompanyId(Guid companyId, DateTime dateFrom, DateTime dateTo);
-        IEnumerable<Fee> GetExpiredByCompanyId(Guid guid);
+        IEnumerable<Fee> GetByPolicyId(int guid);
+        IEnumerable<Fee> GetByEndorseId(int guid);
+        IEnumerable<Fee> GetByFeeSelectionId(int guid);
+        IEnumerable<Fee> GetByCompanyId(int companyId, DateTime dateFrom, DateTime dateTo);
+        IEnumerable<Fee> GetExpiredByCompanyId(int guid);
         //void DeleteMany(IEnumerable<Fee> feesToDelete);
         IEnumerable<Fee> GetTodayFees();
         IEnumerable<Fee> GetExpiredByCompanyId();

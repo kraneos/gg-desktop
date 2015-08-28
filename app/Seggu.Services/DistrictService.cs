@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
@@ -16,9 +16,9 @@ namespace Seggu.Services
         {
             this.districtDao = districtDao;
         }
-        public IEnumerable<DistrictDto> GetFilteredByProvince(string provinceId)
+        public IEnumerable<DistrictDto> GetFilteredByProvince(int provinceId)
         {
-            Guid provId = new Guid(provinceId);
+            var provId = provinceId;
             var districts = districtDao.GetByProvince(provId);
             return districts.OrderBy(x => x.Name).Select(x => DistrictDtoMapper.GetDto(x));
         }

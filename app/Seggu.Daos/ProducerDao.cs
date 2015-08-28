@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +15,7 @@ namespace Seggu.Daos
                 select p;
         }
 
-        public bool GetByRegistrationNumberId(string registrationNumber, System.Guid id )
+        public bool GetByRegistrationNumberId(string registrationNumber, int id )
         {
            var prod = this.Set.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
            if (prod == null)

@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Seggu.Services.DtoMappers
         public static ProvinceDto GetDto(Province p)
         {
             var prov = new ProvinceDto();
-            prov.Id = p.Id.ToString();
+            prov.Id = p.Id;
             prov.Name = p.Name;
             return prov;
         }

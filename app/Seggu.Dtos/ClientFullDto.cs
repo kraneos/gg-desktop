@@ -24,28 +24,28 @@ namespace Seggu.Dtos
         public string HomeFloor { get; set; }
         public string HomeAppartment { get; set; }
         public string HomePostalCode { get; set; }
-        public string HomeLocalityId { get; set; }
+        public int HomeLocalityId { get; set; }
         public string HomeLocality { get; set; }
-        public string HomeDistrictId { get; set; }
-        public string HomeProvinceId { get; set; }
+        public int HomeDistrictId { get; set; }
+        public int HomeProvinceId { get; set; }
         public string HomePhone { get; set; }
         public string MaritalStatus { get; set; }
         public string Iva { get; set; }
         public string Mail { get; set; }
         public string Occupation { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string CollectionAppartment { get; set; }
         public string CollectionFloor { get; set; }
-        public string CollectionLocalityId { get; set; }
-        public string CollectionDistrictId { get; set; }
-        public string CollectionProvinceId { get; set; }
+        public int CollectionLocalityId { get; set; }
+        public int CollectionDistrictId { get; set; }
+        public int CollectionProvinceId { get; set; }
         public string CollectionNumber { get; set; }
         public string CollectionPhone { get; set; }
         public string CollectionPostalCode { get; set; }
         public string CollectionStreet { get; set; }
         public IEnumerable<ClientCreditCardInformationDto> CreditCards { get; set; }
-        public string HomeAddressId { get; set; }
-        public string CollectionAddressId { get; set; }
+        public int HomeAddressId { get; set; }
+        public int CollectionAddressId { get; set; }
         public int PolicyCount { get; set; }
     }
 }

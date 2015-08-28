@@ -9,30 +9,28 @@ using System.Windows.Forms;
 using Seggu.Data;
 using System.Xml;
 using System.Xml.Linq;
+using Seggu.Domain;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class RcrViewForm : Form
     {
-        public RcrViewForm(DateTime a,DateTime b,Producer pro)
+        public RcrViewForm(DateTime a, DateTime b, Producer pro)
         {
             InitializeComponent();
-           var table = GetRcrView(a,b,pro);
-           this.DTGRcr.DataSource = table;
-           producer = pro;
-           from = a;
-           to = b;
+            var table = GetRcrView(a, b, pro);
+            this.DTGRcr.DataSource = table;
+            producer = pro;
+            from = a;
+            to = b;
             //rc.
             //DTGRcr.DataSource = ;
         }
-
-
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            
+
             this.Close();
         }
-
         private void DTGRcr_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -196,7 +194,7 @@ namespace Seggu.Desktop.Forms
                     row["Domicilio"] = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
                     row["Cpa Cantidad"] = 1;
                 }
-               // row["Codigo Postal"] = address.PostalCode;
+                // row["Codigo Postal"] = address.PostalCode;
                 row["Bien Asegurado"] = record.Risk.RiskType == RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
                 row["Ramo"] = 34;
                 row["Suma Asegurada"] = record.Value;
@@ -213,7 +211,6 @@ namespace Seggu.Desktop.Forms
             return table;
 
         }
-
         private void BtnEnviar_Click(object sender, EventArgs e)
         {
             try
@@ -234,9 +231,7 @@ namespace Seggu.Desktop.Forms
             }
         }
         public DateTime from { get; set; }
-
         public DateTime to { get; set; }
-
         public Producer producer { get; set; }
     }
 }

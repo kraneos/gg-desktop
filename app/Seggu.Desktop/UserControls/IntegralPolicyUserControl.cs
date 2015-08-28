@@ -55,7 +55,7 @@ namespace Seggu.Desktop.UserControls
             localities = localityService.GetAll().ToList();
         }
 
-        public void InitializeComboboxes(string riskId)
+        public void InitializeComboboxes(int riskId)
         {
             FillCmbCubre(riskId);
             FillCmbCoverages(riskId);
@@ -74,18 +74,18 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.DisplayMember = "Name";
             cmbLocality.SelectedIndex = -1;
         }
-            private void FillCmbCubre(string riskId)
-            {
-                cmbCubre.DataSource = coveragesPackService.GetAllByRiskId(riskId).ToList();
-                cmbCubre.DisplayMember = "Name";
-                cmbCubre.ValueMember = "Id";
-            }
-            private void FillCmbCoverages(string riskId)
-            {
-                cmbCoverages.DataSource = coverageService.GetAllByRiskId(riskId).ToList();
-                cmbCoverages.DisplayMember = "Name";
-                cmbCoverages.ValueMember = "Id";
-            }
+        private void FillCmbCubre(int riskId)
+        {
+            cmbCubre.DataSource = coveragesPackService.GetAllByRiskId(riskId).ToList();
+            cmbCubre.DisplayMember = "Name";
+            cmbCubre.ValueMember = "Id";
+        }
+        private void FillCmbCoverages(int riskId)
+        {
+            cmbCoverages.DataSource = coverageService.GetAllByRiskId(riskId).ToList();
+            cmbCoverages.DisplayMember = "Name";
+            cmbCoverages.ValueMember = "Id";
+        }
 
         public void PopulateEndorseIntegral()
         {
@@ -102,24 +102,24 @@ namespace Seggu.Desktop.UserControls
             if (MainForm.currentPolicy.Integrals == null) return;
 
             integralList = MainForm.currentPolicy.Integrals
-                .Where(v => string.IsNullOrEmpty(v.EndorseId)).ToList();
+                .Where(v => v.EndorseId == default(int)).ToList();
             currentIntegral = integralList.FirstOrDefault();
-            if (currentIntegral.Address!=null)
+            if (currentIntegral.Address != null)
                 PopulateAddress(currentIntegral.Address);
             coverages = currentIntegral.Coverages.ToList();
             ReLoadGrdCoverages();
         }
-            private void PopulateAddress(AddressDto address)
-            {
-                txtHomeAppart.Text = address.Appartment;
-                txtHomeFloor.Text = address.Floor;
-                txtHomeNumber.Text = address.Number;
-                txtHomePostal.Text = address.PostalCode;
-                txtHomeStreet.Text = address.Street;
-                cmbProvince.SelectedValue = address.ProvinceId;
-                cmbDistrict.SelectedValue = address.DistrictId;
-                cmbLocality.SelectedValue = address.LocalityId;
-            }
+        private void PopulateAddress(AddressDto address)
+        {
+            txtHomeAppart.Text = address.Appartment;
+            txtHomeFloor.Text = address.Floor;
+            txtHomeNumber.Text = address.Number;
+            txtHomePostal.Text = address.PostalCode;
+            txtHomeStreet.Text = address.Street;
+            cmbProvince.SelectedValue = address.ProvinceId;
+            cmbDistrict.SelectedValue = address.DistrictId;
+            cmbLocality.SelectedValue = address.LocalityId;
+        }
 
         private void cmbCubre_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -154,12 +154,12 @@ namespace Seggu.Desktop.UserControls
             AddressDto address = new AddressDto();
             address.Appartment = this.txtHomeAppart.Text;
             address.Floor = txtHomeFloor.Text;
-            address.Id = currentIntegral.Address == null ? null : currentIntegral.Address.Id;
-            address.LocalityId = (string)this.cmbLocality.SelectedValue;
+            address.Id = currentIntegral.Address == null ? default(int) : currentIntegral.Address.Id;
+            address.LocalityId = (int)this.cmbLocality.SelectedValue;
             address.Number = txtHomeNumber.Text;
             address.PostalCode = this.txtHomePostal.Text;
             address.Street = this.txtHomeStreet.Text;
-            currentIntegral.Address = address;    
+            currentIntegral.Address = address;
             currentIntegral.Coverages = coverages;
 
             currentIntegral.PolicyId = MainForm.currentPolicy.Id;
@@ -172,14 +172,14 @@ namespace Seggu.Desktop.UserControls
         {
             cmbLocality.DataSource = null;
 
-            filteredDistricts = districtService.GetFilteredByProvince(cmbProvince.SelectedValue.ToString()).ToList();
+            filteredDistricts = districtService.GetFilteredByProvince((int)cmbProvince.SelectedValue).ToList();
             cmbDistrict.ValueMember = "Id";
             cmbDistrict.DisplayMember = "Name";
             cmbDistrict.DataSource = filteredDistricts;
         }
         private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            filteredLocalities = localityService.GetByDistrictId(cmbDistrict.SelectedValue.ToString()).ToList();
+            filteredLocalities = localityService.GetByDistrictId((int)cmbDistrict.SelectedValue).ToList();
             cmbLocality.DisplayMember = "Name";
             cmbLocality.ValueMember = "Id";
             cmbLocality.DataSource = filteredLocalities;
@@ -193,7 +193,7 @@ namespace Seggu.Desktop.UserControls
             {
                 if (c is TextBox)
                 {
-                    if ( c == txtHomeNumber || c == txtHomeStreet)
+                    if (c == txtHomeNumber || c == txtHomeStreet)
                         if (c.Text == string.Empty)
                         {
                             errorProvider1.SetError(c, "Campo vacío");
@@ -210,7 +210,7 @@ namespace Seggu.Desktop.UserControls
                             ok = false;
                         }
                 }
-                    
+
             }
             return ok;
         }
@@ -233,11 +233,11 @@ namespace Seggu.Desktop.UserControls
             coverages.Remove((CoverageDto)grdCoverages.CurrentRow.DataBoundItem);
             ReLoadGrdCoverages();
         }
-            private void ReLoadGrdCoverages()
-            {
-                grdCoverages.DataSource = null;
-                grdCoverages.DataSource = coverages;
-                FormatCoveragesGrid();
-            }
+        private void ReLoadGrdCoverages()
+        {
+            grdCoverages.DataSource = null;
+            grdCoverages.DataSource = coverages;
+            FormatCoveragesGrid();
+        }
     }
 }

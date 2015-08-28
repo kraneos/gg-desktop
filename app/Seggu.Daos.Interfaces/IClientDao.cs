@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces

@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;

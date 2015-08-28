@@ -10,7 +10,7 @@ namespace Seggu.Services.Interfaces
     {
         IEnumerable<ContactDto> GetAll();
 
-        void Delete(string id);
+        void Delete(int id);
 
         void Create(ContactFullDto contact);
 

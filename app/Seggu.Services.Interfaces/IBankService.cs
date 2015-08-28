@@ -11,9 +11,9 @@ namespace Seggu.Services.Interfaces
         IEnumerable<BankDto> GetAll();
         void Save(BankDto bank);
         void Update(BankDto bank);
-        void Delete(string id);
+        void Delete(int id);
         bool ExistNumber(string number);
         bool ExistName(string name);
-        bool HasAssociatedRecords(string id);
+        bool HasAssociatedRecords(int id);
     }
 }

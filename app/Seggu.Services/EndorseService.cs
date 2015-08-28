@@ -1,7 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Services.DtoMappers;
@@ -23,13 +23,12 @@ namespace Seggu.Services
             this.policyDao = policyDao;
         }
 
-        public IEnumerable<EndorseDto> GetByPolicyId(string Id)
+        public IEnumerable<EndorseDto> GetByPolicyId(int Id)
         {
-            var polId = new Guid(Id);
+            var polId = Id;
             var endorses = endorseDao.GetByPolicyId(polId);
             return endorses.Select(e => EndorseDtoMapper.GetDto(e));
         }
-
         public void Save(EndorseFullDto endorseFull)
         {
             if (endorseFull.Fees != null)
@@ -41,9 +40,9 @@ namespace Seggu.Services
                 SetEmployeesIds(endorseFull);
 
             var endorse = EndorseDtoMapper.GetObjectWithCover(endorseFull);
-            bool isNew = string.IsNullOrEmpty(endorseFull.Id);
+            bool isNew = endorseFull.Id == default(int);
 
-            bool isAnnulated = endorse.EndorseType == Seggu.Data.EndorseType.Anulación;
+            bool isAnnulated = endorse.EndorseType == Seggu.Domain.EndorseType.Anulación;
             if (isAnnulated)
                 this.AnnulateEndorseChilds(endorse);
 
@@ -66,44 +65,42 @@ namespace Seggu.Services
                 endorseDao.Edit(endorse);
             }
         }
-            private static void SetFeesIds(EndorseFullDto endorseFull)
+        private static void SetFeesIds(EndorseFullDto endorseFull)
+        {
+            foreach (var fee in endorseFull.Fees) { }
+            //fee.Id = string.IsNullOrEmpty(fee.Id== default(int) ? Guid.NewGuid().ToString() : fee.Id;
+        }
+        private static void SetVehiclesIds(EndorseFullDto endorseFull)
+        {
+            foreach (var vehicle in endorseFull.Vehicles) { }
+            //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
+        }
+        private static void SetEmployeesIds(EndorseFullDto endorseFull)
+        {
+            foreach (var employee in endorseFull.Employees) { }
+            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
+        }
+        private void AddCoveragesToVehicles(Endorse endorse)
+        {
+            foreach (var vehicle in endorse.Vehicles)
             {
-                foreach (var fee in endorseFull.Fees)
-                    fee.Id = string.IsNullOrEmpty(fee.Id) ? Guid.NewGuid().ToString() : fee.Id;
+                var coverages = new List<Coverage>();
+                foreach (var coverage in vehicle.Coverages)
+                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                vehicle.Coverages = coverages;
             }
-            private static void SetVehiclesIds(EndorseFullDto endorseFull)
+        }
+        private void AddCoveragesToEmployees(Endorse endorse)
+        {
+            foreach (var employee in endorse.Employees)
             {
-                foreach (var vehicle in endorseFull.Vehicles)
-                    vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
+                var coverages = new List<Coverage>();
+                foreach (var coverage in employee.Coverages)
+                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                employee.Coverages = coverages;
             }
-            private static void SetEmployeesIds(EndorseFullDto endorseFull)
-            {
-                foreach (var employee in endorseFull.Employees)
-                    employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-            }
-            private void AddCoveragesToVehicles(Endorse endorse)
-            {
-                foreach (var vehicle in endorse.Vehicles)
-                {
-                    var coverages = new List<Coverage>();
-                    foreach (var coverage in vehicle.Coverages)
-                        coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                    vehicle.Coverages = coverages;
-                }
-            }
-            private void AddCoveragesToEmployees(Endorse endorse)
-            {
-                foreach (var employee in endorse.Employees)
-                {
-                    var coverages = new List<Coverage>();
-                    foreach (var coverage in employee.Coverages)
-                        coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                    employee.Coverages = coverages;
-                }
-            }
-
-
-        private void AnnulateEndorseChilds(Seggu.Data.Endorse endorse)
+        }
+        private void AnnulateEndorseChilds(Endorse endorse)
         {
             endorse.AnnulationDate = DateTime.Today;
             endorse.IsAnnulled = true;
@@ -112,7 +109,7 @@ namespace Seggu.Services
             policy.AnnulationDate = DateTime.Today;
             policy.IsAnnulled = true;
             if (policy.Fees.Count > 0)
-                foreach(var fee in policy.Fees)
+                foreach (var fee in policy.Fees)
                     fee.Annulated = true;
             policyDao.Update(policy);
         }

@@ -253,7 +253,7 @@ namespace Seggu.Desktop.Forms
         {
             if (lsbRiesgos.SelectedValue == null) return;
             grdCoveragesPack.DataSource = coveragesPackService
-                .GetAllByRiskId(lsbRiesgos.SelectedValue.ToString()).ToList();
+                .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             FormatCoveragesPacksGrid();
             grdCoveragesPack.ClearSelection();
         }
@@ -275,7 +275,7 @@ namespace Seggu.Desktop.Forms
             lsbCoberturas.DisplayMember = "Description";
             if (fromRisk)
                 lsbCoberturas.DataSource = coverageService
-                    .GetAllByRiskId(lsbRiesgos.SelectedValue.ToString()).ToList();
+                    .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             else
                 lsbCoberturas.DataSource = ((CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem)
                     .Coverages.ToList();
@@ -427,7 +427,7 @@ namespace Seggu.Desktop.Forms
             if (txtCode.Text != "")
             {
                 var prodCode = new ProducerCodeDto();
-                prodCode.ProducerId = cmbProductores.SelectedValue.ToString();
+                prodCode.ProducerId = (int)cmbProductores.SelectedValue;
                 prodCode.CompanyId = selectedFullCompany.Id;
                 prodCode.Code = txtCode.Text;
                 companyService.AddProducer(prodCode);
@@ -448,8 +448,8 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("Primero debe cargar al menos un productor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string producerId = grdProductores.Rows[grdProductores.SelectedRows[0].Index].Cells["Id"].Value.ToString();
-            string companyId = selectedFullCompany.Id;
+            var producerId = (int)grdProductores.Rows[grdProductores.SelectedRows[0].Index].Cells["Id"].Value;
+            var companyId = selectedFullCompany.Id;
             companyService.DeleteProducerCode(companyId, producerId);
             selectedFullCompany = companyService.GetFullById(currentCompany.Id);
             InitializeProducers();
@@ -508,7 +508,7 @@ namespace Seggu.Desktop.Forms
                 {
                     try
                     {
-                        var riskId = lsbRiesgos.SelectedValue.ToString();
+                        var riskId = (int)lsbRiesgos.SelectedValue;
                         riskService.Delete(riskId);
                         //var riesgos = (List<RiskCompanyDto>)this.lsbRiesgos.DataSource;
                         // var risk = riesgos.FirstOrDefault(x => x.Id == riskId);
@@ -554,7 +554,7 @@ namespace Seggu.Desktop.Forms
                     int index;
                     coverage.Description = txtCoberturas.Text;
                     //coverage.Name = ? hardcode en dto mapper
-                    coverage.RiskId = lsbRiesgos.SelectedValue.ToString();
+                    coverage.RiskId = (int)lsbRiesgos.SelectedValue;
                     index = lsbCoberturas.SelectedIndex;
                     coverageService.Save(coverage);
                     selectedFullCompany = companyService.GetFullById(currentCompany.Id);
@@ -625,7 +625,7 @@ namespace Seggu.Desktop.Forms
                 {
                     var coveragesPack = new CoveragesPackDto();
                     coveragesPack.Name = txtCoveragesPack.Text;
-                    coveragesPack.RiskId = lsbRiesgos.SelectedValue.ToString();
+                    coveragesPack.RiskId = (int)lsbRiesgos.SelectedValue;
                     coveragesPack.Coverages = new List<CoverageDto>();
                     coveragesPackService.Create(coveragesPack);
                     selectedFullCompany = companyService.GetFullById(currentCompany.Id);

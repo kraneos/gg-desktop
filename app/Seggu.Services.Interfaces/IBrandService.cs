@@ -11,11 +11,11 @@ namespace Seggu.Services.Interfaces
 
         void Save(BrandDto brand);
 
-        BrandDto Get(string brandId);
+        BrandDto Get(int brandId);
 
-        void Delete(string Id);
+        void Delete(int Id);
         bool ExistName(string name);
 
-        bool HasRelatedRecords(string id);
+        bool HasRelatedRecords(int id);
     }
 }

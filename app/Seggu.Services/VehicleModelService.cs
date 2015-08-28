@@ -23,16 +23,16 @@ namespace Seggu.Services
             return models.OrderBy(x => x.Name).Select(b => VehicleModelDtoMapper.GetDto(b));
         }
 
-        public IEnumerable<VehicleModelDto> GetByBrand(string brandId)
+        public IEnumerable<VehicleModelDto> GetByBrand(int brandId)
         {
             var models = this.VehicleModelDao.GetAll();
             return models.OrderBy(x => x.Name)
-                .Where(m => m.BrandId == new Guid(brandId))
+                .Where(m => m.BrandId == brandId)
                 .Select(b => VehicleModelDtoMapper.GetDto(b));
         }
         public void Save(VehicleModelDto model)
         {
-            bool isNew = string.IsNullOrEmpty(model.Id);
+            bool isNew = model.Id == default(int);
             var vehicleModel = VehicleModelDtoMapper.GetObject(model);
             if (isNew)
                 VehicleModelDao.Save(vehicleModel);
@@ -45,11 +45,11 @@ namespace Seggu.Services
             VehicleModelDao.Delete(vehicleModel.Id);
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 VehicleModelDao.Delete(guid);
             }
             catch

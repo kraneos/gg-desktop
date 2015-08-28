@@ -92,8 +92,8 @@ namespace Seggu.Desktop.Forms
                 {
                     if (this.brandGrid.SelectedRows.Count > 0)
                     {
-                        string id = (string)brandGrid.SelectedCells[0].Value;
-                        if (!string.IsNullOrWhiteSpace(id))
+                        var id = (int)brandGrid.SelectedCells[0].Value;
+                        if (id != default(int))
                         {
                             if (brandService.HasRelatedRecords(id))
                             {

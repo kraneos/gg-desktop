@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
@@ -23,19 +23,19 @@ namespace Seggu.Services
 
         public void Save(ClientFullDto clientInformation)
         {
-            var isNew = string.IsNullOrEmpty(clientInformation.Id);
+            var isNew = clientInformation.Id == default(int);
             var client = ClientDtoMapper.GetObject(clientInformation);
             if (isNew)
-                this.clientDao.Save(client);            
+                this.clientDao.Save(client);
             else
                 this.clientDao.Update(client);
 
-            clientInformation.Id = client.Id.ToString();
+            clientInformation.Id = client.Id;
 
             #region Home Address
 
             var homeAddress = AddressDtoMapper.GetHome(clientInformation);
-            if (homeAddress.Id == Guid.Empty)
+            if (homeAddress.Id == default(int))
                 this.addressDao.Save(homeAddress);
             else
                 this.addressDao.Update(homeAddress);
@@ -45,7 +45,7 @@ namespace Seggu.Services
             #region Collection Address
 
             var collectionAddress = AddressDtoMapper.GetCollection(clientInformation);
-            if (collectionAddress.Id == Guid.Empty)
+            if (collectionAddress.Id == default(int))
                 this.addressDao.Save(collectionAddress);
             else
                 this.addressDao.Update(collectionAddress);
@@ -71,15 +71,15 @@ namespace Seggu.Services
             return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
         }
 
-        public ClientIndexDto GetShortDtoById(string clientId)
+        public ClientIndexDto GetShortDtoById(int clientId)
         {
-            var client = this.clientDao.Get(new Guid(clientId));
+            var client = this.clientDao.Get(clientId);
             return ClientDtoMapper.GetIndexDto(client);
         }
 
-        public ClientFullDto GetById(string clientId)
+        public ClientFullDto GetById(int clientId)
         {
-            var id = new Guid(clientId);
+            var id = clientId;
             var client = this.clientDao.Get(id);
             return ClientDtoMapper.GetDto(client);
         }

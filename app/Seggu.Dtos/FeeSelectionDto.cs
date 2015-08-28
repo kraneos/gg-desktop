@@ -9,6 +9,6 @@ namespace Seggu.Dtos
 
         public string Notes { get; set; }
 
-        public string LiquidationId { get; set; }
+        public int LiquidationId { get; set; }
     }
 }

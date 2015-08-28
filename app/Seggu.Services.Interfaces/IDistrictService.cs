@@ -10,7 +10,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface IDistrictService
     {
-        IEnumerable<DistrictDto> GetFilteredByProvince(string provinceId);
+        IEnumerable<DistrictDto> GetFilteredByProvince(int provinceId);
         IEnumerable<DistrictDto> GetAll();
 
     }

@@ -5,6 +5,6 @@ namespace Seggu.Dtos
     [Serializable]
     public class DistrictDto : KeyValueDto
     {
-        public string ProvinceId { get; set; }
+        public int ProvinceId { get; set; }
     }
 }

@@ -116,8 +116,8 @@ namespace Seggu.Desktop.Forms
             var use = new VehicleModelDto();
             use.Name = txtNombre.Text.Trim();
             use.Origin = cmbOrigen.SelectedItem.ToString();
-            use.BrandId = cmbMarcas.SelectedValue.ToString();
-            use.VehicleTypeId = cmbTipoVehiculo.SelectedValue.ToString();
+            use.BrandId = (int)cmbMarcas.SelectedValue;
+            use.VehicleTypeId = (int)cmbTipoVehiculo.SelectedValue;
             return use;
         }
 
@@ -148,7 +148,7 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = useGrid.SelectedCells[0].Value.ToString();
+                    var Id = (int)useGrid.SelectedCells[0].Value;
                     vehicleModelService.Delete(Id);
                     this.InitializeIndex();
                     MessageBox.Show("Modelo eliminado exitosamente.");

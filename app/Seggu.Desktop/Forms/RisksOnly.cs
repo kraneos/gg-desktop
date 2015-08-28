@@ -117,7 +117,7 @@ namespace Seggu.Desktop.Forms
         {
             if (currentCompany == null) return;
             if (currentCompany.Id == null) return;
-            if (currentCompany.Id == string.Empty) return;
+            if (currentCompany.Id == default(int)) return;
 
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
@@ -192,7 +192,7 @@ namespace Seggu.Desktop.Forms
                 DialogResult dialogResult = MessageBox.Show("No prodrá eliminar el riesgo si este tiene coberturas asociadas, ¿Desea continuar?", "Borrar Riesgo", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    var riskId = lsbRiesgos.SelectedValue.ToString();
+                    var riskId = (int)lsbRiesgos.SelectedValue;
                     if (riskId == null)
                     {
                         MessageBox.Show("Primero debe seleccionar un riesgo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

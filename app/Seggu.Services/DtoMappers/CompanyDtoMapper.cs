@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyDto GetDto(Company c)
         {
             var dto = new CompanyDto();
-            dto.Id = c.Id.ToString();
+            dto.Id = c.Id;
             dto.Name = c.Name;
             dto.Phone = c.Phone;
             dto.Notes = c.Notes;
@@ -27,7 +27,7 @@ namespace Seggu.Services.DtoMappers
         public static Company GetObject(CompanyDto company)
         {
             var c = new Company();
-            c.Id = string.IsNullOrEmpty(company.Id) ? Guid.Empty : new Guid(company.Id); 
+            c.Id = company.Id; 
             c.Active = company.Active;
             c.CUIT = company.CUIT;
             c.LiqDay1 = string.IsNullOrEmpty(company.LiqDay1) ? (short?)null : short.Parse(company.LiqDay1);
@@ -44,7 +44,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyFullDto GetFormDto(Company c)
         {
             var dto = new CompanyFullDto();
-            dto.Id = c.Id.ToString();
+            dto.Id = c.Id;
             dto.CUIT = c.CUIT;
             dto.LiqDay1 = c.LiqDay1.ToString();
             dto.LiqDay2 = c.LiqDay2.ToString();
@@ -65,7 +65,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyFullDto GetCompanyOnly(Company c)
         {
             var dto = new CompanyFullDto();
-            dto.Id = c.Id.ToString();
+            dto.Id = c.Id;
             dto.CUIT = c.CUIT;
             dto.LiqDay1 = c.LiqDay1.ToString();
             dto.LiqDay2 = c.LiqDay2.ToString();
@@ -79,6 +79,5 @@ namespace Seggu.Services.DtoMappers
             dto.Producers = c.ProducerCodes.Select(pc => ProducerDtoMapper.GetProducerCompanyDto(pc)).ToList();
             return dto;
         }
-
     }
 }

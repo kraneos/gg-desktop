@@ -96,7 +96,7 @@ namespace Seggu.Desktop.Forms
 
         private void selectCompany()
         {
-            var id = new Guid(currentCompany.Id);
+            var id = currentCompany.Id;
             var obj = SegguContainer.Instance.Companies.Single(x => x.Id == id);
             selectedFullCompany = CompanyDtoMapper.GetCompanyOnly(obj);
         }
@@ -412,7 +412,7 @@ namespace Seggu.Desktop.Forms
                 var existe = false;
                 var existeCod = false;
                 var prodCode = new ProducerCodeDto();
-                prodCode.ProducerId = cmbProductores.SelectedValue.ToString();
+                prodCode.ProducerId = (int)cmbProductores.SelectedValue;
                 prodCode.CompanyId = selectedFullCompany.Id;
                 prodCode.Code = txtCode.Text;
 
@@ -486,8 +486,8 @@ namespace Seggu.Desktop.Forms
 
             try
             {
-                string producerId = grdProductores.Rows[grdProductores.SelectedRows[0].Index].Cells["Id"].Value.ToString();
-                string companyId = selectedFullCompany.Id;
+                var producerId = (int)grdProductores.Rows[grdProductores.SelectedRows[0].Index].Cells["Id"].Value;
+                var companyId = selectedFullCompany.Id;
                 companyService.DeleteProducerCode(companyId, producerId);
 
                 MessageBox.Show("Productor removido exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);

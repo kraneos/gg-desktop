@@ -21,8 +21,8 @@ namespace Seggu.Desktop.UserControls
         private IMasterDataService masterdataService;
         private ClientIndexDto currentIndexClient;
         private ClientFullDto currentClient;
-        private string currentHomeAddressId;
-        private string currentCollectionAddressId;
+        private int? currentHomeAddressId;
+        private int? currentCollectionAddressId;
         private IEnumerable<ProvinceDto> provinces;
         private IEnumerable<DistrictDto> districts;
         private IEnumerable<LocalityDto> localities;
@@ -110,21 +110,21 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.DataSource = null;
             cmbLocalityCollector.DataSource = null;
 
-            filteredDistricts = districtService.GetFilteredByProvince(cmbProvince.SelectedValue.ToString()).ToList();
+            filteredDistricts = districtService.GetFilteredByProvince((int)cmbProvince.SelectedValue).ToList();
             cmbDistrict.ValueMember = "Id";
             cmbDistrict.DisplayMember = "Name";
             cmbDistrict.DataSource = filteredDistricts;
             //cmblocalities_index changed ya carga las filteredLocalities
             cmbProvinceCollector.SelectedValue = cmbProvince.SelectedValue;
 
-            filteredCollectorDistricts = districtService.GetFilteredByProvince(cmbProvinceCollector.SelectedValue.ToString()).ToList();
+            filteredCollectorDistricts = districtService.GetFilteredByProvince((int)cmbProvinceCollector.SelectedValue).ToList();
             cmbDistrictCollector.ValueMember = "Id";
             cmbDistrictCollector.DisplayMember = "Name";
             cmbDistrictCollector.DataSource = filteredCollectorDistricts;
         }
         private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            filteredLocalities = localityService.GetByDistrictId(cmbDistrict.SelectedValue.ToString()).ToList();
+            filteredLocalities = localityService.GetByDistrictId((int)cmbDistrict.SelectedValue).ToList();
             cmbLocality.DisplayMember = "Name";
             cmbLocality.ValueMember = "Id";
             cmbLocality.DataSource = filteredLocalities;
@@ -134,7 +134,7 @@ namespace Seggu.Desktop.UserControls
         private void cmbProvinceCollector_SelectionChangeCommitted(object sender, EventArgs e)
         {
             cmbLocalityCollector.DataSource = null;
-            filteredCollectorDistricts = districtService.GetFilteredByProvince(cmbProvinceCollector.SelectedValue.ToString()).ToList();
+            filteredCollectorDistricts = districtService.GetFilteredByProvince((int)cmbProvinceCollector.SelectedValue).ToList();
             cmbDistrictCollector.ValueMember = "Id";
             cmbDistrictCollector.DisplayMember = "Name";
             cmbDistrictCollector.DataSource = filteredCollectorDistricts;
@@ -143,7 +143,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (!cmbDistrictCollector.Focused)
                 cmbDistrictCollector.SelectedValue = cmbDistrict.SelectedValue;
-            filteredCollectorLocalities = localityService.GetByDistrictId(cmbDistrictCollector.SelectedValue.ToString()).ToList();
+            filteredCollectorLocalities = localityService.GetByDistrictId((int)cmbDistrictCollector.SelectedValue).ToList();
             cmbLocalityCollector.ValueMember = "Id";
             cmbLocalityCollector.DisplayMember = "Name";
             cmbLocalityCollector.DataSource = filteredCollectorLocalities;
@@ -272,7 +272,7 @@ namespace Seggu.Desktop.UserControls
         private ClientFullDto GetFormInformation()
         {
             var client = new ClientFullDto();
-            client.Id = currentClient == null ? null : currentClient.Id;
+            client.Id = currentClient == null ? default(int) : currentClient.Id;
             client.Nombre = txtFirstName.Text;
             client.Apellido = txtApellido.Text;
             client.Tel_Móvil = txtCel.Text;
@@ -291,24 +291,24 @@ namespace Seggu.Desktop.UserControls
             client.HomeFloor = txtHomeFloor.Text;
             client.HomeAppartment = txtHomeAppart.Text;
             client.HomePostalCode = txtHomePostal.Text;
-            client.HomeLocalityId = (string)cmbLocality.SelectedValue;
-            client.HomeDistrictId = (string)cmbDistrict.SelectedValue;
-            client.HomeProvinceId = (string)cmbProvince.SelectedValue;
+            client.HomeLocalityId = (int)cmbLocality.SelectedValue;
+            client.HomeDistrictId = (int)cmbDistrict.SelectedValue;
+            client.HomeProvinceId = (int)cmbProvince.SelectedValue;
             client.HomePhone = txtHomePhone.Text;
             client.MaritalStatus = (string)cmbEstado.SelectedValue;
             client.Iva = (string)cmbIva.SelectedValue;
             client.Mail = txtMail.Text;
             client.CollectionAppartment = txtCollectionAppartment.Text;
             client.CollectionFloor = txtCollectionFloor.Text;
-            client.CollectionLocalityId = (string)cmbLocalityCollector.SelectedValue;
-            client.CollectionDistrictId = (string)cmbDistrictCollector.SelectedValue;
-            client.CollectionProvinceId = (string)cmbProvinceCollector.SelectedValue;
+            client.CollectionLocalityId = (int)cmbLocalityCollector.SelectedValue;
+            client.CollectionDistrictId = (int)cmbDistrictCollector.SelectedValue;
+            client.CollectionProvinceId = (int)cmbProvinceCollector.SelectedValue;
             client.CollectionNumber = txtCollectionNumber.Text;
             client.CollectionPhone = txtCollectionPhone.Text;
             client.CollectionPostalCode = txtCollectionPostalCode.Text;
             client.CollectionStreet = txtCollectionStreet.Text;
-            client.HomeAddressId = currentHomeAddressId;
-            client.CollectionAddressId = currentCollectionAddressId;
+            client.HomeAddressId = currentHomeAddressId ?? default(int);
+            client.CollectionAddressId = currentCollectionAddressId ?? default(int);
             client.Occupation = txtOccupation.Text;
             return client;
         }
@@ -353,7 +353,7 @@ namespace Seggu.Desktop.UserControls
                 currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;
             else
             {
-                string clientId = ((ClientIndexDto)clientGrid.CurrentRow.DataBoundItem).Id;
+                var clientId = ((ClientIndexDto)clientGrid.CurrentRow.DataBoundItem).Id;
                 currentClient = clientService.GetById(clientId);
             }
             SendClientToSideBar();
@@ -362,7 +362,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void SendClientToSideBar()
         {
-            var clientId = (string)clientGrid.CurrentRow.Cells["Id"].Value;
+            var clientId = (int)clientGrid.CurrentRow.Cells["Id"].Value;
             currentIndexClient = clientService.GetShortDtoById(clientId);
             LayoutForm.LoadClientSideBar(currentIndexClient);
         }

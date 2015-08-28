@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -19,14 +19,14 @@ namespace Seggu.Daos
             }
         }
 
-        public bool ProducerHasCompany(Guid id)
+        public bool ProducerHasCompany(int id)
         {
             var prod = this.Set.Any(p => p.ProducerId == id);
             return prod;
         }
 
 
-        public IEnumerable<ProducerCode> GetByCompany(Guid id)
+        public IEnumerable<ProducerCode> GetByCompany(int id)
         {
             return
                 from p in this.Set
@@ -35,7 +35,7 @@ namespace Seggu.Daos
         }
 
 
-        public ProducerCode GetByCompanyProducer(Guid companyId, Guid producerId)
+        public ProducerCode GetByCompanyProducer(int companyId, int producerId)
         {
             var producerCode = (from p in this.Set
                  where p.CompanyId == companyId && p.ProducerId == producerId

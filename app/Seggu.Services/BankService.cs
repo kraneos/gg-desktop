@@ -36,11 +36,11 @@ namespace Seggu.Services
             this.bankDao.Update(BankDtoMapper.GetBankUpdate(bank));
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 bankDao.Delete(guid);
             }
             catch
@@ -62,11 +62,11 @@ namespace Seggu.Services
         }
 
 
-        public bool HasAssociatedRecords(string id)
+        public bool HasAssociatedRecords(int id)
         {
-            if (!string.IsNullOrWhiteSpace(id))
+            if (id != default(int))
             {
-                var guid = new Guid(id);
+                var guid = id;
                 var hasCheques = this.bankDao.GetContainer().Cheques.Any(x => x.BankId == guid);
                 var hasCreditCards = this.bankDao.GetContainer().ClientCreditCards.Any(x => x.BankId == guid);
 

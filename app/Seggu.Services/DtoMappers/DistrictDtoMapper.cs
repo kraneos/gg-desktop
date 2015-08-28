@@ -1,5 +1,5 @@
 ﻿using Seggu.Dtos;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,9 @@ namespace Seggu.Services.DtoMappers
         public static DistrictDto GetDto(District d)
         {
             var district = new DistrictDto();
-            district.Id = d.Id.ToString();
+            district.Id = d.Id;
             district.Name = d.Name;
-            district.ProvinceId = d.ProvinceId.ToString();
+            district.ProvinceId = d.ProvinceId;
             return district;
         }
     }

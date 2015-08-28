@@ -1,14 +1,14 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System.Linq;
 
 namespace Seggu.Daos
 {
     public sealed class LedgerAccountDao : GenericDao<LedgerAccount>, ILedgerAccountDao
     {
-        public string GetCobranzaId()
+        public int GetCobranzaId()
         {
-            return this.Set.First(x => x.Name == "Cobranza").Id.ToString();
+            return this.Set.First(x => x.Name == "Cobranza").Id;
         }
     }
 }

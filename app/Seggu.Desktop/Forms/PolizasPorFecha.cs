@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Seggu.Data;
+using Seggu.Domain;
 
 namespace Seggu.Desktop.Forms
 {
@@ -105,7 +106,7 @@ namespace Seggu.Desktop.Forms
                     row["Cpa Cantidad"] = 1;
                 }
                 // row["Codigo Postal"] = address.PostalCode;
-                row["Bien Asegurado"] = record.Risk.RiskType == RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
+                row["Bien Asegurado"] = record.Risk.RiskType == Seggu.Domain.RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
                 row["Ramo"] = 34;
                 row["Suma Asegurada"] = record.Value;
                 row["tipo suma asegurada"] = 1;

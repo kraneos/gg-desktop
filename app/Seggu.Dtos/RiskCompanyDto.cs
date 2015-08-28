@@ -8,6 +8,6 @@ namespace Seggu.Dtos
     {
         public List<CoveragesPackDto> CoveragesPacks { get; set; }
         public string RiskType { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
     }
 }

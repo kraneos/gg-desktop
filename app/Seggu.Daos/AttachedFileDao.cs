@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +10,7 @@ namespace Seggu.Daos
 {
     public sealed class AttachedFileDao : GenericDao<AttachedFile>, IAttachedFileDao
     {
-        public IEnumerable<AttachedFile> GetByPolicyId(Guid guid)
+        public IEnumerable<AttachedFile> GetByPolicyId(int guid)
         {
             return this.Set
                 .Where(f => f.PolicyId == guid);

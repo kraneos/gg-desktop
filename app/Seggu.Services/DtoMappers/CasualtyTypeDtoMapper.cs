@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 
@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static CasualtyTypeDto GetDto(CasualtyType obj)
         {
             var dto = new CasualtyTypeDto();
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             dto.Name = obj.Name;
             return dto;
         }
@@ -17,7 +17,7 @@ namespace Seggu.Services.DtoMappers
         public static CasualtyType GetObject(CasualtyTypeDto dto)
         {
             var obj = new CasualtyType();
-            obj.Id = new Guid(dto.Id);
+            obj.Id = dto.Id;
             obj.Name = dto.Name;
             return obj;
         }

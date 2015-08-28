@@ -1,9 +1,9 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 
 namespace Seggu.Daos.Interfaces
 {
     public interface ILedgerAccountDao : IGenericDao<LedgerAccount>
     {
-        string GetCobranzaId();
+        int GetCobranzaId();
     }
 }

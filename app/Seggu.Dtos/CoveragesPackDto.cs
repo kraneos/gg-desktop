@@ -6,7 +6,7 @@ namespace Seggu.Dtos
     [Serializable]
     public class CoveragesPackDto : KeyValueDto
     {
-        public string RiskId { get; set; }
+        public int RiskId { get; set; }
         public List<CoverageDto> Coverages { get; set; }
 
     }

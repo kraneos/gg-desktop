@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -7,8 +7,8 @@ namespace Seggu.Daos.Interfaces
     public interface IRiskDao : IGenericDao<Risk>
     {
         bool GetByName(string name);
-        IEnumerable<Risk> GetByCompany(Guid idCompany);
-        IEnumerable<Risk> GetByCompanyWithCoveragePacks(Guid idCompany);
-        bool BetByNameId(string name, Guid id);
+        IEnumerable<Risk> GetByCompany(int idCompany);
+        IEnumerable<Risk> GetByCompanyWithCoveragePacks(int idCompany);
+        bool BetByNameId(string name, int id);
     }
 }

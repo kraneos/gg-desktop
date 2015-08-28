@@ -69,7 +69,7 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = bodyWorkGrid.SelectedCells[0].Value.ToString();
+                    var Id = (int)bodyWorkGrid.SelectedCells[0].Value;
                     bodyworkService.Delete(Id);
                     this.InitializeIndex();
                     MessageBox.Show("Carroceria eliminada exitosamente.");

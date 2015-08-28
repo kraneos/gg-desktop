@@ -9,9 +9,9 @@ namespace Seggu.Dtos
     public class AttachedFileDto : EntityWithIdDto
     {
         public string FilePath { get; set; }
-        public string CasualtyId { get; set; }
-        public string EndorseId { get; set; }
-        public string PolicyId { get; set; }
-        public string CashAccountId { get; set; }
+        public int CasualtyId { get; set; }
+        public int EndorseId { get; set; }
+        public int PolicyId { get; set; }
+        public int CashAccountId { get; set; }
     }
 }

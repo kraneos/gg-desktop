@@ -1,5 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,7 +20,7 @@ namespace Seggu.Daos
             this.integralDao = integralDao;
         }
 
-        public IEnumerable<Policy> GetValidsByClient(Guid clientId)
+        public IEnumerable<Policy> GetValidsByClient(int clientId)
         {
             return
                 from p in this.Set.OrderBy(p => p.EndDate)
@@ -31,7 +31,7 @@ namespace Seggu.Daos
                     && p.IsRemoved == false
                 select p;
         }
-        public IEnumerable<Policy> GetNotValidsByClient(Guid clientId)
+        public IEnumerable<Policy> GetNotValidsByClient(int clientId)
         {
             return
                 from p in this.Set
@@ -211,8 +211,8 @@ namespace Seggu.Daos
             {
                 foreach (var fee in policy.Fees)
                 {
-                    if (fee.Id == Guid.Empty)
-                        fee.Id = Guid.NewGuid();
+                    //if (fee.Id == Guid.Empty)
+                        //fee.Id = Guid.NewGuid();
                     fee.PolicyId = policy.Id;
                 }
 

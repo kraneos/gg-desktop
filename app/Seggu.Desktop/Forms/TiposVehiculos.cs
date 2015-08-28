@@ -91,7 +91,7 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = useGrid.SelectedCells[0].Value.ToString();
+                    var Id = (int)useGrid.SelectedCells[0].Value;
                     vehicleTypeService.Delete(Id);
                     this.InitializeIndex();
                     MessageBox.Show("Tipo de Vehiculo eliminado exitosamente.");
@@ -132,8 +132,8 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = useGrid.SelectedCells[0].Value.ToString();
-                    var idGuid = new Guid(Id);
+                    var Id = (int)useGrid.SelectedCells[0].Value;
+                    var idGuid = Id;
                     var vehicleType = SegguContainer.Instance.VehicleTypes.First(x => x.Id == idGuid);
                     var usosForm = new GestionarUsos(vehicleType);
                     usosForm.ShowDialog();
@@ -153,8 +153,8 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    string Id = useGrid.SelectedCells[0].Value.ToString();
-                    var idGuid = new Guid(Id);
+                    var Id = (int)useGrid.SelectedCells[0].Value;
+                    var idGuid = Id;
                     var vehicleType = SegguContainer.Instance.VehicleTypes.First(x => x.Id == idGuid);
                     var usosForm = new GestionarCarrocerias(vehicleType);
                     usosForm.ShowDialog();

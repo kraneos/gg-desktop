@@ -1,5 +1,6 @@
 ﻿using Seggu.Daos.Interfaces;
 using Seggu.Data;
+using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,17 +11,17 @@ namespace Seggu.Daos
 {
     public sealed class FeeDao : GenericDao<Fee>, IFeeDao
     {
-        public IEnumerable<Fee> GetByPolicyId(Guid guid)
+        public IEnumerable<Fee> GetByPolicyId(int guid)
         {
             return this.Set
                 .Where(f => f.PolicyId == guid);
         }
-        public IEnumerable<Fee> GetByEndorseId(Guid guid)
+        public IEnumerable<Fee> GetByEndorseId(int guid)
         {
             return this.Set
                 .Where(f => f.EndorseId == guid);
         }
-        public IEnumerable<Fee> GetByCompanyId(Guid guid, DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<Fee> GetByCompanyId(int guid, DateTime dateFrom, DateTime dateTo)
         {
             return
                 from f in this.Set
@@ -34,7 +35,7 @@ namespace Seggu.Daos
             //return this.Set.Include("Policy.Coverage.Risk.Company")
             //    .Where(f => f.Policy.Coverage.Risk.CompanyId == guid);
         }
-        public IEnumerable<Fee> GetExpiredByCompanyId(Guid guid)
+        public IEnumerable<Fee> GetExpiredByCompanyId(int guid)
         {
             return
                 from f in this.Set
@@ -47,7 +48,7 @@ namespace Seggu.Daos
                     && f.Annulated == false
                 select f;
         }
-        public IEnumerable<Fee> GetByFeeSelectionId(Guid guid)
+        public IEnumerable<Fee> GetByFeeSelectionId(int guid)
         {
             return this.container.Fees
                 .Where(f => f.FeeSelectionId == guid);

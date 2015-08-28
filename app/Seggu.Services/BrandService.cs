@@ -30,21 +30,21 @@ namespace Seggu.Services
 
         public void Save(BrandDto brand)
         {
-            brand.Id = Guid.Empty.ToString();
+            //brand.Id = Guid.Empty.ToString();
             var b = BrandDtoMapper.GetObject(brand);
             this.brandDao.Save(b);
         }
 
-        public BrandDto Get(string brandId)
+        public BrandDto Get(int brandId)
         {
-            return BrandDtoMapper.GetDto(this.brandDao.Get(new Guid(brandId)));
+            return BrandDtoMapper.GetDto(this.brandDao.Get(brandId));
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 brandDao.Delete(guid);
             }
             catch
@@ -58,12 +58,12 @@ namespace Seggu.Services
             return brandDao.GetByName(name);
         }
 
-        public bool HasRelatedRecords(string id)
+        public bool HasRelatedRecords(int id)
         {
-            if (!string.IsNullOrWhiteSpace(id))
+            if (id != default(int))
             {
                 var container = this.brandDao.GetContainer();
-                var brandId = new Guid(id);
+                var brandId = id;
                 return container.VehicleModels.Any(x => x.BrandId == brandId);
             }
 

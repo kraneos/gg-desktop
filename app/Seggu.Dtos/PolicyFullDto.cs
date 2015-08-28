@@ -12,10 +12,10 @@ namespace Seggu.Dtos
         public decimal Bonus { get; set; }
         
         public List<CasualtyDto> Casualties { get; set; }
-        public string ClientId { get; set; }
+        public int ClientId { get; set; }
         public string Compañía { get; set; }
-        public string CompanyId { get; set; }
-        public string CollectorId { get; set; }
+        public int CompanyId { get; set; }
+        public int CollectorId { get; set; }
 
         public IEnumerable<EndorseFullDto> Endorses { get; set; }
         public string Vence { get; set; }
@@ -34,9 +34,9 @@ namespace Seggu.Dtos
         public decimal Premium { get; set; }
         public string PreviousNumber { get; set; }
         public decimal Prima { get; set; }
-        public string ProducerId { get; set; }
-        
-        public string RiskId { get; set; }
+        public int ProducerId { get; set; }
+
+        public int RiskId { get; set; }
         public string RequestDate { get; set; }
         public string ReceptionDate { get; set; }
         

@@ -46,7 +46,7 @@ namespace Seggu.Desktop.Forms
 
         private void Editar(object sender, EventArgs e)
         {
-            var userForm = new User((Data.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
+            var userForm = new User((Domain.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
             userForm.ShowDialog();
             this.Buscar(null, null);
         }
@@ -59,7 +59,7 @@ namespace Seggu.Desktop.Forms
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
             {
-                SegguContainer.Instance.Users.Remove((Data.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
+                SegguContainer.Instance.Users.Remove((Domain.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
                 SegguContainer.Instance.SaveChanges();
                 this.Buscar(null, null);
             }

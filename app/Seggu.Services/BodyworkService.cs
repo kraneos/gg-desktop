@@ -18,7 +18,7 @@ namespace Seggu.Services
         }
         public void Save(BodyworkDto bodywork)
         {
-            bodywork.Id = Guid.Empty.ToString();
+            //bodywork.Id = Guid.Empty.ToString();
             var b = BodyworkDtoMapper.GetObject(bodywork);
             this.bodyworkDao.Save(b);
         }
@@ -28,11 +28,11 @@ namespace Seggu.Services
             return bodyworks.OrderBy(x => x.Name).Select(b => BodyworkDtoMapper.GetDto(b));
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 bodyworkDao.Delete(guid);
             }
             catch

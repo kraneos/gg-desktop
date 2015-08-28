@@ -26,7 +26,7 @@ namespace Seggu.Services
 
         public void Save(UseDto use)
         {
-            use.Id = new Guid().ToString();
+            //use.Id = new Guid().ToString();
             this.useDao.Save(UseDtoMapper.GetUse(use));
         }
 
@@ -35,11 +35,11 @@ namespace Seggu.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 useDao.Delete(guid);
             }
             catch

@@ -62,7 +62,7 @@ namespace Seggu.Desktop.Forms
         private void FillModelsByBrandId()
         {
             if (cmbMarcas.SelectedValue == null) return;
-            lstModelos.DataSource = vehicleModelService.GetByBrand(cmbMarcas.SelectedValue.ToString()).ToList();
+            lstModelos.DataSource = vehicleModelService.GetByBrand((int)cmbMarcas.SelectedValue).ToList();
             lstModelos.ClearSelected();
         }
 
@@ -168,7 +168,7 @@ namespace Seggu.Desktop.Forms
         private void btnModelo_Click(object sender, EventArgs e)
         {
             if (lstModelos.FindString(txtModelo.Text) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("El Modelo ya existe."); return; }
-            currentModel.Id = null;
+            currentModel.Id = default(int);
             btnGuardar_Click(sender, e);
         }
 
@@ -183,12 +183,12 @@ namespace Seggu.Desktop.Forms
         {
             var model = new VehicleModelDto();
             model.Id = currentModel.Id;
-            model.BrandId = cmbMarcas.SelectedValue.ToString();
+            model.BrandId = (int)cmbMarcas.SelectedValue;
             model.Origin = cmbOrigen.SelectedItem.ToString();
             model.Bodyworks = currentModel.Bodyworks;
             model.Name = txtModelo.Text;
             model.Uses = currentModel.Uses;
-            model.VehicleTypeId = cmbTipoVehiculo.SelectedValue.ToString();
+            model.VehicleTypeId = (int)cmbTipoVehiculo.SelectedValue;
             return model;
         }
 

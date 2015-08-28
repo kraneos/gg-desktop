@@ -13,9 +13,9 @@ namespace Seggu.Services.Interfaces
 
         IEnumerable<ClientIndexDto> GetAll();
 
-        ClientIndexDto GetShortDtoById(string clientId);
+        ClientIndexDto GetShortDtoById(int clientId);
 
-        ClientFullDto GetById(string clientId);
+        ClientFullDto GetById(int clientId);
 
         IEnumerable<ClientIndexDto> GetValids();
     }

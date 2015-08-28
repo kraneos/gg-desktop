@@ -5,7 +5,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeDto> GetByPolicyId(string policyId);
+        IEnumerable<EmployeeDto> GetByPolicyId(int policyId);
         void Save(EmployeeDto dto);
 
     }

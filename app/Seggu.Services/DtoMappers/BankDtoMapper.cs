@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using System;
 
@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static BankDto GetDto(Bank bank)
         {
             var dto = new BankDto();
-            dto.Id = bank.Id.ToString();
+            dto.Id = bank.Id;
             dto.Name = bank.Name;
             dto.Number = bank.Number;
             return dto;
@@ -27,7 +27,7 @@ namespace Seggu.Services.DtoMappers
         public static Bank GetBankUpdate(BankDto dto)
         {
             var bank = new Bank();
-            var id = new Guid(dto.Id);
+            var id = dto.Id;
             bank.Id = id;
             bank.Name = dto.Name;
             bank.Number = dto.Number;

@@ -159,7 +159,7 @@ namespace Seggu.Desktop.Forms
         {
             if (currentCompany == null) return;
             if (currentCompany.Id == null) return;
-            if (currentCompany.Id == string.Empty) return;
+            if (currentCompany.Id == default(int)) return;
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
             lsbRiesgos.DataSource = riesgos.Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
@@ -171,7 +171,7 @@ namespace Seggu.Desktop.Forms
             lsbCoberturas.DisplayMember = "Description";
             if (fromRisk)
                 lsbCoberturas.DataSource = coverageService
-                    .GetAllByRiskId(lsbRiesgos.SelectedValue.ToString()).ToList();
+                    .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             else
                 lsbCoberturas.ClearSelected();
         }
@@ -180,7 +180,7 @@ namespace Seggu.Desktop.Forms
         {
             if (lsbRiesgos.SelectedValue == null) return;
             grdCoveragesPack.DataSource = coveragesPackService
-                .GetAllByRiskId(lsbRiesgos.SelectedValue.ToString()).ToList();
+                .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             FormatCoveragesPacksGrid();
             grdCoveragesPack.ClearSelection();
         }

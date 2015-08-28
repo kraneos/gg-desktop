@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using Seggu.Data;
 using Seggu.Desktop.Forms;
 using Seggu.Desktop.Helpers;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
 using Seggu.Services.DtoMappers;
@@ -154,7 +155,7 @@ namespace Seggu.Desktop.UserControls
         {
             var cp = LayoutForm.currentPolicy;
             selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-            cp.Id = null;
+            //cp.Id = null;
             cp.PreviousNumber = cp.Número;
             cp.Número = "";
             cp.StartDate = DateTime.Today.ToShortDateString();
@@ -165,8 +166,8 @@ namespace Seggu.Desktop.UserControls
                 var vehicles = cp.Vehicles.ToList();
                 foreach (var vehicle in vehicles)
                 {
-                    vehicle.Id = null;
-                    vehicle.PolicyId = null;
+                    //vehicle.Id = null;
+                    //vehicle.PolicyId = null;
                 }
                 cp.Vehicles = vehicles;
             }
@@ -175,8 +176,8 @@ namespace Seggu.Desktop.UserControls
                 var employees = cp.Employees.ToList();
                 foreach (var employee in employees)
                 {
-                    employee.Id = null;
-                    employee.PolicyId = null;
+                    //employee.Id = null;
+                    //employee.PolicyId = null;
                 }
                 cp.Employees = employees;
             }
@@ -185,8 +186,8 @@ namespace Seggu.Desktop.UserControls
                 var integrals = cp.Integrals.ToList();
                 foreach (var integral in integrals)
                 {
-                    integral.Id = null;
-                    integral.PolicyId = null;
+                    //integral.Id = null;
+                    //integral.PolicyId = null;
                 }
                 cp.Integrals = integrals;
             }
@@ -278,7 +279,7 @@ namespace Seggu.Desktop.UserControls
         private void LoadFeeGrid()
         {
             grdFees.Columns.Clear();
-            var fees = string.IsNullOrEmpty(LayoutForm.currentPolicy.Id) ?
+            var fees = LayoutForm.currentPolicy.Id == default(int) ?
                 null : feeService.GetByPolicyId(LayoutForm.currentPolicy.Id).ToList();
             grdFees.DataSource = fees;
             cmbPlanes.SelectedIndex = grdFees.RowCount > 12 ? -1 : grdFees.RowCount - 1;
@@ -419,11 +420,11 @@ namespace Seggu.Desktop.UserControls
         private PolicyFullDto GetFormInfo()
         {
             PolicyFullDto policy = new PolicyFullDto();
-            policy.Id = LayoutForm.currentPolicy == null ? null : LayoutForm.currentPolicy.Id;
+            policy.Id = LayoutForm.currentPolicy == null ? default(int) : LayoutForm.currentPolicy.Id;
             policy.AnnulationDate = null;
             policy.Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text);
             policy.ClientId = chkOtherClient.Checked ? ((ClientIndexDto)this.cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id;
-            policy.CollectorId = cmbCobrador.SelectedValue.ToString();
+            policy.CollectorId = (int)cmbCobrador.SelectedValue;
             policy.EmissionDate = dtpEmision.Checked ? dtpEmision.Value.ToShortDateString() : null;
             policy.Vence = dtpFin.Value.ToShortDateString();
             policy.IsAnnulled = LayoutForm.currentPolicy.IsAnnulled;
@@ -435,10 +436,10 @@ namespace Seggu.Desktop.UserControls
             policy.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
             policy.PreviousNumber = txtNroPolAnt.Text;
             policy.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
-            policy.ProducerId = cmbProductor.SelectedValue.ToString();
+            policy.ProducerId = (int)cmbProductor.SelectedValue;
             policy.ReceptionDate = dtpRecibido.Checked ? dtpRecibido.Value.ToShortDateString() : null;
             policy.RequestDate = dtpSolicitud.Value.ToShortDateString();
-            policy.RiskId = cmbRiesgo.SelectedValue.ToString();
+            policy.RiskId = (int)cmbRiesgo.SelectedValue;
 
             policy.StartDate = dtpInicio.Value.ToShortDateString();
             policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
@@ -456,7 +457,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (LayoutForm.currentPolicy != null)
             {
-                if (LayoutForm.currentPolicy.RiskId != cmbRiesgo.SelectedValue.ToString()) return;
+                if (LayoutForm.currentPolicy.RiskId != (int)cmbRiesgo.SelectedValue) return;
                 FillInsuredObjectUserControl();
             }
         }
@@ -473,7 +474,7 @@ namespace Seggu.Desktop.UserControls
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyContainer.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes(selectedCompany, cmbRiesgo.SelectedValue.ToString());
+                vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
                     vehicle_uc.PopulatePolicyVehicle();
             }
@@ -482,13 +483,13 @@ namespace Seggu.Desktop.UserControls
                 vida_uc = (VidaPolicyUserControl)DependencyContainer.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);
                 if (LayoutForm.currentPolicy != null)
-                    vida_uc.InitializeIndex((string)this.cmbRiesgo.SelectedValue);
+                    vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
             }
             else
             {
                 integral_uc = (IntegralPolicyUserControl)DependencyContainer.Instance.Resolve(typeof(IntegralPolicyUserControl));
                 SetCoberturasTab(integral_uc);
-                integral_uc.InitializeComboboxes((string)this.cmbRiesgo.SelectedValue);
+                integral_uc.InitializeComboboxes((int)this.cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
                     integral_uc.PopulatePolicyIntegral();
             }
@@ -501,7 +502,7 @@ namespace Seggu.Desktop.UserControls
 
         private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            string CompanyId = cmbCompania.SelectedValue.ToString();
+            var CompanyId = (int)cmbCompania.SelectedValue;
             selectedCompany = companyService.GetFullById(CompanyId);
             cmbRiesgo.DataSource = selectedCompany.Risks;
             cmbProductor.DataSource = selectedCompany.Producers;
@@ -786,7 +787,7 @@ namespace Seggu.Desktop.UserControls
         private void cmbClient_SelectionChangeCommitted(object sender, EventArgs e)
         {
             txtAsegurado.Text = cmbClient.SelectedText;
-            LayoutForm.currentPolicy.ClientId = cmbClient.SelectedValue.ToString();
+            LayoutForm.currentPolicy.ClientId = (int)cmbClient.SelectedValue;
         }
 
         private void txtPaymentDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)

@@ -25,15 +25,15 @@ namespace Seggu.Desktop.Forms
         private IPrintService printService;
         private IPolicyService policyService;
         private FeeDto currentFee;
-        private string policyId;
-        private string ledgerAccountId;
+        private int policyId;
+        private int ledgerAccountId;
         private decimal cobro;
 
         public Cobranza(IFeeService feeService, IProducerService producerService
             , ILedgerAccountService ledgerAccountService, IAssetService assetService
             , ICashAccountService cashAccountService, IPrintService printService
             , ICollectionService collectionService, IVehicleService vehicleService
-            , IPolicyService policyService, string policyId)
+            , IPolicyService policyService, int policyId)
         {
             this.policyId = policyId;
             this.feeService = feeService;
@@ -185,13 +185,13 @@ namespace Seggu.Desktop.Forms
 
                         CashAccountDto obj = new CashAccountDto();
                         obj.Amount = cobro;
-                        obj.AssetId = cmbActivos.SelectedValue.ToString();
+                        obj.AssetId = (int)cmbActivos.SelectedValue;
                         obj.Date = DateTime.Now;
                         obj.LedgerAccountId = ledgerAccountId;//"cobranza"
                         obj.Description = "Cuota #" + currentFee.Cuota + ", Póliza #" +
                             currentFee.Nro_Póliza;
                         obj.ReceiptNumber = txtNumeroRecibo.Text;
-                        obj.ProducerId = cmbCobrador.SelectedValue.ToString();
+                        obj.ProducerId = (int)cmbCobrador.SelectedValue;
 
                         selectedAsset.Amount = AssetTotal + cobro;
                         assetService.Update(selectedAsset);

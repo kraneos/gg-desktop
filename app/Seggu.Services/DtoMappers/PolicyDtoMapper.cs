@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using System;
@@ -20,15 +20,15 @@ namespace Seggu.Services.DtoMappers
 
             dto.Casualties = obj.Casualties.Select(c => CasualtyDtoMapper.GetDto(c)).ToList();
             dto.Compañía = obj.Risk.Company.Name;
-            dto.ClientId = obj.ClientId.ToString();
-            dto.CompanyId = obj.Risk.Company.Id.ToString();
-            dto.CollectorId = obj.CollectorId.ToString();
+            dto.ClientId = obj.ClientId;
+            dto.CompanyId = obj.Risk.Company.Id;
+            dto.CollectorId = obj.CollectorId ?? default(int);
             dto.Vence = obj.EndDate.ToShortDateString();
             dto.Endorses = (obj.Endorses ?? new List<Endorse>()).Select(e => EndorseDtoMapper.GetFullDto(e));
 
             dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
             
-            dto.Id = obj.Id.ToString();
+            dto.Id = obj.Id;
             dto.IsAnnulled = obj.IsAnnulled;
             dto.IsRemoved = obj.IsRemoved;
             dto.IsRenovated = obj.IsRenovated;
@@ -40,11 +40,11 @@ namespace Seggu.Services.DtoMappers
             dto.Premium = obj.Premium;
             dto.PreviousNumber = obj.PreviousNumber;
             dto.Prima = obj.Prima;
-            dto.ProducerId = obj.ProducerId.ToString();
+            dto.ProducerId = obj.ProducerId;
             
             dto.RequestDate = obj.RequestDate.ToShortDateString();
             dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
-            dto.RiskId = obj.RiskId.ToString();
+            dto.RiskId = obj.RiskId;
             
             dto.Surcharge = obj.Surcharge;
             dto.StartDate = obj.StartDate.ToShortDateString();
@@ -71,12 +71,12 @@ namespace Seggu.Services.DtoMappers
             obj.AnnulationDate = dto.AnnulationDate == null ? (DateTime?)null : DateTime.Parse(dto.AnnulationDate);
             obj.Bonus = dto.Bonus;
 
-            obj.ClientId = new Guid(dto.ClientId);
-            obj.CollectorId = string.IsNullOrEmpty(dto.CollectorId) ? Guid.Empty : new Guid(dto.CollectorId);
+            obj.ClientId = dto.ClientId;
+            obj.CollectorId = dto.CollectorId;
             obj.EndDate = DateTime.Parse(dto.Vence);
 
             obj.EmissionDate = dto.EmissionDate == null ? (DateTime?)null : DateTime.Parse(dto.EmissionDate);
-            obj.Id = string.IsNullOrEmpty(dto.Id) ? Guid.Empty : new Guid(dto.Id);
+            obj.Id = dto.Id;
             obj.IsAnnulled = dto.IsAnnulled;
             obj.IsRemoved = dto.IsRemoved;
             obj.IsRenovated = dto.IsRemoved;
@@ -86,10 +86,10 @@ namespace Seggu.Services.DtoMappers
             obj.Premium = dto.Premium;
             obj.PreviousNumber = dto.PreviousNumber;
             obj.Prima = dto.Prima;
-            obj.ProducerId = new Guid(dto.ProducerId);
+            obj.ProducerId = dto.ProducerId;
             obj.ReceptionDate = dto.ReceptionDate == null ? (DateTime?)null : DateTime.Parse(dto.ReceptionDate);
             obj.RequestDate = DateTime.Parse(dto.RequestDate);
-            obj.RiskId = string.IsNullOrEmpty(dto.RiskId) ? Guid.Empty : new Guid(dto.RiskId);
+            obj.RiskId = dto.RiskId;
             obj.StartDate = DateTime.Parse(dto.StartDate);
             obj.Surcharge = dto.Surcharge;
             obj.Value = dto.Value;

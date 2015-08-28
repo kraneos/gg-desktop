@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Seggu.Data;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Services.Interfaces;
@@ -57,7 +58,7 @@ namespace Seggu.Services
                 + " Pol-" + printFee.Items.FirstOrDefault().PolicyNumber
                 + " cuota-" + printFee.Items.FirstOrDefault().FeeNumber + ".pdf");
 
-            PdfReader reader = new PdfReader(Data.Resources.Plantilla_Recibo_SeGGu);
+            PdfReader reader = new PdfReader(Resources.Plantilla_Recibo_SeGGu);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form1 = stamp1.AcroFields;
             //form1.SetFieldProperty("RecibimosDe", "textsize", ,null);
@@ -67,31 +68,31 @@ namespace Seggu.Services
 
             System.Diagnostics.Process.Start(PDFPath);
         }
-            private void PopulateReceiptPDF(FeeChargeDto printFee, AcroFields form1)
-            {
+        private void PopulateReceiptPDF(FeeChargeDto printFee, AcroFields form1)
+        {
 
-                string feeExpirationDate = printFee.PolicyExpirationDate.Day.ToString()
-                    + " de " + nextMonthString
-                    + " de " + printFee.PolicyExpirationDate.Year.ToString();
-                string amountInLetters = Convert.ToDouble(printFee.ChargeTotal).ToSpanishTextWithDecimals();
-                form1.SetField("Recibo", printFee.NºRecibo);
-                form1.SetField("Fecha", currentDate);
+            string feeExpirationDate = printFee.PolicyExpirationDate.Day.ToString()
+                + " de " + nextMonthString
+                + " de " + printFee.PolicyExpirationDate.Year.ToString();
+            string amountInLetters = Convert.ToDouble(printFee.ChargeTotal).ToSpanishTextWithDecimals();
+            form1.SetField("Recibo", printFee.NºRecibo);
+            form1.SetField("Fecha", currentDate);
 
-                form1.SetField("RecibimosDe", printFee.FullClientName);
-                form1.SetField("TotalLetras", amountInLetters);
-                form1.SetField("Cuota", printFee.Items.FirstOrDefault().FeeNumber);
-                form1.SetField("Cobertura", printFee.Coverage);
-                form1.SetField("VálidoHasta", feeExpirationDate);
-                form1.SetField("Total", printFee.ChargeTotal.ToString());
+            form1.SetField("RecibimosDe", printFee.FullClientName);
+            form1.SetField("TotalLetras", amountInLetters);
+            form1.SetField("Cuota", printFee.Items.FirstOrDefault().FeeNumber);
+            form1.SetField("Cobertura", printFee.Coverage);
+            form1.SetField("VálidoHasta", feeExpirationDate);
+            form1.SetField("Total", printFee.ChargeTotal.ToString());
 
-                form1.SetField("Asegurado", printFee.FullClientName);
-                form1.SetField("Póliza", printFee.Items.FirstOrDefault().PolicyNumber);
-                form1.SetField("Vigencia", printFee.PolicyExpirationDate.ToShortDateString());
-                form1.SetField("Vehículo", printFee.VehicleBrand + " " + printFee.VehicleModel);
-                form1.SetField("Dominio", printFee.VehiclePlate);
-                form1.SetField("Motor", printFee.VehicleEngine);
-                form1.SetField("Chasis", printFee.VehicleChasis);
-            }
+            form1.SetField("Asegurado", printFee.FullClientName);
+            form1.SetField("Póliza", printFee.Items.FirstOrDefault().PolicyNumber);
+            form1.SetField("Vigencia", printFee.PolicyExpirationDate.ToShortDateString());
+            form1.SetField("Vehículo", printFee.VehicleBrand + " " + printFee.VehicleModel);
+            form1.SetField("Dominio", printFee.VehiclePlate);
+            form1.SetField("Motor", printFee.VehicleEngine);
+            form1.SetField("Chasis", printFee.VehicleChasis);
+        }
 
         public void PolicyPDF(ClientIndexDto client, PolicyFullDto policy, string selectedPlate)
         {
@@ -101,7 +102,7 @@ namespace Seggu.Services
             string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Vehicles.First().Plate +
                 " " + client.FullName + ".pdf");
 
-            PdfReader reader = new PdfReader(Data.Resources.Plantilla_Solicitud_Póliza);
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form1 = stamp1.AcroFields;
 
@@ -111,48 +112,48 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-            private static void PopulatePolicyPDF(ClientFullDto clientFull, PolicyFullDto policy, ProducerCompanyDto producer, AcroFields form1, string selectesPlate)
-            {
-                var currentVehicle = policy.Vehicles.First(v => v.Plate == selectesPlate);
-                form1.SetField("Compañía", policy.Compañía);
-                form1.SetField("Riesgo", policy.TipoRiesgo);
-                form1.SetField("Vigencia", policy.StartDate + " al " + policy.Vence);
-                form1.SetField("Solicitada", policy.RequestDate);
+        private static void PopulatePolicyPDF(ClientFullDto clientFull, PolicyFullDto policy, ProducerCompanyDto producer, AcroFields form1, string selectesPlate)
+        {
+            var currentVehicle = policy.Vehicles.First(v => v.Plate == selectesPlate);
+            form1.SetField("Compañía", policy.Compañía);
+            form1.SetField("Riesgo", policy.TipoRiesgo);
+            form1.SetField("Vigencia", policy.StartDate + " al " + policy.Vence);
+            form1.SetField("Solicitada", policy.RequestDate);
 
-                form1.SetField("Asegurado", policy.Asegurado);
+            form1.SetField("Asegurado", policy.Asegurado);
 
-                form1.SetField("Teléfono", clientFull.Tel_Móvil);
-                form1.SetField("DNI", clientFull.DNI);
-                form1.SetField("Domicilio", clientFull.HomeStreet + " " + clientFull.HomeNumber + ", " + clientFull.HomeLocality);
-                form1.SetField("EtadoCivil", clientFull.MaritalStatus);
-                form1.SetField("CódigoPostal", clientFull.HomePostalCode);
-                form1.SetField("IVA", clientFull.Iva);
-                form1.SetField("Nacionalidad", "Argentino");
-                form1.SetField("Nacimiento", clientFull.BirthDate);
-                form1.SetField("Actividad", clientFull.Occupation);
+            form1.SetField("Teléfono", clientFull.Tel_Móvil);
+            form1.SetField("DNI", clientFull.DNI);
+            form1.SetField("Domicilio", clientFull.HomeStreet + " " + clientFull.HomeNumber + ", " + clientFull.HomeLocality);
+            form1.SetField("EtadoCivil", clientFull.MaritalStatus);
+            form1.SetField("CódigoPostal", clientFull.HomePostalCode);
+            form1.SetField("IVA", clientFull.Iva);
+            form1.SetField("Nacionalidad", "Argentino");
+            form1.SetField("Nacimiento", clientFull.BirthDate);
+            form1.SetField("Actividad", clientFull.Occupation);
 
-                form1.SetField("Marca", currentVehicle.Brand);
-                form1.SetField("Modelo", currentVehicle.Model);
-                form1.SetField("Año", currentVehicle.Year);
-                form1.SetField("Cobertura", currentVehicle.Coverages.FirstOrDefault().CoveragesPacks.FirstOrDefault().Name);
+            form1.SetField("Marca", currentVehicle.Brand);
+            form1.SetField("Modelo", currentVehicle.Model);
+            form1.SetField("Año", currentVehicle.Year);
+            form1.SetField("Cobertura", currentVehicle.Coverages.FirstOrDefault().CoveragesPacks.FirstOrDefault().Name);
 
-                form1.SetField("Motor", currentVehicle.Engine);
-                form1.SetField("Chasis", currentVehicle.Chassis);
-                form1.SetField("Patente", currentVehicle.Plate);
-                form1.SetField("Suma", policy.Value.ToString());
-                form1.SetField("Tipo", currentVehicle.VehicleType);
-                form1.SetField("Carrocería", currentVehicle.Bodywork);
-                form1.SetField("Uso", currentVehicle.Uso);
-                form1.SetField("Origen", currentVehicle.Origin);
-                form1.SetField("Notas", policy.Notes);
+            form1.SetField("Motor", currentVehicle.Engine);
+            form1.SetField("Chasis", currentVehicle.Chassis);
+            form1.SetField("Patente", currentVehicle.Plate);
+            form1.SetField("Suma", policy.Value.ToString());
+            form1.SetField("Tipo", currentVehicle.VehicleType);
+            form1.SetField("Carrocería", currentVehicle.Bodywork);
+            form1.SetField("Uso", currentVehicle.Uso);
+            form1.SetField("Origen", currentVehicle.Origin);
+            form1.SetField("Notas", policy.Notes);
 
-                form1.SetField("Productor", producer.Name);
-                form1.SetField("CódigoCia", producer.Code);
-                form1.SetField("Cobranza", "Directa");
-                form1.SetField("Cuotas", "");
-                form1.SetField("Comisión", producer.commission.ToString("P1", CultureInfo.InvariantCulture));
+            form1.SetField("Productor", producer.Name);
+            form1.SetField("CódigoCia", producer.Code);
+            form1.SetField("Cobranza", "Directa");
+            form1.SetField("Cuotas", "");
+            form1.SetField("Comisión", producer.commission.ToString("P1", CultureInfo.InvariantCulture));
 
-            }
+        }
 
 
         public void EndorsePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
@@ -162,7 +163,7 @@ namespace Seggu.Services
             string PDFPath = System.IO.Path.Combine(pathDateFolder, endorse.Vehicles.First().Plate +
                 " " + client.FullName + ".pdf");
 
-            PdfReader reader = new PdfReader(Data.Resources.Plantilla_Solicitud_Endoso);
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form1 = stamp1.AcroFields;
 
@@ -172,55 +173,55 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-            private static void PopulateEndorsePDF(EndorseFullDto endorse, ClientFullDto clientFull, PolicyFullDto policy, AcroFields form1)
+        private static void PopulateEndorsePDF(EndorseFullDto endorse, ClientFullDto clientFull, PolicyFullDto policy, AcroFields form1)
+        {
+            form1.SetField("Compañía", policy.Compañía);
+            form1.SetField("Riesgo", endorse.TipoRiesgo);
+            form1.SetField("Vigencia", endorse.StartDate + " al " + endorse.EndDate);
+            form1.SetField("Solicitado", endorse.RequestDate);
+            form1.SetField("Motivo", endorse.Motivo);
+
+            form1.SetField("Nombre", endorse.Asegurado);
+
+            form1.SetField("Teléfono", clientFull.Tel_Móvil);
+            form1.SetField("DNI", clientFull.DNI);
+            form1.SetField("Domicilio", clientFull.HomeStreet + " " + clientFull.HomeNumber + ", " + clientFull.HomeLocality);
+            form1.SetField("EtadoCivil", clientFull.MaritalStatus);
+            form1.SetField("CódigoPostal", clientFull.HomePostalCode);
+            form1.SetField("IVA", clientFull.Iva);
+            form1.SetField("Nacionalidad", "Argentino");
+            form1.SetField("Nacimiento", clientFull.BirthDate);
+            form1.SetField("Actividad", clientFull.Occupation);
+
+            form1.SetField("Marca", endorse.Vehicles.FirstOrDefault().Brand);
+            form1.SetField("Modelo", endorse.Vehicles.FirstOrDefault().Model);
+            form1.SetField("Año", endorse.Vehicles.FirstOrDefault().Year);
+            //form1.SetField("Cobertura", policy.Coverage); // ????
+
+            form1.SetField("Motor", endorse.Vehicles.FirstOrDefault().Engine);
+            form1.SetField("Chasis", endorse.Vehicles.FirstOrDefault().Chassis);
+            form1.SetField("Patente", endorse.Vehicles.First().Plate);
+            form1.SetField("Suma", endorse.Value.ToString());
+            form1.SetField("TipoVehiculo", endorse.Vehicles.FirstOrDefault().VehicleType);
+            form1.SetField("Carrocería", endorse.Vehicles.FirstOrDefault().Bodywork);
+            form1.SetField("Uso", endorse.Vehicles.FirstOrDefault().Uso);
+            form1.SetField("Origen", endorse.Vehicles.FirstOrDefault().Origin);
+            form1.SetField("Notas", endorse.Notes);
+        }
+        private string ValidatePaths(string PDFcategory)
+        {
+            var path = Properties.Settings.Default.FileServerPath + @"\SeGGu PDFs";
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments) + @"\SeGGu PDFs";
+            if (!(Directory.Exists(path))) Directory.CreateDirectory(path);
+
+            string pathDateFolder = path + @"\" + PDFcategory + @"\"
+                + DateTime.Today.Year + "-" + currentMonthString + "-" + DateTime.Today.Day;
+            if (!(Directory.Exists(pathDateFolder)))
             {
-                form1.SetField("Compañía", policy.Compañía);
-                form1.SetField("Riesgo", endorse.TipoRiesgo);
-                form1.SetField("Vigencia", endorse.StartDate + " al " + endorse.EndDate);
-                form1.SetField("Solicitado", endorse.RequestDate);
-                form1.SetField("Motivo", endorse.Motivo);
-
-                form1.SetField("Nombre", endorse.Asegurado);
-
-                form1.SetField("Teléfono", clientFull.Tel_Móvil);
-                form1.SetField("DNI", clientFull.DNI);
-                form1.SetField("Domicilio", clientFull.HomeStreet + " " + clientFull.HomeNumber + ", " + clientFull.HomeLocality);
-                form1.SetField("EtadoCivil", clientFull.MaritalStatus);
-                form1.SetField("CódigoPostal", clientFull.HomePostalCode);
-                form1.SetField("IVA", clientFull.Iva);
-                form1.SetField("Nacionalidad", "Argentino");
-                form1.SetField("Nacimiento", clientFull.BirthDate);
-                form1.SetField("Actividad", clientFull.Occupation);
-
-                form1.SetField("Marca", endorse.Vehicles.FirstOrDefault().Brand);
-                form1.SetField("Modelo", endorse.Vehicles.FirstOrDefault().Model);
-                form1.SetField("Año", endorse.Vehicles.FirstOrDefault().Year);
-                //form1.SetField("Cobertura", policy.Coverage); // ????
-
-                form1.SetField("Motor", endorse.Vehicles.FirstOrDefault().Engine);
-                form1.SetField("Chasis", endorse.Vehicles.FirstOrDefault().Chassis);
-                form1.SetField("Patente", endorse.Vehicles.First().Plate);
-                form1.SetField("Suma", endorse.Value.ToString());
-                form1.SetField("TipoVehiculo", endorse.Vehicles.FirstOrDefault().VehicleType);
-                form1.SetField("Carrocería", endorse.Vehicles.FirstOrDefault().Bodywork);
-                form1.SetField("Uso", endorse.Vehicles.FirstOrDefault().Uso);
-                form1.SetField("Origen", endorse.Vehicles.FirstOrDefault().Origin);
-                form1.SetField("Notas", endorse.Notes);
+                Directory.CreateDirectory(pathDateFolder);
             }
-            private string ValidatePaths(string PDFcategory)
-            {
-                var path = Properties.Settings.Default.FileServerPath + @"\SeGGu PDFs";
-                //string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments) + @"\SeGGu PDFs";
-                if (!(Directory.Exists(path))) Directory.CreateDirectory(path);
-
-                string pathDateFolder = path + @"\" + PDFcategory + @"\" 
-                    + DateTime.Today.Year + "-" + currentMonthString + "-" + DateTime.Today.Day;
-                if (!(Directory.Exists(pathDateFolder)))
-                {
-                    Directory.CreateDirectory(pathDateFolder);
-                }
-                return pathDateFolder;
-            }
+            return pathDateFolder;
+        }
 
 
         //public Document CreatePdfReceiptTemplate(FeeChargeDto feeChargeDto)
@@ -282,9 +283,9 @@ namespace Seggu.Services
         //    nextExpirationCell.Colspan = 3;
         //    nextExpirationCell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
         //    table.AddCell(nextExpirationCell);
-            
+
         //    body.Add(table);
-            
+
         //    var receipt = new Rectangle(300, 400);
         //    var document = new Document(receipt);
         //    //string path = AppDomain.CurrentDomain.BaseDirectory + "/ReceiptTemplate.pdf";

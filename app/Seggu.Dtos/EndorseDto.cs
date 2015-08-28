@@ -9,9 +9,9 @@ namespace Seggu.Dtos
         public string AnnulationDate { get; set; }
         public string Asegurado { get; set; }  
       
-        public string Motivo { get; set; }        
-        public string ClientId { get; set; }  
-        public string CompanyId { get; set; }
+        public string Motivo { get; set; }
+        public int ClientId { get; set; }
+        public int CompanyId { get; set; }
       
         public string EndDate { get; set; }        
         public string EmissionDate { get; set; } 
@@ -24,15 +24,15 @@ namespace Seggu.Dtos
         public string Notes { get; set; }
         public string Número { get; set; }
 
-        public string PolicyId { get; set; }
+        public int PolicyId { get; set; }
         public string PolicyNumber { get; set; }
         public decimal? Prima { get; set; }
         public decimal? Premium { get; set; }
-        public string ProducerId { get; set; }
+        public int ProducerId { get; set; }
 
         public string RequestDate { get; set; }        
-        public string ReceptionDate { get; set; }        
-        public string RiskId { get; set; }
+        public string ReceptionDate { get; set; }
+        public int RiskId { get; set; }
 
         public string StartDate { get; set; }        
         public decimal? Surcharge { get; set; }

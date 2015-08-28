@@ -17,9 +17,9 @@ namespace Seggu.Services
             this.VehicleTypeDao = VehicleTypeDao;
         }
 
-        public VehicleTypeDto Get(string vehicleTypeId)
+        public VehicleTypeDto Get(int vehicleTypeId)
         {
-            return VehicleTypeDtoMapper.GetDto(this.VehicleTypeDao.Get(new Guid(vehicleTypeId)));
+            return VehicleTypeDtoMapper.GetDto(this.VehicleTypeDao.Get(vehicleTypeId));
         }
 
         public IEnumerable<VehicleTypeDto> GetAll()
@@ -29,16 +29,16 @@ namespace Seggu.Services
         }
         public void Save(VehicleTypeDto vType)
         {
-            vType.Id = Guid.Empty.ToString();
+            //vType.Id = Guid.Empty.ToString();
             var b = VehicleTypeDtoMapper.GetObject(vType);
             this.VehicleTypeDao.Save(b);
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 VehicleTypeDao.Delete(guid);
             }
             catch

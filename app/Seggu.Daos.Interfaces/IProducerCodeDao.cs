@@ -1,4 +1,4 @@
-﻿using Seggu.Data;
+﻿using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -6,11 +6,11 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IProducerCodeDao: IGenericDao<ProducerCode>
     {
-        bool ProducerHasCompany(System.Guid id);
+        bool ProducerHasCompany(int id);
 
-        IEnumerable<ProducerCode> GetByCompany(System.Guid id);
+        IEnumerable<ProducerCode> GetByCompany(int id);
 
-        ProducerCode GetByCompanyProducer(System.Guid companyId, System.Guid producerId);
+        ProducerCode GetByCompanyProducer(int companyId, int producerId);
         
     }
 }

@@ -63,7 +63,7 @@ namespace Seggu.Desktop.UserControls
         }
 
 
-        public void InitializeComboboxes(CompanyFullDto selectedCompany, string riskId)
+        public void InitializeComboboxes(CompanyFullDto selectedCompany, int riskId)
         {
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
@@ -93,7 +93,7 @@ namespace Seggu.Desktop.UserControls
             {
                 cmbModelos.ValueMember = "Id";
                 cmbModelos.DisplayMember = "Name";
-                cmbModelos.DataSource = vehicleModelService.GetByBrand(cmbMarcas.SelectedValue.ToString()).ToList();
+                cmbModelos.DataSource = vehicleModelService.GetByBrand((int)cmbMarcas.SelectedValue).ToList();
             }
        
         public void PopulateEndorseVehicle()
@@ -203,20 +203,20 @@ namespace Seggu.Desktop.UserControls
         public VehicleDto GetFormInfo()
         {
             var dto = new VehicleDto();
-            dto.Id = currentVehicle == null ? null : currentVehicle.Id;
-            dto.BodyworkId = cmbBodyworks.SelectedValue.ToString();
-            dto.BrandId = cmbMarcas.SelectedValue.ToString();
+            dto.Id = currentVehicle == null ? default(int): currentVehicle.Id;
+            dto.BodyworkId = (int)cmbBodyworks.SelectedValue;
+            dto.BrandId = (int)cmbMarcas.SelectedValue;
             dto.Chassis = txtChasis.Text;
             dto.Engine = txtMotor.Text;
-            dto.ModelId = cmbModelos.SelectedValue.ToString();
+            dto.ModelId = (int)cmbModelos.SelectedValue;
             dto.Origin = cmbOrigen.SelectedValue.ToString();
             dto.Plate = txtPatente.Text;
-            dto.UseId = cmbUses.SelectedValue.ToString();
-            dto.VehicleTypeId = cmbTipoVehiculo.SelectedValue.ToString();
+            dto.UseId = (int)cmbUses.SelectedValue;
+            dto.VehicleTypeId = (int)cmbTipoVehiculo.SelectedValue;
             dto.Year = txtAnio.Text;
             dto.EndorseId = currentVehicle == null ? null : currentVehicle.EndorseId;
             dto.PolicyId = LayoutForm.currentPolicy.Id;
-            dto.Coverages = coveragesPackService.GetById(cmbCoberturas.SelectedValue.ToString())
+            dto.Coverages = coveragesPackService.GetById((int)cmbCoberturas.SelectedValue)
                 .FirstOrDefault().Coverages;
             if(accessoriesBindingSource.DataSource != null)
                 dto.Accessories = (List<AccessoryDto>)accessoriesBindingSource.List;
@@ -249,7 +249,7 @@ namespace Seggu.Desktop.UserControls
             if (!ValidateControls()) return;
             if (!changesDetected) return;
 
-            string neededEndorseType = Seggu.Data.EndorseType.Alta_Objetos.ToString();
+            string neededEndorseType = Seggu.Domain.EndorseType.Alta_Objetos.ToString();
             EndososUserControl endososUC = this.Parent.Parent.GetType().Equals(typeof(EndososUserControl)) ?
                 (EndososUserControl)this.Parent.Parent : null;
             if (endososUC == null)
@@ -332,7 +332,7 @@ namespace Seggu.Desktop.UserControls
         private void btnQuitar_Click(object sender, EventArgs e)
         {
             if (vehicleList.Count() <= 1) return;
-            string neededEndorseType = Seggu.Data.EndorseType.Baja_Objetos.ToString();
+            string neededEndorseType = Seggu.Domain.EndorseType.Baja_Objetos.ToString();
             EndososUserControl endososUC = this.Parent.Parent.GetType().Equals(typeof(EndososUserControl)) ?
                 (EndososUserControl)this.Parent.Parent : null;
             if (endososUC == null)

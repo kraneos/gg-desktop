@@ -6,7 +6,7 @@ namespace Seggu.Services.Interfaces
 {
     public interface IAttachedFileService
     {
-        IEnumerable<AttachedFileDto> GetByPolicyId(string id);
+        IEnumerable<AttachedFileDto> GetByPolicyId(int id);
         void Save(List<AttachedFileDto> attFiles);
     }
 }

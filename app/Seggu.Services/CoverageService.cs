@@ -17,17 +17,17 @@ namespace Seggu.Services
             this.coverageDao = coverageDao;
         }
 
-        public IEnumerable<CoverageDto> GetAllByRiskId(string Id)
+        public IEnumerable<CoverageDto> GetAllByRiskId(int Id)
         {
             var coverage = this.coverageDao.GetAll();
             return coverage
-                .Where(c => c.RiskId == new Guid(Id))
+                .Where(c => c.RiskId == Id)
                 .Select(c => CoverageDtoMapper.GetDto(c))
                 .OrderBy(x => x.Name);
         }
-        public IEnumerable<CoverageDto> GetByPackId(string Id)
+        public IEnumerable<CoverageDto> GetByPackId(int Id)
         {
-            var id = new Guid(Id);
+            var id = Id;
             var coverage = this.coverageDao.GetContainer().CoveragesPacks.Single(x => x.Id == id).Coverages.ToList();
             //.Where(c => c.CoveragesPacks.Any(cp => cp.Id == new Guid(Id)))
             //.Select(c => CoverageDtoMapper.GetDto(c))
@@ -36,11 +36,11 @@ namespace Seggu.Services
             return coverage.Select(c => CoverageDtoMapper.GetDto(c));
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
-                var guid = new Guid(id);
+                var guid = id;
                 coverageDao.Delete(guid);
             }
             catch (Exception) { throw; }
@@ -72,7 +72,7 @@ namespace Seggu.Services
         }
 
 
-        public bool ExistNameId(string name, string id, string riskId)
+        public bool ExistNameId(string name, int id, int riskId)
         {
             if (id == null )
             {
@@ -84,20 +84,20 @@ namespace Seggu.Services
                 return true;
             }
 
-            Guid coverageId = new Guid(id);
-            Guid riskIds = new Guid(riskId);
+            var coverageId = id;
+            var riskIds = riskId;
             return coverageDao.BetByNameId(name, coverageId, riskIds);
         }
 
 
-        public bool ExistNameRisk(string name, string idRisk)
+        public bool ExistNameRisk(string name, int idRisk)
         {
             
             if (idRisk == null)
             {
                 return true;
             }
-            Guid id = new Guid(idRisk);
+            var id = idRisk;
             return coverageDao.BetByNameRisk(name, id);
         }
     }
