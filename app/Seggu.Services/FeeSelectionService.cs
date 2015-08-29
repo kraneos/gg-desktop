@@ -27,7 +27,7 @@ namespace Seggu.Services
             var feeSelect = FeeSelectionDtoMapper.GetObject(feeSelection);
             if (isNew)
             {
-                return feeSelectionDao.Save(feeSelect, default(int));
+                return (int)feeSelectionDao.Save(feeSelect);
             }
             else
             {

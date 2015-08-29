@@ -3,7 +3,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class CashAccountDao : GenericDao<CashAccount> , ICashAccountDao
+    public sealed class CashAccountDao : IdEntityDao<CashAccount> , ICashAccountDao
     {
     }
 }

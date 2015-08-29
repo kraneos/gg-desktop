@@ -8,7 +8,6 @@ namespace Seggu.Services.Interfaces
         IEnumerable<VehicleTypeDto> GetAll();
         VehicleTypeDto Get(int vehicleTypeId);
         void Save(VehicleTypeDto vType);
-
         void Delete(int Id);
         bool ExistName(string name);
     }

@@ -9,9 +9,9 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class CoveragesPackDao : GenericDao<CoveragesPack>, ICoveragesPackDao
+    public sealed class CoveragesPackDao : IdEntityDao<CoveragesPack>, ICoveragesPackDao
     {
-        public IEnumerable<CoveragesPack> GetByRiskId(int riskId)
+        public IEnumerable<CoveragesPack> GetByRiskId(long riskId)
         {
             return this.container.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId);
         }
@@ -48,19 +48,19 @@ namespace Seggu.Daos
         }
 
 
-        public bool HasRiskPackege(int idRisk)
+        public bool HasRiskPackege(long idRisk)
         {
             return this.Set.Any(c => c.RiskId == idRisk);
         }
 
 
-        public bool BetByNameRisk(string name, int idRisk)
+        public bool BetByNameRisk(string name, long idRisk)
         {
             return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
         }
 
 
-        public bool BetByNameId(string name, int id, int riskId)
+        public bool BetByNameId(string name, long id, long riskId)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
             if (prod == null)

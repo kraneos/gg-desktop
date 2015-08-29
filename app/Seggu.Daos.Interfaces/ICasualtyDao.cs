@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICasualtyDao : IGenericDao<Casualty>
+    public interface ICasualtyDao : IIdEntityDao<Casualty>
     {
-        IEnumerable<Casualty> GetByPolicyId(int guid);
+        IEnumerable<Casualty> GetByPolicyId(long guid);
     }
 }

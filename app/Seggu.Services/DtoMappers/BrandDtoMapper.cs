@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static BrandDto GetDto(Brand b)
         {
             var dto = new BrandDto();
-            dto.Id = b.Id;
+            dto.Id = (int)b.Id;
             dto.Name = b.Name;
             return dto;
         }

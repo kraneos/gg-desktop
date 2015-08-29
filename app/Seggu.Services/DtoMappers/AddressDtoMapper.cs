@@ -41,15 +41,15 @@ namespace Seggu.Services.DtoMappers
         {
 
             var dto = new AddressDto();
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.AddressType = AddressType.Home.ToString();
             dto.Appartment = obj.Appartment;
-            dto.ClientId = obj.ClientId.HasValue ? obj.ClientId.Value : default(int);
+            dto.ClientId = obj.ClientId.HasValue ? (int)obj.ClientId.Value : default(int);
             dto.Floor = obj.Floor;
-            dto.LocalityId = obj.LocalityId ?? default(int);
+            dto.LocalityId = (int?)obj.LocalityId ?? default(int);
 
-            dto.ProvinceId = obj.Locality.District.ProvinceId;
-            dto.DistrictId = obj.Locality.DistrictId;
+            dto.ProvinceId = (int)obj.Locality.District.ProvinceId;
+            dto.DistrictId = (int)obj.Locality.DistrictId;
 
             dto.Number = obj.Number;
             dto.Phone = obj.Phone;

@@ -10,7 +10,7 @@ namespace Seggu.Services.DtoMappers
         public static CashAccountDto GetDto(CashAccount x)
         {
             var dto = new CashAccountDto();
-            dto.Id = x.Id;
+            dto.Id = (int)x.Id;
             dto.Amount = x.Amount;
             dto.Date = x.Date;
             dto.Description = x.Description;
@@ -25,7 +25,7 @@ namespace Seggu.Services.DtoMappers
         public static CashAccountDto GetCashAccountDto(CashAccount x)
         {
             var dto = new CashAccountDto();
-            dto.Id = x.Id;
+            dto.Id = (int)x.Id;
             return dto;
         }
         public static CashAccount GetObject(CashAccountDto x)

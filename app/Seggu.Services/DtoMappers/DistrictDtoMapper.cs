@@ -12,9 +12,9 @@ namespace Seggu.Services.DtoMappers
         public static DistrictDto GetDto(District d)
         {
             var district = new DistrictDto();
-            district.Id = d.Id;
+            district.Id = (int)d.Id;
             district.Name = d.Name;
-            district.ProvinceId = d.ProvinceId;
+            district.ProvinceId = (int)d.ProvinceId;
             return district;
         }
     }

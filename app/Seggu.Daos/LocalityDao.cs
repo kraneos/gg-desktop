@@ -6,9 +6,9 @@ using System;
 
 namespace Seggu.Daos
 {
-    public sealed class LocalityDao : GenericDao<Locality>, ILocalityDao
+    public sealed class LocalityDao : IdEntityDao<Locality>, ILocalityDao
     {
-        public IEnumerable<Locality> GetByDistrictId(int districId)
+        public IEnumerable<Locality> GetByDistrictId(long districId)
         {
             return 
                 this.Set.OrderBy(l => l.Name).Where(x => x.DistrictId == districId);

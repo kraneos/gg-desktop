@@ -16,30 +16,30 @@ namespace Seggu.Services.DtoMappers
             dto.Asegurado = obj.Client.FirstName + " " + obj.Client.LastName;
             dto.AnnulationDate = obj.AnnulationDate == null ? date : obj.AnnulationDate.Value.ToShortDateString();
 
-            dto.ClientId = obj.ClientId ?? default(int);
-            dto.CompanyId = obj.Policy.Risk.Company.Id;
+            dto.ClientId = (int?)obj.ClientId ?? default(int);
+            dto.CompanyId = (int)obj.Policy.Risk.Company.Id;
             dto.Motivo = obj.Cause;
 
             dto.EndDate = obj.EndDate.ToShortDateString();
             dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
             dto.EndorseType = EndorseTypeDtoMapper.ToString(obj.EndorseType);
 
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.IsAnnulled = obj.IsAnnulled == null ? false : true;
             dto.IsRemoved = obj.IsRemoved == null ? false : true;
 
             dto.Notes = obj.Notes;
             dto.Número = obj.Number;
 
-            dto.PolicyId = obj.PolicyId;
+            dto.PolicyId = (int)obj.PolicyId;
             dto.PolicyNumber = obj.Policy.Number;
             dto.Premium = obj.Premium;
             dto.Prima = obj.Prima;
-            dto.ProducerId = obj.Policy.ProducerId;
+            dto.ProducerId = (int)obj.Policy.ProducerId;
 
             dto.RequestDate = obj.RequestDate.ToShortDateString();
             dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
-            dto.RiskId = obj.Policy.Risk.Id;
+            dto.RiskId = (int)obj.Policy.Risk.Id;
 
             dto.StartDate = obj.StartDate.ToShortDateString();
             dto.Surcharge = obj.Surcharge;
@@ -57,30 +57,30 @@ namespace Seggu.Services.DtoMappers
             dto.Asegurado = obj.Client.FirstName + " " + obj.Client.LastName;
             dto.AnnulationDate = obj.AnnulationDate == null ? date : obj.AnnulationDate.Value.ToShortDateString();
 
-            dto.ClientId = obj.ClientId ?? default(int);
-            dto.CompanyId = obj.Policy.Risk.Company.Id;
+            dto.ClientId = (int?)obj.ClientId ?? default(int);
+            dto.CompanyId = (int)obj.Policy.Risk.Company.Id;
             dto.Motivo = obj.Cause;
 
             dto.EndDate = obj.EndDate.ToShortDateString();
             dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
             dto.EndorseType = EndorseTypeDtoMapper.ToString(obj.EndorseType);
 
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.IsAnnulled = obj.IsAnnulled == null ? false : true;
             dto.IsRemoved = obj.IsRemoved == null ? false : true;
 
             dto.Notes = obj.Notes;
             dto.Número = obj.Number;
 
-            dto.PolicyId = obj.PolicyId;
+            dto.PolicyId = (int)obj.PolicyId;
             dto.PolicyNumber = obj.Policy.Number;
             dto.Premium = obj.Premium;
             dto.Prima = obj.Prima;
-            dto.ProducerId = obj.Policy.ProducerId;
+            dto.ProducerId = (int)obj.Policy.ProducerId;
 
             dto.RequestDate = obj.RequestDate.ToShortDateString();
             dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
-            dto.RiskId = obj.Policy.Risk.Id;
+            dto.RiskId = (int)obj.Policy.Risk.Id;
 
             dto.StartDate = obj.StartDate.ToShortDateString();
             dto.Surcharge = obj.Surcharge;

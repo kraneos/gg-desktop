@@ -6,11 +6,11 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IProducerCodeDao: IGenericDao<ProducerCode>
     {
-        bool ProducerHasCompany(int id);
+        bool ProducerHasCompany(long id);
 
-        IEnumerable<ProducerCode> GetByCompany(int id);
+        IEnumerable<ProducerCode> GetByCompany(long id);
 
-        ProducerCode GetByCompanyProducer(int companyId, int producerId);
+        ProducerCode GetByCompanyProducer(long companyId, long producerId);
         
     }
 }

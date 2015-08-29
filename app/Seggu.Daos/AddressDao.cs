@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Seggu.Daos
 {
-    public class AddressDao : GenericDao<Address>, IAddressDao
+    public class AddressDao : IdEntityDao<Address>, IAddressDao
     {
     }
 }

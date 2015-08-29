@@ -11,13 +11,13 @@ namespace Seggu.Services.DtoMappers
         public static AttachedFileDto GetDto(AttachedFile obj)
         {
             var dto = new AttachedFileDto();
-            dto.CashAccountId = obj.CashAccountId ?? default(int);
-            dto.CasualtyId = obj.CasualtyId ?? default(int);
-            dto.EndorseId = obj.EndorseId ?? default(int);
+            dto.CashAccountId = ((int?)obj.CashAccountId) ?? default(int);
+            dto.CasualtyId = ((int?)obj.CasualtyId )?? default(int);
+            dto.EndorseId = ((int?)obj.EndorseId )?? default(int);
             dto.FilePath = obj.FilePath;
-            dto.Id = obj.Id;
-            dto.PolicyId = obj.PolicyId ?? default(int);
-            dto.EndorseId = obj.EndorseId ?? default(int);
+            dto.Id = (int)obj.Id;
+            dto.PolicyId = ((int?)obj.PolicyId )?? default(int);
+            dto.EndorseId = ((int?)obj.EndorseId) ?? default(int);
             return dto;
         }
 

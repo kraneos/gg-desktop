@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static CasualtyTypeDto GetDto(CasualtyType obj)
         {
             var dto = new CasualtyTypeDto();
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Name = obj.Name;
             return dto;
         }

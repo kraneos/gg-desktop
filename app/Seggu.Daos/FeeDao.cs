@@ -9,19 +9,19 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class FeeDao : GenericDao<Fee>, IFeeDao
+    public sealed class FeeDao : IdEntityDao<Fee>, IFeeDao
     {
-        public IEnumerable<Fee> GetByPolicyId(int guid)
+        public IEnumerable<Fee> GetByPolicyId(long guid)
         {
             return this.Set
                 .Where(f => f.PolicyId == guid);
         }
-        public IEnumerable<Fee> GetByEndorseId(int guid)
+        public IEnumerable<Fee> GetByEndorseId(long guid)
         {
             return this.Set
                 .Where(f => f.EndorseId == guid);
         }
-        public IEnumerable<Fee> GetByCompanyId(int guid, DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<Fee> GetByCompanyId(long guid, DateTime dateFrom, DateTime dateTo)
         {
             return
                 from f in this.Set
@@ -35,7 +35,7 @@ namespace Seggu.Daos
             //return this.Set.Include("Policy.Coverage.Risk.Company")
             //    .Where(f => f.Policy.Coverage.Risk.CompanyId == guid);
         }
-        public IEnumerable<Fee> GetExpiredByCompanyId(int guid)
+        public IEnumerable<Fee> GetExpiredByCompanyId(long guid)
         {
             return
                 from f in this.Set
@@ -48,7 +48,7 @@ namespace Seggu.Daos
                     && f.Annulated == false
                 select f;
         }
-        public IEnumerable<Fee> GetByFeeSelectionId(int guid)
+        public IEnumerable<Fee> GetByFeeSelectionId(long guid)
         {
             return this.container.Fees
                 .Where(f => f.FeeSelectionId == guid);
@@ -82,7 +82,7 @@ namespace Seggu.Daos
                 var row = table.NewRow();
                 row["Id"] = fee.Id;
                 row["FeeSelectionId"] = fee.FeeSelectionId;
-                row["Status"] = (int)fee.State;
+                row["Status"] = (long)fee.State;
                 table.Rows.Add(row);
             }
 

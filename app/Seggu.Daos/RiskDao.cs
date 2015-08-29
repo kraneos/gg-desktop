@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class RiskDao : GenericDao<Risk> , IRiskDao
+    public sealed class RiskDao : IdEntityDao<Risk> , IRiskDao
     {
         public bool GetByName(string name)
         {
             return this.Set.Any(c => c.Name == name);
         }
 
-        public IEnumerable<Risk> GetByCompany(int idCompany)
+        public IEnumerable<Risk> GetByCompany(long idCompany)
         {
             return
                 from r in this.Set
@@ -22,7 +22,7 @@ namespace Seggu.Daos
                 select r;
         }
 
-        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(int idCompany)
+        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany)
         {
             return
                 from r in this.Set.Include("CoveragesPacks.Coverages")
@@ -32,7 +32,7 @@ namespace Seggu.Daos
         }
 
 
-        public bool BetByNameId(string name, int id)
+        public bool BetByNameId(string name, long id)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name);
             if (prod == null)

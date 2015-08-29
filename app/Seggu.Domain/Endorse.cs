@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Endorse
+    public partial class Endorse : IdEntity
     {
         public Endorse()
         {
@@ -14,12 +14,11 @@ namespace Seggu.Domain
             this.Integrals = new HashSet<Integral>();
         }
     
-        public int Id { get; set; }
         public EndorseType EndorseType { get; set; }
         public string Number { get; set; }
         public string Cause { get; set; }
-        public int PolicyId { get; set; }
-        public Nullable<int> ClientId { get; set; }
+        public long PolicyId { get; set; }
+        public Nullable<long> ClientId { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public System.DateTime RequestDate { get; set; }

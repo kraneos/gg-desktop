@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class VehicleModelDao : GenericDao<VehicleModel>, IVehicleModelDao
+    public sealed class VehicleModelDao : IdEntityDao<VehicleModel>, IVehicleModelDao
     {
         public bool GetByName(string name)
         {

@@ -10,7 +10,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyDto GetDto(Company c)
         {
             var dto = new CompanyDto();
-            dto.Id = c.Id;
+            dto.Id = (int)c.Id;
             dto.Name = c.Name;
             dto.Phone = c.Phone;
             dto.Notes = c.Notes;
@@ -44,7 +44,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyFullDto GetFormDto(Company c)
         {
             var dto = new CompanyFullDto();
-            dto.Id = c.Id;
+            dto.Id = (int)c.Id;
             dto.CUIT = c.CUIT;
             dto.LiqDay1 = c.LiqDay1.ToString();
             dto.LiqDay2 = c.LiqDay2.ToString();
@@ -65,7 +65,7 @@ namespace Seggu.Services.DtoMappers
         public static CompanyFullDto GetCompanyOnly(Company c)
         {
             var dto = new CompanyFullDto();
-            dto.Id = c.Id;
+            dto.Id = (int)c.Id;
             dto.CUIT = c.CUIT;
             dto.LiqDay1 = c.LiqDay1.ToString();
             dto.LiqDay2 = c.LiqDay2.ToString();

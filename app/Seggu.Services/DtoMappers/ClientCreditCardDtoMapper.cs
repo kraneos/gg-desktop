@@ -9,9 +9,9 @@ namespace Seggu.Services.DtoMappers
         public static ClientCreditCardInformationDto GetInformationDto(ClientCreditCard obj)
         {
             var dto = new ClientCreditCardInformationDto();
-            dto.ClientId = obj.ClientId;
-            dto.CreditCardId = obj.CreditCardId;
-            dto.BankId = obj.BankId;
+            dto.ClientId = (int)obj.ClientId;
+            dto.CreditCardId = (int)obj.CreditCardId;
+            dto.BankId = (int)obj.BankId;
             return dto;
         }
 

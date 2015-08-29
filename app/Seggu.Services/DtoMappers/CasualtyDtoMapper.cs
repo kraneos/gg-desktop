@@ -13,16 +13,16 @@ namespace Seggu.Services.DtoMappers
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
             var dto = new CasualtyDto();
-            dto.CasualtyTypeId = obj.CasualtyTypeId;
+            dto.CasualtyTypeId = (int)obj.CasualtyTypeId;
             dto.DefinedCompensation = obj.DefinedCompensation;
             dto.EstimatedCompensation = obj.EstimatedCompensation;
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Notes = obj.Notes;
             dto.Number = obj.Number.ToString();
             dto.OccurredDate = obj.OccurredDate.ToShortDateString();
             dto.OurCharge = obj.OurCharge;
             dto.PoliceReportDate = obj.PoliceReportDate == null ? date : obj.PoliceReportDate.Value.ToShortDateString();
-            dto.PolicyId = obj.PolicyId;
+            dto.PolicyId = (int)obj.PolicyId;
             dto.ReceiveDate = obj.ReceiveDate.ToShortDateString();
             dto.Producer = obj.Policy.Producer.Name;
             dto.Client = ClientDtoMapper.GetDto(obj.Policy.Client);

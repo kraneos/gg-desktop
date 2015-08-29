@@ -78,7 +78,7 @@ namespace Seggu.Services
             var companies = companyDao.GetAll();
             foreach (Company c in companies)
             {
-                var convenio = this.GetLastPaymentDay(c.Id);
+                var convenio = this.GetLastPaymentDay((int)c.Id);
                 var fees = feeDao.GetExpiredByCompanyId(c.Id).ToList();
                 foreach (Fee f in fees)
                 {

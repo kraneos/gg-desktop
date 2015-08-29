@@ -12,7 +12,7 @@ namespace Seggu.Services.DtoMappers
         public static ProvinceDto GetDto(Province p)
         {
             var prov = new ProvinceDto();
-            prov.Id = p.Id;
+            prov.Id = (int)p.Id;
             prov.Name = p.Name;
             return prov;
         }

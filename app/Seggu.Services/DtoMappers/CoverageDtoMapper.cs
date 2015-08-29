@@ -10,10 +10,10 @@ namespace Seggu.Services.DtoMappers
         public static CoverageDto GetDto(Coverage c)
         {
             var dto = new CoverageDto();
-            dto.Id = c.Id;
+            dto.Id = (int)c.Id;
             dto.Name = c.Name;
             dto.Description = c.Description;
-            dto.RiskId = c.RiskId;
+            dto.RiskId = (int)c.RiskId;
             return dto;
         }
         public static Coverage GetObject(CoverageDto coverage)

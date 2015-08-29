@@ -6,9 +6,9 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class LiquidationDao : GenericDao<Liquidation>, ILiquidationDao
+    public sealed class LiquidationDao : IdEntityDao<Liquidation>, ILiquidationDao
     {
-        public void Create(Liquidation obj, int id)
+        public void Create(Liquidation obj, long id)
         {
             using (var scope = new TransactionScope())
             {

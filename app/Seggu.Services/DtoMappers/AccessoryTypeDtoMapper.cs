@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static AccessoryTypeDto GetDto(AccessoryType obj)
         {
             var dto = new AccessoryTypeDto();
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Name = obj.Name;
             return dto;
         }

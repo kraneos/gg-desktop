@@ -116,7 +116,6 @@ namespace Seggu.Desktop.Forms
         private void FillLsbRiesgos()
         {
             if (currentCompany == null) return;
-            if (currentCompany.Id == null) return;
             if (currentCompany.Id == default(int)) return;
 
             lsbRiesgos.ValueMember = "Id";
@@ -193,7 +192,7 @@ namespace Seggu.Desktop.Forms
                 if (dialogResult == DialogResult.Yes)
                 {
                     var riskId = (int)lsbRiesgos.SelectedValue;
-                    if (riskId == null)
+                    if (riskId == default(int))
                     {
                         MessageBox.Show("Primero debe seleccionar un riesgo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -306,7 +305,7 @@ namespace Seggu.Desktop.Forms
                 if (!riskService.ExistNameId(txtRiesgo.Text, currentRisk.Id))
                 {
                     currentRisk.Name = txtRiesgo.Text;
-                    if (currentRisk.Id != null && currentRisk.CompanyId != null)
+                    if (currentRisk.Id != default(int) && currentRisk.CompanyId != default(int))
                     {
                         try
                         {

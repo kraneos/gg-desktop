@@ -3,11 +3,10 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Cheque
+    public partial class Cheque : IdEntity
     {
-        public int Id { get; set; }
         public string Number { get; set; }
-        public int BankId { get; set; }
+        public long BankId { get; set; }
         public decimal Value { get; set; }
         public System.DateTime Date { get; set; }
     

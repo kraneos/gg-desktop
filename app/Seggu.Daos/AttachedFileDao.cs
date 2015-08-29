@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class AttachedFileDao : GenericDao<AttachedFile>, IAttachedFileDao
+    public sealed class AttachedFileDao : IdEntityDao<AttachedFile>, IAttachedFileDao
     {
-        public IEnumerable<AttachedFile> GetByPolicyId(int guid)
+        public IEnumerable<AttachedFile> GetByPolicyId(long guid)
         {
             return this.Set
                 .Where(f => f.PolicyId == guid);

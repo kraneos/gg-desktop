@@ -86,6 +86,7 @@
     <Compile Include="FeeDao.cs" />
     <Compile Include="FeeSelectionDao.cs" />
     <Compile Include="GenericDao.cs" />
+    <Compile Include="IdEntityDao.cs" />
     <Compile Include="IntegralDao.cs" />
     <Compile Include="LedgerAccountDao.cs" />
     <Compile Include="LiquidationDao.cs" />

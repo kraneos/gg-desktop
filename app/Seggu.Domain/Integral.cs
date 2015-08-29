@@ -3,16 +3,15 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Integral
+    public partial class Integral : IdEntity
     {
         public Integral()
         {
             this.Coverages = new HashSet<Coverage>();
         }
     
-        public int Id { get; set; }
-        public Nullable<int> PolicyId { get; set; }
-        public Nullable<int> EndorseId { get; set; }
+        public Nullable<long> PolicyId { get; set; }
+        public Nullable<long> EndorseId { get; set; }
     
         public virtual ICollection<Coverage> Coverages { get; set; }
         public virtual Policy Policy { get; set; }

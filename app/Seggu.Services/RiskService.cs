@@ -51,7 +51,7 @@ namespace Seggu.Services
 
         public bool ExistNameId(string name, int id)
         {
-            if (id == null)
+            if (id == default(int))
             {
                 return true;
             }
@@ -62,7 +62,7 @@ namespace Seggu.Services
 
         public bool HasCoverages(int id)
         {
-            if (id == null)
+            if (id == default(int))
             {
                 return true;
             }
@@ -73,7 +73,7 @@ namespace Seggu.Services
 
         public bool HasPackages(int id)
         {
-            if (id == null)
+            if (id == default(int))
             {
                 return true;
             }

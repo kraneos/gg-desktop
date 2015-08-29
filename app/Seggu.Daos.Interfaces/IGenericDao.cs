@@ -9,12 +9,12 @@ namespace Seggu.Daos.Interfaces
     {
         SegguDataModelContainer GetContainer();
         IEnumerable<T> GetAll();
-        T Get(int id);
+        T Get(object id);
         void Save(T obj);
         void Update(T obj);
         void UpdateMany(IEnumerable<T> objs);
         void Delete(T obj);
-        void Delete(int id);
+        void Delete(object id);
         void DeleteMany(IEnumerable<T> objs);
     }
 }

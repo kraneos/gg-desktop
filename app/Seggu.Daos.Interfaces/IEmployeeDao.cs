@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IEmployeeDao : IGenericDao<Employee>
+    public interface IEmployeeDao : IIdEntityDao<Employee>
     {
-        IEnumerable<Employee> GetByPolicyId(int policyId);
+        IEnumerable<Employee> GetByPolicyId(long policyId);
 
         void SaveEmployee(Employee newVehicle);
     }

@@ -3,18 +3,16 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class VehicleModel
+    public partial class VehicleModel : KeyValueEntity
     {
         public VehicleModel()
         {
             this.Vehicles = new HashSet<Vehicle>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
         public Origin Origin { get; set; }
-        public int BrandId { get; set; }
-        public int VehicleTypeId { get; set; }
+        public long BrandId { get; set; }
+        public long VehicleTypeId { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual VehicleType VehicleType { get; set; }

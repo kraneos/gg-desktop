@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IAssetDao : IGenericDao<Asset>
+    public interface IAssetDao : IIdEntityDao<Asset>
     {
     }
 }

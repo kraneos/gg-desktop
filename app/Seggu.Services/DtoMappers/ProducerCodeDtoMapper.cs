@@ -10,8 +10,8 @@ namespace Seggu.Services.DtoMappers
         {
             var dto = new ProducerCodeDto();
             dto.Code = obj.Code;
-            dto.CompanyId = obj.CompanyId;
-            dto.ProducerId = obj.ProducerId;
+            dto.CompanyId = (int)obj.CompanyId;
+            dto.ProducerId = (int)obj.ProducerId;
 
             return dto;
         }

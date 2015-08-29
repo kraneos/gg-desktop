@@ -10,7 +10,7 @@ namespace Seggu.Services.DtoMappers
         public static AssetDto GetDto(Asset asset)
         {
             var dto = new AssetDto();
-            dto.Id = asset.Id;
+            dto.Id = (int)asset.Id;
             dto.Name = asset.Name;
             dto.Amount = asset.Amount;
             return dto;

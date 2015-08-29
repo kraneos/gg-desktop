@@ -2,8 +2,8 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ILiquidationDao : IGenericDao<Liquidation>
+    public interface ILiquidationDao : IIdEntityDao<Liquidation>
     {
-        void Create(Liquidation obj, int id);
+        void Create(Liquidation obj, long id);
     }
 }

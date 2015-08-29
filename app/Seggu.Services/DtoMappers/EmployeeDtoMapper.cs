@@ -14,13 +14,13 @@ namespace Seggu.Services.DtoMappers
             var dto = new EmployeeDto();
             dto.Apellido = obj.LastName;
             dto.CUIT = obj.CUIT;
-            dto.DNI = obj.DNI; 
-            dto.EndorseId = obj.EndorseId ?? default(int);
+            dto.DNI = obj.DNI;
+            dto.EndorseId = (int?)obj.EndorseId ?? default(int);
             //dto.Fecha_Nacimiento = obj.BirthDate == null ? date : obj.BirthDate.Value.ToShortDateString();
             dto.Fecha_Nacimiento = obj.BirthDate;
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Nombre = obj.FirstName;
-            dto.PolicyId = obj.PolicyId;
+            dto.PolicyId = (int)obj.PolicyId;
             dto.IsRemoved = (bool)obj.IsRemoved;
             dto.Suma = obj.InsuranceAmount;
             dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Bank
+    public partial class Bank : KeyValueEntity
     {
         public Bank()
         {
@@ -11,9 +11,7 @@ namespace Seggu.Domain
             this.Cheques = new HashSet<Cheque>();
         }
     
-        public int Id { get; set; }
         public string Number { get; set; }
-        public string Name { get; set; }
     
         public virtual ICollection<ClientCreditCard> ClientCreditCards { get; set; }
         public virtual ICollection<Cheque> Cheques { get; set; }

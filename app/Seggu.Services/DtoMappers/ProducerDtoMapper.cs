@@ -12,7 +12,7 @@ namespace Seggu.Services.DtoMappers
         public static ProducerDto GetDto(Producer x)
         {
             var dto = new ProducerDto();
-            dto.Id = x.Id;
+            dto.Id = (int)x.Id;
             dto.Name = x.Name;
             dto.Matrícula = x.RegistrationNumber;
             dto.Cobrador = x.IsCollector;
@@ -22,7 +22,7 @@ namespace Seggu.Services.DtoMappers
         public static ProducerCompanyDto GetProducerCompanyDto(ProducerCode pc)
         {
             var dto = new ProducerCompanyDto();
-            dto.Id = pc.ProducerId;
+            dto.Id = (int)pc.ProducerId;
             dto.Name = pc.Producer.Name;
             dto.Code = pc.Code;
             dto.RegistrationNumber = pc.Producer.RegistrationNumber;

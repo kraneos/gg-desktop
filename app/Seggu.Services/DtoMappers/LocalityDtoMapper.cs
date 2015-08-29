@@ -12,9 +12,9 @@ namespace Seggu.Services.DtoMappers
         public static LocalityDto GetDto(Locality loc)
         {
             var l = new LocalityDto();
-            l.Id = loc.Id;
+            l.Id = (int)loc.Id;
             l.Name = loc.Name;
-            l.DistrictId = loc.DistrictId;
+            l.DistrictId = (int)loc.DistrictId;
             return l;
         }
     }

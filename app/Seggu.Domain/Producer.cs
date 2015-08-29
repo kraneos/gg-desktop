@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Producer
+    public partial class Producer : KeyValueEntity
     {
         public Producer()
         {
@@ -12,8 +12,6 @@ namespace Seggu.Domain
             this.Policies = new HashSet<Policy>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string RegistrationNumber { get; set; }
         public bool IsCollector { get; set; }
     

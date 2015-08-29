@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Company
+    public partial class Company : KeyValueEntity
     {
         public Company()
         {
@@ -14,8 +14,6 @@ namespace Seggu.Domain
             this.Liquidations = new HashSet<Liquidation>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string Phone { get; set; }
         public string Notes { get; set; }
         public bool Active { get; set; }

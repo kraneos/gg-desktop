@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICashAccountDao : IGenericDao<CashAccount>
+    public interface ICashAccountDao : IIdEntityDao<CashAccount>
     {
     }
 }

@@ -3,7 +3,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class CasualtyTypeDao : GenericDao<CasualtyType>, ICasualtyTypeDao
+    public sealed class CasualtyTypeDao : IdEntityDao<CasualtyType>, ICasualtyTypeDao
     {
     }
 }

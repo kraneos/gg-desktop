@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICasualtyTypeDao : IGenericDao<CasualtyType>
+    public interface ICasualtyTypeDao : IIdEntityDao<CasualtyType>
     {
     }
 }

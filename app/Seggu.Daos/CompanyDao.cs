@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class CompanyDao : GenericDao<Company>, ICompanyDao
+    public sealed class CompanyDao : IdEntityDao<Company>, ICompanyDao
     {
         public IEnumerable<Company> GetActive()
         {
             return this.container.Companies.Where(c => c.Active);
         }
 
-        public Company GetById(int guid)
+        public Company GetById(long guid)
         {
             return this.Set.First(c => c.Id == guid);
         }

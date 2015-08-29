@@ -100,6 +100,7 @@
     <Content Include="Scripts\tsql\002.FeeSelectionAssigmentTableType.sql" />
     <Content Include="Scripts\tsql\003.SampleData.sql" />
     <Content Include="Scripts\CiberSegurosDataModfications.sql" />
+    <None Include="Scripts\sqlite\003.SampleData.sqlite" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\ProvinciasDistritosLocalidades.sql" />

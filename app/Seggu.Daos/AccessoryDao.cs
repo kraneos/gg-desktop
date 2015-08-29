@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class AccessoryDao: GenericDao<Accessory>, IAccessoryDao
+    public sealed class AccessoryDao: IdEntityDao<Accessory>, IAccessoryDao
     {
-        public IEnumerable<Accessory> GetByVehicleId(int id)
+        public IEnumerable<Accessory> GetByVehicleId(long id)
         {
             return this.Set
                 .Where(x => x.VehicleId == id);

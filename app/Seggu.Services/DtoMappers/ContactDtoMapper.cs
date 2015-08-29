@@ -9,14 +9,14 @@ namespace Seggu.Services.DtoMappers
         public static ContactDto GetDto(Contact c)
         {
             var dto = new ContactDto();
-            dto.Id = c.Id;
+            dto.Id = (int)c.Id;
             dto.FirstName = c.FirstName;
             dto.LastName = c.LastName;
             dto.Bussiness = c.Company != null ? c.Company.Name : c.Bussiness;
             dto.Mail = c.Mail;
             dto.Phone = c.Phone;
             dto.Notes = c.Notes;
-            dto.CompanyId = c.CompanyId ?? default(int);
+            dto.CompanyId = ((int?)c.CompanyId) ?? default(int);
             return dto;
         }
 

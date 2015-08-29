@@ -158,7 +158,6 @@ namespace Seggu.Desktop.Forms
         private void FillLsbRiesgos()
         {
             if (currentCompany == null) return;
-            if (currentCompany.Id == null) return;
             if (currentCompany.Id == default(int)) return;
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";

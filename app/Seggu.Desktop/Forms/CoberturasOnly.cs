@@ -127,7 +127,6 @@ namespace Seggu.Desktop.Forms
         private void FillLsbRiesgos()
         {
             if (currentCompany == null) return;
-            if (currentCompany.Id == null) return;
             if (currentCompany.Id == default(int)) return;
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
@@ -320,7 +319,7 @@ namespace Seggu.Desktop.Forms
                     currentCoverage.Name = txtCoberturas.Text;
                     currentCoverage.Description = txtCoberturas.Text;
 
-                    if (currentRisk.Id != null && currentRisk.CompanyId != null)
+                    if (currentRisk.Id != default(int) && currentRisk.CompanyId != default(int))
                     {
                         coverageService.Update(currentCoverage);
                         MessageBox.Show("Cambios guardados exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);

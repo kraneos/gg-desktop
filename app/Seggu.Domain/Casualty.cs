@@ -3,17 +3,16 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Casualty
+    public partial class Casualty : IdEntity
     {
         public Casualty()
         {
             this.AttachedFiles = new HashSet<AttachedFile>();
         }
     
-        public int Id { get; set; }
-        public int PolicyId { get; set; }
+        public long PolicyId { get; set; }
         public short Number { get; set; }
-        public int CasualtyTypeId { get; set; }
+        public long CasualtyTypeId { get; set; }
         public bool OurCharge { get; set; }
         public System.DateTime OccurredDate { get; set; }
         public System.DateTime ReceiveDate { get; set; }
