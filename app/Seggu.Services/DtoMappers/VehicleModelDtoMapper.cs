@@ -11,11 +11,11 @@ namespace Seggu.Services.DtoMappers
         public static VehicleModelDto GetDto(VehicleModel obj)
         {
             var dto = new VehicleModelDto();
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Name = obj.Name;
-            dto.BrandId = obj.BrandId;
+            dto.BrandId = (int)obj.BrandId;
             dto.Origin = OriginDtoMapper.ToString(obj.Origin);
-            dto.VehicleTypeId = obj.VehicleTypeId;
+            dto.VehicleTypeId = (int)obj.VehicleTypeId;
             dto.Bodyworks = obj.VehicleType.Bodyworks
                 .OrderBy(b => b.Name).Select(bw => BodyworkDtoMapper.GetDto(bw)).ToList();
             dto.Uses = obj.VehicleType.Uses

@@ -10,11 +10,11 @@ namespace Seggu.Services.DtoMappers
         public static FeeSelectionDto GetDto(FeeSelection x)
         {
             var dto = new FeeSelectionDto();
-            dto.Id = x.Id;
+            dto.Id = (int)x.Id;
             dto.Name = x.Name;
             dto.Total = x.Total;
             dto.Notes = x.Notes;
-            dto.LiquidationId = x.LiquidationId;
+            dto.LiquidationId = (int)x.LiquidationId;
             return dto;
         }
 

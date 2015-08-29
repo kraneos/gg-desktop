@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IBankDao : IGenericDao<Bank>
+    public interface IBankDao : IIdEntityDao<Bank>
     {
         bool GetByName(string name);
         bool GetByNumber(string number);

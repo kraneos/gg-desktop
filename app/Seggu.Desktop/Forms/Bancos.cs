@@ -45,7 +45,7 @@ namespace Seggu.Desktop.Forms
         private DataTable GetBankDataTable()
         {
             var table = new DataTable();
-            table.Columns.Add("Id", typeof(string));
+            table.Columns.Add("Id", typeof(int));
             table.Columns.Add("Numero", typeof(string));
             table.Columns.Add("Nombre", typeof(string));
 

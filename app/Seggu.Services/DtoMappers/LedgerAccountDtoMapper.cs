@@ -10,7 +10,7 @@ namespace Seggu.Services.DtoMappers
         public static LedgerAccountDto GetDto(LedgerAccount la)
         {
             var dto = new LedgerAccountDto();
-            dto.Id = la.Id;
+            dto.Id = (int)la.Id;
             dto.Name = la.Name;
             return dto;
         }

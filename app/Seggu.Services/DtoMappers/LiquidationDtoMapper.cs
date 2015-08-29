@@ -11,9 +11,9 @@ namespace Seggu.Services.DtoMappers
         {
             var date = DateTime.MinValue.AddYears(1755).ToShortDateString();
             var dto = new LiquidationDto();
-            dto.Id = l.Id;
+            dto.Id = (int)l.Id;
             dto.Compañía = l.Company.Name;
-            dto.CompanyId = l.CompanyId;
+            dto.CompanyId = (int)l.CompanyId;
             dto.Fecha = l.Date.ToShortDateString();
             dto.Registered = l.Registered ;
             dto.Recepción = l.ReceptionDate == null ? date : l.ReceptionDate.Value.ToShortDateString();

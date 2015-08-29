@@ -26,7 +26,7 @@ namespace Seggu.Services
 
         public int GetCobranzaId()
         {
-            return ledgerAccountDao.GetCobranzaId();
+            return (int)ledgerAccountDao.GetCobranzaId();
         }
 
         public void Create (LedgerAccountDto la)

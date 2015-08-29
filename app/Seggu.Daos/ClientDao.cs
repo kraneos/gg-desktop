@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class ClientDao : GenericDao<Client>, IClientDao
+    public sealed class ClientDao : IdEntityDao<Client>, IClientDao
     {
         public IEnumerable<Client> GetByDni(string search)
         {

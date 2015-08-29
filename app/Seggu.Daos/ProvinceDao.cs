@@ -3,7 +3,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class ProvinceDao : GenericDao<Province>, IProvinceDao
+    public sealed class ProvinceDao : IdEntityDao<Province>, IProvinceDao
     {
     }
 }

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IRiskDao : IGenericDao<Risk>
+    public interface IRiskDao : IIdEntityDao<Risk>
     {
         bool GetByName(string name);
-        IEnumerable<Risk> GetByCompany(int idCompany);
-        IEnumerable<Risk> GetByCompanyWithCoveragePacks(int idCompany);
-        bool BetByNameId(string name, int id);
+        IEnumerable<Risk> GetByCompany(long idCompany);
+        IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany);
+        bool BetByNameId(string name, long id);
     }
 }

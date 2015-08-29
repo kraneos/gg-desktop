@@ -38,7 +38,7 @@ namespace Seggu.Services
         public int GetPackIdByCoverageId(int id, int riskId)
         {
             var coveragesPacks = coveragesPackDao.GetByRiskId(riskId);
-            return coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
+            return (int)coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
                 && cp.Coverages.Any(x => x.Id == id)).Id;
         }
         public void Update(CoveragesPackDto coveragesPack)
@@ -57,7 +57,7 @@ namespace Seggu.Services
         }
         public bool ExistNameRisk(string name, int idRisk)
         {
-            if (idRisk == null)
+            if (idRisk == default(int))
             {
                 return true;
             }
@@ -66,12 +66,12 @@ namespace Seggu.Services
         }
         public bool ExistNameId(string name, int id, int riskId)
         {
-            if (id == null)
+            if (id == default(int))
             {
                 return true;
             }
 
-            if (riskId == null)
+            if (riskId == default(int))
             {
                 return true;
             }

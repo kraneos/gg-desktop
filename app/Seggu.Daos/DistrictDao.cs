@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class DistrictDao : GenericDao<District>, IDistrictDao
+    public sealed class DistrictDao : IdEntityDao<District>, IDistrictDao
     {
-        public IEnumerable<District> GetByProvince(int provinceId)
+        public IEnumerable<District> GetByProvince(long provinceId)
         {
             return this.container.Districts.Where(x => x.ProvinceId == provinceId);
         }  

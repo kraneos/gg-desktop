@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static BodyworkDto GetDto(Bodywork b)
         {
             var dto = new BodyworkDto();
-            dto.Id = b.Id;
+            dto.Id = (int)b.Id;
             dto.Name = b.Name;
             return dto;
         }

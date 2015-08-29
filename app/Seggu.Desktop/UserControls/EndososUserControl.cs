@@ -192,7 +192,7 @@ namespace Seggu.Desktop.UserControls
             {
                 cmbProductor.SelectedValue = endorse.ProducerId;
                 cmbRiesgo.SelectedValue = endorse.RiskId == default(int) ? cmbRiesgo.SelectedValue : endorse.RiskId;
-                cmbCompania.SelectedValue = endorse.CompanyId == null ? cmbCompania.SelectedValue : endorse.CompanyId;
+                cmbCompania.SelectedValue = endorse.CompanyId == default(int) ? cmbCompania.SelectedValue : endorse.CompanyId;
 
                 cmbTipoEndosos.SelectedItem = endorse.EndorseType;
                 txtNroEndoso.Text = endorse.Número;

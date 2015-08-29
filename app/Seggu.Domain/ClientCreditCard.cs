@@ -3,13 +3,12 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class ClientCreditCard
+    public partial class ClientCreditCard : IdEntity
     {
-        public int Id { get; set; }
         public Nullable<long> Number { get; set; }
-        public int ClientId { get; set; }
-        public int CreditCardId { get; set; }
-        public int BankId { get; set; }
+        public long ClientId { get; set; }
+        public long CreditCardId { get; set; }
+        public long BankId { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
     
         public virtual Client Client { get; set; }

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICoverageDao: IGenericDao<Coverage>
+    public interface ICoverageDao: IIdEntityDao<Coverage>
     {
         bool GetByName(string name);
-        bool BetByNameId(string name, int id, int riskId);
-        bool RiskHasCoverage(int riskId);
-        bool BetByNameRisk(string name, int idRisk);
+        bool BetByNameId(string name, long id, long riskId);
+        bool RiskHasCoverage(long riskId);
+        bool BetByNameRisk(string name, long idRisk);
         
     }
 }

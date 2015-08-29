@@ -74,12 +74,12 @@ namespace Seggu.Services
 
         public bool ExistNameId(string name, int id, int riskId)
         {
-            if (id == null )
+            if (id == default(int))
             {
                 return true;
             }
 
-            if (riskId == null)
+            if (riskId == default(int))
             {
                 return true;
             }
@@ -92,8 +92,8 @@ namespace Seggu.Services
 
         public bool ExistNameRisk(string name, int idRisk)
         {
-            
-            if (idRisk == null)
+
+            if (idRisk == default(int))
             {
                 return true;
             }

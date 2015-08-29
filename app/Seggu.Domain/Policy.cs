@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Policy
+    public partial class Policy : IdEntity
     {
         public Policy()
         {
@@ -16,9 +16,8 @@ namespace Seggu.Domain
             this.Integrals = new HashSet<Integral>();
         }
     
-        public int Id { get; set; }
         public string PreviousNumber { get; set; }
-        public int ClientId { get; set; }
+        public long ClientId { get; set; }
         public Period Period { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
@@ -36,9 +35,9 @@ namespace Seggu.Domain
         public bool IsAnnulled { get; set; }
         public Nullable<System.DateTime> AnnulationDate { get; set; }
         public bool IsRemoved { get; set; }
-        public int ProducerId { get; set; }
-        public Nullable<int> CollectorId { get; set; }
-        public int RiskId { get; set; }
+        public long ProducerId { get; set; }
+        public Nullable<long> CollectorId { get; set; }
+        public long RiskId { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual ICollection<Fee> Fees { get; set; }

@@ -63,13 +63,14 @@
     <Compile Include="Employee.cs" />
     <Compile Include="Endorse.cs" />
     <Compile Include="EndorseType.cs" />
-    <Compile Include="EntityWithId.cs" />
+    <Compile Include="IdEntity.cs" />
     <Compile Include="Fee.cs" />
     <Compile Include="FeeSelection.cs" />
     <Compile Include="FeeState.cs" />
     <Compile Include="IdType.cs" />
     <Compile Include="Integral.cs" />
     <Compile Include="IVA.cs" />
+    <Compile Include="KeyValueEntity.cs" />
     <Compile Include="LedgerAccount.cs" />
     <Compile Include="Liquidation.cs" />
     <Compile Include="Locality.cs" />

@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class LedgerAccountDao : GenericDao<LedgerAccount>, ILedgerAccountDao
+    public sealed class LedgerAccountDao : IdEntityDao<LedgerAccount>, ILedgerAccountDao
     {
-        public int GetCobranzaId()
+        public long GetCobranzaId()
         {
             return this.Set.First(x => x.Name == "Cobranza").Id;
         }

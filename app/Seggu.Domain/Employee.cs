@@ -3,16 +3,15 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class Employee : IdEntity
     {
         public Employee()
         {
             this.Coverages = new HashSet<Coverage>();
         }
     
-        public int Id { get; set; }
-        public int PolicyId { get; set; }
-        public Nullable<int> EndorseId { get; set; }
+        public long PolicyId { get; set; }
+        public Nullable<long> EndorseId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateTime BirthDate { get; set; }

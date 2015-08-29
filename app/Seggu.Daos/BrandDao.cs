@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Seggu.Daos
 {
-    public sealed class BrandDao : GenericDao<Brand>, IBrandDao
+    public sealed class BrandDao : IdEntityDao<Brand>, IBrandDao
     {
         public bool GetByName(string name)
         {

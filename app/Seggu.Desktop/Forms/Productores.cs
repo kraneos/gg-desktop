@@ -280,7 +280,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (currentProducer.Id == null || currentProducer.Id == default(int))
+            if (currentProducer.Id == default(int))
             {
                 MessageBox.Show("Primero debe seleccionar un Productor para poder editarlo.");
             }

@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class CasualtyDao : GenericDao<Casualty>, ICasualtyDao
+    public sealed class CasualtyDao : IdEntityDao<Casualty>, ICasualtyDao
     {
-        public IEnumerable<Casualty> GetByPolicyId(int guid)
+        public IEnumerable<Casualty> GetByPolicyId(long guid)
         {
             return this.Set
                 .Where(c => c.PolicyId == guid);

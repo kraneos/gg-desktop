@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class VehicleDao : GenericDao<Vehicle>, IVehicleDao
+    public sealed class VehicleDao : IdEntityDao<Vehicle>, IVehicleDao
     {
-        public Vehicle GetByPolicyId(int policyId)
+        public Vehicle GetByPolicyId(long policyId)
         {
             return this.Set.First(x => x.PolicyId == policyId);
         }

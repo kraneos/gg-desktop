@@ -10,9 +10,9 @@ namespace Seggu.Services.DtoMappers
         public static CoveragesPackDto GetDto(CoveragesPack cp)
         {
             var dto = new CoveragesPackDto();
-            dto.Id = cp.Id;
+            dto.Id = (int)cp.Id;
             dto.Name = cp.Name;
-            dto.RiskId = cp.RiskId;
+            dto.RiskId = (int)cp.RiskId;
             dto.Coverages = cp.Coverages == null ? null 
                 : cp.Coverages.Select(x => CoverageDtoMapper.GetDto(x)).ToList();
             return dto;

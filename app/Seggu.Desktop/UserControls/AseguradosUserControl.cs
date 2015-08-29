@@ -404,12 +404,12 @@ namespace Seggu.Desktop.UserControls
             cmbDistrict.DataSource = districtService.GetAll().ToList();
             cmbLocality.DataSource = localityService.GetAll().ToList();
 
-            cmbProvince.SelectedValue = currentClient.HomeProvinceId == null ? cmbProvince.SelectedValue : currentClient.HomeProvinceId;
-            cmbDistrict.SelectedValue = currentClient.HomeDistrictId == null ? cmbDistrict.SelectedValue : currentClient.HomeDistrictId;
-            cmbLocality.SelectedValue = currentClient.HomeLocalityId == null ? cmbLocality.SelectedValue : currentClient.HomeLocalityId;
-            cmbProvinceCollector.SelectedValue = currentClient.CollectionProvinceId == null ? cmbProvinceCollector.SelectedValue : currentClient.CollectionProvinceId;
-            cmbDistrictCollector.SelectedValue = currentClient.CollectionDistrictId == null ? cmbDistrictCollector.SelectedValue : currentClient.CollectionDistrictId;
-            cmbLocalityCollector.SelectedValue = currentClient.CollectionLocalityId == null ? cmbLocalityCollector.SelectedValue : currentClient.CollectionLocalityId;
+            cmbProvince.SelectedValue = currentClient.HomeProvinceId == default(int) ? cmbProvince.SelectedValue : currentClient.HomeProvinceId;
+            cmbDistrict.SelectedValue = currentClient.HomeDistrictId == default(int) ? cmbDistrict.SelectedValue : currentClient.HomeDistrictId;
+            cmbLocality.SelectedValue = currentClient.HomeLocalityId == default(int) ? cmbLocality.SelectedValue : currentClient.HomeLocalityId;
+            cmbProvinceCollector.SelectedValue = currentClient.CollectionProvinceId == default(int)? cmbProvinceCollector.SelectedValue : currentClient.CollectionProvinceId;
+            cmbDistrictCollector.SelectedValue = currentClient.CollectionDistrictId == default(int) ? cmbDistrictCollector.SelectedValue : currentClient.CollectionDistrictId;
+            cmbLocalityCollector.SelectedValue = currentClient.CollectionLocalityId == default(int) ? cmbLocalityCollector.SelectedValue : currentClient.CollectionLocalityId;
 
             ckbFumador.Checked = currentClient.IsSmoker;
             dtpBirthDate.Text = currentClient.BirthDate;

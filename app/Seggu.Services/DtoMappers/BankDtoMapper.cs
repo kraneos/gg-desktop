@@ -9,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static BankDto GetDto(Bank bank)
         {
             var dto = new BankDto();
-            dto.Id = bank.Id;
+            dto.Id = (int)bank.Id;
             dto.Name = bank.Name;
             dto.Number = bank.Number;
             return dto;

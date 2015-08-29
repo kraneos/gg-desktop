@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class Client : IdEntity
     {
         public Client()
         {
@@ -13,7 +13,6 @@ namespace Seggu.Domain
             this.Addresses = new HashSet<Address>();
         }
     
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CellPhone { get; set; }

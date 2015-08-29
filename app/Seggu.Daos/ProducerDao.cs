@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public class ProducerDao : GenericDao<Producer>, IProducerDao
+    public class ProducerDao : IdEntityDao<Producer>, IProducerDao
     {
         public IEnumerable<Producer> GetCollectors()
         {
@@ -15,7 +15,7 @@ namespace Seggu.Daos
                 select p;
         }
 
-        public bool GetByRegistrationNumberId(string registrationNumber, int id )
+        public bool GetByRegistrationNumberId(string registrationNumber, long id )
         {
            var prod = this.Set.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
            if (prod == null)

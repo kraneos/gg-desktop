@@ -30,7 +30,7 @@ namespace Seggu.Services
             else
                 this.clientDao.Update(client);
 
-            clientInformation.Id = client.Id;
+            clientInformation.Id = (int)client.Id;
 
             #region Home Address
 

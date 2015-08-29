@@ -15,7 +15,7 @@ namespace Seggu.Services.DtoMappers
             dto.Cliente = x.Policy.Client.LastName + ", " + x.Policy.Client.FirstName;
             dto.Nro_Póliza = x.Policy.Number;
             dto.Nro_Endoso = x.Endorse == null ? string.Empty : x.Endorse.Number;
-            dto.CompanyId = x.Policy.Risk.CompanyId;
+            dto.CompanyId = (int)x.Policy.Risk.CompanyId;
             dto.Annulated =  x.Annulated;
             dto.Saldo = x.Balance;
             //lista de cobranzas
@@ -23,13 +23,13 @@ namespace Seggu.Services.DtoMappers
             dto.Pago_Cía= x.CompanyPayment;
             dto.Venc_Cuota = x.ExpirationDate.ToShortDateString();
             dto.Fecha_Liquidación = x.RegisteredLiqDate;
-            dto.FeeSelectionId = x.FeeSelectionId ?? default(int);
-            dto.Id = x.Id;
+            dto.FeeSelectionId = (int?)x.FeeSelectionId ?? default(int);
+            dto.Id = (int)x.Id;
             dto.Cuota = x.Number.ToString();
-            dto.PolicyId = x.PolicyId;
+            dto.PolicyId = (int)x.PolicyId;
             dto.Valor = x.Value;
             dto.Estado = FeeStateDtoMapper.ToString(x.State);
-            dto.EndorseId = x.EndorseId ?? default(int);
+            dto.EndorseId = (int?)x.EndorseId ?? default(int);
             return dto;
         }
 

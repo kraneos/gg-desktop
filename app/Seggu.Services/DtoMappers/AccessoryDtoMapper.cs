@@ -10,13 +10,13 @@ namespace Seggu.Services.DtoMappers
         public static AccessoryDto GetDto(Accessory obj)
         {
             var dto = new AccessoryDto();
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Name = obj.Name;
             dto.Vencimiento = obj.ExpirationDate;
             dto.Oblea = obj.Stamp;
             dto.Valor = obj.Value;
-            dto.VehicleId = obj.VehicleId;
-            dto.AccessoryTypeId = obj.AccessoryTypeId;
+            dto.VehicleId = (int)obj.VehicleId;
+            dto.AccessoryTypeId = (int)obj.AccessoryTypeId;
             return dto;
         }
 

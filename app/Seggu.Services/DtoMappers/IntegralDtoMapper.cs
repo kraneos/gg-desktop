@@ -13,10 +13,10 @@ namespace Seggu.Services.DtoMappers
         {
             var dto = new IntegralDto();
             dto.Address = obj.Address == null ? null : AddressDtoMapper.GetDto(obj.Address);
-            dto.Id = obj.Id;
+            dto.Id = (int)obj.Id;
             dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
-            dto.PolicyId = obj.PolicyId ?? default(int);
-            dto.EndorseId = obj.EndorseId ?? default(int);
+            dto.PolicyId = ((int?)obj.PolicyId) ?? default(int);
+            dto.EndorseId = ((int?)obj.EndorseId) ?? default(int);
             return dto;
         }
 

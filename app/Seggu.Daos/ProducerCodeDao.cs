@@ -9,33 +9,19 @@ namespace Seggu.Daos
 {
     public class ProducerCodeDao: GenericDao<ProducerCode>, IProducerCodeDao
     {
-        public override void Save(ProducerCode obj)
-        {
-            using (var scope = new TransactionScope())
-            {
-                Set.Add(obj);
-                container.SaveChanges();
-                scope.Complete();
-            }
-        }
-
-        public bool ProducerHasCompany(int id)
+        public bool ProducerHasCompany(long id)
         {
             var prod = this.Set.Any(p => p.ProducerId == id);
             return prod;
         }
-
-
-        public IEnumerable<ProducerCode> GetByCompany(int id)
+        public IEnumerable<ProducerCode> GetByCompany(long id)
         {
             return
                 from p in this.Set
                 where p.CompanyId == id
                 select p;
         }
-
-
-        public ProducerCode GetByCompanyProducer(int companyId, int producerId)
+        public ProducerCode GetByCompanyProducer(long companyId, long producerId)
         {
             var producerCode = (from p in this.Set
                  where p.CompanyId == companyId && p.ProducerId == producerId

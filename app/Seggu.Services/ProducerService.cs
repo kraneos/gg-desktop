@@ -64,7 +64,7 @@ namespace Seggu.Services
 
         public bool GetByRegistrationNumber(string registrationNumber, int producerId)
         {
-            if (producerId == null)
+            if (producerId == default(int))
             {
                 return producerDao.GetByRegistrationNumber(registrationNumber);
             }

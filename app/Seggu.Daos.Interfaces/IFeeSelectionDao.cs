@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IFeeSelectionDao : IGenericDao<FeeSelection>
+    public interface IFeeSelectionDao : IIdEntityDao<FeeSelection>
     {
-        int Save(FeeSelection obj, int guid);
     }
 }

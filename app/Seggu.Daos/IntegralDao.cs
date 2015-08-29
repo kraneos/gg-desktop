@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace Seggu.Daos
 {
-    public sealed class IntegralDao : GenericDao<Integral>, IIntegralDao
+    public sealed class IntegralDao : IdEntityDao<Integral>, IIntegralDao
     {
         public void SaveIntegral(Integral newIntegral)
         {

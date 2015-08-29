@@ -37,24 +37,19 @@ namespace Seggu.Daos
             return this.container.Set<T>();
         }
 
-        public virtual T Get(int id)
+        public virtual T Get(object id)
         {
-            return this.container.Set<T>().Find(id);
+            return this.Set.Find(id);
         }
 
         public virtual void Save(T obj)
         {
             using (var scope = new TransactionScope())
             {
-                typeof(T).GetProperty("Id").SetValue(obj, Guid.NewGuid(), null);
-                var entry = this.container.Entry(obj);
-                entry.State = EntityState.Added;
-                //this.Set.Add(obj);
+                this.Set.Add(obj);
                 this.container.SaveChanges();
                 scope.Complete();
             }
-
-
         }
 
         public virtual void Update(T obj)
@@ -62,7 +57,7 @@ namespace Seggu.Daos
             using (var scope = new TransactionScope())
             {
                 var entry = this.container.Entry<T>(obj);
-                var pkey = (Guid)typeof(T).GetProperty("Id").GetValue(obj, null);
+                var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
                 if (entry.State == EntityState.Detached)
                 {
                     T attachedEntity = this.Set.Find(pkey);  // access the key
@@ -84,14 +79,13 @@ namespace Seggu.Daos
         {
             using (var scope = new TransactionScope())
             {
-                var entry = this.container.Entry(obj);
-                entry.State = EntityState.Deleted;
+                this.Set.Remove(obj);
                 this.container.SaveChanges();
                 scope.Complete();
             }
         }
 
-        public void Delete(int id)
+        public void Delete(object id)
         {
             using (var scope = new TransactionScope())
             {

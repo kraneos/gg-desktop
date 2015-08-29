@@ -3,22 +3,21 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class CashAccount
+    public partial class CashAccount : IdEntity
     {
         public CashAccount()
         {
             this.AttachedFiles = new HashSet<AttachedFile>();
         }
     
-        public int Id { get; set; }
-        public int AssetId { get; set; }
-        public int LedgerAccountId { get; set; }
+        public long AssetId { get; set; }
+        public long LedgerAccountId { get; set; }
         public System.DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
-        public int ProducerId { get; set; }
-        public Nullable<int> FeeId { get; set; }
+        public long ProducerId { get; set; }
+        public Nullable<long> FeeId { get; set; }
         public string ReceiptNumber { get; set; }
     
         public virtual LedgerAccount LedgerAccount { get; set; }

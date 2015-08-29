@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IBodyworkDao : IGenericDao<Bodywork>
+    public interface IBodyworkDao : IIdEntityDao<Bodywork>
     {
         bool GetByName(string name);
     }

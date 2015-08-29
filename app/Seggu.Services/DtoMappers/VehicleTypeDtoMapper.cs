@@ -1,7 +1,6 @@
 ﻿using System;
 using Seggu.Domain;
 using Seggu.Dtos;
-using Seggu.Domain;
 
 namespace Seggu.Services.DtoMappers
 {
@@ -10,7 +9,7 @@ namespace Seggu.Services.DtoMappers
         public static VehicleTypeDto GetDto(VehicleType vt)
         {
             var dto = new VehicleTypeDto();
-            dto.Id = vt.Id;
+            dto.Id = (int)vt.Id;
             dto.Name = vt.Name;
             return dto;
         }

@@ -259,7 +259,7 @@ namespace Seggu.Desktop.UserControls
             }
             else
             {
-                if (LayoutForm.currentEndorse.Id == null)
+                if (LayoutForm.currentEndorse.Id == default(int))
                     endososUC.cmbTipoEndosos.SelectedItem = neededEndorseType;
                 else
                     if (btnAgregar.Text == "Agregar" && LayoutForm.currentEndorse.Número != null)
@@ -342,7 +342,7 @@ namespace Seggu.Desktop.UserControls
             }
             else
             {
-                if (LayoutForm.currentEndorse.Id == null)
+                if (LayoutForm.currentEndorse.Id == default(int))
                     endososUC.cmbTipoEndosos.SelectedItem = neededEndorseType;
             }
             

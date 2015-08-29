@@ -3,7 +3,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class ContactDao : GenericDao<Contact> , IContactDao
+    public sealed class ContactDao : IdEntityDao<Contact> , IContactDao
     {
     }
 }

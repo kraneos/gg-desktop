@@ -1,12 +1,10 @@
 ﻿using Seggu.Domain;
-using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ILocalityDao : IGenericDao<Locality>
+    public interface ILocalityDao : IIdEntityDao<Locality>
     {
-        IEnumerable<Locality> GetByDistrictId(int districId);
+        IEnumerable<Locality> GetByDistrictId(long districId);
     }
 }

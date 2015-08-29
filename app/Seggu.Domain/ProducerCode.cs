@@ -5,8 +5,8 @@ namespace Seggu.Domain
     
     public partial class ProducerCode
     {
-        public int ProducerId { get; set; }
-        public int CompanyId { get; set; }
+        public long ProducerId { get; set; }
+        public long CompanyId { get; set; }
         public string Code { get; set; }
     
         public virtual Producer Producer { get; set; }
