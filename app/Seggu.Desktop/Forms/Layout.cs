@@ -34,6 +34,14 @@ namespace Seggu.Desktop.Forms
             this.clientService = clientService;
             this.feeService = feeService;
             this.companyService = companyService;
+
+            LaunchSplash();
+        }
+
+        private void LaunchSplash()
+        {
+            var splashForm = (Splash)DependencyContainer.Instance.Resolve(typeof(Splash));
+            splashForm.ShowDialog();
         }
 
         private void Layout_Load(object sender, EventArgs e)

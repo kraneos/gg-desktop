@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{E9529A
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Seggu.Setup", "Seggu.Setup\Seggu.Setup.vdproj", "{0590DE0F-A645-4C49-B27F-33CBD0C1A7F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.VersionManager", "Seggu.VersionManager\Seggu.VersionManager.csproj", "{07919CE6-BAF2-4B4D-99E6-88415487E056}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ConsoleTest|Any CPU = ConsoleTest|Any CPU
@@ -233,6 +235,21 @@ Global
 		{0590DE0F-A645-4C49-B27F-33CBD0C1A7F2}.Release|Any CPU.ActiveCfg = Release
 		{0590DE0F-A645-4C49-B27F-33CBD0C1A7F2}.Release|Mixed Platforms.ActiveCfg = Release
 		{0590DE0F-A645-4C49-B27F-33CBD0C1A7F2}.Release|x86.ActiveCfg = Release
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.ConsoleTest|Any CPU.ActiveCfg = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.ConsoleTest|Any CPU.Build.0 = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.ConsoleTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.ConsoleTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.ConsoleTest|x86.ActiveCfg = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{07919CE6-BAF2-4B4D-99E6-88415487E056}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,6 +270,7 @@ Global
 		{3C5E7DA4-2020-4998-A843-8CEFDBB78933} = {CA4A5F1D-BC28-47D2-B3F5-50428524984B}
 		{FFFF2A1E-9EE0-4F74-87C3-CBF9E658DE23} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 		{0590DE0F-A645-4C49-B27F-33CBD0C1A7F2} = {E9529A91-EBDD-4DF5-AB87-27C2131E4B35}
+		{07919CE6-BAF2-4B4D-99E6-88415487E056} = {3B4A1366-E34C-41E1-B641-64323F604FBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
