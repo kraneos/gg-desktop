@@ -3,6 +3,7 @@ using Seggu.Daos;
 using Seggu.Daos.Interfaces;
 using Seggu.Services;
 using Seggu.Services.Interfaces;
+using Seggu.VersionManager.Interfaces;
 
 namespace Seggu.Infrastructure
 {
@@ -102,6 +103,8 @@ namespace Seggu.Infrastructure
         container.RegisterType<ICoveragesPackDao, CoveragesPackDao>();
         container.RegisterType<IIntegralDao, IntegralDao>();
 
+        // Version Manager
+        container.RegisterType<IVersionManager, VersionManager.VersionManager>();
     }
   }
 }
