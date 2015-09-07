@@ -27,7 +27,6 @@ namespace Seggu.Services
             var bodyworks = this.bodyworkDao.GetAll();
             return bodyworks.OrderBy(x => x.Name).Select(b => BodyworkDtoMapper.GetDto(b));
         }
-
         public void Delete(int id)
         {
             try
@@ -40,10 +39,18 @@ namespace Seggu.Services
                 throw;
             }
         }
-
         public bool ExistName(string name)
         {
             return bodyworkDao.GetByName(name);
+        }
+        public IEnumerable<BodyworkDto> GetByVehicleType(int vehicleTypeId)
+        {
+            var bodyworks = this.bodyworkDao.GetByVehicleType(vehicleTypeId);
+            return bodyworks.Select(b => BodyworkDtoMapper.GetDto(b));
+        }
+        public void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<BodyworkDto> existing)
+        {
+            this.bodyworkDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), existing.Select(x => BodyworkDtoMapper.GetObject(x)));
         }
     }
 }

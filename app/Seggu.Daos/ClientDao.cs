@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,11 @@ namespace Seggu.Daos
 {
     public sealed class ClientDao : IdEntityDao<Client>, IClientDao
     {
+        public ClientDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
         public IEnumerable<Client> GetByDni(string search)
         {
             return
@@ -24,16 +30,22 @@ namespace Seggu.Daos
                 select c;
             return clients;
         }
+
         public IEnumerable<Client> GetValids()
         {
             var clients =
                 from c in this.Set
-                join p in this.container.Policies
+                join p in this.context.Policies
                 on c.Id equals p.ClientId
                 where p.EndDate > DateTime.Today
                 && p.IsAnnulled == false
                 select c;
             return clients;
+        }
+
+        public bool ExistsDocument(string dni)
+        {
+            return this.Set.Any(x => x.Document == dni);
         }
     }
 }

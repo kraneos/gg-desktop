@@ -12,29 +12,30 @@ namespace Seggu.Daos
 {
     public abstract class GenericDao<T> : IGenericDao<T> where T : class
     {
-        protected SegguDataModelContainer container
-        {
-            get
-            {
-                return SegguContainer.Instance;
-            }
-        }
+        protected SegguDataModelContext context;
+        //{
+        //    get
+        //    {
+        //        return SegguContainer.Instance;
+        //    }
+        //}
 
         public DbSet<T> Set
         {
             get
             {
-                return this.container.Set<T>();
+                return this.context.Set<T>();
             }
         }
 
-        public GenericDao()
+        public GenericDao(SegguDataModelContext context)
         {
+            this.context = context;
         }
 
         public virtual IEnumerable<T> GetAll()
         {
-            return this.container.Set<T>();
+            return this.context.Set<T>();
         }
 
         public virtual T Get(object id)
@@ -47,7 +48,7 @@ namespace Seggu.Daos
             using (var scope = new TransactionScope())
             {
                 this.Set.Add(obj);
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -56,21 +57,21 @@ namespace Seggu.Daos
         {
             using (var scope = new TransactionScope())
             {
-                var entry = this.container.Entry<T>(obj);
+                var entry = this.context.Entry<T>(obj);
                 var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
                 if (entry.State == EntityState.Detached)
                 {
                     T attachedEntity = this.Set.Find(pkey);  // access the key
                     if (attachedEntity != null)
                     {
-                        var attachedEntry = this.container.Entry(attachedEntity);
+                        var attachedEntry = this.context.Entry(attachedEntity);
                         attachedEntry.CurrentValues.SetValues(obj);
                     }
                     else
                         entry.State = EntityState.Modified; // attach the entity
                 }
                 
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -80,7 +81,7 @@ namespace Seggu.Daos
             using (var scope = new TransactionScope())
             {
                 this.Set.Remove(obj);
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -91,7 +92,7 @@ namespace Seggu.Daos
             {
                 var obj = this.Set.Find(id);
                 this.Set.Remove(obj);
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -125,7 +126,7 @@ namespace Seggu.Daos
 
         public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return this.container.Set<T>().Where(predicate);
+            return this.context.Set<T>().Where(predicate);
         }
 
         private void DoBulkAction(IEnumerable<T> objs, EntityState entityState)
@@ -137,27 +138,27 @@ namespace Seggu.Daos
             foreach (var obj in objs)
             {
 
-                var entry = this.container.Entry(obj);
+                var entry = this.context.Entry(obj);
                 entry.State = entityState;
 
                 //this.DoAction(objList[i], entityState);
                 i++;
                 if (i % count == 0)
-                    this.container.SaveChanges();
+                    this.context.SaveChanges();
             }
             if (i % count != 0)
-                this.container.SaveChanges();
+                this.context.SaveChanges();
         }
 
         private void DoAction(T obj, EntityState entityState)
         {
-            var entry = this.container.Entry(obj);
+            var entry = this.context.Entry(obj);
             entry.State = entityState;
         }
 
-        public SegguDataModelContainer GetContainer()
+        public SegguDataModelContext GetContainer()
         {
-            return this.container;
+            return this.context;
         }
     }
 }

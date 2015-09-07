@@ -12,9 +12,11 @@ namespace Seggu.Desktop.UserControls
 {
     public partial class CuotasVencidasUserControl : UserControl
     {
-        public CuotasVencidasUserControl()
+        private IFeeService feeService;
+        public CuotasVencidasUserControl(IFeeService feeService)
         {
             InitializeComponent();
+            this.feeService = feeService;
         }
 
         private Layout LayoutForm
@@ -32,25 +34,9 @@ namespace Seggu.Desktop.UserControls
 
         public void InitializeIndex()
         {
-            var policyFees = SegguContainer.Instance.Fees
-                .Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId != null)
-                .Select(x => new 
-                { 
-                    FeeNumber = x.Number, 
-                    FeeValue = x.Value, 
-                    PolicyNumber = x.Policy.Number, 
-                    ClientName = x.Policy.Client.FirstName + " " + x.Policy.Client.LastName
-                }).ToList();
+            var policyFees = this.feeService.GetOverduePoliciesToday();
 
-            var endorseFees = SegguContainer.Instance.Fees
-                .Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId == null)
-                .Select(x => new
-                {
-                    FeeNumber = x.Number,
-                    FeeValue = x.Value,
-                    PolicyNumber = x.Endorse.Policy.Number,
-                    ClientName = x.Policy.Client.FirstName + " " + x.Policy.Client.LastName
-                }).ToList();
+            var endorseFees = this.feeService.GetOverdueEndorsesToday();
 
             clientGrid.DataSource = policyFees.Concat(endorseFees).ToList();
 

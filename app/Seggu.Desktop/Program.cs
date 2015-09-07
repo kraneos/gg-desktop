@@ -19,7 +19,7 @@ namespace Seggu.Desktop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var form = (Layout)DependencyContainer.Instance.Resolve(typeof(Layout));
+            var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
             Application.Run(form);
             //nnnnnnn
         }

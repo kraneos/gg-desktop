@@ -10,6 +10,11 @@ namespace Seggu.Services.Interfaces
         void Save(BodyworkDto bodywork);
 
         void Delete(int Id);
+
         bool ExistName(string name);
+
+        IEnumerable<BodyworkDto> GetByVehicleType(int vehicleTypeId);
+
+        void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<BodyworkDto> existing);
     }
 }

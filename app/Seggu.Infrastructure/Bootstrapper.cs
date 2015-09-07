@@ -1,6 +1,7 @@
 using Microsoft.Practices.Unity;
 using Seggu.Daos;
 using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Services;
 using Seggu.Services.Interfaces;
 using Seggu.VersionManager.Interfaces;
@@ -66,7 +67,8 @@ namespace Seggu.Infrastructure
         container.RegisterType<IPrintService, PrintService>();
         container.RegisterType<IAttachedFileService, AttachedFileService>();
         container.RegisterType<ICoveragesPackService, CoveragesPackService>();
-
+        container.RegisterType<IUserService, UserService>();
+        container.RegisterType<IVersionService, VersionService>();
         // Daos
         container.RegisterType<IAddressDao, AddressDao>();
         container.RegisterType<IClientDao, ClientDao>();
@@ -102,9 +104,14 @@ namespace Seggu.Infrastructure
         container.RegisterType<IAttachedFileDao, AttachedFileDao>();
         container.RegisterType<ICoveragesPackDao, CoveragesPackDao>();
         container.RegisterType<IIntegralDao, IntegralDao>();
+        container.RegisterType<IUserDao, UserDao>();
+        container.RegisterType<IImplementedVersionDao, ImplementedVersionDao>();
 
         // Version Manager
         container.RegisterType<IVersionManager, VersionManager.VersionManager>();
+        
+        // Entity Framework Context
+        container.RegisterType<SegguDataModelContext>();
     }
   }
 }

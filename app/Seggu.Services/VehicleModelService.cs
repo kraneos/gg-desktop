@@ -62,5 +62,12 @@ namespace Seggu.Services
         {
             return VehicleModelDao.GetByName(name);
         }
+
+
+        public IEnumerable<VehicleModelFullDto> GetFullAll()
+        {
+            var vehicleModels = this.VehicleModelDao.GetWithReferences();
+            return vehicleModels.Select(vm => VehicleModelDtoMapper.GetFullDto(vm));
+        }
     }
 }

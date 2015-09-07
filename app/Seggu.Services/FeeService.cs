@@ -88,22 +88,65 @@ namespace Seggu.Services
                 }
             }
         }
-            private DateTime GetLastPaymentDay(int companyId)
+        private DateTime GetLastPaymentDay(int companyId)
+        {
+            var company = companyDao.GetById(companyId);
+            int today = DateTime.Today.Day;
+            int year = DateTime.Today.Year;
+            int month = DateTime.Today.Month;
+            DateTime paymentDay2 = new DateTime(year, month, company.PaymentDay2);
+            DateTime paymentDay1 = new DateTime(year, month, company.PaymentDay1);
+            DateTime prevPaymentDay1 = new DateTime(year, month - 1, company.PaymentDay1);
+            if (DateTime.Today < paymentDay2)
+                return prevPaymentDay1;
+            else if (DateTime.Today > paymentDay1)
+                return paymentDay1;
+            else
+                return paymentDay2;
+        }
+        public IEnumerable<FeeIndexDto> GetOverduePoliciesToday()
+        {
+            var fees = this.feeDao.GetOverduePoliciesToday()
+                .Select(x => new
+                {
+                    FeeNumber = x.Number,
+                    FeeValue = x.Value,
+                    PolicyNumber = x.Policy.Number,
+                    ClientFirstName = x.Policy.Client.FirstName,
+                    ClientLastName = x.Policy.Client.LastName
+                }).ToList();
+            return fees.Select(x =>
             {
-                var company = companyDao.GetById(companyId);
-                int today = DateTime.Today.Day;
-                int year = DateTime.Today.Year;
-                int month = DateTime.Today.Month;
-                DateTime paymentDay2 = new DateTime(year, month, company.PaymentDay2);
-                DateTime paymentDay1 = new DateTime(year, month, company.PaymentDay1);
-                DateTime prevPaymentDay1 = new DateTime(year, month - 1, company.PaymentDay1);
-                if (DateTime.Today < paymentDay2)
-                    return prevPaymentDay1;
-                else if (DateTime.Today > paymentDay1)
-                    return paymentDay1;
-                else
-                    return paymentDay2;
-            }
+                var dto = new FeeIndexDto();
+                dto.ClientName = x.ClientFirstName + " " + x.ClientLastName;
+                dto.FeeNumber = x.FeeNumber.ToString();
+                dto.FeeValue = x.FeeValue;
+                dto.PolicyNumber = x.PolicyNumber;
+                return dto;
+            });
+        }
+        public IEnumerable<FeeIndexDto> GetOverdueEndorsesToday()
+        {
+            var fees = this.feeDao.GetOverdueEndorsesToday()
+                .Select(x => new
+                {
+                    FeeNumber = x.Number,
+                    FeeValue = x.Value,
+                    PolicyNumber = x.Endorse.Policy.Number,
+                    ClientFirstName = x.Policy.Client.FirstName,
+                    ClientLastName = x.Policy.Client.LastName,
+                    ClientName = x.Policy.Client.FirstName + " " + x.Policy.Client.LastName
+                }).ToList();
+            return fees.Select(x =>
+            {
+                var dto = new FeeIndexDto();
+                dto.ClientName = x.ClientFirstName + " " + x.ClientLastName;
+                dto.FeeNumber = x.FeeNumber.ToString();
+                dto.FeeValue = x.FeeValue;
+                dto.PolicyNumber = x.PolicyNumber;
+                return dto;
+            });
+        }
     }
 
 }

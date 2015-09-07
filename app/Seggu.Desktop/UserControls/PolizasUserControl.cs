@@ -51,7 +51,7 @@ namespace Seggu.Desktop.UserControls
             this.attachedFileService = attachedFileService;
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
-            if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
+            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
             {
                 this.btnNuevaPoliza.Visible = false;
                 this.btnRenovar.Visible = false;
@@ -76,6 +76,16 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.ValueMember = "Id";
             cmbCobrador.DisplayMember = "Name";
             cmbCobrador.DataSource = producerService.GetCollectors().ToList();
+
+            if (cmbCompania.Items.Count > 0)
+            {
+                cmbCompania.SelectedIndex = 0;
+            }
+
+            if (cmbRiesgo.Items.Count > 0)
+            {
+                cmbRiesgo.SelectedIndex = 0;
+            }
         }
         private Layout LayoutForm
         {
@@ -146,7 +156,6 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-
         private void btnRenovar_Click(object sender, EventArgs e)
         {
             this.RenovatePolicy();
@@ -201,9 +210,8 @@ namespace Seggu.Desktop.UserControls
             dtpEmision.Checked = false;
             chkOtherClient.Visible = true;
             PopulateDetails();
-            calcularNetoCobrar();
+            CalcularNetoCobrar();
         }
-
 
         public void PopulateDetails()
         {
@@ -292,6 +300,7 @@ namespace Seggu.Desktop.UserControls
             else
                 cmbPlanes.Enabled = true;
         }
+
         //private void LoadAttachedFilesGrid()
         //{
         //    grdFiles.Columns.Clear();
@@ -352,7 +361,6 @@ namespace Seggu.Desktop.UserControls
                     break;
             }
         }
-
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
@@ -448,7 +456,6 @@ namespace Seggu.Desktop.UserControls
             return policy;
         }
 
-
         private void cmbRiesgo_SelectionChangeCommitted(object sender, EventArgs e)
         {
             FillInsuredObjectUserControl();
@@ -472,7 +479,7 @@ namespace Seggu.Desktop.UserControls
             var riesgo = RiskTypeDtoMapper.ToEnum(risk.RiskType);
             if (riesgo == RiskType.Automotores)
             {
-                vehicle_uc = (VehiculePolicyUserControl)DependencyContainer.Instance.Resolve(typeof(VehiculePolicyUserControl));
+                vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
                 vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
@@ -480,14 +487,14 @@ namespace Seggu.Desktop.UserControls
             }
             else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
             {
-                vida_uc = (VidaPolicyUserControl)DependencyContainer.Instance.Resolve(typeof(VidaPolicyUserControl));
+                vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);
                 if (LayoutForm.currentPolicy != null)
                     vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
             }
             else
             {
-                integral_uc = (IntegralPolicyUserControl)DependencyContainer.Instance.Resolve(typeof(IntegralPolicyUserControl));
+                integral_uc = (IntegralPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(IntegralPolicyUserControl));
                 SetCoberturasTab(integral_uc);
                 integral_uc.InitializeComboboxes((int)this.cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
@@ -515,15 +522,17 @@ namespace Seggu.Desktop.UserControls
         private void cmbPlanes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbPlanes.SelectedIndex != -1 && txtNetoCobrar.Text != string.Empty && txtNetoCobrar.Text != "0")
-                generarPlanDeCobro();
+            {
+                GenerarPlanDeCobro();
+            }
         }
-        private void generarPlanDeCobro()
+        private void GenerarPlanDeCobro()
         {
             int cuotas;
             decimal[] importesCobrar;
             decimal[] importesPagar;
             DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
-            grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
+            this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
             FormatFeeGrid();
             CalculateFeeTotals();
         }
@@ -533,11 +542,13 @@ namespace Seggu.Desktop.UserControls
             cuotas = cmbPlanes.SelectedIndex + 1;
             decimal netoCobrar = decimal.Parse(txtNetoCobrar.Text);
             importesCobrar = new decimal[cuotas];
-            decimal resto = netoCobrar % cuotas;
-            netoCobrar -= resto;
+            //decimal resto = netoCobrar % cuotas;
+            //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
-                importesCobrar[i] = netoCobrar / cuotas;
-            importesCobrar[cuotas - 1] += resto;
+            {
+                importesCobrar[i] = netoCobrar / (decimal)cuotas;
+            }
+            //importesCobrar[cuotas - 1] += resto;
 
             ////////////dividir el importe total en cuotas////////////////////////
             decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
@@ -545,8 +556,10 @@ namespace Seggu.Desktop.UserControls
             decimal resto2 = netoPagar % cuotas;
             netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
-                importesPagar[i] = netoPagar / cuotas;
-            importesPagar[cuotas - 1] += resto2;
+            {
+                importesPagar[i] = netoPagar / (decimal)cuotas;
+            }
+            //importesPagar[cuotas - 1] += resto2;
         }
         private List<FeeDto> CreateFeeObjectsList(int cuotas, decimal[] importesCobrar, decimal[] importesPagar)
         {
@@ -595,12 +608,12 @@ namespace Seggu.Desktop.UserControls
         private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtPremioIva.Text)) return;
-            calcularNetoCobrar();
-            calcularNetoPagar();
+            CalcularNetoCobrar();
+            CalcularNetoPagar();
             txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString();
             txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString();
         }
-        private void calcularNetoPagar()
+        private void CalcularNetoPagar()
         {
             decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
             decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
@@ -609,17 +622,17 @@ namespace Seggu.Desktop.UserControls
         }
         private void txtBonificacionPropia_TextChanged(object sender, EventArgs e)
         {
-            calcularNetoCobrar();
+            CalcularNetoCobrar();
         }
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
-            calcularNetoCobrar();
+            CalcularNetoCobrar();
         }
         private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
-            calcularNetoCobrar();
+            CalcularNetoCobrar();
         }
-        private void calcularNetoCobrar()
+        private void CalcularNetoCobrar()
         {
             decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
             decimal bonificacionPropia = txtBonificacionPropia.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPropia.Text);

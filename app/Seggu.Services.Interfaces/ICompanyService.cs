@@ -16,5 +16,6 @@ namespace Seggu.Services.Interfaces
         void Update(CompanyDto company);
         bool ExistName(string name);
         IEnumerable<CompanyDto> GetActive();
+        IEnumerable<CompanyFormDto> GetAllFull();
     }
 }

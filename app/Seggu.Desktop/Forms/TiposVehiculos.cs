@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using Seggu.Dtos;
 using Seggu.Data;
+using Seggu.Infrastructure;
 
 namespace Seggu.Desktop.Forms
 {
@@ -39,7 +40,7 @@ namespace Seggu.Desktop.Forms
         private DataTable GetUseDataTable()
         {
             var table = new DataTable();
-            table.Columns.Add("Id", typeof(string));
+            table.Columns.Add("Id", typeof(int));
             table.Columns.Add("Nombre", typeof(string));
 
             var vehicleTypes = this.vehicleTypeService.GetAll();
@@ -134,8 +135,9 @@ namespace Seggu.Desktop.Forms
                 {
                     var Id = (int)useGrid.SelectedCells[0].Value;
                     var idGuid = Id;
-                    var vehicleType = SegguContainer.Instance.VehicleTypes.First(x => x.Id == idGuid);
-                    var usosForm = new GestionarUsos(vehicleType);
+                    var vehicleType = this.vehicleTypeService.Get(idGuid);
+                    var usosForm = DependencyResolver.Instance.ResolveGeneric<GestionarUsos>();
+                    usosForm.Initialize(vehicleType);
                     usosForm.ShowDialog();
                     this.InitializeIndex();
                 }
@@ -155,8 +157,10 @@ namespace Seggu.Desktop.Forms
                 {
                     var Id = (int)useGrid.SelectedCells[0].Value;
                     var idGuid = Id;
-                    var vehicleType = SegguContainer.Instance.VehicleTypes.First(x => x.Id == idGuid);
-                    var usosForm = new GestionarCarrocerias(vehicleType);
+                    var vehicleType = this.vehicleTypeService.Get(idGuid);
+                    //var vehicleType = SegguContainer.Instance.VehicleTypes.First(x => x.Id == idGuid);
+                    var usosForm = DependencyResolver.Instance.ResolveGeneric<GestionarCarrocerias>();
+                    usosForm.Initialize(vehicleType);
                     usosForm.ShowDialog();
                     this.InitializeIndex();
                 }

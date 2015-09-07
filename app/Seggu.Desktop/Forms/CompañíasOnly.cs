@@ -34,7 +34,6 @@ namespace Seggu.Desktop.Forms
 
         }
 
-
         private void InitializeProducers()
         {
             grdProductores.DataSource = null;
@@ -43,15 +42,22 @@ namespace Seggu.Desktop.Forms
 
         private void InitializeIndex()
         {
-            //isNew = false;
             lastCompanyIndex = grdCompañias.CurrentCell == null ? 0 : grdCompañias.CurrentCell.RowIndex;
             grdProductores.DataSource = null;
             grdCompañias.DataSource = companyService.GetAll().ToList();
             FormatCompanyGrid();
             PopulateComboboxes();
-            grdCompañias.CurrentCell = grdCompañias.Rows[lastCompanyIndex].Cells["Name"];
-            
+            if (grdCompañias.Rows.Count > 0)
+            {
+                grdCompañias.CurrentCell = grdCompañias.Rows[lastCompanyIndex].Cells["Name"];
+                btnEditar.Visible = true;
+            }
+            else
+            {
+                btnEditar.Visible = false;
+            }
         }
+
         private void FormatCompanyGrid()
         {
             foreach (DataGridViewColumn c in grdCompañias.Columns)
@@ -59,22 +65,24 @@ namespace Seggu.Desktop.Forms
             grdCompañias.Columns["Name"].Visible = true;
             grdCompañias.Columns["Name"].HeaderText = "Nombre";
         }
+
         private void PopulateComboboxes()
         {
             cmbProductores.ValueMember = "Id";
             cmbProductores.DisplayMember = "Name";
             cmbProductores.DataSource = producerService.GetProducers().ToList();
-
         }
 
         private void grdCompañias_SelectionChanged(object sender, EventArgs e)
         {
             PopulateForm();
         }
+
         private void grdCompañias_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             PopulateForm();
         }
+
         private void PopulateForm()
         {
 
@@ -88,18 +96,19 @@ namespace Seggu.Desktop.Forms
             isNew = false;
             currentCompany = (CompanyDto)grdCompañias.CurrentRow.DataBoundItem;
             BindCompaniesTextBoxes(currentCompany);
-            selectCompany();
+            SelectCompany();
 
             if (selectedFullCompany.Producers != null)
                 FillGrdProductores();
         }
 
-        private void selectCompany()
+        private void SelectCompany()
         {
             var id = currentCompany.Id;
-            var obj = SegguContainer.Instance.Companies.Single(x => x.Id == id);
-            selectedFullCompany = CompanyDtoMapper.GetCompanyOnly(obj);
+            var obj = this.companyService.GetFullById(id);// SegguContainer.Instance.Companies.Single(x => x.Id == id);
+            selectedFullCompany = obj;// CompanyDtoMapper.GetCompanyOnly(obj);
         }
+
         private void BindCompaniesTextBoxes(CompanyDto company)
         {
             //txtNombre.DataBindings.Clear();
@@ -145,6 +154,7 @@ namespace Seggu.Desktop.Forms
             currentCompany.Notes = txtNotas.Text;
             currentCompany.Phone = txtTelefono.Text;
         }
+
         private void FillGrdProductores()
         {
             this.grdProductores.DataSource = selectedFullCompany.Producers;
@@ -206,6 +216,7 @@ namespace Seggu.Desktop.Forms
                 InitializeIndex();
             }
         }
+
         private bool ValidateControls()
         {
             bool ok = true;
@@ -229,7 +240,7 @@ namespace Seggu.Desktop.Forms
                     }
                 }
 
-               
+
             }
 
             foreach (Control control in grpLiquida.Controls)
@@ -260,6 +271,7 @@ namespace Seggu.Desktop.Forms
             }
             return ok;
         }
+
         private CompanyDto GetFormData()
         {
             var company = new CompanyDto();
@@ -276,16 +288,14 @@ namespace Seggu.Desktop.Forms
             return company;
         }
 
-
         private void btnNuevoProductor_Click(object sender, EventArgs e)
         {
-            Forms.Productores form = (Productores)DependencyContainer.Instance.Resolve(typeof(Productores));
+            Forms.Productores form = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));
             form.Show();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            
             if (!btnGuardar.Visible)
             {
                 if (currentCompany == null)
@@ -293,17 +303,23 @@ namespace Seggu.Desktop.Forms
                     MessageBox.Show("Primero debe seleccionar una compañía.", "Seleccionar Compañía", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+
                 btnGuardar.Visible = true;
                 // btnNuevoProductor.Visible = true;
                 btnQuitarCompañia.Visible = true;
                 btnQuitarProductor.Visible = true;
+                btnAgregarProd.Visible = true;
                 btnAgregarCompañia.Visible = true;
+                btnNuevoProductor.Visible = true;
 
                 btnAgregarProd.Visible = true;
 
                 cmbProductores.Visible = true;
+                cmbProductores.Enabled = true;
                 label8.Visible = true;
                 txtCode.Visible = true;
+                txtCode.Enabled = true;
+                txtCode.ReadOnly = false;
                 lblCodigo.Visible = true;
                 //btnRecuperar.Visible = true;
 
@@ -352,7 +368,7 @@ namespace Seggu.Desktop.Forms
             currentCompany = null;
             //btnAgregarCompañia.BackColor = SystemColors.Highlight;
             lblNuevaCompañia.Visible = true;
-            grdCompañias.DataSource = null;
+            //grdCompañias.DataSource = null;
             //lsbRiesgos.DataSource = riskService.GetAll().ToList();
             //lsbCoberturas.DataSource = coverageService.GetAll().ToList();
             //grdProductores.DataSource = producerService.GetProducers().ToList();
@@ -366,12 +382,50 @@ namespace Seggu.Desktop.Forms
             txtConvenio1.Clear();
             txtConvenio2.Clear();
             txtMail.Clear();
-            txtNombre.Clear();
             txtNotas.Clear();
-            txtTelefono.Clear();
+            txtNombre.Enabled = true;
+            txtTelefono.Enabled = true;
+            txtCUIT.Enabled = true;
+            txtLiq1.Enabled = true;
+            txtLiq2.Enabled = true;
+            txtConvenio1.Enabled = true;
+            txtConvenio2.Enabled = true;
+            txtMail.Enabled = true;
+            txtNotas.Enabled = true;
+            txtNombre.ReadOnly = false;
+            txtTelefono.ReadOnly = false;
+            txtCUIT.ReadOnly = false;
+            txtLiq1.ReadOnly = false;
+            txtLiq2.ReadOnly = false;
+            txtConvenio1.ReadOnly = false;
+            txtConvenio2.ReadOnly = false;
+            txtMail.ReadOnly = false;
+            txtNotas.ReadOnly = false;
+            this.btnGuardar.Visible = true;
+            this.btnCancelar.Visible = true;
+            this.cmbProductores.Visible = true;
+            this.txtCode.Visible = true;
+            this.btnAgregarProd.Visible = true;
+            this.btnQuitarProductor.Visible = true;
+            this.btnNuevoProductor.Visible = true;
+            btnGuardar.Visible = true;
+            // btnNuevoProductor.Visible = true;
+            btnQuitarCompañia.Visible = true;
+            btnQuitarProductor.Visible = true;
+            btnAgregarCompañia.Visible = true;
 
+            btnAgregarProd.Visible = true;
+
+            cmbProductores.Visible = true;
+            label8.Visible = true;
+            txtCode.Visible = true;
+            lblCodigo.Visible = true;
+            cmbProductores.Enabled = true;
+            txtCode.ReadOnly = false;
+            txtCode.Enabled = true;
             InitializeIndex();
         }
+
         private void btnQuitarCompañia_Click(object sender, EventArgs e)
         {
 
@@ -449,7 +503,7 @@ namespace Seggu.Desktop.Forms
                     MessageBox.Show("Productor agregado exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
-                    selectCompany();
+                    SelectCompany();
                     InitializeProducers();
                     if (selectedFullCompany.Producers != null)
                         FillGrdProductores();
@@ -470,6 +524,7 @@ namespace Seggu.Desktop.Forms
             else
                 errorProvider1.SetError(txtCode, "Campo vacío");
         }
+
         private void btnQuitarProductor_Click(object sender, EventArgs e)
         {
             if (grdProductores.DataSource == null)
@@ -492,7 +547,7 @@ namespace Seggu.Desktop.Forms
 
                 MessageBox.Show("Productor removido exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                selectCompany();
+                SelectCompany();
                 InitializeProducers();
                 if (selectedFullCompany.Producers != null)
                     FillGrdProductores();
@@ -550,7 +605,6 @@ namespace Seggu.Desktop.Forms
                 e.Handled = false;
             }
         }
-
 
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -645,6 +699,11 @@ namespace Seggu.Desktop.Forms
             {
                 return false;
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            InitializeIndex();
         }
     }
 }

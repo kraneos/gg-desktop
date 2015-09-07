@@ -70,6 +70,7 @@
             this.lblNuevaCompañia = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnCancelar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdCompañias)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdProductores)).BeginInit();
             this.grpLiquida.SuspendLayout();
@@ -103,7 +104,7 @@
             // 
             this.btnGuardar.AutoSize = true;
             this.btnGuardar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuardar.Location = new System.Drawing.Point(257, 13);
+            this.btnGuardar.Location = new System.Drawing.Point(249, 13);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(66, 27);
@@ -142,6 +143,7 @@
             // 
             // cmbProductores
             // 
+            this.cmbProductores.Enabled = false;
             this.cmbProductores.FormattingEnabled = true;
             this.cmbProductores.Location = new System.Drawing.Point(104, 97);
             this.cmbProductores.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -166,7 +168,7 @@
             this.label9.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(22, 10);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(141, 30);
+            this.label9.Size = new System.Drawing.Size(140, 30);
             this.label9.TabIndex = 15;
             this.label9.Text = "COMPAÑÍAS";
             // 
@@ -293,7 +295,7 @@
             this.grpbDatos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbDatos.Name = "grpbDatos";
             this.grpbDatos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpbDatos.Size = new System.Drawing.Size(566, 180);
+            this.grpbDatos.Size = new System.Drawing.Size(566, 176);
             this.grpbDatos.TabIndex = 11;
             this.grpbDatos.TabStop = false;
             this.grpbDatos.Text = "Datos";
@@ -405,7 +407,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 110);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 17);
+            this.label2.Size = new System.Drawing.Size(58, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Teléfono";
             // 
@@ -454,6 +456,7 @@
             // 
             // txtCode
             // 
+            this.txtCode.Enabled = false;
             this.txtCode.Location = new System.Drawing.Point(104, 130);
             this.txtCode.Name = "txtCode";
             this.txtCode.Size = new System.Drawing.Size(169, 25);
@@ -494,7 +497,6 @@
             this.btnAgregarCompañia.TabIndex = 19;
             this.btnAgregarCompañia.Text = "Nueva";
             this.btnAgregarCompañia.UseVisualStyleBackColor = true;
-            this.btnAgregarCompañia.Visible = false;
             this.btnAgregarCompañia.Click += new System.EventHandler(this.btnAgregarCompañia_Click);
             // 
             // btnQuitarCompañia
@@ -525,6 +527,20 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.AutoSize = true;
+            this.btnCancelar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnCancelar.Location = new System.Drawing.Point(321, 12);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(68, 27);
+            this.btnCancelar.TabIndex = 22;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Visible = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // CompañíasOnly
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -532,6 +548,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(758, 681);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.lblNuevaCompañia);
             this.Controls.Add(this.btnQuitarCompañia);
             this.Controls.Add(this.btnAgregarCompañia);
@@ -605,5 +622,6 @@
         private System.Windows.Forms.TextBox txtConvenio2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnCancelar;
     }
 }

@@ -38,7 +38,7 @@ namespace Seggu.Desktop.UserControls
         {
             get
             {
-                return(Layout)this.FindForm();
+                return (Layout)this.FindForm();
             }
         }
 
@@ -68,9 +68,9 @@ namespace Seggu.Desktop.UserControls
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
             cmbCoberturas.DataSource = selectedCompany.Risks
-                .SelectMany(r => r.CoveragesPacks)
-                .OrderBy(r => r.Name)
-                .Where(r => r.RiskId == riskId)
+                .Single(r => r.Id == riskId)
+                .CoveragesPacks
+                .OrderBy(cp => cp.Name)
                 .ToList();
 
             cmbMarcas.ValueMember = "Id";
@@ -89,13 +89,13 @@ namespace Seggu.Desktop.UserControls
             comboBoxColumn.DisplayMember = "Name";
             //grdAccessories.Columns.Add(comboBoxColumn);
         }
-            private void FillModelsByBrandId()
-            {
-                cmbModelos.ValueMember = "Id";
-                cmbModelos.DisplayMember = "Name";
-                cmbModelos.DataSource = vehicleModelService.GetByBrand((int)cmbMarcas.SelectedValue).ToList();
-            }
-       
+        private void FillModelsByBrandId()
+        {
+            cmbModelos.ValueMember = "Id";
+            cmbModelos.DisplayMember = "Name";
+            cmbModelos.DataSource = vehicleModelService.GetByBrand((int)cmbMarcas.SelectedValue).ToList();
+        }
+
         public void PopulateEndorseVehicle()
         {
             if (LayoutForm.currentEndorse.Vehicles == null || LayoutForm.currentEndorse.Vehicles.Count() == 0) return;
@@ -107,59 +107,59 @@ namespace Seggu.Desktop.UserControls
             currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
             PopulateVehicleFields();
         }
-        public void PopulatePolicyVehicle ()
+        public void PopulatePolicyVehicle()
         {
             if (LayoutForm.currentPolicy.Vehicles == null) return;
             vehicleList = LayoutForm.currentPolicy.Vehicles
                 .Where(v => v.IsRemoved == false && v.EndorseId == null).ToList();
             grdVehicles.DataSource = vehicleList;
             Format_grdVehcles();
-            grdVehicles.CurrentCell = grdVehicles.Rows[0].Cells["Plate"]; 
+            grdVehicles.CurrentCell = grdVehicles.Rows[0].Cells["Plate"];
             currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
             PopulateVehicleFields();
         }
-            private void Format_grdVehcles()
-            {
-                foreach (DataGridViewColumn c in grdVehicles.Columns)
-                    c.Visible = false;
-                grdVehicles.Columns["Plate"].Visible = true;
-            }
-            private void PopulateVehicleFields()
-            {
-                tabPage1.BackColor = Color.Transparent;
-                btnAgregar.Text = "Guardar Cambios";
+        private void Format_grdVehcles()
+        {
+            foreach (DataGridViewColumn c in grdVehicles.Columns)
+                c.Visible = false;
+            grdVehicles.Columns["Plate"].Visible = true;
+        }
+        private void PopulateVehicleFields()
+        {
+            tabPage1.BackColor = Color.Transparent;
+            btnAgregar.Text = "Guardar Cambios";
 
-                this.txtAnio.Text = currentVehicle.Year;
-                this.txtPatente.Text = currentVehicle.Plate;
-                this.txtChasis.Text = currentVehicle.Chassis;
-                this.txtMotor.Text = currentVehicle.Engine;
-                this.cmbMarcas.SelectedValue = currentVehicle.BrandId;
-                this.FillModelsByBrandId();
-                this.cmbTipoVehiculo.SelectedValue = currentVehicle.VehicleTypeId;
-                this.cmbOrigen.SelectedItem = currentVehicle.Origin;
-                this.cmbModelos.SelectedValue = currentVehicle.ModelId;
-                this.cmbBodyworks.SelectedValue = currentVehicle.BodyworkId;
-                this.cmbUses.SelectedValue = currentVehicle.UseId;
-                if (currentVehicle.Coverages.Count() != 0)
-                    cmbCoberturas.SelectedValue = coveragesPackService.GetPackIdByCoverageId(currentVehicle.Coverages.FirstOrDefault().Id,
-                        currentVehicle.Coverages.FirstOrDefault().RiskId);
-                //if (currentVehicle.Accessories != null)
-                //    FillAccessoriesGrid();
-            }
-                //private void FillAccessoriesGrid()
-                //{
-                //    var accessories = currentVehicle.Accessories;
-                //    accessoriesBindingSource.DataSource = accessories; //uso BIndingSource para poder agregar un row al grid en la UI.
-                //    grdAccessories.DataSource = accessoriesBindingSource;
-                //    FormatAccessoriesGrid();
-                //}
-                //    private void FormatAccessoriesGrid()
-                //{
-                //    comboBoxColumn.DataPropertyName = "AccessoryTypeId";
-                //    grdAccessories.Columns["AccessoryTypeId"].Visible = false;
-                //    grdAccessories.Columns["Id"].Visible = false;
-                //    grdAccessories.Columns["VehicleId"].Visible = false;
-                //}        
+            this.txtAnio.Text = currentVehicle.Year;
+            this.txtPatente.Text = currentVehicle.Plate;
+            this.txtChasis.Text = currentVehicle.Chassis;
+            this.txtMotor.Text = currentVehicle.Engine;
+            this.cmbMarcas.SelectedValue = currentVehicle.BrandId;
+            this.FillModelsByBrandId();
+            this.cmbTipoVehiculo.SelectedValue = currentVehicle.VehicleTypeId;
+            this.cmbOrigen.SelectedItem = currentVehicle.Origin;
+            this.cmbModelos.SelectedValue = currentVehicle.ModelId;
+            this.cmbBodyworks.SelectedValue = currentVehicle.BodyworkId;
+            this.cmbUses.SelectedValue = currentVehicle.UseId;
+            if (currentVehicle.Coverages.Count() != 0)
+                cmbCoberturas.SelectedValue = coveragesPackService.GetPackIdByCoverageId(currentVehicle.Coverages.FirstOrDefault().Id,
+                    currentVehicle.Coverages.FirstOrDefault().RiskId);
+            //if (currentVehicle.Accessories != null)
+            //    FillAccessoriesGrid();
+        }
+        //private void FillAccessoriesGrid()
+        //{
+        //    var accessories = currentVehicle.Accessories;
+        //    accessoriesBindingSource.DataSource = accessories; //uso BIndingSource para poder agregar un row al grid en la UI.
+        //    grdAccessories.DataSource = accessoriesBindingSource;
+        //    FormatAccessoriesGrid();
+        //}
+        //    private void FormatAccessoriesGrid()
+        //{
+        //    comboBoxColumn.DataPropertyName = "AccessoryTypeId";
+        //    grdAccessories.Columns["AccessoryTypeId"].Visible = false;
+        //    grdAccessories.Columns["Id"].Visible = false;
+        //    grdAccessories.Columns["VehicleId"].Visible = false;
+        //}        
 
         private void grdVehicles_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -187,23 +187,23 @@ namespace Seggu.Desktop.UserControls
             FillBodyworks();
             FillUses();
         }
-            private void FillUses()
-            {
-                cmbUses.ValueMember = "Id";
-                cmbUses.DisplayMember = "Name";
-                cmbUses.DataSource = currentModel.Uses;
-            }
-            private void FillBodyworks()
-            {
-                cmbBodyworks.ValueMember = "Id";
-                cmbBodyworks.DisplayMember = "Name";
-                cmbBodyworks.DataSource = currentModel.Bodyworks;
-            }
+        private void FillUses()
+        {
+            cmbUses.ValueMember = "Id";
+            cmbUses.DisplayMember = "Name";
+            cmbUses.DataSource = currentModel.Uses;
+        }
+        private void FillBodyworks()
+        {
+            cmbBodyworks.ValueMember = "Id";
+            cmbBodyworks.DisplayMember = "Name";
+            cmbBodyworks.DataSource = currentModel.Bodyworks;
+        }
 
         public VehicleDto GetFormInfo()
         {
             var dto = new VehicleDto();
-            dto.Id = currentVehicle == null ? default(int): currentVehicle.Id;
+            dto.Id = currentVehicle == null ? default(int) : currentVehicle.Id;
             dto.BodyworkId = (int)cmbBodyworks.SelectedValue;
             dto.BrandId = (int)cmbMarcas.SelectedValue;
             dto.Chassis = txtChasis.Text;
@@ -218,7 +218,7 @@ namespace Seggu.Desktop.UserControls
             dto.PolicyId = LayoutForm.currentPolicy.Id;
             dto.Coverages = coveragesPackService.GetById((int)cmbCoberturas.SelectedValue)
                 .FirstOrDefault().Coverages;
-            if(accessoriesBindingSource.DataSource != null)
+            if (accessoriesBindingSource.DataSource != null)
                 dto.Accessories = (List<AccessoryDto>)accessoriesBindingSource.List;
             return dto;
         }
@@ -254,7 +254,7 @@ namespace Seggu.Desktop.UserControls
                 (EndososUserControl)this.Parent.Parent : null;
             if (endososUC == null)
             {
-                if (btnAgregar.Text == "Agregar" && CancelAction(neededEndorseType)) 
+                if (btnAgregar.Text == "Agregar" && CancelAction(neededEndorseType))
                     return;
             }
             else
@@ -264,7 +264,7 @@ namespace Seggu.Desktop.UserControls
                 else
                     if (btnAgregar.Text == "Agregar" && LayoutForm.currentEndorse.Número != null)
                     {
-                        string message = "Está queriendo agregar un vehículo a un ENDOSO ya creado que puede estar en la COMPAÑÍA"+
+                        string message = "Está queriendo agregar un vehículo a un ENDOSO ya creado que puede estar en la COMPAÑÍA" +
                             "\n Debería crear uno NUEVO. \n ¿Continúa?";
                         if (MessageBox.Show(message, "Aviso!", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
@@ -274,60 +274,60 @@ namespace Seggu.Desktop.UserControls
             AddToVehicleList();
             btnAgregar.Text = "Guardar cambios";
         }
-            public bool ValidateControls()
+        public bool ValidateControls()
+        {
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (TabPage tabPage in this.tabControl1.TabPages)
             {
-                bool ok = true;
-                errorProvider1.Clear();
-                foreach (TabPage tabPage in this.tabControl1.TabPages)
+                foreach (Control c in tabPage.Controls)
                 {
-                    foreach (Control c in tabPage.Controls)
+                    if (c is TextBox)
                     {
-                        if (c is TextBox)
-                        {
-                            if (c == txtAnio || c == txtChasis || c == txtMotor || c == txtPatente)
-                                if (c.Text == "")
+                        if (c == txtAnio || c == txtChasis || c == txtMotor || c == txtPatente)
+                            if (c.Text == "")
+                            {
+                                errorProvider1.SetError(c, "Campo vacio");
+                                ok = false;
+                            }
+                    }
+                    else
+                    {
+                        if (c is ComboBox)
+                            if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
+                                || c == cmbOrigen || c == cmbTipoVehiculo)
+                                if ((c as ComboBox).SelectedIndex == -1)
                                 {
-                                    errorProvider1.SetError(c, "Campo vacio");
+                                    errorProvider1.SetError(c, "Debe seleccionar un elemento");
                                     ok = false;
                                 }
-                        }
-                        else
-                        {
-                            if (c is ComboBox)
-                                if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
-                                    || c == cmbOrigen || c == cmbTipoVehiculo)
-                                    if ((c as ComboBox).SelectedIndex == -1)
-                                    {
-                                        errorProvider1.SetError(c, "Debe seleccionar un elemento");
-                                        ok = false;
-                                    }
-                        }
                     }
                 }
-                return ok;
             }
-            public void AddToVehicleList()
+            return ok;
+        }
+        public void AddToVehicleList()
+        {
+            var vehicle = GetFormInfo();
+            bool isNew = !vehicleList.Any(v => v.Plate == vehicle.Plate);
+            if (isNew)
             {
-                var vehicle = GetFormInfo();
-                bool isNew = !vehicleList.Any(v => v.Plate == vehicle.Plate);
-                if (isNew)
-                {
-                    vehicleList.Insert(0, vehicle);
-                    grdVehicles.DataSource = null;
-                    grdVehicles.DataSource = vehicleList;
-                    Format_grdVehcles();
-                }
-                else
-                {
-                    if (vehicleList.Any())
-                    {
-                        var item = vehicleList.First(x => x.Plate == vehicle.Plate);
-                        vehicleList.Remove(item);
-                        vehicleList.Add(vehicle);
-                    }
-                }
-                currentVehicle = vehicle;
+                vehicleList.Insert(0, vehicle);
+                grdVehicles.DataSource = null;
+                grdVehicles.DataSource = vehicleList;
+                Format_grdVehcles();
             }
+            else
+            {
+                if (vehicleList.Any())
+                {
+                    var item = vehicleList.First(x => x.Plate == vehicle.Plate);
+                    vehicleList.Remove(item);
+                    vehicleList.Add(vehicle);
+                }
+            }
+            currentVehicle = vehicle;
+        }
 
         private void btnQuitar_Click(object sender, EventArgs e)
         {
@@ -345,30 +345,30 @@ namespace Seggu.Desktop.UserControls
                 if (LayoutForm.currentEndorse.Id == default(int))
                     endososUC.cmbTipoEndosos.SelectedItem = neededEndorseType;
             }
-            
+
             RemoveFromVehicleList();
             grdVehicles.CurrentCell = grdVehicles["Plate", 0];
             currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
             PopulateVehicleFields();
         }
-            private bool CancelAction(string neededEndorseType)
-            {
-                bool cancel = false;
-                string message = "Recuerde que esta acción debe ser realizada mediante tipo endoso: "+ neededEndorseType +" \n ¿Continúa?";
-                if (!string.IsNullOrEmpty(LayoutForm.currentPolicy.Número))
-                    if (MessageBox.Show(message, "Aviso!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        cancel = false;
-                    else
-                        cancel = true;
-                return cancel;
-            }
-            private void RemoveFromVehicleList()
-            {
-                vehicleList.Remove(currentVehicle);
-                grdVehicles.DataSource = null;
-                grdVehicles.DataSource = vehicleList;
-                Format_grdVehcles();
-            }
+        private bool CancelAction(string neededEndorseType)
+        {
+            bool cancel = false;
+            string message = "Recuerde que esta acción debe ser realizada mediante tipo endoso: " + neededEndorseType + " \n ¿Continúa?";
+            if (!string.IsNullOrEmpty(LayoutForm.currentPolicy.Número))
+                if (MessageBox.Show(message, "Aviso!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    cancel = false;
+                else
+                    cancel = true;
+            return cancel;
+        }
+        private void RemoveFromVehicleList()
+        {
+            vehicleList.Remove(currentVehicle);
+            grdVehicles.DataSource = null;
+            grdVehicles.DataSource = vehicleList;
+            Format_grdVehcles();
+        }
 
         public string GetSelectedPlate()
         {
@@ -417,19 +417,19 @@ namespace Seggu.Desktop.UserControls
         {
             SetChangesDetected();
         }
-            private void SetChangesDetected()
-            {
-                tabPage1.BackColor = Color.Coral;
-                btnAgregar.Text = btnAgregar.Text == "Agregar" ? "Agregar" : "Guardar cambios";
-                changesDetected = true;
-            }
+        private void SetChangesDetected()
+        {
+            tabPage1.BackColor = Color.Coral;
+            btnAgregar.Text = btnAgregar.Text == "Agregar" ? "Agregar" : "Guardar cambios";
+            changesDetected = true;
+        }
 
         #endregion
 
-            private void grdAccessories_CurrentCellChanged(object sender, EventArgs e)
-            {
-                SetChangesDetected();
-            }
+        private void grdAccessories_CurrentCellChanged(object sender, EventArgs e)
+        {
+            SetChangesDetected();
+        }
 
     }
 }

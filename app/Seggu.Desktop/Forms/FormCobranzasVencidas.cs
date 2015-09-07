@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Seggu.Data;
+using Seggu.Services.Interfaces;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class FormCobranzasVencidas : Form
     {
-        public FormCobranzasVencidas()
+        private ICashAccountService cashAccountService;
+        public FormCobranzasVencidas(ICashAccountService cashAccountService)
         {
             InitializeComponent();
+            this.cashAccountService = cashAccountService;
             /*var time = DateTime.Now;
             var TABLE =  cobranzaVencida(time);
             this.dataGridView1.DataSource = TABLE;*/
@@ -24,15 +27,17 @@ namespace Seggu.Desktop.Forms
         {
             
         }
-        private DataTable cobranzaVencida(DateTime time)
+        private DataTable CobranzaVencida(DateTime time)
         {
             var table = new DataTable();
-            var records = SegguContainer.Instance.CashAccounts
-                .Include("Fee").Include("Fee.Policy")
-                .Include("Fee.Policy.Risk")
-                .Include("Fee.Policy.Risk.Company")
-                .Where(ca =>  ca.Date < time && ca.FeeId == null)
-                .ToArray();
+            var records = this.cashAccountService.GetOverdue(time).ToArray();
+            //var records = SegguContainer.Instance.CashAccounts
+            //    .Include("Fee")
+            //    .Include("Fee.Policy")
+            //    .Include("Fee.Policy.Risk")
+            //    .Include("Fee.Policy.Risk.Company")
+            //    .Where(ca =>  ca.Date < time && ca.FeeId == null)
+            //    .ToArray();
             table.Columns.Add("TipoRegistro", typeof(string));
             table.Columns.Add("FechaRegistro", typeof(string));
             table.Columns.Add("Concepto", typeof(string));
@@ -47,16 +52,16 @@ namespace Seggu.Desktop.Forms
                 var record = records[i];
                 var row = table.NewRow();
                 row["TipoRegistro"] = 1;
-                row["FechaRegistro"] = record.Date.ToString("yyyy-MM-dd");
+                row["FechaRegistro"] = record.RecordDate;
                 if (record.ReceiptNumber != null)
                 {
                     row["Concepto"] = record.ReceiptNumber;
                 }
-                if (record.Fee.Policy.Number != null)
+                if (record.PolicyNumber != null)
                 {
-                    row["Poliza"] = record.Fee.Policy.Number;
+                    row["Poliza"] = record.PolicyNumber;
                 }
-                row["CiaID"] = record.Fee.Policy.Risk.Company.Name;
+                row["CiaID"] = record.CompanyName;
                 row["Importe"] = record.Amount;
                 row["ImporteTipo"] = 1;
                 row["NroRegistroAnulaModifica"] = 1;

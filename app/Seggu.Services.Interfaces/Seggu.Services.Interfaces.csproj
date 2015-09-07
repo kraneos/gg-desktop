@@ -97,10 +97,13 @@
     <Compile Include="IProducerService.cs" />
     <Compile Include="IProvinceService.cs" />
     <Compile Include="IRiskService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="IUseService.cs" />
     <Compile Include="IVehicleModelService.cs" />
     <Compile Include="IVehicleService.cs" />
     <Compile Include="IVehicleTypeService.cs" />
+    <Compile Include="IVersionService.cs" />
+    <Compile Include="ProducerRcrViewDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

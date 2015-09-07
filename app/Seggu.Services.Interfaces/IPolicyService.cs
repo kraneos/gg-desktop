@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using Seggu.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace Seggu.Services.Interfaces
@@ -12,5 +13,6 @@ namespace Seggu.Services.Interfaces
         PolicyFullDto GetById(int policyId);
         IEnumerable<PolicyFullDto> GetByPlate(string plate);
         IEnumerable<PolicyFullDto> GetByPolicyNumber(string polNum);
+        IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to);
     }
 }

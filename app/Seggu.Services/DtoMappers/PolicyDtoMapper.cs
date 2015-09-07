@@ -101,5 +101,20 @@ namespace Seggu.Services.DtoMappers
             //obj.AttachedFiles = dto.AttFiles == null ? null : dto.AttFiles.Select(at => AttachedFileDtoMapper.GetObject(at)).ToList();
             return obj;
         }
+        public static PolicyRosViewDto GetRosView(Policy obj)
+        {
+            var dto = new PolicyRosViewDto();
+            dto.EmissionDate = obj.EmissionDate.HasValue ? obj.EmissionDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+            dto.ClientDocument = obj.Client.Document;
+            dto.ClientFullName = obj.Client.FirstName + " " + obj.Client.LastName;
+            var address = obj.Client.Addresses.First();
+            dto.ClientAddressPostalCode = address.PostalCode;
+            dto.ClientAddressLine = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
+            dto.RiskType = obj.Risk.RiskType == RiskType.Automotores ? "Automovil" : (obj.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
+            dto.Value = obj.Value;
+            dto.StartDate = obj.StartDate.ToString("yyyy-MM-dd");
+            dto.EndDate = obj.EndDate.ToString("yyyy-MM-dd");
+            return dto;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,14 @@ namespace Seggu.Daos
 {
     public sealed class CompanyDao : IdEntityDao<Company>, ICompanyDao
     {
+        public CompanyDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
         public IEnumerable<Company> GetActive()
         {
-            return this.container.Companies.Where(c => c.Active);
+            return this.context.Companies.Where(c => c.Active);
         }
 
         public Company GetById(long guid)
@@ -26,7 +32,7 @@ namespace Seggu.Daos
 
         public IEnumerable<Company> GetOrderedActive()
         {
-            return from c in this.container.Companies
+            return from c in this.context.Companies
                    where c.Active
                    orderby c.Name
                    select c;

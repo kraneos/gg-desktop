@@ -9,47 +9,53 @@ using System.Windows.Forms;
 using Seggu.Data;
 using System.Xml;
 using System.Xml.Linq;
-using Seggu.Domain;
+using Seggu.Services.Interfaces;
+using Seggu.Dtos;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class RcrViewForm : Form
     {
-        public RcrViewForm(DateTime a, DateTime b, Producer pro)
+        private IPolicyService policyService;
+        public RcrViewForm(IPolicyService policyService)
         {
             InitializeComponent();
+            this.policyService = policyService;
+            //rc.
+            //DTGRcr.DataSource = ;
+        }
+        public void Initialize(DateTime a, DateTime b, ProducerDto pro)
+        {
             var table = GetRcrView(a, b, pro);
             this.DTGRcr.DataSource = table;
             producer = pro;
             from = a;
             to = b;
-            //rc.
-            //DTGRcr.DataSource = ;
         }
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-
             this.Close();
         }
         private void DTGRcr_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-        private static XElement GetSsnElement(DateTime from, DateTime to, Producer producer)
+        private XElement GetSsnElement(DateTime from, DateTime to, ProducerDto producer)
         {
             from = from.Date;
             to = to.Date.AddDays(1);
 
-            var records = SegguContainer.Instance.Policies
-                .Include("Client")
-                .Include("Risk")
-                .Include("Risk.Company")
-                .Include("Client.Addresses")
-                .Include("Client.Addresses.Locality")
-                .Include("Client.Addresses.Locality.District")
-                .Include("Client.Addresses.Locality.District.Province")
-                .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null)
+            var records = this.policyService.GetRosView(from, to)
                 .ToArray();
+            //SegguContainer.Instance.Policies
+            //.Include("Client")
+            //.Include("Risk")
+            //.Include("Risk.Company")
+            //.Include("Client.Addresses")
+            //.Include("Client.Addresses.Locality")
+            //.Include("Client.Addresses.Locality.District")
+            //.Include("Client.Addresses.Locality.District.Province")
+            //.Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null)
 
             var ssn = new XElement("SSN");
             var cabecera = new XElement("Cabecera");
@@ -57,8 +63,8 @@ namespace Seggu.Desktop.Forms
             var productorAttrs = new XAttribute[]
             {
                 new XAttribute("TipoPersona", "2"), 
-                new XAttribute("Matricula", producer.RegistrationNumber),
-                new XAttribute("CUIT", producer.RegistrationNumber), 
+                new XAttribute("Matricula", producer.Matrícula),
+                new XAttribute("CUIT", producer.Matrícula), 
             };
             var productor = new XElement("Productor", productorAttrs);
 
@@ -72,7 +78,7 @@ namespace Seggu.Desktop.Forms
             {
                 var record = records[i];
                 var nroOrden = new XElement("NroOrden", i + 1);
-                var fechaRegistro = new XElement("FechaRegistro", record.EmissionDate.Value.ToString("yyyy-MM-dd"));
+                var fechaRegistro = new XElement("FechaRegistro", record.EmissionDate);
                 var asegurado = new XElement("Asegurados", new XElement[]
                     {
                         new XElement("Asegurado", 
@@ -80,27 +86,23 @@ namespace Seggu.Desktop.Forms
                             {
                                 new XAttribute("TipoAsegurado", 1),
                                 new XAttribute("TipoDoc", 1),
-                                new XAttribute("NroDoc", record.Client.Document),
-                                new XAttribute("Nombre", record.Client.FirstName + " " + record.Client.LastName)
+                                new XAttribute("NroDoc", record.ClientDocument),
+                                new XAttribute("Nombre", record.ClientFullName)
                             })
                     });
-                var address = record.Client.Addresses.FirstOrDefault();
                 XElement cpaProponente = new XElement("CPAProponente", string.Empty);
                 XElement obsProponente = new XElement("ObsProponente", string.Empty);
                 XElement codigosPostales = new XElement("CodigosPostales", new XElement("CPA", string.Empty));
-                if (address != null)
-                {
-                    cpaProponente = new XElement("CPAProponente", address.PostalCode);
-                    obsProponente = new XElement("ObsProponente", address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name);
-                    codigosPostales = new XElement("CodigosPostales", new XElement("CPA", address.PostalCode));
-                }
+                cpaProponente = new XElement("CPAProponente", record.ClientAddressPostalCode);
+                obsProponente = new XElement("ObsProponente", record.ClientAddressLine);
+                codigosPostales = new XElement("CodigosPostales", new XElement("CPA", record.ClientAddressPostalCode));
                 var cpaCantidad = new XElement("CPACantidad", 1);
                 var ciaId = new XElement("CiaID", string.Empty);
-                var bienAsegurado = new XElement("BienAsegurado", record.Risk.RiskType == RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida"));
+                var bienAsegurado = new XElement("BienAsegurado", record.RiskType);
                 var ramo = new XElement("Ramo", 34);
                 var sumaAsegurada = new XElement("SumaAsegurada", record.Value);
                 var sumaAseguradaTipo = new XElement("SumaAseguradaTipo", 1);
-                var cobertura = new XElement("Cobertura", new XAttribute("FechaDesde", record.StartDate.ToString("yyyy-MM-dd")), new XAttribute("FechaHasta", record.EndDate.ToString("yyyy-MM-dd")));
+                var cobertura = new XElement("Cobertura", new XAttribute("FechaDesde", record.StartDate), new XAttribute("FechaHasta", record.EndDate));
                 var observacion = new XElement("Observacion", new XAttribute("Tipo", 2), new XAttribute("Poliza", record.Number), new XAttribute("NroOrdenAnulaModifica", string.Empty));
                 var flota = new XElement("Flota", 0);
                 var operacionOrigen = new XElement("OperacionOrigen", 1);
@@ -140,19 +142,20 @@ namespace Seggu.Desktop.Forms
         {
 
         }
-        private DataTable GetRcrView(DateTime a, DateTime b, Producer pro)
+        private DataTable GetRcrView(DateTime a, DateTime b, ProducerDto pro)
         {
             var table = new DataTable();
-            var records = SegguContainer.Instance.Policies
-                .Include("Client")
-                .Include("Risk")
-                .Include("Risk.Company")
-                .Include("Client.Addresses")
-                .Include("Client.Addresses.Locality")
-                .Include("Client.Addresses.Locality.District")
-                .Include("Client.Addresses.Locality.District.Province")
-                .Where(ca => ca.EmissionDate > a && ca.EmissionDate < b && ca.EmissionDate != null)
-                .ToArray();
+            var records = this.policyService.GetRosView(a, b).ToArray();
+            //var records = SegguContainer.Instance.Policies
+            //    .Include("Client")
+            //    .Include("Risk")
+            //    .Include("Risk.Company")
+            //    .Include("Client.Addresses")
+            //    .Include("Client.Addresses.Locality")
+            //    .Include("Client.Addresses.Locality.District")
+            //    .Include("Client.Addresses.Locality.District.Province")
+            //    .Where(ca => ca.EmissionDate > a && ca.EmissionDate < b && ca.EmissionDate != null)
+            //    .ToArray();
 
             table.Columns.Add("NroOrden", typeof(string));
             table.Columns.Add("FechaRegistro", typeof(string));
@@ -181,26 +184,22 @@ namespace Seggu.Desktop.Forms
             {
                 var record = records[i];
                 var row = table.NewRow();
-                var address = record.Client.Addresses.FirstOrDefault();
                 row["NroOrden"] = i + 1;
-                row["FechaRegistro"] = record.EmissionDate.Value.ToString("yyyy-MM-dd");
-                row["Asegurado"] = record.Client.FirstName + " " + record.Client.LastName;
-                row["Dni"] = record.Client.Document;
+                row["FechaRegistro"] = record.EmissionDate;
+                row["Asegurado"] = record.ClientFullName;
+                row["Dni"] = record.ClientDocument;
                 row["Tipo Documento"] = 1;
                 row["Tipo Asegurado"] = 1;
-                if (address != null)
-                {
-                    row["Codigo Postal"] = address.PostalCode;
-                    row["Domicilio"] = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
-                    row["Cpa Cantidad"] = 1;
-                }
+                row["Codigo Postal"] = record.ClientAddressPostalCode;
+                row["Domicilio"] = record.ClientAddressLine;
+                row["Cpa Cantidad"] = 1;
                 // row["Codigo Postal"] = address.PostalCode;
-                row["Bien Asegurado"] = record.Risk.RiskType == RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
+                row["Bien Asegurado"] = record.RiskType;
                 row["Ramo"] = 34;
                 row["Suma Asegurada"] = record.Value;
                 row["tipo suma asegurada"] = 1;
-                row["Fecha hasta"] = record.EndDate.ToString("yyyy-MM-dd");
-                row["Fecha desde"] = record.StartDate.ToString("yyyy-MM-dd");
+                row["Fecha hasta"] = record.EndDate;
+                row["Fecha desde"] = record.StartDate;
                 row["Poliza"] = record.Number;
                 row["Tipo Poliza"] = 2;
                 row["Flota"] = 0;
@@ -232,6 +231,6 @@ namespace Seggu.Desktop.Forms
         }
         public DateTime from { get; set; }
         public DateTime to { get; set; }
-        public Producer producer { get; set; }
+        public ProducerDto producer { get; set; }
     }
 }

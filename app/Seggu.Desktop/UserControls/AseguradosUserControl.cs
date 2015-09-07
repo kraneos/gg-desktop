@@ -205,7 +205,7 @@ namespace Seggu.Desktop.UserControls
             else if (currentClient == null)
             {
                 var dni = this.txtDNI.Text;
-                var exists = SegguContainer.Instance.Clients.Any(x => x.Document == dni);
+                var exists = this.clientService.ExistsDocument(dni);//SegguContainer.Instance.Clients.Any(x => x.Document == dni);
                 if (exists)
                 {
                     errorProvider1.SetError(this.txtDNI, "Ya existe un asegurado con el mismo documento");

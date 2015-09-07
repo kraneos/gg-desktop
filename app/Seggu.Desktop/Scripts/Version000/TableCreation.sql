@@ -366,8 +366,8 @@ CREATE TABLE ClientCreditCards (
 
 -- Creating table 'ProducerCodes'
 CREATE TABLE ProducerCodes (
-    ProducerId int  NOT NULL,
-    CompanyId int  NOT NULL,
+    ProducerId INTEGER  NOT NULL,
+    CompanyId INTEGER  NOT NULL,
     Code text  NOT NULL,
     PRIMARY KEY (ProducerId, CompanyId),
     foreign key(ProducerId) references Producers(Id),
@@ -538,12 +538,17 @@ CREATE TABLE VehicleCoverage (
 );
 
 
--- Creating table 'CoveragesPackCoverage'
-CREATE TABLE CoveragesPackCoverage (
-    CoveragesPacks_Id int  NOT NULL,
-    Coverages_Id int  NOT NULL,
-    PRIMARY KEY (CoveragesPacks_Id, Coverages_Id),
-    foreign key(CoveragesPacks_Id) references CoveragesPacks(Id),
-    foreign key(Coverages_Id) references Coverages(Id)
+-- Creating table 'CoveragesPackCoverages'
+CREATE TABLE CoveragesPackCoverages (
+    CoveragesPack_Id int  NOT NULL,
+    Coverage_Id int  NOT NULL,
+    PRIMARY KEY (CoveragesPack_Id, Coverage_Id),
+    foreign key(CoveragesPack_Id) references CoveragesPacks(Id),
+    foreign key(Coverage_Id) references Coverages(Id)
 );
 
+-- Creating table 'ImplementedVersions'
+CREATE TABLE ImplementedVersions (
+    Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL
+);

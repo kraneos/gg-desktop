@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Seggu.Data;
+using Seggu.Services.Interfaces;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class CobranzasRealizadas : Form
     {
-        public CobranzasRealizadas()
+        private ICashAccountService cashAccountService;
+        public CobranzasRealizadas(ICashAccountService cashAccountService)
         {
             InitializeComponent();
+            this.cashAccountService = cashAccountService;
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -36,7 +39,7 @@ namespace Seggu.Desktop.Forms
                 {
                     var from = DTPCobranzas.Value;
                     var to = dateTimePicker1.Value;
-                    var table = getCobranzas(from, to);
+                    var table = GetCobranzas(from, to);
                     this.dataGridView1.DataSource = table;
                     this.dataGridView1.Columns["CiaID"].Visible = false;
                     this.dataGridView1.Columns["ImporteTipo"].Visible = false;
@@ -48,15 +51,10 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("Ha ocurrido un error al generar el reporte. Intente de nuevo.");
             }
         }
-        private DataTable getCobranzas(DateTime from, DateTime to)
+        private DataTable GetCobranzas(DateTime from, DateTime to)
         {
             var table = new DataTable();
-            var records = SegguContainer.Instance.CashAccounts
-                .Include("Fee").Include("Fee.Policy")
-                .Include("Fee.Policy.Risk")
-                .Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null)
-                .ToArray();
+            var records = this.cashAccountService.GetRcrView(from, to).ToArray();
             table.Columns.Add("TipoRegistro", typeof(string));
             table.Columns.Add("FechaRegistro", typeof(string));
             table.Columns.Add("Concepto", typeof(string));
@@ -71,19 +69,13 @@ namespace Seggu.Desktop.Forms
                 var record = records[i];
                 var row = table.NewRow();
                 row["TipoRegistro"] = 1;
-                row["FechaRegistro"] = record.Date.ToString("yyyy-MM-dd");
+                row["FechaRegistro"] = record.RecordDate;
                 if (record.ReceiptNumber != null)
                 {
                     row["Concepto"] = record.ReceiptNumber;
                 }
-                if (record.Fee != null)
-                {
-                    if (record.Fee.Policy != null)
-                    {
-                        row["Poliza"] = record.Fee.Policy.Number;                        
-                    }
-                }
-                row["CiaID"] = record.Fee.Policy.Risk.Company.Name;
+                row["Poliza"] = record.PolicyNumber;
+                row["CiaID"] = record.CompanyName;
                 row["Importe"] = record.Amount;
                 row["ImporteTipo"] = 1;
                 row["NroRegistroAnulaModifica"] = 1;

@@ -87,6 +87,7 @@
     <Compile Include="FeeSelectionDao.cs" />
     <Compile Include="GenericDao.cs" />
     <Compile Include="IdEntityDao.cs" />
+    <Compile Include="ImplementedVersionDao.cs" />
     <Compile Include="IntegralDao.cs" />
     <Compile Include="LedgerAccountDao.cs" />
     <Compile Include="LiquidationDao.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="ProvinceDao.cs" />
     <Compile Include="RiskDao.cs" />
     <Compile Include="UseDao.cs" />
+    <Compile Include="UserDao.cs" />
     <Compile Include="VehicleDao.cs" />
     <Compile Include="VehicleModelDao.cs" />
     <Compile Include="VehicleTypeDao.cs" />

@@ -1,5 +1,8 @@
 ﻿using Seggu.Data;
 using Seggu.Domain;
+using Seggu.Dtos;
+using Seggu.Infrastructure;
+using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +18,15 @@ namespace Seggu.Desktop.Forms
 {
     public partial class RosReportForm : Form
     {
-        public RosReportForm()
+        private IProducerService producerService;
+        private ICashAccountService cashAccountService;
+
+        public RosReportForm(IProducerService producerService, ICashAccountService cashAccountService)
         {
             InitializeComponent();
-
-            this.ProductorComboBox.DataSource = SegguContainer.Instance.Producers.ToList();
+            this.producerService = producerService;
+            this.cashAccountService = cashAccountService;
+            this.ProductorComboBox.DataSource = this.producerService.GetProducers();
             this.ProductorComboBox.ValueMember = "Id";
             this.ProductorComboBox.DisplayMember = "Name";
         }
@@ -40,7 +47,7 @@ namespace Seggu.Desktop.Forms
 
                     var from = this.FromDateTimePicker.Value;
                     var to = this.ToDateTimePicker.Value;
-                    var producer = (Producer)this.ProductorComboBox.SelectedItem;
+                    var producer = (ProducerDto)this.ProductorComboBox.SelectedItem;
 
 
                     /* var document = new XDocument(new XDeclaration("1.0", "utf-16", "yes"));
@@ -51,7 +58,11 @@ namespace Seggu.Desktop.Forms
                      tempPath = System.IO.Path.Combine(tempPath, "ROS-" + DateTime.Today.ToString("yyyy-MM-dd") + ".xml");
                      document.Save(tempPath, SaveOptions.None);
                      System.Diagnostics.Process.Start(tempPath);*/
-                    RosViewForm frm = new RosViewForm(from, to, producer);
+                    RosViewForm frm = new RosViewForm(
+                        from,
+                        to,
+                        producer,
+                        (ICashAccountService)DependencyResolver.Instance.Resolve(typeof(ICashAccountService)));
                     frm.Show();
                     this.Close();
                 }
@@ -63,14 +74,19 @@ namespace Seggu.Desktop.Forms
             }
         }
 
-        private static XElement GetSsnElement(DateTime from, DateTime to, Producer producer)
+        private XElement GetSsnElement(DateTime from, DateTime to, Producer producer)
         {
             from = from.Date;
             to = to.Date.AddDays(1);
 
-            var records = SegguContainer.Instance.CashAccounts.Include("Fee").Include("Fee.Policy").Include("Fee.Policy.Risk").Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null)
-                .ToArray();
+            var records = this.cashAccountService.GetRcrView(from, to).ToArray();
+            //var records = SegguContainer.Instance.CashAccounts
+            //    .Include("Fee")
+            //    .Include("Fee.Policy")
+            //    .Include("Fee.Policy.Risk")
+            //    .Include("Fee.Policy.Risk.Company")
+            //    .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null)
+                //.ToArray();
 
             var ssn = new XElement("SSN");
             var cabecera = new XElement("Cabecera");
@@ -93,13 +109,13 @@ namespace Seggu.Desktop.Forms
             {
                 var record = records[i];
                 var tipoRegistro = new XElement("TipoRegistro", 1);
-                var fechaRegistro = new XElement("FechaRegistro", record.Date.ToString("yyyy-MM-dd"));
+                var fechaRegistro = new XElement("FechaRegistro", record.RecordDate);
                 var concepto = new XElement("Concepto", record.ReceiptNumber);
                 var polizas = new XElement("Polizas", new XElement[]
                     {
-                        new XElement("Poliza", record.Fee.Policy.Number)
+                        new XElement("Poliza", record.PolicyNumber)
                     });
-                var ciaId = new XElement("CiaID", record.Fee.Policy.Risk.Company.Name);
+                var ciaId = new XElement("CiaID", record.CompanyName);
                 var importe = new XElement("Importe", record.Amount);
                 var importeTipo = new XElement("ImporteTipo", 1);
                 var nroRegistroAnulaModifica = new XElement("NroRegistroAnulaModifica", null);

@@ -322,6 +322,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="UserControls\CompanyUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CompanyUserControl.Designer.cs">
+      <DependentUpon>CompanyUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CuotasVencidasUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -475,6 +481,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CompanyUserControl.resx">
+      <DependentUpon>CompanyUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CuotasVencidasUserControl.resx">
       <DependentUpon>CuotasVencidasUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -506,6 +515,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Seggu.Dtos.CompanyFullDto.datasource" />
     <None Include="Properties\DataSources\Seggu.Dtos.EmployeeDto.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

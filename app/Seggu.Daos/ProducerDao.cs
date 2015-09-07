@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,12 @@ namespace Seggu.Daos
 {
     public class ProducerDao : IdEntityDao<Producer>, IProducerDao
     {
+        public ProducerDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public IEnumerable<Producer> GetCollectors()
         {
             return

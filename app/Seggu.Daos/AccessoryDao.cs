@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,11 @@ namespace Seggu.Daos
 {
     public sealed class AccessoryDao: IdEntityDao<Accessory>, IAccessoryDao
     {
+        public AccessoryDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
         public IEnumerable<Accessory> GetByVehicleId(long id)
         {
             return this.Set

@@ -1,4 +1,5 @@
 ﻿using Seggu.Dtos;
+using Seggu.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,10 @@ namespace Seggu.Services.Interfaces
 
         void Save(CashAccountDto x);
 
-        //void Update(CashAccountDto x);
-        //void Delete(string id);
+        IEnumerable<CashAccountRcrViewDto> GetRcrView(DateTime from, DateTime to);
+
+        bool ReceiptExists(string receipt);
+
+        IEnumerable<CashAccountRcrViewDto> GetOverdue(DateTime time);
     }
 }

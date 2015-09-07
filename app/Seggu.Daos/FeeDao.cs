@@ -11,6 +11,11 @@ namespace Seggu.Daos
 {
     public sealed class FeeDao : IdEntityDao<Fee>, IFeeDao
     {
+        public FeeDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
         public IEnumerable<Fee> GetByPolicyId(long guid)
         {
             return this.Set
@@ -25,9 +30,9 @@ namespace Seggu.Daos
         {
             return
                 from f in this.Set
-                join p in this.container.Policies on f.PolicyId equals p.Id
-                join r in this.container.Risks on p.Risk.Id equals r.Id
-                join co in this.container.Companies on r.CompanyId equals co.Id
+                join p in this.context.Policies on f.PolicyId equals p.Id
+                join r in this.context.Risks on p.Risk.Id equals r.Id
+                join co in this.context.Companies on r.CompanyId equals co.Id
                 where co.Id == guid
                     && f.ExpirationDate >= dateFrom && f.ExpirationDate <= dateTo
                     && f.Annulated == false
@@ -39,9 +44,9 @@ namespace Seggu.Daos
         {
             return
                 from f in this.Set
-                join p in this.container.Policies on f.PolicyId equals p.Id
-                join r in this.container.Risks on p.Risk.Id equals r.Id
-                join co in this.container.Companies on r.CompanyId equals co.Id
+                join p in this.context.Policies on f.PolicyId equals p.Id
+                join r in this.context.Risks on p.Risk.Id equals r.Id
+                join co in this.context.Companies on r.CompanyId equals co.Id
                 where co.Id == guid
                     && f.ExpirationDate < DateTime.Today
                     && f.State == 0
@@ -50,7 +55,7 @@ namespace Seggu.Daos
         }
         public IEnumerable<Fee> GetByFeeSelectionId(long guid)
         {
-            return this.container.Fees
+            return this.context.Fees
                 .Where(f => f.FeeSelectionId == guid);
         }
         public IEnumerable<Fee> GetTodayFees()
@@ -62,9 +67,9 @@ namespace Seggu.Daos
         {
             return
                 from f in this.Set
-                join p in this.container.Policies on f.PolicyId equals p.Id
-                join r in this.container.Risks on p.Risk.Id equals r.Id
-                join co in this.container.Companies on r.CompanyId equals co.Id
+                join p in this.context.Policies on f.PolicyId equals p.Id
+                join r in this.context.Risks on p.Risk.Id equals r.Id
+                join co in this.context.Companies on r.CompanyId equals co.Id
                 where f.ExpirationDate < DateTime.Today
                     && f.State == 0
                     && f.Annulated == false
@@ -93,15 +98,22 @@ namespace Seggu.Daos
             var command = "EXEC FeeSelectionAssignment @FeesToUpdate;";
 
             try
-
             {
-                this.container.Database.ExecuteSqlCommand(command, param);
-                SegguContainer.RefreshSet<Fee>();
+                this.context.Database.ExecuteSqlCommand(command, param);
+                this.context.RefreshSet<Fee>();
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+        public IEnumerable<Fee> GetOverdueEndorsesToday()
+        {
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId == null);
+        }
+        public IEnumerable<Fee> GetOverduePoliciesToday()
+        {
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId != null);
         }
     }
 }

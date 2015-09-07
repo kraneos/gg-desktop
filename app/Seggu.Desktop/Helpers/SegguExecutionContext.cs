@@ -1,5 +1,5 @@
 ﻿using Seggu.Data;
-using Seggu.Domain;
+using Seggu.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +31,6 @@ namespace Seggu.Desktop.Helpers
             }
         }
 
-        public User CurrentUser { get; set; }
+        public UserDto CurrentUser { get; set; }
     }
 }

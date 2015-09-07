@@ -48,7 +48,7 @@ namespace Seggu.Desktop.Forms
         private DataTable GetProducerDataTable()
         {
             var table = new DataTable();
-            table.Columns.Add("Id", typeof(string));
+            table.Columns.Add("Id", typeof(int));
             table.Columns.Add("Nombre", typeof(string));
             table.Columns.Add("Matrícula", typeof(string));
             table.Columns.Add("Cobrador");

@@ -123,7 +123,7 @@ namespace Seggu.Desktop.Forms
 
         private void AsignarTipoVehiculo_Click(object sender, EventArgs e)
         {
-            Forms.TipoVehiculoUso form = (TipoVehiculoUso)Seggu.Infrastructure.DependencyContainer
+            Forms.TipoVehiculoUso form = (TipoVehiculoUso)Seggu.Infrastructure.DependencyResolver
                 .Instance.Resolve(typeof(TipoVehiculoUso));
             form.ShowDialog();
         }

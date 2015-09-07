@@ -86,6 +86,7 @@
     <Compile Include="IFeeDao.cs" />
     <Compile Include="IFeeSelectionDao.cs" />
     <Compile Include="IGenericDao.cs" />
+    <Compile Include="IImplementedVersionDao.cs" />
     <Compile Include="IIntegralDao.cs" />
     <Compile Include="ILedgerAccountDao.cs" />
     <Compile Include="ILiquidationDao.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="IProvinceDao.cs" />
     <Compile Include="IRiskDao.cs" />
     <Compile Include="IUseDao.cs" />
+    <Compile Include="IUserDao.cs" />
     <Compile Include="IVehicleDao.cs" />
     <Compile Include="IVehicleModelDao.cs" />
     <Compile Include="IVehicleTypeDao.cs" />

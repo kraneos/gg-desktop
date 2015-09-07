@@ -284,7 +284,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnNuevoProductor_Click(object sender, EventArgs e)
         {
-            Forms.Productores form = (Productores)DependencyContainer.Instance.Resolve(typeof(Productores));
+            Forms.Productores form = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));
             form.Show();
         }
 

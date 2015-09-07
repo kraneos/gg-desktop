@@ -1,4 +1,7 @@
 ﻿using Seggu.Data;
+using Seggu.Dtos;
+using Seggu.Infrastructure;
+using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,21 +15,24 @@ namespace Seggu.Desktop.Forms
 {
     public partial class Users : Form
     {
-        public Users()
+        private IUserService userService;
+
+        public Users(IUserService userService)
         {
             InitializeComponent();
+            this.userService = userService;
         }
 
         private void Buscar(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(this.UsernameTextBox.Text))
             {
-                this.UsersDataGridView.DataSource = SegguContainer.Instance.Users.ToList();
+                this.UsersDataGridView.DataSource = this.userService.GetAll().ToList();
             }
             else
             {
                 var filter = this.UsernameTextBox.Text;
-                this.UsersDataGridView.DataSource = SegguContainer.Instance.Users.Where(x => x.Username.Contains(filter)).ToList();
+                this.UsersDataGridView.DataSource = this.userService.GetFiltered(filter).ToList();
             }
 
             this.UsersDataGridView.Columns["Id"].Visible = false;
@@ -39,14 +45,16 @@ namespace Seggu.Desktop.Forms
 
         private void Nuevo(object sender, EventArgs e)
         {
-            var userForm = new User();
+            var userForm = DependencyResolver.Instance.ResolveGeneric<User>();
             userForm.ShowDialog();
             this.Buscar(null, null);
         }
 
         private void Editar(object sender, EventArgs e)
         {
-            var userForm = new User((Domain.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
+            var userForm = DependencyResolver.Instance.ResolveGeneric<User>();
+            userForm.Initialize((UserDto)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
+            //var userForm = new User((UserDto)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
             userForm.ShowDialog();
             this.Buscar(null, null);
         }
@@ -59,8 +67,10 @@ namespace Seggu.Desktop.Forms
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
             {
-                SegguContainer.Instance.Users.Remove((Domain.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
-                SegguContainer.Instance.SaveChanges();
+                var user = (UserDto)this.UsersDataGridView.SelectedRows[0].DataBoundItem;
+                this.userService.Delete(user.Id);
+                //SegguContainer.Instance.Users.Remove((Domain.User)this.UsersDataGridView.SelectedRows[0].DataBoundItem);
+                //SegguContainer.Instance.SaveChanges();
                 this.Buscar(null, null);
             }
         }

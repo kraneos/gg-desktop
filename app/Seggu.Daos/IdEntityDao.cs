@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace Seggu.Daos
 {
     public abstract class IdEntityDao<T> : GenericDao<T>, IIdEntityDao<T> where T : IdEntity
     {
+        public IdEntityDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
         public new long Save(T obj)
         {
             base.Save(obj);

@@ -4,11 +4,17 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Transactions;
+using Seggu.Data;
 
 namespace Seggu.Daos
 {
     public class ProducerCodeDao: GenericDao<ProducerCode>, IProducerCodeDao
     {
+        public ProducerCodeDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
         public bool ProducerHasCompany(long id)
         {
             var prod = this.Set.Any(p => p.ProducerId == id);

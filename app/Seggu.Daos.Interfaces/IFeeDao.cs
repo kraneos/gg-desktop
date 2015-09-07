@@ -15,5 +15,9 @@ namespace Seggu.Daos.Interfaces
         IEnumerable<Fee> GetTodayFees();
         IEnumerable<Fee> GetExpiredByCompanyId();
         void AssignFeeSelection(IEnumerable<Fee> fees);
+
+        IEnumerable<Fee> GetOverdueEndorsesToday();
+
+        IEnumerable<Fee> GetOverduePoliciesToday();
     }
 }

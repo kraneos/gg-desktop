@@ -60,7 +60,7 @@ namespace Seggu.Services.DtoMappers
             dto.Tel_Móvil = obj.CellPhone;
             //dto.CreditCards = obj.ClientCreditCards.Select(ccc => ClientCreditCardDtoMapper.GetInformationDto(ccc));
             dto.CollectionTimeRange = obj.CollectionTimeRange;
-            dto.PolicyCount = obj.Policy.Count;
+            dto.PolicyCount = obj.Policy.Count();
             dto.Cuit = obj.Cuit;
             dto.DNI = obj.Document;
             dto.DocumentTypes = IdTypeDtoMapper.ToString(obj.DocumentType);

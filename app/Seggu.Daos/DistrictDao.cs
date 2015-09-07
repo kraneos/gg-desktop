@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,15 @@ namespace Seggu.Daos
 {
     public sealed class DistrictDao : IdEntityDao<District>, IDistrictDao
     {
+        public DistrictDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public IEnumerable<District> GetByProvince(long provinceId)
         {
-            return this.container.Districts.Where(x => x.ProvinceId == provinceId);
+            return this.context.Districts.Where(x => x.ProvinceId == provinceId);
         }  
     }
 }

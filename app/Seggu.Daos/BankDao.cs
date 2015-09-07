@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,10 @@ namespace Seggu.Daos
 {
     public sealed class BankDao : IdEntityDao<Bank>, IBankDao
     {
+        public BankDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
 
         public bool GetByName(string name)
          {

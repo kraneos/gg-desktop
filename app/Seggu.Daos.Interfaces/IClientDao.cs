@@ -10,5 +10,7 @@ namespace Seggu.Daos.Interfaces
         IEnumerable<Client> GetByFullName(string search);
         IEnumerable<Client> GetValids();
 
+
+        bool ExistsDocument(string dni);
     }
 }

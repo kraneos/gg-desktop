@@ -1,5 +1,4 @@
-﻿using Seggu.Data;
-using Seggu.Desktop.Forms;
+﻿using Seggu.Desktop.Forms;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
 using Seggu.Services.Interfaces;
@@ -44,10 +43,7 @@ namespace Seggu.Desktop.UserControls
             var table = BuildEmployeeTable();
             grdEmployees.DataSource = table;
             grdEmployees.Columns["Id"].Visible = false;
-            var coberturas = SegguContainer.Instance.Risks.First(x => x.Id == riskGuid)
-                .CoveragesPacks
-                .OrderBy(r => r.Name)
-                .ToList();
+            var coberturas = this.coveragePackService.GetAllByRiskId(riskGuid).ToList();
             cmbCoberturas.DataSource = coberturas;
             cmbCoberturas.DisplayMember = "Name";
             cmbCoberturas.ValueMember = "Id";

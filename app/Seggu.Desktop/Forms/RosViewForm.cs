@@ -10,23 +10,24 @@ using Seggu.Data;
 using System.Xml;
 using System.Xml.Linq;
 using Seggu.Domain;
+using Seggu.Dtos;
+using Seggu.Services.Interfaces;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class RosViewForm : Form
     {
-        public RosViewForm(DateTime a,DateTime b, Producer pro)
+        private ICashAccountService cashAccountService;
+
+        public RosViewForm(DateTime a, DateTime b, ProducerDto pro, ICashAccountService cashAccountService)
         {
             InitializeComponent();
-            var table = getRcrView2(a, b, pro);
+            var table = GetRcrView2(a, b, pro);
             this.DtgRos.DataSource = table;
-            
-            
-            
-            from=a;
-            to=b;
-            producer =pro;
-            
+            from = a;
+            to = b;
+            producer = pro;
+            this.cashAccountService = cashAccountService;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,13 +65,13 @@ namespace Seggu.Desktop.Forms
         {
 
         }
-        private static XElement GetSsnElement(DateTime from, DateTime to, Producer producer)
+        
+        private XElement GetSsnElement(DateTime from, DateTime to, ProducerDto producer)
         {
             from = from.Date;
             to = to.Date.AddDays(1);
 
-            var records = SegguContainer.Instance.CashAccounts.Include("Fee").Include("Fee.Policy").Include("Fee.Policy.Risk").Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null)
+            var records = this.cashAccountService.GetRcrView(from, to)
                 .ToArray();
 
             var ssn = new XElement("SSN");
@@ -79,13 +80,13 @@ namespace Seggu.Desktop.Forms
             var productorAttrs = new XAttribute[]
             {
                 new XAttribute("TipoPersona", "2"), 
-                new XAttribute("Matricula", producer.RegistrationNumber),
-                new XAttribute("CUIT", producer.RegistrationNumber),
+                new XAttribute("Matricula", producer.Matrícula),
+                new XAttribute("CUIT", producer.Matrícula),
             };
             var productor = new XElement("Productor", productorAttrs);
 
             cabecera.Add(productor);
-            cabecera.Add(new XElement("CantidadRegistros", records.Count()));
+            cabecera.Add(new XElement("CantidadRegistros", records.Length));
             ssn.Add(cabecera);
 
             var registros = new List<XElement>();
@@ -94,13 +95,13 @@ namespace Seggu.Desktop.Forms
             {
                 var record = records[i];
                 var tipoRegistro = new XElement("TipoRegistro", 1);
-                var fechaRegistro = new XElement("FechaRegistro", record.Date.ToString("yyyy-MM-dd"));
+                var fechaRegistro = new XElement("FechaRegistro", record.RecordDate);
                 var concepto = new XElement("Concepto", record.ReceiptNumber);
                 var polizas = new XElement("Polizas", new XElement[]
                     {
-                        new XElement("Poliza", record.Fee.Policy.Number)
+                        new XElement("Poliza", record.PolicyNumber)
                     });
-                var ciaId = new XElement("CiaID", record.Fee.Policy.Risk.Company.Name);
+                var ciaId = new XElement("CiaID", record.CompanyName);
                 var importe = new XElement("Importe", record.Amount);
                 var importeTipo = new XElement("ImporteTipo", 1);
                 var nroRegistroAnulaModifica = new XElement("NroRegistroAnulaModifica", null);
@@ -127,15 +128,11 @@ namespace Seggu.Desktop.Forms
 
             return ssn;
         }
-        private DataTable getRcrView2(DateTime a,DateTime b, Producer pro)
+        
+        private DataTable GetRcrView2(DateTime a, DateTime b, ProducerDto pro)
         {
             var table = new DataTable();
-            var records = SegguContainer.Instance.CashAccounts
-                .Include("Fee").Include("Fee.Policy")
-                .Include("Fee.Policy.Risk")
-                .Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date > a && ca.Date < b && ca.FeeId != null)
-                .ToArray();
+            var records = this.cashAccountService.GetRcrView(a, b).ToArray();
             table.Columns.Add("TipoRegistro", typeof(string));
             table.Columns.Add("FechaRegistro", typeof(string));
             table.Columns.Add("Concepto", typeof(string));
@@ -150,13 +147,13 @@ namespace Seggu.Desktop.Forms
                 var record = records[i];
                 var row = table.NewRow();
                 row["TipoRegistro"] = 1;
-                row["FechaRegistro"] =  record.Date.ToString("yyyy-MM-dd");
+                row["FechaRegistro"] =  record.RecordDate;
                 if (record.ReceiptNumber !=null)
                 {
                 row["Concepto"] = record.ReceiptNumber;
                 }
-                row["Poliza"] = record.Fee.Policy.Number;
-                row["CiaID"] = record.Fee.Policy.Risk.Company.Name;
+                row["Poliza"] = record.PolicyNumber;
+                row["CiaID"] = record.CompanyName;
                 row["Importe"] = record.Amount;
                 row["ImporteTipo"] = 1;
                 row["NroRegistroAnulaModifica"] = 1;
@@ -172,6 +169,6 @@ namespace Seggu.Desktop.Forms
 
         public DateTime to { get; set; }
 
-        public Producer producer { get; set; }
+        public ProducerDto producer { get; set; }
     }
 }

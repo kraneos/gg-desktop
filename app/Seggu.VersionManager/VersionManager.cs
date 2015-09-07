@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Seggu.Data;
+using Seggu.Services.Interfaces;
 using Seggu.VersionManager.Interfaces;
 using Seggu.VersionManager.Properties;
 using System;
@@ -16,9 +17,11 @@ namespace Seggu.VersionManager
     public class VersionManager : IVersionManager
     {
         private List<Version> versions;
+        private IVersionService versionService;
         
-        public VersionManager()
+        public VersionManager(IVersionService versionService)
         {
+            this.versionService = versionService;
             this.versions = GetVersions();
         }
 
@@ -60,15 +63,25 @@ namespace Seggu.VersionManager
                 for (int i = 1; i < this.versions.Count; i++)
                 {
                     var version = this.versions[i];
-                    var versioningService = GetVersioningService(version.Name);
-                    versioningService.ApplyVersion();
 
-                    if (action != null)
+                    if (!VersionWasRan(version.Name))
                     {
-                        action();
+                        var versioningService = GetVersioningService(version.Name);
+                        versioningService.ApplyVersion();
+                        this.versionService.SaveVersion(version.Name);
+                        
+                        if (action != null)
+                        {
+                            action();
+                        }
                     }
                 }
             }
+        }
+
+        private bool VersionWasRan(string versionName)
+        {
+            return this.versionService.VersionWasRun(versionName);
         }
 
         private void RunFirstVersion()

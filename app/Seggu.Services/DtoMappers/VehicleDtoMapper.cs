@@ -17,7 +17,7 @@ namespace Seggu.Services.DtoMappers
             dto.BrandId = (int)obj.VehicleModel.BrandId;
             dto.Brand = obj.VehicleModel.Brand.Name;
             dto.Chassis = obj.Chassis;
-            dto.EndorseId = (int)obj.EndorseId;
+            dto.EndorseId = (int?)obj.EndorseId;
             dto.Engine = obj.Engine;
             dto.Id = (int)obj.Id;
             dto.ModelId = (int)obj.VehicleModelId;
@@ -65,16 +65,7 @@ namespace Seggu.Services.DtoMappers
             obj.Engine = dto.Engine;
             obj.Plate = dto.Plate;
             obj.PolicyId = dto.PolicyId;
-            var useId = default(int);
-            if (dto.UseId == default(int))
-            {
-                useId = (int)SegguContainer.Instance.Uses.First().Id;
-            }
-            else
-            {
-                useId = dto.UseId;
-            }
-            obj.UseId = useId;
+            obj.UseId = dto.UseId;
             obj.VehicleModelId = dto.ModelId;
             obj.Year = dto.Year;
             obj.Coverages = dto.Coverages.Select(x => CoverageDtoMapper.GetObject(x)).ToList();

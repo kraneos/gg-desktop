@@ -88,5 +88,10 @@ namespace Seggu.Services
             var clients = this.clientDao.GetValids().OrderBy(x => x.LastName);
             return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
         }
+
+        public bool ExistsDocument(string dni)
+        {
+            return this.clientDao.ExistsDocument(dni);
+        }
     }
 }
