@@ -3,22 +3,15 @@
     using Seggu.Domain;
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
 
-    public partial class SegguDataModelContainer : DbContext
+    public partial class SegguDataModelContext : DbContext
     {
-        public SegguDataModelContainer()
+        public SegguDataModelContext()
             : base("SegguDataModelContainer")
         {
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            // ProducerCodes Primary Key
-            modelBuilder.Entity<ProducerCode>().HasKey(pc => new { pc.CompanyId, pc.ProducerId });
-            // Integral Address One to One
-            modelBuilder.Entity<Integral>().HasRequired(t => t.Address).WithOptional(a => a.Integral);
-
+            this.Database.Log = Console.Write;
         }
 
         public virtual DbSet<Locality> Localities { get; set; }
@@ -59,5 +52,12 @@
         public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
         public virtual DbSet<CoveragesPack> CoveragesPacks { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<VersionRecord> VersionRecords { get; set; }
+
+        public void RefreshSet<T>() where T : class
+        {
+            var objectContext = ((IObjectContextAdapter)this).ObjectContext;
+            objectContext.Refresh(RefreshMode.StoreWins, this.Set<T>());
+        }
     }
 }

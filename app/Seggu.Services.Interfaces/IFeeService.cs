@@ -16,5 +16,7 @@ namespace Seggu.Services.Interfaces
         void Update(FeeDto fee);
         void UpdateMany(IEnumerable<FeeDto> fees);
         void UpdateFeeStates();
+        IEnumerable<FeeIndexDto> GetOverduePoliciesToday();
+        IEnumerable<FeeIndexDto> GetOverdueEndorsesToday();
     }
 }

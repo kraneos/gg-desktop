@@ -11,6 +11,7 @@ namespace Seggu.Services.Interfaces
         void Update(UseDto bank);
         void Delete(int id);
         bool ExistName(string name);
-
+        IEnumerable<UseDto> GetByVehicleType(int vehicleTypeId);
+        void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<UseDto> existing);
     }
 }

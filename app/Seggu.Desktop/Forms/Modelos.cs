@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Seggu.Dtos;
-using Seggu.Data;
 
 namespace Seggu.Desktop.Forms
 {
@@ -78,18 +77,17 @@ namespace Seggu.Desktop.Forms
             table.Columns.Add("Tipo de Vehiculo", typeof(string));
 
 
-            var banks = SegguContainer.Instance.VehicleModels.Include("Brand").Include("VehicleType");
+            var vehicleModels = this.vehicleModelService.GetFullAll();
+                //SegguContainer.Instance.VehicleModels.Include("Brand").Include("VehicleType");
             
-            foreach (var bank in banks)
+            foreach (var vehicleModel in vehicleModels)
             {
                 var row = table.NewRow();
-                row["Id"] = bank.Id;
-                row["Nombre"] = bank.Name;
-                if (bank.Origin.ToString().CompareTo("National") == 0) row["Origen"] = "Nacional";
-                else if (bank.Origin.ToString().CompareTo("Imported") == 0) row["Origen"] = "Importado";
-                else row["Origen"] = "Desconocido";
-                row["Marca"] = bank.Brand.Name;
-                row["Tipo de Vehiculo"] = bank.VehicleType.Name;
+                row["Id"] = vehicleModel.Id;
+                row["Nombre"] = vehicleModel.Name;
+                row["Origen"] = vehicleModel.Origin;
+                row["Marca"] = vehicleModel.BrandName;
+                row["Tipo de Vehiculo"] = vehicleModel.VehicleTypeName;
                 table.Rows.Add(row);
             }
 

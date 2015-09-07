@@ -8,15 +8,17 @@ using System.Text;
 using System.Windows.Forms;
 using Seggu.Data;
 using Seggu.Domain;
+using Seggu.Services.Interfaces;
 
 namespace Seggu.Desktop.Forms
 {
     public partial class PolizasPorFecha : Form
     {
-        public PolizasPorFecha()
+        private IPolicyService policyService;
+        public PolizasPorFecha(IPolicyService policyService)
         {
             InitializeComponent();
-
+            this.policyService = policyService;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -54,16 +56,7 @@ namespace Seggu.Desktop.Forms
         private DataTable PolizasPorFechas(DateTime from, DateTime to)
         {
             var table = new DataTable();
-            var records = SegguContainer.Instance.Policies
-                .Include("Client")
-                .Include("Risk")
-                .Include("Risk.Company")
-                .Include("Client.Addresses")
-                .Include("Client.Addresses.Locality")
-                .Include("Client.Addresses.Locality.District")
-                .Include("Client.Addresses.Locality.District.Province")
-                .Where(ca => ca.StartDate > from && ca.StartDate < to && ca.StartDate != null)
-                .ToArray();
+            var records = this.policyService.GetRosView(from, to).ToArray();
 
             table.Columns.Add("NroOrden", typeof(string));
             table.Columns.Add("FechaRegistro", typeof(string));
@@ -92,26 +85,22 @@ namespace Seggu.Desktop.Forms
             {
                 var record = records[i];
                 var row = table.NewRow();
-                var address = record.Client.Addresses.FirstOrDefault();
                 row["NroOrden"] = i + 1;
-                row["FechaRegistro"] = record.StartDate.ToString("yyyy-MM-dd");
-                row["Asegurado"] = record.Client.FirstName + " " + record.Client.LastName;
-                row["Dni"] = record.Client.Document;
+                row["FechaRegistro"] = record.StartDate;
+                row["Asegurado"] = record.ClientFullName;
+                row["Dni"] = record.ClientDocument;
                 row["Tipo Documento"] = 1;
                 row["Tipo Asegurado"] = 1;
-                if (address != null)
-                {
-                    row["Codigo Postal"] = address.PostalCode;
-                    row["Domicilio"] = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
-                    row["Cpa Cantidad"] = 1;
-                }
+                row["Codigo Postal"] = record.ClientAddressPostalCode;
+                row["Domicilio"] = record.ClientAddressLine;
+                row["Cpa Cantidad"] = 1;
                 // row["Codigo Postal"] = address.PostalCode;
-                row["Bien Asegurado"] = record.Risk.RiskType == Seggu.Domain.RiskType.Automotores ? "Automovil" : (record.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
+                row["Bien Asegurado"] = record.RiskType;
                 row["Ramo"] = 34;
                 row["Suma Asegurada"] = record.Value;
                 row["tipo suma asegurada"] = 1;
-                row["Fecha hasta"] = record.EndDate.ToString("yyyy-MM-dd");
-                row["Fecha desde"] = record.StartDate.ToString("yyyy-MM-dd");
+                row["Fecha hasta"] = record.EndDate;
+                row["Fecha desde"] = record.StartDate;
                 row["Poliza"] = record.Number;
                 row["Tipo Poliza"] = 2;
                 row["Flota"] = 0;

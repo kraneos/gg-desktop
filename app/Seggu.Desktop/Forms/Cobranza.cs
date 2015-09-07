@@ -139,7 +139,7 @@ namespace Seggu.Desktop.Forms
         private bool ReceiptExists()
         {
             var receipt = this.txtNumeroRecibo.Text;
-            return SegguContainer.Instance.CashAccounts.Any(x => x.ReceiptNumber == receipt);
+            return this.cashAccountService.ReceiptExists(receipt);//SegguContainer.Instance.CashAccounts.Any(x => x.ReceiptNumber == receipt);
         }
             private void CollectFee()
             {

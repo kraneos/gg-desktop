@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -9,5 +10,10 @@ namespace Seggu.Daos
 {
     public class AddressDao : IdEntityDao<Address>, IAddressDao
     {
+        public AddressDao(SegguDataModelContext context)
+            : base(context)
+        {
+        }
+
     }
 }

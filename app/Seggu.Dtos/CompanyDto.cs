@@ -3,7 +3,7 @@
 namespace Seggu.Dtos
 {
     [Serializable]
-    public class CompanyDto:KeyValueDto
+    public class CompanyDto : KeyValueDto
     {
         public string CUIT { get; set; }
         public string Mail { get; set; }

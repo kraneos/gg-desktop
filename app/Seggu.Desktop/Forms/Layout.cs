@@ -40,18 +40,18 @@ namespace Seggu.Desktop.Forms
 
         private void LaunchSplash()
         {
-            var splashForm = (Splash)DependencyContainer.Instance.Resolve(typeof(Splash));
+            var splashForm = (Splash)DependencyResolver.Instance.Resolve(typeof(Splash));
             splashForm.ShowDialog();
         }
 
         private void Layout_Load(object sender, EventArgs e)
         {
-            var loginForm = (Login)DependencyContainer.Instance.Resolve(typeof(Login));
+            var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             if (loginForm.ShowDialog() == DialogResult.OK)
             {
                 SetButtonsPrincipal();
                 txtBuscar.Focus();
-                switch (SegguExecutionContext.Instance.CurrentUser.Role)
+                switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
                 {
                     case Role.Administrador:
                         ConfigureUserAdministratorVisibility();
@@ -112,7 +112,7 @@ namespace Seggu.Desktop.Forms
             //this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Visible = false;
             //this.pólizasSinCobranzasNiLiquidacionesToolStripMenuItem.Visible = false;
             //this.pólizasARenovarToolStripMenuItem.Visible = false;
-            var userForm = new Users();
+            var userForm = DependencyResolver.Instance.ResolveGeneric<Users>();
             userForm.ShowDialog();
             this.Close();
         }
@@ -162,14 +162,14 @@ namespace Seggu.Desktop.Forms
         private void SearchByClientDNI(string str)
         {
             splitContainer1.Panel2.Controls.Clear();
-            clientUC = (AseguradosUserControl)DependencyContainer.Instance.Resolve(typeof(AseguradosUserControl));
+            clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             SetButtonsClients();
             clientUC.FindClientByDNI(str);
         }
         private void SearchByPolicyNumber(string str)
         {
-            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             grdPolicies.DataSource = policyService.GetByPolicyNumber(str.Substring(2)).ToList();
             FormatPoliciesGrid();
 
@@ -181,7 +181,7 @@ namespace Seggu.Desktop.Forms
         private void SearchByVehiclePlate(string str)
         {
             grdPolicies.Visible = true;
-            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
 
             FormatPoliciesGrid();
@@ -192,7 +192,7 @@ namespace Seggu.Desktop.Forms
         }
         private void SearchByLastName(string str)
         {
-            clientUC = (AseguradosUserControl)DependencyContainer.Instance.Resolve(typeof(AseguradosUserControl));
+            clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             SetButtonsClients();
             clientUC.FindClientByName(str);
@@ -239,7 +239,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnPolizas_Click(object sender, EventArgs e)
         {
-            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             //ClearPanelControl();
             if (currentClient != null)
@@ -297,7 +297,7 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
+            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
             {
                 btnEndosos.Enabled = true;
                 btnSiniestros.Enabled = true;
@@ -317,7 +317,7 @@ namespace Seggu.Desktop.Forms
         private void grdValids_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             currentPolicy = (PolicyFullDto)grdValids.CurrentRow.DataBoundItem;
-            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             currentEndorse = null;
             //SetPanelControl(policyUc);
@@ -325,13 +325,13 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
+            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
             {
                 btnEndosos.Enabled = true;
                 btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
                 btnSiniestros.Enabled = true;
             }
-            else if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
+            else if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
             {
                 btnCobranzas.Enabled = true;
             }
@@ -340,7 +340,7 @@ namespace Seggu.Desktop.Forms
         {
             currentPolicy = (PolicyFullDto)grdExpired.CurrentRow.DataBoundItem;
             currentEndorse = null;
-            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             //SetPanelControl(policyUc);
 
             SetPanelControl(policyUc);
@@ -395,7 +395,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnSiniestros_Click(object sender, EventArgs e)
         {
-            var uc = (SiniestrosUserControl)DependencyContainer.Instance.Resolve(typeof(SiniestrosUserControl)
+            var uc = (SiniestrosUserControl)DependencyResolver.Instance.Resolve(typeof(SiniestrosUserControl)
                 , new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
             SetPanelControl(uc);
             SetButtonsCasualtys();
@@ -414,7 +414,7 @@ namespace Seggu.Desktop.Forms
         //}
         private void liquidacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var uc = (LiquidacionesUserControl)DependencyContainer.Instance.Resolve(typeof(LiquidacionesUserControl));
+            var uc = (LiquidacionesUserControl)DependencyResolver.Instance.Resolve(typeof(LiquidacionesUserControl));
             CollapsePanel1();
             SetPanelControl(uc);
             SetButtonsLiquidations();
@@ -440,7 +440,7 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("No se ha seleccionado ninguna poliza", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                Forms.Cobranza Cobranzas = (Cobranza)DependencyContainer
+                Forms.Cobranza Cobranzas = (Cobranza)DependencyResolver
                     .Instance.Resolve(typeof(Cobranza)
                     , new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
                 Cobranzas.Show();
@@ -449,45 +449,45 @@ namespace Seggu.Desktop.Forms
 
         private void btnNotifications_Click(object sender, EventArgs e)
         {
-            var uc = (CuotasVencidasUserControl)DependencyContainer.Instance.Resolve(typeof(CuotasVencidasUserControl));
+            var uc = (CuotasVencidasUserControl)DependencyResolver.Instance.Resolve(typeof(CuotasVencidasUserControl));
             SetPanelControl(uc);
         }
 
         #region menuStrip
         private void agendaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Agenda agenda = (Agenda)DependencyContainer.Instance.Resolve(typeof(Agenda));
+            Forms.Agenda agenda = (Agenda)DependencyResolver.Instance.Resolve(typeof(Agenda));
             agenda.Show();
         }
 
         private void BanksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Bancos bancos = ((Bancos)DependencyContainer.Instance.Resolve(typeof(Bancos)));
+            Forms.Bancos bancos = ((Bancos)DependencyResolver.Instance.Resolve(typeof(Bancos)));
             bancos.Show();
         }
 
         private void compañíasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.CompañíasOnly compañias = (CompañíasOnly)DependencyContainer
+            Forms.CompañíasOnly compañias = (CompañíasOnly)DependencyResolver
                  .Instance.Resolve(typeof(CompañíasOnly));
             compañias.Show();
         }
 
         private void controlDeCajaToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Forms.ControlCaja controlCaja = (ControlCaja)DependencyContainer.Instance.Resolve(typeof(ControlCaja));
+            Forms.ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
             controlCaja.Show();
         }
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Modelos modelos = (Modelos)DependencyContainer.Instance.Resolve(typeof(Modelos));
+            Forms.Modelos modelos = (Modelos)DependencyResolver.Instance.Resolve(typeof(Modelos));
             modelos.Show();
         }
 
         private void productoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Productores productores = (Productores)DependencyContainer.Instance.Resolve(typeof(Productores));
+            Forms.Productores productores = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));
             productores.Show();
         }
 
@@ -503,7 +503,7 @@ namespace Seggu.Desktop.Forms
 
         private void todosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            clientUC = (AseguradosUserControl)DependencyContainer.Instance.Resolve(typeof(AseguradosUserControl));
+            clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.InitializeIndex();
             SetButtonsPrincipal();
@@ -513,7 +513,7 @@ namespace Seggu.Desktop.Forms
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnLimpiar_Click(sender, e);
-            clientUC = (AseguradosUserControl)DependencyContainer.Instance.Resolve(typeof(AseguradosUserControl));
+            clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.NewClient();
             SetButtonsClients();
@@ -523,7 +523,7 @@ namespace Seggu.Desktop.Forms
         private void grdEndorses_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             currentEndorse = (EndorseFullDto)grdEndorses.CurrentRow.DataBoundItem;
-            var uc = (EndososUserControl)DependencyContainer.Instance.Resolve(typeof(EndososUserControl));
+            var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             SetPanelControl(uc);
             uc.PopulateDetails();
             grdValids.ClearSelection();
@@ -542,7 +542,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnEndosos_Click(object sender, EventArgs e)
         {
-            var uc = (EndososUserControl)DependencyContainer.Instance.Resolve(typeof(EndososUserControl));
+            var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             //, new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
             SetPanelControl(uc);
             uc.NewEndorse();
@@ -572,7 +572,7 @@ namespace Seggu.Desktop.Forms
 
         private void pólizasVigentesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            clientUC = (AseguradosUserControl)DependencyContainer.Instance.Resolve(typeof(AseguradosUserControl));
+            clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.ListClientsWithValidsPolicies();
             SetButtonsPrincipal();
@@ -586,80 +586,80 @@ namespace Seggu.Desktop.Forms
 
         private void rORToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new RcrReportForm().Show();
+            DependencyResolver.Instance.ResolveGeneric<RcrReportForm>().Show();
 
         }
 
         private void rCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            new RosReportForm().Show();
+            new RosReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
         }
 
         private void riesgosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /* Forms.RisksOnly risksOnly = (RisksOnly)DependencyContainer
+            Forms.RisksOnly risksOnly = (RisksOnly)DependencyResolver
                 .Instance.Resolve(typeof(RisksOnly));
-             risksOnly.Show();*/
+            risksOnly.Show();
         }
 
         private void coberturasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.CoberturasOnly coberturasOnly = (CoberturasOnly)DependencyContainer
+            Forms.CoberturasOnly coberturasOnly = (CoberturasOnly)DependencyResolver
                .Instance.Resolve(typeof(CoberturasOnly));
             coberturasOnly.Show();
         }
 
         private void usosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Usos usos = (Usos)DependencyContainer
+            Forms.Usos usos = (Usos)DependencyResolver
                 .Instance.Resolve(typeof(Usos));
             usos.Show();
         }
 
         private void carroceríasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Carrocerias carrocerias = (Carrocerias)DependencyContainer
+            Forms.Carrocerias carrocerias = (Carrocerias)DependencyResolver
                 .Instance.Resolve(typeof(Carrocerias));
             carrocerias.Show();
         }
 
         private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Marcas marcas = (Marcas)DependencyContainer
+            Forms.Marcas marcas = (Marcas)DependencyResolver
                 .Instance.Resolve(typeof(Marcas));
             marcas.Show();
         }
 
         private void coberturasToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Forms.CoberturasOnly coberturas = (CoberturasOnly)DependencyContainer
+            Forms.CoberturasOnly coberturas = (CoberturasOnly)DependencyResolver
                 .Instance.Resolve(typeof(CoberturasOnly));
             coberturas.Show();
         }
 
         private void tiposDeVehiculosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.TiposVehiculos vehiclestypes = (TiposVehiculos)DependencyContainer
+            Forms.TiposVehiculos vehiclestypes = (TiposVehiculos)DependencyResolver
                 .Instance.Resolve(typeof(TiposVehiculos));
             vehiclestypes.Show();
         }
 
         private void paquetesToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Forms.PackagesOnly paquetes = (PackagesOnly)DependencyContainer
+            Forms.PackagesOnly paquetes = (PackagesOnly)DependencyResolver
                 .Instance.Resolve(typeof(PackagesOnly));
             paquetes.Show();
         }
 
         private void cobranzasARealizarEntreFechasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new CobranzasRealizadas().Show();
+            DependencyResolver.Instance.ResolveGeneric<CobranzasRealizadas>().Show();
         }
 
         private void pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            new PolizasPorFecha().Show();
+            DependencyResolver.Instance.ResolveGeneric<PolizasPorFecha>().Show();
         }
 
         private void cobranzasVencidasToolStripMenuItem_Click(object sender, EventArgs e)

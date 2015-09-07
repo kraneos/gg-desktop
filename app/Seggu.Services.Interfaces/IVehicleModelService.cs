@@ -11,5 +11,6 @@ namespace Seggu.Services.Interfaces
         void Delete(VehicleModelDto model);
         void Delete(int id);
         bool ExistName(string name);
+        IEnumerable<VehicleModelFullDto> GetFullAll();
     }
 }

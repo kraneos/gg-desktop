@@ -30,7 +30,7 @@ namespace Seggu.Services
         public IEnumerable<PolicyFullDto> GetValidsByClient(int clientId)
         {
             var id = clientId;
-            var policies = this.policyDao.GetValidsByClient(id).OrderByDescending(x => x.EndDate);
+            var policies = this.policyDao.GetValidsByClient(id);
             return policies.Select(p => PolicyDtoMapper.GetFullDto(p));
         }
         public IEnumerable<PolicyFullDto> GetNotValidsByClient(int clientId)
@@ -141,6 +141,11 @@ namespace Seggu.Services
                     coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
                 employee.Coverages = coverages;
             }
+        }
+        public IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to)
+        {
+            var policies = this.policyDao.GetRosView(from, to);
+            return policies.Select(obj => PolicyDtoMapper.GetRosView(obj));
         }
     }
 }

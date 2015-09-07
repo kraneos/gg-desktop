@@ -80,5 +80,10 @@ namespace Seggu.Services
             var companies = this.companyDao.GetOrderedActive();
             return companies.Select(c => CompanyDtoMapper.GetDto(c));
         }
+
+        public IEnumerable<CompanyFormDto> GetAllFull()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

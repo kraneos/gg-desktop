@@ -11,5 +11,6 @@ namespace Seggu.Daos.Interfaces
         IEnumerable<Policy> GetValidsByClient(long clientId);
         IEnumerable<Policy> GetNotValidsByClient(long clientId);
         void Edit(Policy newPolicy);
+        IEnumerable<Policy> GetRosView(DateTime from, DateTime to);
     }
 }

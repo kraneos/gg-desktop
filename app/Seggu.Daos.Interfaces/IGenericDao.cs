@@ -7,7 +7,7 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IGenericDao<T>
     {
-        SegguDataModelContainer GetContainer();
+        SegguDataModelContext GetContainer();
         IEnumerable<T> GetAll();
         T Get(object id);
         void Save(T obj);

@@ -1,5 +1,6 @@
 ﻿using Seggu.Data;
-using Seggu.Domain;
+using Seggu.Dtos;
+using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,38 +14,39 @@ namespace Seggu.Desktop.Forms
 {
     public partial class User : Form
     {
-        public Domain.User UserObj { get; set; }
+        public UserDto UserObj { get; set; }
         private bool isNew;
+        private IUserService userService;
 
-        public User()
+        public User(IUserService userService)
         {
             InitializeComponent();
-            this.UserObj = new Domain.User();
+            this.UserObj = new UserDto();
             this.isNew = true;
             this.InitializeCombobox();
+            this.userService = userService;
         }
 
         private void InitializeCombobox()
         {
             this.RolComboBox.DataSource = new List<object>()
             {
-                new { Key = 0, Value = "Administrador"},
-                new { Key = 1, Value = "Asesor"},
-                new { Key = 2, Value = "Cajero"},
+                new { Key = (short)0, Value = "Administrador"},
+                new { Key = (short)1, Value = "Asesor"},
+                new { Key = (short)2, Value = "Cajero"},
             };
             this.RolComboBox.ValueMember = "Key";
             this.RolComboBox.DisplayMember = "Value";
         }
 
-        public User(Domain.User user)
+        public void Initialize(UserDto user)
         {
-            InitializeComponent();
             this.UserObj = user;
             this.isNew = false;
             this.InitializeCombobox();
             this.ContrasenaTextBox.Text = user.Password;
             this.UsernameTextBox.Text = user.Username;
-            this.RolComboBox.SelectedValue = (int)user.Role;
+            this.RolComboBox.SelectedValue = (short)user.Role;
         }
 
         private void Guardar(object sender, EventArgs e)
@@ -53,15 +55,16 @@ namespace Seggu.Desktop.Forms
             {
                 this.UserObj.Password = this.ContrasenaTextBox.Text;
                 this.UserObj.Username = this.UsernameTextBox.Text;
-                this.UserObj.Role = (Role)((int)this.RolComboBox.SelectedValue);
+                this.UserObj.Role = (short)this.RolComboBox.SelectedValue;
 
                 if (this.isNew)
                 {
-                    //this.UserObj.Id = Guid.NewGuid();
-                    SegguContainer.Instance.Users.Add(this.UserObj);
+                    this.userService.Create(this.UserObj);
                 }
-
-                SegguContainer.Instance.SaveChanges();
+                else
+                {
+                    this.userService.Update(this.UserObj);
+                }
 
                 if (this.isNew)
                 {

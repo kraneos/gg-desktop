@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace Seggu.Daos
         private IVehicleDao vehicleDao;
         private IEmployeeDao employeeDao;
 
-        public EndorseDao(IVehicleDao vehicleDao, IEmployeeDao employeeDao)
+        public EndorseDao(SegguDataModelContext context, IVehicleDao vehicleDao, IEmployeeDao employeeDao)
+            : base(context)
         {
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;
@@ -40,9 +42,9 @@ namespace Seggu.Daos
                     foreach (var employee in obj.Employees) { }
                 //employee.Id = Guid.NewGuid();
 
-                var entry = this.container.Entry(obj);
+                var entry = this.context.Entry(obj);
                 entry.State = EntityState.Added;
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -51,7 +53,7 @@ namespace Seggu.Daos
             using (var scope = new TransactionScope())
             {
                 var endorse = this.Set.Find(obj.Id);
-                var endorseEntry = this.container.Entry<Endorse>(endorse);
+                var endorseEntry = this.context.Entry<Endorse>(endorse);
                 endorseEntry.CurrentValues.SetValues(obj);
 
                 if (obj.Vehicles != null)
@@ -59,14 +61,14 @@ namespace Seggu.Daos
                     if (obj.Vehicles.Count > 0)
                     {
                         var firstVehicle = obj.Vehicles.ElementAt(0);
-                        var vehicle = this.container.Vehicles.Find(firstVehicle.Id);
-                        var vehicleEntry = this.container.Entry<Vehicle>(vehicle);
+                        var vehicle = this.context.Vehicles.Find(firstVehicle.Id);
+                        var vehicleEntry = this.context.Entry<Vehicle>(vehicle);
                         vehicleEntry.CurrentValues.SetValues(firstVehicle);
                     }
                 }
                 if (obj.Fees.Count > 0)
                     this.UpdateFees(obj);
-                this.container.SaveChanges();
+                this.context.SaveChanges();
                 scope.Complete();
             }
         }
@@ -75,7 +77,7 @@ namespace Seggu.Daos
             Endorse dbEndorse = new Endorse();
             if (newEndorse.Vehicles != null)
             {
-                dbEndorse = container.Endorses
+                dbEndorse = context.Endorses
                                     .Include("Vehicles.Coverages")
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newEndorse.Id);
@@ -83,15 +85,15 @@ namespace Seggu.Daos
             }
             else if (newEndorse.Employees != null)
             {
-                dbEndorse = container.Endorses
+                dbEndorse = context.Endorses
                                     .Include("Employees.Coverages")
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newEndorse.Id);
                 UpdateEndorseEmployees(newEndorse, dbEndorse);
             }
             UpdateFees(newEndorse);
-            container.Entry(dbEndorse).CurrentValues.SetValues(newEndorse);
-            container.SaveChanges();
+            context.Entry(dbEndorse).CurrentValues.SetValues(newEndorse);
+            context.SaveChanges();
         }
         private void UpdateEndorseVehicles(Endorse newEndorse, Endorse dbEndorse)
         {
@@ -100,7 +102,7 @@ namespace Seggu.Daos
                 if (!newEndorse.Vehicles.Any(s => s.Id == dbVehicle.Id))
                     vehiclesToRemove.Add(dbVehicle);
 
-            container.Vehicles.RemoveRange(vehiclesToRemove);
+            context.Vehicles.RemoveRange(vehiclesToRemove);
             foreach (var newVehicle in newEndorse.Vehicles)
             {
                 var dbVehicle = dbEndorse.Vehicles.SingleOrDefault(s => s.Id == newVehicle.Id);
@@ -108,7 +110,7 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    container.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
                     foreach (var dbCoverage in dbVehicle.Coverages)
                         if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -120,7 +122,7 @@ namespace Seggu.Daos
                     foreach (var newCoverage in newVehicle.Coverages)
                         if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
                         {
-                            var dbCoverage = container.Coverages.Single(x => x.Id == newCoverage.Id);
+                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbVehicle.Coverages.Add(dbCoverage);
                         }
                     foreach (var coverageToRemove in coveragesToRemove)
@@ -137,7 +139,7 @@ namespace Seggu.Daos
                 if (!newEndorse.Employees.Any(s => s.Id == dbEmployee.Id))
                     employeesToRemove.Add(dbEmployee);
 
-            container.Employees.RemoveRange(employeesToRemove);
+            context.Employees.RemoveRange(employeesToRemove);
 
             foreach (var newEmployee in newEndorse.Employees)
             {
@@ -146,7 +148,7 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    container.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
                     foreach (var dbCoverage in dbEmployee.Coverages)
                         if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -159,7 +161,7 @@ namespace Seggu.Daos
                     foreach (var newCoverage in newEmployee.Coverages)
                         if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
                         {
-                            var dbCoverage = container.Coverages.Single(x => x.Id == newCoverage.Id);
+                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbEmployee.Coverages.Add(dbCoverage);
                         }
                     foreach (var coverageToRemove in coveragesToRemove)
@@ -178,9 +180,9 @@ namespace Seggu.Daos
                 fee.EndorseId = endorse.Id;
             }
 
-            var feesToDelete = this.container.Fees.Where(f => f.EndorseId == endorse.Id);
-            this.container.Fees.RemoveRange(feesToDelete);
-            this.container.Fees.AddRange(endorse.Fees);
+            var feesToDelete = this.context.Fees.Where(f => f.EndorseId == endorse.Id);
+            this.context.Fees.RemoveRange(feesToDelete);
+            this.context.Fees.AddRange(endorse.Fees);
         }
     }
 }

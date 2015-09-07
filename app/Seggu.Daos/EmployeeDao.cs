@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,14 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class EmployeeDao : IdEntityDao<Employee> , IEmployeeDao
+    public sealed class EmployeeDao : IdEntityDao<Employee>, IEmployeeDao
     {
+        public EmployeeDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public IEnumerable<Employee> GetByPolicyId(long policyId)
         {
             return this.Set.Where(x => x.PolicyId == policyId);
@@ -17,27 +24,27 @@ namespace Seggu.Daos
         public void SaveEmployee(Employee newVehicle)
         {
             var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
-            var dbVehicle = container.Employees
+            var dbVehicle = context.Employees
                                     .Include("Coverages")
                                     .FirstOrDefault(c => c.Id == newVehicle.Id) ?? newVehicle;
 
             dbVehicle.Coverages.Clear();
-            container.Entry(dbVehicle).State = EntityState.Added;
+            context.Entry(dbVehicle).State = EntityState.Added;
 
             newVehicle.Id = dbVehicle.Id;
-            container.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+            context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
 
-            foreach (var dbCover in container.Coverages)
+            foreach (var dbCover in context.Coverages)
             {
                 if (coverages.Any(cov => cov.Id == dbCover.Id))
                 {
-                    container.Coverages.Attach(dbCover);
+                    context.Coverages.Attach(dbCover);
                     dbVehicle.Coverages.Add(dbCover);
                 }
                 //else
                 //dbVehicle.Coverages.Remove(dbCover);
             }
-            container.SaveChanges();
+            context.SaveChanges();
         }
     }
 }

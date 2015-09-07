@@ -1,5 +1,7 @@
 ﻿using Seggu.Data;
-using Seggu.Domain;
+using Seggu.Dtos;
+using Seggu.Services.Interfaces;
+//using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,26 +15,35 @@ namespace Seggu.Desktop.Forms
 {
     public partial class GestionarUsos : Form
     {
-        private VehicleType vehicleType;
-        public GestionarUsos(VehicleType vehicleType)
+        private VehicleTypeDto vehicleType;
+        private IUseService useService;
+        public GestionarUsos(IUseService useService)
         {
             InitializeComponent();
 
+            this.useService = useService;
+        }
+
+        public void Initialize(VehicleTypeDto vehicleType)
+        {
             this.vehicleType = vehicleType;
             this.UseLabel.Text += vehicleType.Name;
-            this.UsoDeTipoVehiculo.DataSource = vehicleType.Uses.ToList();
+            //this.UsoDeTipoVehiculo.DataSource = vehicleType.Uses.ToList();
+            var vehicleTypeUses = this.useService.GetByVehicleType(vehicleType.Id).ToList();
+            this.UsoDeTipoVehiculo.DataSource = vehicleTypeUses;
             this.UsoDeTipoVehiculo.DisplayMember = "Name";
-            var allUses = SegguContainer.Instance.Uses.ToList();
-            this.UsosExistentes.DataSource = allUses.Except(vehicleType.Uses).ToList();
+            var uses = this.useService.GetAll();
+            var allUses = uses;
+            this.UsosExistentes.DataSource = allUses.Except(vehicleTypeUses).ToList();
             this.UsosExistentes.DisplayMember = "Name";
         }
 
         private void PonerButton_Click(object sender, EventArgs e)
         {
-            var selectedItem = (Use)this.UsosExistentes.SelectedItem;
-            var existing = (List<Use>)this.UsoDeTipoVehiculo.DataSource;
+            var selectedItem = (UseDto)this.UsosExistentes.SelectedItem;
+            var existing = (List<UseDto>)this.UsoDeTipoVehiculo.DataSource;
             existing.Add(selectedItem);
-            var all = (List<Use>)this.UsosExistentes.DataSource;
+            var all = (List<UseDto>)this.UsosExistentes.DataSource;
             all.Remove(selectedItem);
             this.UsoDeTipoVehiculo.DataSource = null;
             this.UsosExistentes.DataSource = null;
@@ -44,10 +55,10 @@ namespace Seggu.Desktop.Forms
 
         private void SacarButton_Click(object sender, EventArgs e)
         {
-            var selectedItem = (Use)this.UsoDeTipoVehiculo.SelectedItem;
-            var all = (List<Use>)this.UsosExistentes.DataSource;
+            var selectedItem = (UseDto)this.UsoDeTipoVehiculo.SelectedItem;
+            var all = (List<UseDto>)this.UsosExistentes.DataSource;
             all.Add(selectedItem);
-            var existing = (List<Use>)this.UsoDeTipoVehiculo.DataSource;
+            var existing = (List<UseDto>)this.UsoDeTipoVehiculo.DataSource;
             existing.Remove(selectedItem);
             this.UsoDeTipoVehiculo.DataSource = null;
             this.UsosExistentes.DataSource = null;
@@ -64,22 +75,8 @@ namespace Seggu.Desktop.Forms
 
         private void AceptarButton_Click(object sender, EventArgs e)
         {
-            var existing = (List<Use>)this.UsoDeTipoVehiculo.DataSource;
-            foreach (var obj in existing)
-            {
-                if (!this.vehicleType.Uses.Contains(obj))
-                {
-                    this.vehicleType.Uses.Add(obj);
-                }
-            }
-
-            var nonExisting = this.vehicleType.Uses.Except(existing);
-            while (nonExisting.Any())
-            {
-                this.vehicleType.Uses.Remove(nonExisting.First());
-            }
-
-            SegguContainer.Instance.SaveChanges();
+            var existing = (List<UseDto>)this.UsoDeTipoVehiculo.DataSource;
+            this.useService.SaveChanges(this.vehicleType, existing);
             this.Close();
         }
 

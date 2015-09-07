@@ -10,7 +10,7 @@ namespace Seggu.Tests
         [TestMethod]
         public void TestContextInitialization()
         {
-            using (var context = new SegguDataModelContainer())
+            using (var context = new SegguDataModelContext())
             {
                 foreach (var item in context.Users)
                 {

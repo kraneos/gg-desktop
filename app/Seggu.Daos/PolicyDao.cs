@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace Seggu.Daos
         private IVehicleDao vehicleDao;
         private IEmployeeDao employeeDao;
         private IIntegralDao integralDao;
-        public PolicyDao(IVehicleDao vehicleDao, IEmployeeDao employeeDao, IIntegralDao integralDao)
+        public PolicyDao(SegguDataModelContext context, IVehicleDao vehicleDao, IEmployeeDao employeeDao, IIntegralDao integralDao)
+            : base(context)
         {
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;
@@ -29,6 +31,7 @@ namespace Seggu.Daos
                     && p.EndDate >= DateTime.Today
                     && p.IsAnnulled == false
                     && p.IsRemoved == false
+                orderby p.EndDate descending
                 select p;
         }
         public IEnumerable<Policy> GetNotValidsByClient(long clientId)
@@ -39,13 +42,14 @@ namespace Seggu.Daos
                     p.ClientId == clientId && p.IsAnnulled == true
                     || p.ClientId == clientId && p.IsRemoved == true
                     || p.ClientId == clientId && p.EndDate < DateTime.Today
+                orderby p.EndDate descending
                 select p;
         }
         public IEnumerable<Policy> GetByVehiclePlate(string plate)
         {
             return
             from p in this.Set
-            join v in this.container.Vehicles
+            join v in this.context.Vehicles
             on p.Id equals v.PolicyId
             where v.Plate == plate
             select p;
@@ -62,7 +66,7 @@ namespace Seggu.Daos
             Policy dbPolicy = new Policy();
             if (newPolicy.Vehicles != null)
             {
-                dbPolicy = container.Policies
+                dbPolicy = context.Policies
                                     .Include("Vehicles.Coverages")
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newPolicy.Id);
@@ -70,7 +74,7 @@ namespace Seggu.Daos
             }
             else if (newPolicy.Employees != null)
             {
-                dbPolicy = container.Policies
+                dbPolicy = context.Policies
                                     .Include("Employees.Coverages")
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newPolicy.Id);
@@ -78,7 +82,7 @@ namespace Seggu.Daos
             }
             else if (newPolicy.Integrals != null)
             {
-                dbPolicy = container.Policies
+                dbPolicy = context.Policies
                                     .Include("Integrals.Coverages")
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newPolicy.Id);
@@ -86,9 +90,9 @@ namespace Seggu.Daos
 
             }
             UpdateFees(newPolicy);
-            container.Entry(dbPolicy).State = EntityState.Modified;
-            container.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
-            container.SaveChanges();
+            context.Entry(dbPolicy).State = EntityState.Modified;
+            context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
+            context.SaveChanges();
         }
         private void UpdatePolicyVehicles(Policy newPolicy, Policy dbPolicy)
         {
@@ -97,7 +101,7 @@ namespace Seggu.Daos
                 if (!newPolicy.Vehicles.Any(s => s.Id == dbVehicle.Id))
                     vehiclesToRemove.Add(dbVehicle);
 
-            container.Vehicles.RemoveRange(vehiclesToRemove);
+            context.Vehicles.RemoveRange(vehiclesToRemove);
             foreach (var newVehicle in newPolicy.Vehicles)
             {
                 var dbVehicle = dbPolicy.Vehicles.SingleOrDefault(s => s.Id == newVehicle.Id);
@@ -105,7 +109,7 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    container.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
                     foreach (var dbCoverage in dbVehicle.Coverages)
                         if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -117,7 +121,7 @@ namespace Seggu.Daos
                     foreach (var newCoverage in newVehicle.Coverages)
                         if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
                         {
-                            var dbCoverage = container.Coverages.Single(x => x.Id == newCoverage.Id);
+                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbVehicle.Coverages.Add(dbCoverage);
                         }
                     foreach (var coverageToRemove in coveragesToRemove)
@@ -134,7 +138,7 @@ namespace Seggu.Daos
                 if (!newPolicy.Employees.Any(s => s.Id == dbEmployee.Id))
                     employeesToRemove.Add(dbEmployee);
 
-            container.Employees.RemoveRange(employeesToRemove);
+            context.Employees.RemoveRange(employeesToRemove);
 
             foreach (var newEmployee in newPolicy.Employees)
             {
@@ -143,7 +147,7 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    container.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
                     foreach (var dbCoverage in dbEmployee.Coverages)
                         if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -156,7 +160,7 @@ namespace Seggu.Daos
                     foreach (var newCoverage in newEmployee.Coverages)
                         if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
                         {
-                            var dbCoverage = container.Coverages.Single(x => x.Id == newCoverage.Id);
+                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbEmployee.Coverages.Add(dbCoverage);
                         }
                     foreach (var coverageToRemove in coveragesToRemove)
@@ -173,7 +177,7 @@ namespace Seggu.Daos
                 if (!newPolicy.Integrals.Any(s => s.Id == dbIntegral.Id))
                     integralsToRemove.Add(dbIntegral);
 
-            container.Integrals.RemoveRange(integralsToRemove);
+            context.Integrals.RemoveRange(integralsToRemove);
 
             foreach (var newIntegral in newPolicy.Integrals)
             {
@@ -182,8 +186,8 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    container.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
-                    container.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                    context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
+                    context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
                     foreach (var dbCoverage in dbIntegral.Coverages)
                         if (newIntegral.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -196,7 +200,7 @@ namespace Seggu.Daos
                     foreach (var newCoverage in newIntegral.Coverages)
                         if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
                         {
-                            var dbCoverage = container.Coverages.Single(x => x.Id == newCoverage.Id);
+                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbIntegral.Coverages.Add(dbCoverage);
                         }
                     foreach (var coverageToRemove in coveragesToRemove)
@@ -215,10 +219,22 @@ namespace Seggu.Daos
                 fee.PolicyId = policy.Id;
             }
 
-            var feesToDelete = this.container.Fees.Where(f => f.PolicyId == policy.Id);
-            this.container.Fees.RemoveRange(feesToDelete);
+            var feesToDelete = this.context.Fees.Where(f => f.PolicyId == policy.Id);
+            this.context.Fees.RemoveRange(feesToDelete);
 
-            this.container.Fees.AddRange(policy.Fees);
+            this.context.Fees.AddRange(policy.Fees);
+        }
+        public IEnumerable<Policy> GetRosView(DateTime from, DateTime to)
+        {
+            return this.context.Policies
+                .Include("Client")
+                .Include("Risk")
+                .Include("Risk.Company")
+                .Include("Client.Addresses")
+                .Include("Client.Addresses.Locality")
+                .Include("Client.Addresses.Locality.District")
+                .Include("Client.Addresses.Locality.District.Province")
+                .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null);
         }
     }
 }

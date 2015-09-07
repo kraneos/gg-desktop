@@ -18,6 +18,7 @@ namespace Seggu.Services
             this.producerCodeDao = producerCodeDao;
             this.producerDao = producerDao;
         }
+
         public IEnumerable<ProducerDto> GetCollectors()
         {
             return this
@@ -25,6 +26,7 @@ namespace Seggu.Services
                 .GetCollectors()
                 .Select(x => ProducerDtoMapper.GetDto(x));
         }
+
         public IEnumerable<ProducerDto> GetProducers()
         {
             var list = this.producerDao.GetAll();
@@ -37,17 +39,19 @@ namespace Seggu.Services
                 .producerCodeDao
                 .GetAll()
                 .Where(x => x.CompanyId == companyId && (x.ProducerId == producerId))
-                .Select(x => ProducerDtoMapper.GetProducerCompanyDto(x)).Single();             
+                .Select(x => ProducerDtoMapper.GetProducerCompanyDto(x)).Single();
             return one;
         }
+
         public void Delete(int id)
         {
             var guid = id;
             producerDao.Delete(guid);
         }
+
         public void Save(ProducerDto producer)
         {
-            var isNew = producer.Id== default(int);
+            var isNew = producer.Id == default(int);
             var prod = ProducerDtoMapper.GetObject(producer);
             if (isNew)
                 this.producerDao.Save(prod);
@@ -78,14 +82,14 @@ namespace Seggu.Services
         public bool HasCompany(int producerId)
         {
             var validation = producerCodeDao.ProducerHasCompany(producerId);
-            return validation; 
+            return validation;
         }
 
         public IEnumerable<ProducerCodeDto> GetByCompanyId(int companyId)
         {
             var list = producerCodeDao.GetByCompany(companyId);
             return list.OrderBy(x => x.Code).Select(p => ProducerCodeDtoMapper.GetDto(p));
-            
+
         }
 
         public bool HasPolicies(int producerId)
@@ -96,7 +100,7 @@ namespace Seggu.Services
 
                 return this.producerCodeDao.GetContainer().Policies.Any(x => x.ProducerId == guid || x.CollectorId == guid);
             }
-            
+
             return false;
         }
     }

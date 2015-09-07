@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Seggu.Infrastructure
 {
-    public class DependencyContainer
+    public class DependencyResolver
     {
-        private static volatile DependencyContainer instance;
+        private static volatile DependencyResolver instance;
 
         private static readonly object lockObject = new object();
 
-        public static DependencyContainer Instance
+        public static DependencyResolver Instance
         {
             get
             {
@@ -20,7 +20,7 @@ namespace Seggu.Infrastructure
                 {
                     if (instance == null)
                     {
-                        instance = new DependencyContainer();
+                        instance = new DependencyResolver();
                     }
                 }
 
@@ -28,12 +28,18 @@ namespace Seggu.Infrastructure
             }
         }
 
-        private DependencyContainer()
+        private DependencyResolver()
         {
             this.unityContainer = Bootstrapper.Initialise();
         }
 
         private IUnityContainer unityContainer;
+
+        public T ResolveGeneric<T>(IDictionary<string, object> parameters = null)
+        {
+            var type = typeof(T);
+            return (T)this.Resolve(type, parameters);
+        }
 
         public object Resolve(Type type, IDictionary<string, object> parameters = null)
         {

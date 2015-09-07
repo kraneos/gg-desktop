@@ -71,6 +71,7 @@
     <Compile Include="BodyworkDto.cs" />
     <Compile Include="BrandDto.cs" />
     <Compile Include="CashAccountDto.cs" />
+    <Compile Include="CashAccountRcrViewDto.cs" />
     <Compile Include="CasualtyDto.cs" />
     <Compile Include="CasualtyTypeDto.cs" />
     <Compile Include="ChargeItemDto.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ClientIndexDto.cs" />
     <Compile Include="ClientFullDto.cs" />
     <Compile Include="CompanyDto.cs" />
+    <Compile Include="CompanyFormDto.cs" />
     <Compile Include="CompanyFullDto.cs" />
     <Compile Include="ContactDto.cs" />
     <Compile Include="ContactFullDto.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="EntityWithIdDto.cs" />
     <Compile Include="FeeChargeDto.cs" />
     <Compile Include="FeeDto.cs" />
+    <Compile Include="FeeIndexDto.cs" />
     <Compile Include="FeeSelectionDto.cs" />
     <Compile Include="IntegralDto.cs" />
     <Compile Include="KeyValueDto.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="LiquidationDto.cs" />
     <Compile Include="LocalityDto.cs" />
     <Compile Include="PolicyFullDto.cs" />
+    <Compile Include="PolicyRosViewDto.cs" />
     <Compile Include="ProducerCodeDto.cs" />
     <Compile Include="ProducerCompanyDto.cs" />
     <Compile Include="ProducerDto.cs" />
@@ -106,8 +110,10 @@
     <Compile Include="RiskCompanyDto.cs" />
     <Compile Include="SexDto.cs" />
     <Compile Include="UseDto.cs" />
+    <Compile Include="UserDto.cs" />
     <Compile Include="VehicleDto.cs" />
     <Compile Include="VehicleModelDto.cs" />
+    <Compile Include="VehicleModelFullDto.cs" />
     <Compile Include="VehicleTypeDto.cs" />
   </ItemGroup>
   <ItemGroup>

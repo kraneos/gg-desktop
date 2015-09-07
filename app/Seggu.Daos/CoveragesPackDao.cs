@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,54 +12,57 @@ namespace Seggu.Daos
 {
     public sealed class CoveragesPackDao : IdEntityDao<CoveragesPack>, ICoveragesPackDao
     {
+        public CoveragesPackDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public IEnumerable<CoveragesPack> GetByRiskId(long riskId)
         {
-            return this.container.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId);
+            return this.context.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId);
         }
+
         public void UpdateCoveragesPack(CoveragesPack coveragesPack)
         {
             var coverages = new List<Coverage>(coveragesPack.Coverages).ToList();
-            var newCoveragesPack = container.CoveragesPacks
+            var newCoveragesPack = context.CoveragesPacks
                                     .Include("Coverages")
                                     .FirstOrDefault(c => c.Id == coveragesPack.Id) ?? coveragesPack;
 
             newCoveragesPack.Coverages.Clear();
-            container.Entry(newCoveragesPack).State = EntityState.Modified;
+            context.Entry(newCoveragesPack).State = EntityState.Modified;
 
             coveragesPack.Id = newCoveragesPack.Id;
-            container.Entry(newCoveragesPack).CurrentValues.SetValues(coveragesPack);
+            context.Entry(newCoveragesPack).CurrentValues.SetValues(coveragesPack);
 
-            foreach (var c in container.Coverages)
+            foreach (var c in context.Coverages)
             {
                 if (coverages.Any(cpack => cpack.Id == c.Id))
                 {
-                    container.Coverages.Attach(c);
+                    context.Coverages.Attach(c);
                     newCoveragesPack.Coverages.Add(c);
                 }
                 else
                     newCoveragesPack.Coverages.Remove(c);
             }
-            container.SaveChanges();
+            context.SaveChanges();
         }
-
 
         public bool GetByName(string name)
         {
             return this.Set.Any(c => c.Name == name);
         }
 
-
         public bool HasRiskPackege(long idRisk)
         {
             return this.Set.Any(c => c.RiskId == idRisk);
         }
 
-
         public bool BetByNameRisk(string name, long idRisk)
         {
             return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
         }
-
 
         public bool BetByNameId(string name, long id, long riskId)
         {

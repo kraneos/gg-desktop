@@ -1,5 +1,6 @@
 ﻿using Seggu.Data;
 using Seggu.Desktop.Helpers;
+using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,11 @@ namespace Seggu.Desktop.Forms
 {
     public partial class Login : Form
     {
-        public Login()
+        private IUserService userService;
+        public Login(IUserService userService)
         {
             InitializeComponent();
+            this.userService = userService;
         }
 
         private void Aceptar(object sender, EventArgs e)
@@ -31,9 +34,9 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (SegguContainer.Instance.Users.Any(u => u.Username == this.UsuarioTextBox.Text.Trim() && u.Password == this.ContrasenaTextBox.Text))
+            if (this.userService.Exists(this.UsuarioTextBox.Text.Trim(), this.ContrasenaTextBox.Text))
             {
-                var user = SegguContainer.Instance.Users.First(u => u.Username == this.UsuarioTextBox.Text.Trim() && u.Password == this.ContrasenaTextBox.Text);
+                var user = this.userService.Get(this.UsuarioTextBox.Text.Trim(), this.ContrasenaTextBox.Text);
                 SegguExecutionContext.Instance.CurrentUser = user;
                 MessageBox.Show("Bienvenido a Seggu!");
                 this.DialogResult = DialogResult.OK;
@@ -66,12 +69,12 @@ namespace Seggu.Desktop.Forms
 
         private void Cancelar(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Esta seguro que desea salir?","Salir",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Esta seguro que desea salir?", "Salir", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 this.DialogResult = DialogResult.Yes;
                 this.Close();
             }
-            
+
 
         }
 

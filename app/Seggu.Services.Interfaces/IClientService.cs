@@ -18,5 +18,7 @@ namespace Seggu.Services.Interfaces
         ClientFullDto GetById(int clientId);
 
         IEnumerable<ClientIndexDto> GetValids();
+
+        bool ExistsDocument(string dni);
     }
 }

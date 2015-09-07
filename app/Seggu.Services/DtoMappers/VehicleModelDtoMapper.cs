@@ -34,5 +34,27 @@ namespace Seggu.Services.DtoMappers
             return obj;
         }
 
+
+        public static VehicleModelFullDto GetFullDto(VehicleModel vm)
+        {
+            var dto = new VehicleModelFullDto();
+            dto.Id = (int)vm.Id;
+            dto.Name = vm.Name;
+            dto.BrandName = vm.Brand.Name;
+            dto.VehicleTypeName = vm.VehicleType.Name;
+            switch (vm.Origin)
+            {
+                case Origin.National:
+                    dto.Origin = "Nacional";
+                    break;
+                case Origin.Imported:
+                    dto.Origin = "Importado";
+                    break;
+                default:
+                    dto.Origin = "Desconocido";
+                    break;
+            }
+            return dto;
+        }
     }
 }

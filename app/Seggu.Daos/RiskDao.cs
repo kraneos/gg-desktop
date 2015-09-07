@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,12 @@ namespace Seggu.Daos
 {
     public sealed class RiskDao : IdEntityDao<Risk> , IRiskDao
     {
+        public RiskDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public bool GetByName(string name)
         {
             return this.Set.Any(c => c.Name == name);
@@ -30,7 +37,6 @@ namespace Seggu.Daos
                 orderby r.Name
                 select r;
         }
-
 
         public bool BetByNameId(string name, long id)
         {

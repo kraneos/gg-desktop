@@ -1,5 +1,6 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
+using Seggu.Services.Dtos;
 using System;
 using System.Linq;
 
@@ -28,6 +29,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)x.Id;
             return dto;
         }
+
         public static CashAccount GetObject(CashAccountDto x)
         {
             var c = new CashAccount();
@@ -42,6 +44,17 @@ namespace Seggu.Services.DtoMappers
             c.ProducerId = x.ProducerId;
             c.FeeId = x.FeeId;
             return c;
+        }
+
+        public static CashAccountRcrViewDto RcrView(CashAccount obj)
+        {
+            var dto = new CashAccountRcrViewDto();
+            dto.Amount = obj.Amount;
+            dto.CompanyName = obj.Fee.Policy.Risk.Company.Name;
+            dto.PolicyNumber = obj.Fee.Policy.Number;
+            dto.ReceiptNumber = obj.ReceiptNumber;
+            dto.RecordDate = obj.Date.ToString("yyyy-MM-dd");
+            return dto;
         }
     }
 }

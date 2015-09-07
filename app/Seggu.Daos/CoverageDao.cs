@@ -1,4 +1,5 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,21 @@ namespace Seggu.Daos
 {
     public sealed class CoverageDao : IdEntityDao<Coverage>, ICoverageDao
     {
+        public CoverageDao(SegguDataModelContext context)
+            : base(context)
+        {
+
+        }
+
         public bool GetByName(string name)
         {
             return this.Set.Any(c => c.Name == name);
         }
 
-
-
         public bool RiskHasCoverage(long riskId)
         {
             return this.Set.Any(c => c.RiskId == riskId);
         }
-
 
         public bool BetByNameId(string name, long id, long riskId)
         {
@@ -36,7 +40,6 @@ namespace Seggu.Daos
             }
             return true;
         }
-
 
         public bool BetByNameRisk(string name, long idRisk)
         {

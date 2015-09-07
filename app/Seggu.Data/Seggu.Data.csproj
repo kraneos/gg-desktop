@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="SegguContainer.cs" />
     <Compile Include="SegguDataModelContainer.cs" />
+    <Compile Include="SegguDataModelContainer.fluentapi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

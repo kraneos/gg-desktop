@@ -52,5 +52,16 @@ namespace Seggu.Services
         {
             return useDao.GetByName(name);
         }
+
+        public IEnumerable<UseDto> GetByVehicleType(int vehicleTypeId)
+        {
+            var uses = this.useDao.GetByVehicleType(vehicleTypeId);
+            return uses.Select(x => UseDtoMapper.GetDto(x));
+        }
+
+        public void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<UseDto> existing)
+        {
+            this.useDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), existing.Select(x => UseDtoMapper.GetUse(x)));
+        }
     }
 }

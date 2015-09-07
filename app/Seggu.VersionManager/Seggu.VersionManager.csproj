@@ -91,6 +91,10 @@
       <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
       <Name>Seggu.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Services.Interfaces\Seggu.Services.Interfaces.csproj">
+      <Project>{ed582ff0-f547-49a8-a62f-55b3f96ab02f}</Project>
+      <Name>Seggu.Services.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
