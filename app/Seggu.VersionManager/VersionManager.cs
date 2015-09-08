@@ -95,6 +95,7 @@ namespace Seggu.VersionManager
             {
                 var versioningService = GetVersioningService(firstVersion.Name);
                 versioningService.ApplyVersion();
+                this.versionService.SaveVersion(firstVersion.Name);
             }
         }
 
