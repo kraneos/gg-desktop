@@ -10,6 +10,7 @@ using Seggu.Desktop.Forms;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
 using Seggu.Services.Interfaces;
+using Seggu.Helpers;
 
 namespace Seggu.Desktop.UserControls
 {
@@ -285,11 +286,21 @@ namespace Seggu.Desktop.UserControls
                     if (c is TextBox)
                     {
                         if (c == txtAnio || c == txtChasis || c == txtMotor || c == txtPatente)
-                            if (c.Text == "")
+                        {
+                            if (string.IsNullOrWhiteSpace(c.Text))
                             {
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
+                            else if (c == txtPatente)
+                            {
+                                if (!txtPatente.Text.IsPlateNumber())
+                                {
+                                    errorProvider1.SetError(c, "Formato de patente inválido.");
+                                    ok = false;
+                                }
+                            }
+                        }
                     }
                     else
                     {
@@ -331,7 +342,11 @@ namespace Seggu.Desktop.UserControls
 
         private void btnQuitar_Click(object sender, EventArgs e)
         {
-            if (vehicleList.Count() <= 1) return;
+            if (vehicleList.Count() <= 1)
+            {
+                MessageBox.Show("Una póliza automotor debe tener al menos un vehículo asociado.");
+                return;
+            }
             string neededEndorseType = Seggu.Domain.EndorseType.Baja_Objetos.ToString();
             EndososUserControl endososUC = this.Parent.Parent.GetType().Equals(typeof(EndososUserControl)) ?
                 (EndososUserControl)this.Parent.Parent : null;

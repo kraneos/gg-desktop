@@ -227,12 +227,12 @@ namespace Seggu.Desktop.UserControls
                 errorProvider1.SetError(txtHomePhone, "Campo vacio");
                 ok = false;
             }
-            else if (!txtHomePhone.Text.IsAllNumbers())
+            else if (!txtHomePhone.Text.AreAllNumbers())
             {
                 errorProvider1.SetError(txtHomePhone, "El campo solo puede contener numeros");
                 ok = false;
             }
-            if (!string.IsNullOrEmpty(txtCollectionPhone.Text) && !txtCollectionPhone.Text.IsAllNumbers())
+            if (!string.IsNullOrEmpty(txtCollectionPhone.Text) && !txtCollectionPhone.Text.AreAllNumbers())
             {
                 errorProvider1.SetError(txtCollectionPhone, "El campo solo puede contener numeros");
                 ok = false;

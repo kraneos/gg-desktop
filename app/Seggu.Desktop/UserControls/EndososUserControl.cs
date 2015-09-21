@@ -339,7 +339,7 @@ namespace Seggu.Desktop.UserControls
 
                     endorseService.Save(endorse);
 
-                    MessageBox.Show("Guardó OK!");
+                    MessageBox.Show("El endoso se ha guardado con exito.");
                     //limpiar layout
                     var mainForm = (Layout)this.FindForm();
                     mainForm.CleanLeftPanel();

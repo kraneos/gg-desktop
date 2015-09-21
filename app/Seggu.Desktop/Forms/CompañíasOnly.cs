@@ -502,13 +502,11 @@ namespace Seggu.Desktop.Forms
 
                     MessageBox.Show("Productor agregado exitosamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
                     SelectCompany();
                     InitializeProducers();
+                    grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
                     if (selectedFullCompany.Producers != null)
                         FillGrdProductores();
-
-
                 }
                 catch (Exception ex)
                 {

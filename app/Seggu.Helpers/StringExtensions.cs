@@ -32,7 +32,7 @@ namespace Seggu.Helpers
             return false;
         }
 
-        public static bool IsAllNumbers(this string str)
+        public static bool AreAllNumbers(this string str)
         {
             foreach (char c in str)
             {
@@ -44,7 +44,7 @@ namespace Seggu.Helpers
             return true;
         }
 
-        public static bool IsAllLetters(this string str)
+        public static bool AreAllLetters(this string str)
         {
             foreach (char c in str)
             {
@@ -90,6 +90,37 @@ namespace Seggu.Helpers
             }
 
             return str;
+        }
+
+        public static bool IsPlateNumber(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return false;
+            }
+            else
+            {
+                var parts = str.Split('-');
+                if (parts.Length != 2)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (parts[0].Length != 3 || !parts[0].AreAllLetters())
+                    {
+                        return false;
+                    }
+                    else if (parts[1].Length != 3 || !parts[1].AreAllNumbers())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
         }
     }
 }

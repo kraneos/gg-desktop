@@ -225,7 +225,7 @@ namespace Seggu.Desktop.Forms
                     return;
                 }
 
-                if (!bank.Number.IsAllNumbers())
+                if (!bank.Number.AreAllNumbers())
                 {
                     MessageBox.Show("El codigo del banco debe ser un numero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -270,7 +270,7 @@ namespace Seggu.Desktop.Forms
                     return;
                 }
 
-                if (!currentBank.Number.IsAllNumbers())
+                if (!currentBank.Number.AreAllNumbers())
                 {
                     MessageBox.Show("El codigo del banco debe ser un numero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;

@@ -10,6 +10,7 @@ using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -101,16 +102,24 @@ namespace Seggu.Desktop.UserControls
         }
         private void NewPolicy()
         {
-            currentClient = LayoutForm.currentClient;
-            EmptyControlsDetalleTab();
-            PanelCoverage.Controls.Clear();
-            txtAsegurado.Text = currentClient.Nombre + " " + currentClient.Apellido;
-            NavigateToDetalle();
-            ClearDataBindings();
-            LayoutForm.currentPolicy = new PolicyFullDto();
-            cmbCompania_SelectionChangeCommitted(null, null);
-            grdFees.Rows.Clear();
-            cmbPlanes.Enabled = true;
+            if (this.cmbCompania.Items.Count > 0)
+            {
+                currentClient = LayoutForm.currentClient;
+                EmptyControlsDetalleTab();
+                PanelCoverage.Controls.Clear();
+                txtAsegurado.Text = currentClient.Nombre + " " + currentClient.Apellido;
+                NavigateToDetalle();
+                ClearDataBindings();
+                LayoutForm.currentPolicy = new PolicyFullDto();
+                cmbCompania_SelectionChangeCommitted(null, null);
+                cmbRiesgo_SelectionChangeCommitted(null, null);
+                grdFees.Rows.Clear();
+                cmbPlanes.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("No se han encontrado Compañias en el sistema.\nPara utilizar esta funcionalidad debera crear Compañias y asociarles las Coberturas que estas proveen.");
+            }
         }
         private void EmptyControlsDetalleTab()
         {
@@ -163,54 +172,61 @@ namespace Seggu.Desktop.UserControls
         public void RenovatePolicy()
         {
             var cp = LayoutForm.currentPolicy;
-            selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-            //cp.Id = null;
-            cp.PreviousNumber = cp.Número;
-            cp.Número = "";
-            cp.StartDate = DateTime.Today.ToShortDateString();
-            cp.Vence = DateTime.Today.ToShortDateString();
-            cp.Period = PeriodDtoMapper.ToString(Period.Anual);
-            if (cp.Vehicles != null)
+            if (!string.IsNullOrWhiteSpace(cp.Número))
             {
-                var vehicles = cp.Vehicles.ToList();
-                foreach (var vehicle in vehicles)
+                selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
+                //cp.Id = null;
+                cp.PreviousNumber = cp.Número;
+                cp.Número = "";
+                cp.StartDate = DateTime.Today.ToShortDateString();
+                cp.Vence = DateTime.Today.ToShortDateString();
+                cp.Period = PeriodDtoMapper.ToString(Period.Anual);
+                if (cp.Vehicles != null)
                 {
-                    //vehicle.Id = null;
-                    //vehicle.PolicyId = null;
+                    var vehicles = cp.Vehicles.ToList();
+                    foreach (var vehicle in vehicles)
+                    {
+                        //vehicle.Id = null;
+                        //vehicle.PolicyId = null;
+                    }
+                    cp.Vehicles = vehicles;
                 }
-                cp.Vehicles = vehicles;
+                else if (cp.Employees != null)
+                {
+                    var employees = cp.Employees.ToList();
+                    foreach (var employee in employees)
+                    {
+                        //employee.Id = null;
+                        //employee.PolicyId = null;
+                    }
+                    cp.Employees = employees;
+                }
+                else if (cp.Integrals != null)
+                {
+                    var integrals = cp.Integrals.ToList();
+                    foreach (var integral in integrals)
+                    {
+                        //integral.Id = null;
+                        //integral.PolicyId = null;
+                    }
+                    cp.Integrals = integrals;
+                }
+                cp.IsRenovated = true;
+                cp.IsRemoved = false;
+                cp.IsAnnulled = false;
+                cp.Notes = "";
+                //cp.Premium = 0;
+                cp.RequestDate = DateTime.Today.ToShortDateString();
+                dtpRecibido.Checked = false;
+                dtpEmision.Checked = false;
+                chkOtherClient.Visible = true;
+                PopulateDetails();
+                CalcularNetoCobrar();
             }
-            else if (cp.Employees != null)
+            else
             {
-                var employees = cp.Employees.ToList();
-                foreach (var employee in employees)
-                {
-                    //employee.Id = null;
-                    //employee.PolicyId = null;
-                }
-                cp.Employees = employees;
+                MessageBox.Show("La póliza debe tener un número asignado para ser renovada.");
             }
-            else if (cp.Integrals != null)
-            {
-                var integrals = cp.Integrals.ToList();
-                foreach (var integral in integrals)
-                {
-                    //integral.Id = null;
-                    //integral.PolicyId = null;
-                }
-                cp.Integrals = integrals;
-            }
-            cp.IsRenovated = true;
-            cp.IsRemoved = false;
-            cp.IsAnnulled = false;
-            cp.Notes = "";
-            //cp.Premium = 0;
-            cp.RequestDate = DateTime.Today.ToShortDateString();
-            dtpRecibido.Checked = false;
-            dtpEmision.Checked = false;
-            chkOtherClient.Visible = true;
-            PopulateDetails();
-            CalcularNetoCobrar();
         }
 
         public void PopulateDetails()
@@ -381,7 +397,7 @@ namespace Seggu.Desktop.UserControls
                         return;
                     policyService.SavePolicy(policy);
 
-                    MessageBox.Show("Guardó OK!");
+                    MessageBox.Show("La poliza se ha guardado con exito.");
                     //limpiar layout
                     var mainForm = (Layout)this.FindForm();
                     mainForm.CleanLeftPanel();
@@ -509,11 +525,14 @@ namespace Seggu.Desktop.UserControls
 
         private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            var CompanyId = (int)cmbCompania.SelectedValue;
-            selectedCompany = companyService.GetFullById(CompanyId);
-            cmbRiesgo.DataSource = selectedCompany.Risks;
-            cmbProductor.DataSource = selectedCompany.Producers;
-            cmbCobrador.SelectedIndex = 0;
+            if (this.cmbCompania.SelectedValue != null)
+            {
+                var CompanyId = (int)cmbCompania.SelectedValue;
+                selectedCompany = companyService.GetFullById(CompanyId);
+                cmbRiesgo.DataSource = selectedCompany.Risks;
+                cmbProductor.DataSource = selectedCompany.Producers;
+                cmbCobrador.SelectedIndex = 0;
+            }
         }
 
 
@@ -590,6 +609,9 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Cliente"].Visible = false;
             grdFees.Columns["EndorseId"].Visible = false;
             grdFees.Columns["Nro_Póliza"].Visible = false;
+            grdFees.Columns["Valor"].DefaultCellStyle.Format = "0.00";
+            grdFees.Columns["Saldo"].DefaultCellStyle.Format = "0.00";
+            grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "0.00";
         }
         private void CalculateFeeTotals()
         {
@@ -674,122 +696,38 @@ namespace Seggu.Desktop.UserControls
 
         private void txtAsegurado_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarTextoYPuntuacion(e);
-        }
-        public void ValidarTextoYPuntuacion(KeyPressEventArgs e)
-        {
-            if (char.IsLetter(e.KeyChar) == true)
-            {
-            }
-            //Codigo Ascii para el punto
-            else if (e.KeyChar == 46)
-            {
-            }
-            //codigo Ascii para la coma
-            else if (e.KeyChar == 44)
-            {
-            }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-        public void ValidarNumeroYPunto(TextBox sender, KeyPressEventArgs e)
-        {
-            if (char.IsDigit(e.KeyChar) || e.KeyChar == 46 && (sender.Text ?? string.Empty).IndexOf('.') == -1)
-            {
-            }
-            else
-            {
-                e.Handled = true;
-            }
+            ValidarNumeros((TextBox)sender, e);
         }
 
         private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPunto((TextBox)sender, e);
+            ValidarNumeros((TextBox)sender, e);
         }
         private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPunto((TextBox)sender, e);
+            ValidarNumeros((TextBox)sender, e);
         }
         private void txtBonificacionPago_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPunto((TextBox)sender, e);
+            ValidarNumeros((TextBox)sender, e);
         }
         private void txtBonificacionPropia_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPunto((TextBox)sender, e);
+            ValidarNumeros((TextBox)sender, e);
         }
         private void txtRecargoPropio_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPunto((TextBox)sender, e);
+            ValidarNumeros((TextBox)sender, e);
         }
-        public void ValidarNumeroYPuntuacion(KeyPressEventArgs e)
+        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
         {
-            if (char.IsDigit(e.KeyChar) == true)
-            {
-            }
-            //Codigo Ascii para el punto
-            else if (e.KeyChar == 46)
-            {
-            }
-            //Codigo Ascii para el porcentaje
-            else if (e.KeyChar == 37)
-            {
-            }
-            //codigo Ascii para la coma
-            else if (e.KeyChar == 44)
-            {
-            }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
             {
                 e.Handled = true;
             }
-        }
-
-        public void ValidarNumeros(KeyPressEventArgs e)
-        {
-            if (char.IsDigit(e.KeyChar) == true)
-            {
-            }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
+            else if (!char.IsDigit(c) && c != 8 &&c!= 46)
             {
                 e.Handled = true;
             }
@@ -861,7 +799,7 @@ namespace Seggu.Desktop.UserControls
 
         private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeros(e);
+            ValidarNumeros((TextBox)sender, e);
         }
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

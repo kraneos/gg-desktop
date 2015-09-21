@@ -15,7 +15,7 @@ namespace Seggu.Services.DtoMappers
             var dto = new PolicyFullDto();
             dto.AnnulationDate = obj.AnnulationDate == null ? date : obj.AnnulationDate.Value.ToShortDateString();
             dto.Asegurado = obj.Client.FirstName + " " + obj.Client.LastName;
-            
+            dto.EndorseCount = obj.Endorses.Count;
             dto.Bonus = (int)obj.Bonus;
 
             dto.Casualties = obj.Casualties.Select(c => CasualtyDtoMapper.GetDto(c)).ToList();

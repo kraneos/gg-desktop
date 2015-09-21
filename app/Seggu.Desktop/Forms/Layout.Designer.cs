@@ -39,7 +39,6 @@
             this.btnPolizas = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnEndosos = new System.Windows.Forms.Button();
-            this.lblPolizas = new System.Windows.Forms.Label();
             this.grdEndorses = new System.Windows.Forms.DataGridView();
             this.LblApellido = new System.Windows.Forms.Label();
             this.lblDNI = new System.Windows.Forms.Label();
@@ -206,7 +205,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.btnEndosos);
-            this.splitContainer1.Panel1.Controls.Add(this.lblPolizas);
             this.splitContainer1.Panel1.Controls.Add(this.btnSiniestros);
             this.splitContainer1.Panel1.Controls.Add(this.grdEndorses);
             this.splitContainer1.Panel1.Controls.Add(this.LblApellido);
@@ -239,17 +237,6 @@
             this.btnEndosos.Text = "Nuevo Endoso";
             this.btnEndosos.UseVisualStyleBackColor = false;
             this.btnEndosos.Click += new System.EventHandler(this.btnEndosos_Click);
-            // 
-            // lblPolizas
-            // 
-            this.lblPolizas.AutoSize = true;
-            this.lblPolizas.Location = new System.Drawing.Point(12, 142);
-            this.lblPolizas.Name = "lblPolizas";
-            this.lblPolizas.Size = new System.Drawing.Size(49, 19);
-            this.lblPolizas.TabIndex = 40;
-            this.lblPolizas.Text = "Pólizas";
-            this.lblPolizas.Visible = false;
-            this.lblPolizas.Click += new System.EventHandler(this.lblPolizas_Click);
             // 
             // grdEndorses
             // 
@@ -364,11 +351,11 @@
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 22);
+            this.tabExpired.Location = new System.Drawing.Point(4, 26);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 271);
+            this.tabExpired.Size = new System.Drawing.Size(247, 267);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -385,7 +372,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 267);
+            this.grdExpired.Size = new System.Drawing.Size(241, 263);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellContentClick);
             // 
@@ -720,7 +707,6 @@
         private System.Windows.Forms.ToolStripMenuItem pólizasARenovarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem utilidadesToolStripMenuItem;
         private System.Windows.Forms.DataGridView grdPolicies;
-        private System.Windows.Forms.Label lblPolizas;
         private System.Windows.Forms.Button btnEndosos;
         private System.Windows.Forms.ToolStripMenuItem liquidacionesToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
