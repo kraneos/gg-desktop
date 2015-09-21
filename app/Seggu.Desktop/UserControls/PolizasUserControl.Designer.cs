@@ -85,7 +85,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtPrima = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -109,6 +108,7 @@
             this.btnRenovar = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.tctrlPolizasDatos.SuspendLayout();
             this.tabPageDatos.SuspendLayout();
             this.tabPagePlanes.SuspendLayout();
@@ -511,7 +511,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(335, 358);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(74, 17);
+            this.label11.Size = new System.Drawing.Size(73, 17);
             this.label11.TabIndex = 54;
             this.label11.Text = "Total Saldo";
             // 
@@ -593,7 +593,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(590, 358);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 17);
+            this.label5.Size = new System.Drawing.Size(69, 17);
             this.label5.TabIndex = 49;
             this.label5.Text = "Total a Cía";
             // 
@@ -696,20 +696,12 @@
             this.label8.TabIndex = 3;
             this.label8.Text = "Neto a Cobrar";
             // 
-            // txtSumaAsegurado
-            // 
-            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
-            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
-            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
-            this.txtSumaAsegurado.TabIndex = 0;
-            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 77);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(27, 17);
+            this.label13.Size = new System.Drawing.Size(26, 17);
             this.label13.TabIndex = 27;
             this.label13.Text = "IVA";
             // 
@@ -718,7 +710,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 17);
+            this.label4.Size = new System.Drawing.Size(96, 17);
             this.label4.TabIndex = 25;
             this.label4.Text = "Premio con IVA";
             // 
@@ -819,7 +811,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(177, 358);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(93, 17);
+            this.label20.Size = new System.Drawing.Size(92, 17);
             this.label20.TabIndex = 7;
             this.label20.Text = "Total a Cobrar";
             // 
@@ -976,6 +968,14 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // txtSumaAsegurado
+            // 
+            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
+            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
+            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
+            this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
+            // 
             // PolizasUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1058,7 +1058,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtPrima;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtSumaAsegurado;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -1086,5 +1085,6 @@
         private System.Windows.Forms.CheckBox chkOtherClient;
         internal System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox txtSumaAsegurado;
     }
 }

@@ -111,7 +111,7 @@ namespace Seggu.Infrastructure
         container.RegisterType<IVersionManager, VersionManager.VersionManager>();
         
         // Entity Framework Context
-        container.RegisterType<SegguDataModelContext>();
+        container.RegisterType<SegguDataModelContext>(new ContainerControlledLifetimeManager());
     }
   }
 }

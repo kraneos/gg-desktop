@@ -125,7 +125,6 @@ namespace Seggu.Desktop.Forms
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Regular);
             btnPolizas.Text = "Pólizas";
             btnSiniestros.Visible = false;
-            lblPolizas.Visible = false;
             grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
             btnEndosos.Visible = false;
@@ -150,7 +149,7 @@ namespace Seggu.Desktop.Forms
             else if (str.Length > 1 && str.Substring(0, 2) == "p-")
                 SearchByPolicyNumber(str);
             //por Patente
-            else if ((str.Length > 3 && str.Length < 8) && (str[3] == '-') && (str.Substring(0, 3).IsAllLetters() || str.Substring(0, 3).IsAllNumbers()))
+            else if ((str.Length > 3 && str.Length < 8) && (str[3] == '-') && (str.Substring(0, 3).AreAllLetters() || str.Substring(0, 3).AreAllNumbers()))
                 SearchByVehiclePlate(str);
             //por apellido
             else if (str.Length > 3)
@@ -209,7 +208,6 @@ namespace Seggu.Desktop.Forms
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Bold);
             btnCobranzas.Enabled = false;
             tabCtrlPolicies.Visible = true;
-            lblPolizas.Visible = false;
             grdPolicies.Visible = false;
             //if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
             //{
@@ -222,7 +220,6 @@ namespace Seggu.Desktop.Forms
         }
         private void SetButtonsPoliciesPlateSearch()
         {
-            lblPolizas.Visible = true;
             grdPolicies.Visible = true;
 
             tabCtrlPolicies.Visible = false;

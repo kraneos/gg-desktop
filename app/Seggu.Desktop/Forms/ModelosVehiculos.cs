@@ -239,7 +239,7 @@ namespace Seggu.Desktop.Forms
         }
         private void ReInitiateForm()
         {
-            MessageBox.Show("Guardó OK!");
+            MessageBox.Show("La operacion ha sido exitosa.");
             LoadCmbBrands();
 
             cmbTipoVehiculo.ValueMember = "Id";

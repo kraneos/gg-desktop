@@ -533,9 +533,6 @@
     <Content Include="Scripts\Version000\SampleDataInsert.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="seggu.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Seggu.Desktop_1_TemporaryKey.pfx" />
     <None Include="versions.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
