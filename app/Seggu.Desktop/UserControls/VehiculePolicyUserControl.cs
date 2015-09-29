@@ -247,6 +247,11 @@ namespace Seggu.Desktop.UserControls
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            this.errorProvider1.Clear();
+            if (!this.ValidateChildren())
+            {
+                return;
+            }
             if (!ValidateControls()) return;
             if (!changesDetected) return;
 
@@ -297,6 +302,14 @@ namespace Seggu.Desktop.UserControls
                                 if (!txtPatente.Text.IsPlateNumber())
                                 {
                                     errorProvider1.SetError(c, "Formato de patente inválido.");
+                                    ok = false;
+                                }
+                            }
+                            else if (c == txtChasis)
+                            {
+                                if (!txtChasis.Text.IsVIN())
+                                {
+                                    errorProvider1.SetError(c, "Formato de chasis inválido.");
                                     ok = false;
                                 }
                             }
@@ -444,6 +457,101 @@ namespace Seggu.Desktop.UserControls
         private void grdAccessories_CurrentCellChanged(object sender, EventArgs e)
         {
             SetChangesDetected();
+        }
+
+        private void cmbMarcas_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbMarcas.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbMarcas, "Este campo es obligatorio.");
+            }
+        }
+
+        private void txtMotor_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.txtMotor.Text))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtMotor, "Este campo es obligatorio.");
+            }
+        }
+
+        private void txtChasis_Validating(object sender, CancelEventArgs e)
+        {
+            if (!this.txtChasis.Text.IsVIN())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtChasis, "Este campo debe tener un formato de chasis válido.");
+            }
+        }
+
+        private void txtAnio_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtAnio.Text.Length != 4)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtAnio, "El año debe ser de cuatro digitos");
+            }
+            else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtAnio, "El año debe estar entre 1950 y el actual");
+            }
+        }
+
+        private void cmbModelos_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbModelos.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbModelos, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbTipoVehiculo_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbTipoVehiculo.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbTipoVehiculo, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbBodyworks_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbBodyworks.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbBodyworks, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbUses_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbUses.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbUses, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbOrigen_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbOrigen.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbOrigen, "Este campo es obligatorio.");
+            }
+        }
+
+        private void txtPatente_Validating(object sender, CancelEventArgs e)
+        {
+            if (!this.txtPatente.Text.IsPlateNumber())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtPatente, "Este campo debe tener un formato de patente válido.");
+            }
         }
 
     }
