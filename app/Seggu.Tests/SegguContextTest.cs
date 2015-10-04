@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Seggu.Data;
-
+using System.Linq;
 namespace Seggu.Tests
 {
     [TestClass]
@@ -12,10 +12,7 @@ namespace Seggu.Tests
         {
             using (var context = new SegguDataModelContext())
             {
-                foreach (var item in context.Users)
-                {
-                    var a = item;
-                }
+                var vt = context.VehicleTypes.First();
             }
         }
     }

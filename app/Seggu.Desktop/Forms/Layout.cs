@@ -1,5 +1,4 @@
 ﻿using Seggu.Data;
-using Seggu.Desktop.Helpers;
 using Seggu.Desktop.UserControls;
 using Seggu.Domain;
 using Seggu.Dtos;
@@ -46,32 +45,32 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
-            var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
-            if (loginForm.ShowDialog() == DialogResult.OK)
-            {
-                SetButtonsPrincipal();
-                txtBuscar.Focus();
-                switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
-                {
-                    case Role.Administrador:
-                        ConfigureUserAdministratorVisibility();
-                        break;
-                    case Role.Asesor:
-                        ConfigureConsultantVisibility();
-                        break;
-                    case Role.Cajero:
-                        ConfigureCashierVisibility();
-                        break;
-                    default:
-                        MessageBox.Show("El usuario no posee un rol soportado por el sistema.");
-                        this.Close();
-                        break;
-                }
-            }
-            else
-            {
-                this.Close();
-            }
+            //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
+            //if (loginForm.ShowDialog() == DialogResult.OK)
+            //{
+            SetButtonsPrincipal();
+            txtBuscar.Focus();
+            //    switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
+            //    {
+            //        case Role.Administrador:
+            //            ConfigureUserAdministratorVisibility();
+            //            break;
+            //        case Role.Asesor:
+            //            ConfigureConsultantVisibility();
+            //            break;
+            //        case Role.Cajero:
+            //            ConfigureCashierVisibility();
+            //            break;
+            //        default:
+            //            MessageBox.Show("El usuario no posee un rol soportado por el sistema.");
+            //            this.Close();
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    this.Close();
+            //}
         }
 
         private void ConfigureCashierVisibility()
@@ -95,26 +94,6 @@ namespace Seggu.Desktop.Forms
         {
             //throw new NotImplementedException();
             this.btnCobranzas.Visible = false;
-        }
-
-        private void ConfigureUserAdministratorVisibility()
-        {
-            //this.splitContainer1.Visible = false;
-            //this.txtBuscar.Visible = false;
-            //this.btnLimpiar.Visible = false;
-            //this.btnPolizas.Visible = false;
-            //this.btnNotifications.Visible = false;
-            //this.archivoToolStripMenuItem.Visible = false;
-            //this.entidadesToolStripMenuItem.Visible = false;
-            //this.utilidadesToolStripMenuItem.Visible = false;
-            //this.reportesToolStripMenuItem.Visible = false;
-            //this.polizasVigentesToolStripMenuItem.Visible = false;
-            //this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Visible = false;
-            //this.pólizasSinCobranzasNiLiquidacionesToolStripMenuItem.Visible = false;
-            //this.pólizasARenovarToolStripMenuItem.Visible = false;
-            var userForm = DependencyResolver.Instance.ResolveGeneric<Users>();
-            userForm.ShowDialog();
-            this.Close();
         }
 
         public void SetButtonsPrincipal()
@@ -294,11 +273,8 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
-            {
-                btnEndosos.Enabled = true;
-                btnSiniestros.Enabled = true;
-            }
+            btnEndosos.Enabled = true;
+            btnSiniestros.Enabled = true;
             btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
             btnCobranzas.Enabled = true;
             SetPanelControl(policyUc);
@@ -322,16 +298,10 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
-            {
-                btnEndosos.Enabled = true;
-                btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
-                btnSiniestros.Enabled = true;
-            }
-            else if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                btnCobranzas.Enabled = true;
-            }
+            btnEndosos.Enabled = true;
+            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Enabled = true;
+            btnCobranzas.Enabled = true;
         }
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

@@ -10291,5 +10291,3 @@ INSERT INTO LedgerAccounts (Id, Name) VALUES (37, 'CONVENIO FEDERAL');
 INSERT INTO LedgerAccounts (Id, Name) VALUES (38, 'ANDRES');
 INSERT INTO LedgerAccounts (Id, Name) VALUES (39, 'OTROS');
 INSERT INTO LedgerAccounts (Id, Name) VALUES (40, 'COMISION ANGEL');
-INSERT INTO Users (Id, Username, Password, Role) VALUES (1, 'admin', 'admin', 0);
-INSERT INTO Users (Id, Username, Password, Role) VALUES (2, 'asesor', 'asesor', 1);

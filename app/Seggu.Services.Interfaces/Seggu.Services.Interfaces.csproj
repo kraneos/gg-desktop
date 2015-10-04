@@ -97,7 +97,6 @@
     <Compile Include="IProducerService.cs" />
     <Compile Include="IProvinceService.cs" />
     <Compile Include="IRiskService.cs" />
-    <Compile Include="IUserService.cs" />
     <Compile Include="IUseService.cs" />
     <Compile Include="IVehicleModelService.cs" />
     <Compile Include="IVehicleService.cs" />

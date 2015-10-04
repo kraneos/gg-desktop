@@ -99,7 +99,6 @@
     <Compile Include="ProvinceDao.cs" />
     <Compile Include="RiskDao.cs" />
     <Compile Include="UseDao.cs" />
-    <Compile Include="UserDao.cs" />
     <Compile Include="VehicleDao.cs" />
     <Compile Include="VehicleModelDao.cs" />
     <Compile Include="VehicleTypeDao.cs" />

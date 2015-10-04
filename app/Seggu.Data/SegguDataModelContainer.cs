@@ -51,7 +51,7 @@
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
         public virtual DbSet<CoveragesPack> CoveragesPacks { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        //public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VersionRecord> VersionRecords { get; set; }
 
         public void RefreshSet<T>() where T : class

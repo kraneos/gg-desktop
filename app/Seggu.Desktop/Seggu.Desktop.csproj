@@ -235,12 +235,6 @@
     <Compile Include="Forms\Layout.Designer.cs">
       <DependentUpon>Layout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Login.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Login.Designer.cs">
-      <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ModelosVehiculos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,19 +277,6 @@
     <Compile Include="Forms\TipoVehiculoUso.Designer.cs">
       <DependentUpon>TipoVehiculoUso.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\User.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\User.Designer.cs">
-      <DependentUpon>User.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Users.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Users.Designer.cs">
-      <DependentUpon>Users.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\SegguExecutionContext.cs" />
     <Compile Include="Forms\TiposVehiculos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -437,9 +418,6 @@
     <EmbeddedResource Include="Forms\Layout.resx">
       <DependentUpon>Layout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Login.resx">
-      <DependentUpon>Login.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ModelosVehiculos.resx">
       <DependentUpon>ModelosVehiculos.cs</DependentUpon>
     </EmbeddedResource>
@@ -460,12 +438,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipoVehiculoUso.resx">
       <DependentUpon>TipoVehiculoUso.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\User.resx">
-      <DependentUpon>User.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Users.resx">
-      <DependentUpon>Users.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TiposVehiculos.resx">
       <DependentUpon>TiposVehiculos.cs</DependentUpon>
@@ -625,7 +597,9 @@
     <Content Include="Resources\SeGGu Logo.ico" />
     <Content Include="Resources\SeGGu Logo.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

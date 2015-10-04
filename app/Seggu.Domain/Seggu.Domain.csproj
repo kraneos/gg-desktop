@@ -94,10 +94,8 @@
     <Compile Include="Province.cs" />
     <Compile Include="Risk.cs" />
     <Compile Include="RiskType.cs" />
-    <Compile Include="Role.cs" />
     <Compile Include="Sex.cs" />
     <Compile Include="Use.cs" />
-    <Compile Include="User.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="VehicleModel.cs" />
     <Compile Include="VehicleType.cs" />

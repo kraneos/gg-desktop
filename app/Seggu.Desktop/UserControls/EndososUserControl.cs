@@ -1,7 +1,6 @@
 ﻿using iTextSharp.text.pdf;
 using Seggu.Data;
 using Seggu.Desktop.Forms;
-using Seggu.Desktop.Helpers;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
@@ -48,11 +47,6 @@ namespace Seggu.Desktop.UserControls
             this.feeService = feeService;
             this.printService = printService;
             InitializeDetailComboBoxes();
-            cmbPlanes.Enabled = false;
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                this.btnGrabar.Visible = false;
-            }
         }
         private void InitializeDetailComboBoxes()
         {

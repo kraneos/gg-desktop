@@ -39,14 +39,6 @@ CREATE TABLE LedgerAccounts (
 );
 
 
--- Creating table 'Users'
-CREATE TABLE Users (
-    Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    Username text  NOT NULL,
-    Password text  NOT NULL,
-    Role smallint  NOT NULL
-);
-
 
 -- Creating table 'VehicleTypes'
 CREATE TABLE VehicleTypes (

@@ -2,7 +2,6 @@
 using iTextSharp.text.pdf;
 using Seggu.Data;
 using Seggu.Desktop.Forms;
-using Seggu.Desktop.Helpers;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
@@ -52,13 +51,6 @@ namespace Seggu.Desktop.UserControls
             this.attachedFileService = attachedFileService;
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                this.btnNuevaPoliza.Visible = false;
-                this.btnRenovar.Visible = false;
-                this.btnGrabar.Visible = false;
-                this.btnPrint.Visible = false;
-            }
         }
         private void InitializeDetailComboBoxes()
         {

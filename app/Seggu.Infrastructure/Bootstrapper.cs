@@ -67,7 +67,6 @@ namespace Seggu.Infrastructure
         container.RegisterType<IPrintService, PrintService>();
         container.RegisterType<IAttachedFileService, AttachedFileService>();
         container.RegisterType<ICoveragesPackService, CoveragesPackService>();
-        container.RegisterType<IUserService, UserService>();
         container.RegisterType<IVersionService, VersionService>();
         // Daos
         container.RegisterType<IAddressDao, AddressDao>();
@@ -104,7 +103,6 @@ namespace Seggu.Infrastructure
         container.RegisterType<IAttachedFileDao, AttachedFileDao>();
         container.RegisterType<ICoveragesPackDao, CoveragesPackDao>();
         container.RegisterType<IIntegralDao, IntegralDao>();
-        container.RegisterType<IUserDao, UserDao>();
         container.RegisterType<IImplementedVersionDao, ImplementedVersionDao>();
 
         // Version Manager
