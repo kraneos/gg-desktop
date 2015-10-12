@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlPolizasDatos = new System.Windows.Forms.TabControl();
             this.tabPageDatos = new System.Windows.Forms.TabPage();
             this.chkOtherClient = new System.Windows.Forms.CheckBox();
@@ -551,7 +551,6 @@
             this.txtPaymentDay.Name = "txtPaymentDay";
             this.txtPaymentDay.Size = new System.Drawing.Size(54, 25);
             this.txtPaymentDay.TabIndex = 53;
-            this.txtPaymentDay.Visible = false;
             this.txtPaymentDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaymentDay_KeyPress);
             this.txtPaymentDay.Validating += new System.ComponentModel.CancelEventHandler(this.txtPaymentDay_Validating);
             // 
@@ -563,7 +562,6 @@
             this.label9.Size = new System.Drawing.Size(80, 17);
             this.label9.TabIndex = 52;
             this.label9.Text = "Día de Pago";
-            this.label9.Visible = false;
             // 
             // txtTotalPagar
             // 
@@ -752,6 +750,7 @@
             // 
             // cmbPlanAsegurado
             // 
+            this.cmbPlanAsegurado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPlanAsegurado.FormattingEnabled = true;
             this.cmbPlanAsegurado.Items.AddRange(new object[] {
             "1 cuota",
@@ -855,8 +854,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -880,6 +879,7 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Plan Cía / Aseg";
+            this.groupBox4.Visible = false;
             // 
             // rdbDistintos
             // 
@@ -1010,7 +1010,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnGrabar;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TabControl tctrlPolizasDatos;
         private System.Windows.Forms.TabPage tabPageDatos;
         private System.Windows.Forms.TextBox txtNroPoliza;
@@ -1088,5 +1087,6 @@
         internal System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtSumaAsegurado;
+        public System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

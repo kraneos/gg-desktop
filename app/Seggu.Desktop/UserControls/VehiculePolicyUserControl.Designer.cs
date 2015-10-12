@@ -388,6 +388,7 @@
             this.grdVehicles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdVehicles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVehicles.ColumnHeadersVisible = false;
+            this.grdVehicles.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdVehicles.Location = new System.Drawing.Point(736, 30);
             this.grdVehicles.MultiSelect = false;
             this.grdVehicles.Name = "grdVehicles";

@@ -89,6 +89,7 @@
             this.cmbProvince.Size = new System.Drawing.Size(222, 25);
             this.cmbProvince.TabIndex = 125;
             this.cmbProvince.SelectionChangeCommitted += new System.EventHandler(this.cmbProvince_SelectionChangeCommitted);
+            this.cmbProvince.Validating += new System.ComponentModel.CancelEventHandler(this.cmbProvince_Validating);
             // 
             // cmbLocality
             // 
@@ -100,6 +101,7 @@
             this.cmbLocality.Size = new System.Drawing.Size(222, 25);
             this.cmbLocality.TabIndex = 124;
             this.cmbLocality.ValueMember = "Id";
+            this.cmbLocality.Validating += new System.ComponentModel.CancelEventHandler(this.cmbLocality_Validating);
             // 
             // label17
             // 
@@ -130,6 +132,7 @@
             this.cmbDistrict.TabIndex = 113;
             this.cmbDistrict.ValueMember = "Id";
             this.cmbDistrict.SelectionChangeCommitted += new System.EventHandler(this.cmbDistrict_SelectionChangeCommitted);
+            this.cmbDistrict.Validating += new System.ComponentModel.CancelEventHandler(this.cmbDistrict_Validating);
             // 
             // label9
             // 
@@ -198,6 +201,7 @@
             this.txtHomeStreet.Name = "txtHomeStreet";
             this.txtHomeStreet.Size = new System.Drawing.Size(178, 25);
             this.txtHomeStreet.TabIndex = 132;
+            this.txtHomeStreet.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomeStreet_Validating);
             // 
             // label3
             // 
@@ -221,6 +225,8 @@
             this.txtHomeNumber.Name = "txtHomeNumber";
             this.txtHomeNumber.Size = new System.Drawing.Size(65, 25);
             this.txtHomeNumber.TabIndex = 133;
+            this.txtHomeNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarNumeros);
+            this.txtHomeNumber.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomeNumber_Validating);
             // 
             // txtHomePostal
             // 
@@ -228,6 +234,7 @@
             this.txtHomePostal.Name = "txtHomePostal";
             this.txtHomePostal.Size = new System.Drawing.Size(49, 25);
             this.txtHomePostal.TabIndex = 136;
+            this.txtHomePostal.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomePostal_Validating);
             // 
             // txtHomeFloor
             // 
@@ -235,6 +242,7 @@
             this.txtHomeFloor.Name = "txtHomeFloor";
             this.txtHomeFloor.Size = new System.Drawing.Size(49, 25);
             this.txtHomeFloor.TabIndex = 134;
+            this.txtHomeFloor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarNumeros);
             // 
             // label4
             // 
@@ -287,6 +295,7 @@
             this.grdCoverages.Size = new System.Drawing.Size(386, 202);
             this.grdCoverages.TabIndex = 142;
             this.grdCoverages.TabStop = false;
+            this.grdCoverages.Validating += new System.ComponentModel.CancelEventHandler(this.grdCoverages_Validating);
             // 
             // IntegralPolicyUserControl
             // 

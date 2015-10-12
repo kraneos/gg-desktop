@@ -431,7 +431,7 @@ namespace Seggu.Desktop.UserControls
                             }
                 }
             }
-            return ok;
+            return ok || this.ValidateChildren();
         }
         private PolicyFullDto GetFormInfo()
         {
@@ -755,7 +755,7 @@ namespace Seggu.Desktop.UserControls
                 // Cancel the event and select the text to be corrected by the user.
                 e.Cancel = true;
                 txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
-
+                errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
             }
         }
 
