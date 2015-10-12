@@ -372,7 +372,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls())
+            if (ValidateControls() && this.ValidateChildren())
             {
                 try
                 {
@@ -542,10 +542,22 @@ namespace Seggu.Desktop.UserControls
             int cuotas;
             decimal[] importesCobrar;
             decimal[] importesPagar;
-            DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
-            this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
-            FormatFeeGrid();
-            CalculateFeeTotals();
+            var neto = 0M;
+
+            if (decimal.TryParse(this.txtNetoCobrar.Text, out neto))
+            {
+                if (neto > 0)
+                {
+                    DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
+                    this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
+                    FormatFeeGrid();
+                    CalculateFeeTotals();
+                }
+                else
+                {
+                    MessageBox.Show("El valor neto a cobrar debe ser mayor a 0.");
+                }
+            }
         }
         private void DivideValueInFees(out int cuotas, out decimal[] importesCobrar, out decimal[] importesPagar)
         {
@@ -792,6 +804,25 @@ namespace Seggu.Desktop.UserControls
         private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
         {
             ValidarNumeros((TextBox)sender, e);
+        }
+
+        private void txtNetoCobrar_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var netoCobrar = 0M;
+
+            if (decimal.TryParse(this.txtNetoCobrar.Text, out netoCobrar))
+            {
+                if (netoCobrar <= 0)
+                {
+                    errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
+                e.Cancel = true;
+            }
         }
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

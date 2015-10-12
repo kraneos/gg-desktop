@@ -85,6 +85,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtPrima = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -108,7 +109,6 @@
             this.btnRenovar = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.tctrlPolizasDatos.SuspendLayout();
             this.tabPageDatos.SuspendLayout();
             this.tabPagePlanes.SuspendLayout();
@@ -632,6 +632,7 @@
             this.txtNetoCobrar.ReadOnly = true;
             this.txtNetoCobrar.Size = new System.Drawing.Size(110, 25);
             this.txtNetoCobrar.TabIndex = 6;
+            this.txtNetoCobrar.Validating += new System.ComponentModel.CancelEventHandler(this.txtNetoCobrar_Validating);
             // 
             // txtBonificacionPropia
             // 
@@ -695,6 +696,14 @@
             this.label8.Size = new System.Drawing.Size(93, 17);
             this.label8.TabIndex = 3;
             this.label8.Text = "Neto a Cobrar";
+            // 
+            // txtSumaAsegurado
+            // 
+            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
+            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
+            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
+            this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
             // 
             // label13
             // 
@@ -850,7 +859,7 @@
             this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdFees.Location = new System.Drawing.Point(6, 151);
             this.grdFees.Name = "grdFees";
             this.grdFees.RowHeadersVisible = false;
@@ -929,6 +938,7 @@
             this.lblAnulada.Size = new System.Drawing.Size(59, 17);
             this.lblAnulada.TabIndex = 53;
             this.lblAnulada.Text = "Anulada";
+            this.lblAnulada.Visible = false;
             // 
             // btnNuevaPoliza
             // 
@@ -967,14 +977,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // txtSumaAsegurado
-            // 
-            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
-            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
-            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
-            this.txtSumaAsegurado.TabIndex = 0;
-            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
             // 
             // PolizasUserControl
             // 

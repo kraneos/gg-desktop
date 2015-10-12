@@ -25,5 +25,16 @@ namespace Seggu.Services.DtoMappers
             c.RiskId = coverage.RiskId;
             return c;
         }
+
+        public static CoverageDto GetDtoWithPacks(Coverage c)
+        {
+            var dto = new CoverageDto();
+            dto.Id = (int)c.Id;
+            dto.Name = c.Name;
+            dto.Description = c.Description;
+            dto.RiskId = (int)c.RiskId;
+            dto.CoveragesPacks = c.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp)).ToList();
+            return dto;
+        }
     }
 }

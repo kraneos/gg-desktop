@@ -135,7 +135,12 @@ namespace Seggu.Services
             form1.SetField("Marca", currentVehicle.Brand);
             form1.SetField("Modelo", currentVehicle.Model);
             form1.SetField("Año", currentVehicle.Year);
-            form1.SetField("Cobertura", currentVehicle.Coverages.FirstOrDefault().CoveragesPacks.FirstOrDefault().Name);
+            var cobertura = string.Empty;
+            if (currentVehicle.Coverages.Any() && currentVehicle.Coverages.First().CoveragesPacks.Any())
+            {
+                cobertura = currentVehicle.Coverages.First().CoveragesPacks.First().Name;
+            }
+            form1.SetField("Cobertura", cobertura);
 
             form1.SetField("Motor", currentVehicle.Engine);
             form1.SetField("Chasis", currentVehicle.Chassis);
@@ -210,7 +215,8 @@ namespace Seggu.Services
         }
         private string ValidatePaths(string PDFcategory)
         {
-            var path = Properties.Settings.Default.FileServerPath + @"\SeGGu PDFs";
+            //var path = Properties.Settings.Default.FileServerPath + @"\SeGGu PDFs";
+            var path = AppDomain.CurrentDomain.BaseDirectory + @"SeGGu PDFs";
             //string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments) + @"\SeGGu PDFs";
             if (!(Directory.Exists(path))) Directory.CreateDirectory(path);
 
