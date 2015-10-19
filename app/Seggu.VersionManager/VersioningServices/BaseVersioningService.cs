@@ -11,17 +11,13 @@ namespace Seggu.VersionManager.VersioningServices
     {
         protected void ExecuteFileScript(SQLiteConnection connection, string fileName)
         {
-            try
+            var commandText = File.ReadAllText(fileName);
+            using (var command = new SQLiteCommand(commandText, connection))
             {
-                var commandText = File.ReadAllText(fileName);
-                var command = new SQLiteCommand(commandText, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-            finally
-            {
-                connection.Close();
-            }
+            connection.Clone();
         }
     }
 }
