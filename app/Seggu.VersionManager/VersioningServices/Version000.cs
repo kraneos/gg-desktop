@@ -22,11 +22,12 @@ namespace Seggu.VersionManager.VersioningServices
 
         public void ApplyVersion()
         {
-            var connection = new SQLiteConnection(ConfigurationManager.ConnectionStrings[Properties.Settings.Default.SegguSQLiteConnectionString].ConnectionString);
-            
-            CreateDatabase();
-            CreateTables(connection);
-            CreateSampleData(connection);
+            using (var connection = new SQLiteConnection(ConfigurationManager.ConnectionStrings[Properties.Settings.Default.SegguSQLiteConnectionString].ConnectionString))
+            {
+                CreateDatabase();
+                CreateTables(connection);
+                CreateSampleData(connection);
+            }
         }
 
         private void CreateSampleData(SQLiteConnection connection)

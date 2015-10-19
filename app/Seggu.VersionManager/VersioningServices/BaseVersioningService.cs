@@ -17,7 +17,7 @@ namespace Seggu.VersionManager.VersioningServices
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-            connection.Clone();
+            connection.Close();
         }
     }
 }
