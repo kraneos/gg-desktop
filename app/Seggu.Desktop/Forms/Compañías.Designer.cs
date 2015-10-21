@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compañías));
-            this.grdCompañias = new System.Windows.Forms.DataGridView();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnAgregarCobertura = new System.Windows.Forms.Button();
             this.btnAgregarRiesgos = new System.Windows.Forms.Button();
@@ -53,7 +52,6 @@
             this.grdProductores = new System.Windows.Forms.DataGridView();
             this.btnAgregarProd = new System.Windows.Forms.Button();
             this.cmbProductores = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.grpLiquida = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -66,9 +64,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtCUIT = new System.Windows.Forms.TextBox();
             this.grpbDatos = new System.Windows.Forms.GroupBox();
+            this.txtNotas = new System.Windows.Forms.TextBox();
             this.grpbContactos = new System.Windows.Forms.GroupBox();
             this.grdContactos = new System.Windows.Forms.DataGridView();
-            this.txtNotas = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -85,14 +83,13 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnAgregarCompañia = new System.Windows.Forms.Button();
             this.btnQuitarCompañia = new System.Windows.Forms.Button();
-            this.btnRecuperar = new System.Windows.Forms.Button();
             this.lblNuevaCompañia = new System.Windows.Forms.Label();
             this.cmbTipoRiesgos = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            ((System.ComponentModel.ISupportInitialize)(this.grdCompañias)).BeginInit();
+            this.cmbCompañias = new System.Windows.Forms.ComboBox();
             this.grbRiesgos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCoveragesPack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdProductores)).BeginInit();
@@ -104,30 +101,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
-            // grdCompañias
-            // 
-            this.grdCompañias.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdCompañias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdCompañias.ColumnHeadersVisible = false;
-            this.grdCompañias.Location = new System.Drawing.Point(12, 111);
-            this.grdCompañias.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grdCompañias.MultiSelect = false;
-            this.grdCompañias.Name = "grdCompañias";
-            this.grdCompañias.ReadOnly = true;
-            this.grdCompañias.RowHeadersVisible = false;
-            this.grdCompañias.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.grdCompañias.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdCompañias.Size = new System.Drawing.Size(160, 539);
-            this.grdCompañias.TabIndex = 16;
-            this.grdCompañias.TabStop = false;
-            this.grdCompañias.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCompañias_CellContentClick);
-            this.grdCompañias.SelectionChanged += new System.EventHandler(this.grdCompañias_SelectionChanged);
-            // 
             // btnGuardar
             // 
             this.btnGuardar.AutoSize = true;
             this.btnGuardar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuardar.Location = new System.Drawing.Point(257, 13);
+            this.btnGuardar.Location = new System.Drawing.Point(275, 14);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(66, 27);
@@ -172,7 +150,7 @@
             this.lsbCoberturas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lsbCoberturas.Name = "lsbCoberturas";
             this.lsbCoberturas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lsbCoberturas.Size = new System.Drawing.Size(288, 463);
+            this.lsbCoberturas.Size = new System.Drawing.Size(288, 412);
             this.lsbCoberturas.TabIndex = 1;
             // 
             // lsbRiesgos
@@ -205,21 +183,20 @@
             this.grbRiesgos.Controls.Add(this.lsbRiesgos);
             this.grbRiesgos.Controls.Add(this.btnAgregarRiesgos);
             this.grbRiesgos.Controls.Add(this.btnAgregarCobertura);
-            this.grbRiesgos.Location = new System.Drawing.Point(752, 73);
+            this.grbRiesgos.Location = new System.Drawing.Point(656, 94);
             this.grbRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grbRiesgos.Name = "grbRiesgos";
             this.grbRiesgos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grbRiesgos.Size = new System.Drawing.Size(514, 588);
+            this.grbRiesgos.Size = new System.Drawing.Size(514, 554);
             this.grbRiesgos.TabIndex = 13;
             this.grbRiesgos.TabStop = false;
             this.grbRiesgos.Text = "Riesgos y Coberturas";
-            this.grbRiesgos.Enter += new System.EventHandler(this.grbRiesgos_Enter);
             // 
             // btnDeleteFromPack
             // 
             this.btnDeleteFromPack.AutoSize = true;
             this.btnDeleteFromPack.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnDeleteFromPack.Location = new System.Drawing.Point(381, 548);
+            this.btnDeleteFromPack.Location = new System.Drawing.Point(369, 498);
             this.btnDeleteFromPack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteFromPack.Name = "btnDeleteFromPack";
             this.btnDeleteFromPack.Size = new System.Drawing.Size(127, 27);
@@ -233,7 +210,7 @@
             // 
             this.btnInsertInPack.AutoSize = true;
             this.btnInsertInPack.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnInsertInPack.Location = new System.Drawing.Point(208, 548);
+            this.btnInsertInPack.Location = new System.Drawing.Point(208, 498);
             this.btnInsertInPack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnInsertInPack.Name = "btnInsertInPack";
             this.btnInsertInPack.Size = new System.Drawing.Size(131, 27);
@@ -246,6 +223,8 @@
             // 
             // grdCoveragesPack
             // 
+            this.grdCoveragesPack.AllowUserToAddRows = false;
+            this.grdCoveragesPack.AllowUserToDeleteRows = false;
             this.grdCoveragesPack.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdCoveragesPack.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdCoveragesPack.ColumnHeadersVisible = false;
@@ -258,11 +237,10 @@
             this.grdCoveragesPack.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.grdCoveragesPack.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdCoveragesPack.ShowCellToolTips = false;
-            this.grdCoveragesPack.Size = new System.Drawing.Size(196, 261);
+            this.grdCoveragesPack.Size = new System.Drawing.Size(196, 232);
             this.grdCoveragesPack.TabIndex = 25;
             this.toolTip.SetToolTip(this.grdCoveragesPack, "Doble Click para filtrar");
             this.grdCoveragesPack.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCoveragesPack_CellDoubleClick);
-          
             // 
             // label15
             // 
@@ -368,7 +346,7 @@
             // 
             this.grdProductores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdProductores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdProductores.Location = new System.Drawing.Point(9, 172);
+            this.grdProductores.Location = new System.Drawing.Point(17, 56);
             this.grdProductores.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grdProductores.MultiSelect = false;
             this.grdProductores.Name = "grdProductores";
@@ -376,12 +354,12 @@
             this.grdProductores.RowHeadersVisible = false;
             this.grdProductores.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.grdProductores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdProductores.Size = new System.Drawing.Size(547, 204);
+            this.grdProductores.Size = new System.Drawing.Size(572, 123);
             this.grdProductores.TabIndex = 7;
             // 
             // btnAgregarProd
             // 
-            this.btnAgregarProd.Location = new System.Drawing.Point(299, 115);
+            this.btnAgregarProd.Location = new System.Drawing.Point(371, 23);
             this.btnAgregarProd.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAgregarProd.Name = "btnAgregarProd";
             this.btnAgregarProd.Size = new System.Drawing.Size(67, 27);
@@ -394,22 +372,12 @@
             // cmbProductores
             // 
             this.cmbProductores.FormattingEnabled = true;
-            this.cmbProductores.Location = new System.Drawing.Point(104, 97);
+            this.cmbProductores.Location = new System.Drawing.Point(26, 26);
             this.cmbProductores.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbProductores.Name = "cmbProductores";
             this.cmbProductores.Size = new System.Drawing.Size(169, 25);
             this.cmbProductores.TabIndex = 5;
             this.cmbProductores.Visible = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(19, 97);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 17);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "Productores";
-            this.label8.Visible = false;
             // 
             // label9
             // 
@@ -431,11 +399,11 @@
             this.grpLiquida.Controls.Add(this.txtLiq1);
             this.grpLiquida.Controls.Add(this.txtLiq2);
             this.grpLiquida.Controls.Add(this.label7);
-            this.grpLiquida.Location = new System.Drawing.Point(13, 26);
+            this.grpLiquida.Location = new System.Drawing.Point(11, 158);
             this.grpLiquida.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpLiquida.Name = "grpLiquida";
             this.grpLiquida.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpLiquida.Size = new System.Drawing.Size(544, 60);
+            this.grpLiquida.Size = new System.Drawing.Size(362, 56);
             this.grpLiquida.TabIndex = 8;
             this.grpLiquida.TabStop = false;
             this.grpLiquida.Text = "Liquida";
@@ -443,7 +411,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(411, 27);
+            this.label12.Location = new System.Drawing.Point(279, 27);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(14, 17);
             this.label12.TabIndex = 7;
@@ -451,7 +419,7 @@
             // 
             // txtConvenio2
             // 
-            this.txtConvenio2.Location = new System.Drawing.Point(456, 24);
+            this.txtConvenio2.Location = new System.Drawing.Point(312, 24);
             this.txtConvenio2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtConvenio2.Name = "txtConvenio2";
             this.txtConvenio2.ReadOnly = true;
@@ -460,7 +428,7 @@
             // 
             // txtConvenio1
             // 
-            this.txtConvenio1.Location = new System.Drawing.Point(348, 24);
+            this.txtConvenio1.Location = new System.Drawing.Point(231, 24);
             this.txtConvenio1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtConvenio1.Name = "txtConvenio1";
             this.txtConvenio1.ReadOnly = true;
@@ -470,7 +438,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(311, 27);
+            this.label11.Location = new System.Drawing.Point(193, 27);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(37, 17);
             this.label11.TabIndex = 5;
@@ -496,7 +464,7 @@
             // 
             // txtLiq2
             // 
-            this.txtLiq2.Location = new System.Drawing.Point(172, 24);
+            this.txtLiq2.Location = new System.Drawing.Point(128, 24);
             this.txtLiq2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtLiq2.Name = "txtLiq2";
             this.txtLiq2.ReadOnly = true;
@@ -506,7 +474,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(128, 27);
+            this.label7.Location = new System.Drawing.Point(84, 27);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(38, 17);
             this.label7.TabIndex = 3;
@@ -514,7 +482,7 @@
             // 
             // txtCUIT
             // 
-            this.txtCUIT.Location = new System.Drawing.Point(71, 140);
+            this.txtCUIT.Location = new System.Drawing.Point(341, 54);
             this.txtCUIT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCUIT.Name = "txtCUIT";
             this.txtCUIT.ReadOnly = true;
@@ -523,66 +491,66 @@
             // 
             // grpbDatos
             // 
-            this.grpbDatos.Controls.Add(this.grpbContactos);
             this.grpbDatos.Controls.Add(this.txtNotas);
+            this.grpbDatos.Controls.Add(this.grpbContactos);
             this.grpbDatos.Controls.Add(this.txtCUIT);
             this.grpbDatos.Controls.Add(this.txtTelefono);
             this.grpbDatos.Controls.Add(this.txtMail);
             this.grpbDatos.Controls.Add(this.txtNombre);
             this.grpbDatos.Controls.Add(this.label5);
+            this.grpbDatos.Controls.Add(this.grpLiquida);
             this.grpbDatos.Controls.Add(this.label1);
             this.grpbDatos.Controls.Add(this.label3);
             this.grpbDatos.Controls.Add(this.label4);
             this.grpbDatos.Controls.Add(this.label2);
-            this.grpbDatos.Location = new System.Drawing.Point(180, 73);
+            this.grpbDatos.Location = new System.Drawing.Point(16, 94);
             this.grpbDatos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbDatos.Name = "grpbDatos";
             this.grpbDatos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpbDatos.Size = new System.Drawing.Size(566, 180);
+            this.grpbDatos.Size = new System.Drawing.Size(604, 360);
             this.grpbDatos.TabIndex = 11;
             this.grpbDatos.TabStop = false;
             this.grpbDatos.Text = "Datos";
             // 
+            // txtNotas
+            // 
+            this.txtNotas.Location = new System.Drawing.Point(71, 87);
+            this.txtNotas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtNotas.Multiline = true;
+            this.txtNotas.Name = "txtNotas";
+            this.txtNotas.ReadOnly = true;
+            this.txtNotas.Size = new System.Drawing.Size(463, 63);
+            this.txtNotas.TabIndex = 9;
+            // 
             // grpbContactos
             // 
             this.grpbContactos.Controls.Add(this.grdContactos);
-            this.grpbContactos.Location = new System.Drawing.Point(6, 174);
+            this.grpbContactos.Location = new System.Drawing.Point(11, 222);
             this.grpbContactos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbContactos.Name = "grpbContactos";
             this.grpbContactos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpbContactos.Size = new System.Drawing.Size(542, 143);
+            this.grpbContactos.Size = new System.Drawing.Size(566, 130);
             this.grpbContactos.TabIndex = 10;
             this.grpbContactos.TabStop = false;
             this.grpbContactos.Text = "Contactos";
-            this.grpbContactos.Visible = false;
             // 
             // grdContactos
             // 
             this.grdContactos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdContactos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdContactos.Location = new System.Drawing.Point(7, 25);
+            this.grdContactos.Location = new System.Drawing.Point(6, 26);
             this.grdContactos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grdContactos.MultiSelect = false;
             this.grdContactos.Name = "grdContactos";
             this.grdContactos.RowHeadersVisible = false;
             this.grdContactos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.grdContactos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdContactos.Size = new System.Drawing.Size(528, 110);
+            this.grdContactos.Size = new System.Drawing.Size(554, 96);
             this.grdContactos.TabIndex = 0;
-            // 
-            // txtNotas
-            // 
-            this.txtNotas.Location = new System.Drawing.Point(355, 38);
-            this.txtNotas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtNotas.Multiline = true;
-            this.txtNotas.Name = "txtNotas";
-            this.txtNotas.ReadOnly = true;
-            this.txtNotas.Size = new System.Drawing.Size(193, 128);
-            this.txtNotas.TabIndex = 9;
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(71, 107);
+            this.txtTelefono.Location = new System.Drawing.Point(71, 54);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.ReadOnly = true;
@@ -591,7 +559,7 @@
             // 
             // txtMail
             // 
-            this.txtMail.Location = new System.Drawing.Point(71, 72);
+            this.txtMail.Location = new System.Drawing.Point(342, 25);
             this.txtMail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMail.Name = "txtMail";
             this.txtMail.ReadOnly = true;
@@ -600,7 +568,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(71, 38);
+            this.txtNombre.Location = new System.Drawing.Point(71, 26);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
@@ -610,7 +578,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(304, 41);
+            this.label5.Location = new System.Drawing.Point(8, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 17);
             this.label5.TabIndex = 4;
@@ -619,7 +587,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 41);
+            this.label1.Location = new System.Drawing.Point(8, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 17);
             this.label1.TabIndex = 0;
@@ -628,7 +596,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 144);
+            this.label3.Location = new System.Drawing.Point(278, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 17);
             this.label3.TabIndex = 2;
@@ -637,7 +605,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 76);
+            this.label4.Location = new System.Drawing.Point(292, 29);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 17);
             this.label4.TabIndex = 3;
@@ -646,7 +614,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 110);
+            this.label2.Location = new System.Drawing.Point(8, 57);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 17);
             this.label2.TabIndex = 1;
@@ -655,7 +623,7 @@
             // btnNuevoProductor
             // 
             this.btnNuevoProductor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnNuevoProductor.Location = new System.Drawing.Point(474, 115);
+            this.btnNuevoProductor.Location = new System.Drawing.Point(517, 23);
             this.btnNuevoProductor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnNuevoProductor.Name = "btnNuevoProductor";
             this.btnNuevoProductor.Size = new System.Drawing.Size(67, 27);
@@ -671,24 +639,22 @@
             this.grpbOperatoria.Controls.Add(this.txtCode);
             this.grpbOperatoria.Controls.Add(this.btnQuitarProductor);
             this.grpbOperatoria.Controls.Add(this.btnNuevoProductor);
-            this.grpbOperatoria.Controls.Add(this.grpLiquida);
             this.grpbOperatoria.Controls.Add(this.grdProductores);
             this.grpbOperatoria.Controls.Add(this.btnAgregarProd);
             this.grpbOperatoria.Controls.Add(this.cmbProductores);
-            this.grpbOperatoria.Controls.Add(this.label8);
-            this.grpbOperatoria.Location = new System.Drawing.Point(180, 272);
+            this.grpbOperatoria.Location = new System.Drawing.Point(16, 462);
             this.grpbOperatoria.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbOperatoria.Name = "grpbOperatoria";
             this.grpbOperatoria.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpbOperatoria.Size = new System.Drawing.Size(566, 389);
+            this.grpbOperatoria.Size = new System.Drawing.Size(604, 186);
             this.grpbOperatoria.TabIndex = 12;
             this.grpbOperatoria.TabStop = false;
-            this.grpbOperatoria.Text = "Operatoria";
+            this.grpbOperatoria.Text = "Productores";
             // 
             // lblCodigo
             // 
             this.lblCodigo.AutoSize = true;
-            this.lblCodigo.Location = new System.Drawing.Point(19, 133);
+            this.lblCodigo.Location = new System.Drawing.Point(247, 28);
             this.lblCodigo.Name = "lblCodigo";
             this.lblCodigo.Size = new System.Drawing.Size(51, 17);
             this.lblCodigo.TabIndex = 22;
@@ -697,15 +663,16 @@
             // 
             // txtCode
             // 
-            this.txtCode.Location = new System.Drawing.Point(104, 130);
+            this.txtCode.Location = new System.Drawing.Point(243, 25);
             this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(169, 25);
+            this.txtCode.Size = new System.Drawing.Size(106, 25);
             this.txtCode.TabIndex = 21;
+            this.txtCode.Text = "Código";
             this.txtCode.Visible = false;
             // 
             // btnQuitarProductor
             // 
-            this.btnQuitarProductor.Location = new System.Drawing.Point(387, 115);
+            this.btnQuitarProductor.Location = new System.Drawing.Point(444, 23);
             this.btnQuitarProductor.Name = "btnQuitarProductor";
             this.btnQuitarProductor.Size = new System.Drawing.Size(67, 27);
             this.btnQuitarProductor.TabIndex = 20;
@@ -730,7 +697,7 @@
             // btnAgregarCompañia
             // 
             this.btnAgregarCompañia.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAgregarCompañia.Location = new System.Drawing.Point(12, 73);
+            this.btnAgregarCompañia.Location = new System.Drawing.Point(275, 59);
             this.btnAgregarCompañia.Name = "btnAgregarCompañia";
             this.btnAgregarCompañia.Size = new System.Drawing.Size(73, 27);
             this.btnAgregarCompañia.TabIndex = 19;
@@ -742,7 +709,7 @@
             // btnQuitarCompañia
             // 
             this.btnQuitarCompañia.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnQuitarCompañia.Location = new System.Drawing.Point(99, 73);
+            this.btnQuitarCompañia.Location = new System.Drawing.Point(357, 59);
             this.btnQuitarCompañia.Name = "btnQuitarCompañia";
             this.btnQuitarCompañia.Size = new System.Drawing.Size(73, 27);
             this.btnQuitarCompañia.TabIndex = 21;
@@ -751,22 +718,11 @@
             this.btnQuitarCompañia.Visible = false;
             this.btnQuitarCompañia.Click += new System.EventHandler(this.btnQuitarCompañia_Click);
             // 
-            // btnRecuperar
-            // 
-            this.btnRecuperar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnRecuperar.Location = new System.Drawing.Point(54, 40);
-            this.btnRecuperar.Name = "btnRecuperar";
-            this.btnRecuperar.Size = new System.Drawing.Size(89, 27);
-            this.btnRecuperar.TabIndex = 22;
-            this.btnRecuperar.Text = "Recuperar";
-            this.btnRecuperar.UseVisualStyleBackColor = true;
-            this.btnRecuperar.Visible = false;
-            // 
             // lblNuevaCompañia
             // 
             this.lblNuevaCompañia.AutoSize = true;
             this.lblNuevaCompañia.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNuevaCompañia.Location = new System.Drawing.Point(408, 12);
+            this.lblNuevaCompañia.Location = new System.Drawing.Point(353, 14);
             this.lblNuevaCompañia.Name = "lblNuevaCompañia";
             this.lblNuevaCompañia.Size = new System.Drawing.Size(164, 25);
             this.lblNuevaCompañia.TabIndex = 11;
@@ -776,7 +732,7 @@
             // cmbTipoRiesgos
             // 
             this.cmbTipoRiesgos.FormattingEnabled = true;
-            this.cmbTipoRiesgos.Location = new System.Drawing.Point(924, 17);
+            this.cmbTipoRiesgos.Location = new System.Drawing.Point(784, 68);
             this.cmbTipoRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoRiesgos.Name = "cmbTipoRiesgos";
             this.cmbTipoRiesgos.Size = new System.Drawing.Size(198, 25);
@@ -786,7 +742,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(805, 20);
+            this.label10.Location = new System.Drawing.Point(665, 71);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(103, 17);
             this.label10.TabIndex = 23;
@@ -799,11 +755,21 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(350, 45);
+            this.progressBar1.Location = new System.Drawing.Point(532, 14);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(297, 23);
             this.progressBar1.TabIndex = 25;
             this.progressBar1.Visible = false;
+            // 
+            // cmbCompañias
+            // 
+            this.cmbCompañias.FormattingEnabled = true;
+            this.cmbCompañias.Location = new System.Drawing.Point(44, 61);
+            this.cmbCompañias.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbCompañias.Name = "cmbCompañias";
+            this.cmbCompañias.Size = new System.Drawing.Size(219, 25);
+            this.cmbCompañias.TabIndex = 26;
+            this.cmbCompañias.SelectionChangeCommitted += new System.EventHandler(this.cmbCompañias_SelectionChangeCommitted);
             // 
             // Compañías
             // 
@@ -811,16 +777,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1268, 681);
+            this.ClientSize = new System.Drawing.Size(1177, 658);
+            this.Controls.Add(this.cmbCompañias);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.cmbTipoRiesgos);
             this.Controls.Add(this.lblNuevaCompañia);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.btnRecuperar);
             this.Controls.Add(this.btnQuitarCompañia);
             this.Controls.Add(this.btnAgregarCompañia);
             this.Controls.Add(this.btnEditar);
-            this.Controls.Add(this.grdCompañias);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.grbRiesgos);
             this.Controls.Add(this.label9);
@@ -832,7 +797,6 @@
             this.Name = "Compañías";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Compañías";
-            ((System.ComponentModel.ISupportInitialize)(this.grdCompañias)).EndInit();
             this.grbRiesgos.ResumeLayout(false);
             this.grbRiesgos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCoveragesPack)).EndInit();
@@ -853,7 +817,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView grdCompañias;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnAgregarCobertura;
         private System.Windows.Forms.Button btnAgregarRiesgos;
@@ -863,7 +826,6 @@
         private System.Windows.Forms.DataGridView grdProductores;
         private System.Windows.Forms.Button btnAgregarProd;
         private System.Windows.Forms.ComboBox cmbProductores;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox grpLiquida;
         private System.Windows.Forms.Label label6;
@@ -891,9 +853,7 @@
         private System.Windows.Forms.Button btnQuitarCobertura;
         private System.Windows.Forms.Button btnQuitarProductor;
         private System.Windows.Forms.Button btnQuitarCompañia;
-        private System.Windows.Forms.Label lblCodigo;
         private System.Windows.Forms.TextBox txtCode;
-        private System.Windows.Forms.Button btnRecuperar;
         private System.Windows.Forms.Label lblNuevaCompañia;
         private System.Windows.Forms.TextBox txtRiesgo;
         private System.Windows.Forms.TextBox txtCoberturas;
@@ -915,5 +875,7 @@
         private System.Windows.Forms.Button btnInsertInPack;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblCodigo;
+        private System.Windows.Forms.ComboBox cmbCompañias;
     }
 }

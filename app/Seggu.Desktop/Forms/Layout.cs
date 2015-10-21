@@ -435,8 +435,8 @@ namespace Seggu.Desktop.Forms
 
         private void compañíasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.CompañíasOnly compañias = (CompañíasOnly)DependencyResolver
-                 .Instance.Resolve(typeof(CompañíasOnly));
+            Forms.Compañías compañias = (Compañías)DependencyResolver
+                 .Instance.Resolve(typeof(Compañías));
             compañias.Show();
         }
 
