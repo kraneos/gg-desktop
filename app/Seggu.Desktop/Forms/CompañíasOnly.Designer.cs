@@ -143,6 +143,7 @@
             // 
             // cmbProductores
             // 
+            this.cmbProductores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProductores.Enabled = false;
             this.cmbProductores.FormattingEnabled = true;
             this.cmbProductores.Location = new System.Drawing.Point(104, 97);
