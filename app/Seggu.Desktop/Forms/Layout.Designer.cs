@@ -61,9 +61,6 @@
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compañíasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.riesgosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coberturasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.paquetesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carroceríasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.marcasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -188,7 +185,7 @@
             this.btnPolizas.Location = new System.Drawing.Point(299, 23);
             this.btnPolizas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPolizas.Name = "btnPolizas";
-            this.btnPolizas.Size = new System.Drawing.Size(63, 28);
+            this.btnPolizas.Size = new System.Drawing.Size(64, 28);
             this.btnPolizas.TabIndex = 41;
             this.btnPolizas.Text = "Pólizas";
             this.btnPolizas.UseVisualStyleBackColor = false;
@@ -351,11 +348,11 @@
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 26);
+            this.tabExpired.Location = new System.Drawing.Point(4, 22);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 267);
+            this.tabExpired.Size = new System.Drawing.Size(247, 271);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -372,7 +369,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 263);
+            this.grdExpired.Size = new System.Drawing.Size(241, 267);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellContentClick);
             // 
@@ -424,9 +421,6 @@
             this.modelosToolStripMenuItem,
             this.productoresToolStripMenuItem,
             this.compañíasToolStripMenuItem,
-            this.riesgosToolStripMenuItem,
-            this.coberturasToolStripMenuItem,
-            this.paquetesToolStripMenuItem,
             this.usosToolStripMenuItem,
             this.carroceríasToolStripMenuItem,
             this.marcasToolStripMenuItem,
@@ -441,7 +435,7 @@
             this.todosToolStripMenuItem,
             this.nuevoToolStripMenuItem});
             this.aseguradosToolStripMenuItem.Name = "aseguradosToolStripMenuItem";
-            this.aseguradosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.aseguradosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.aseguradosToolStripMenuItem.Text = "Asegurados";
             // 
             // todosToolStripMenuItem
@@ -461,77 +455,56 @@
             // bancosToolStripMenuItem
             // 
             this.bancosToolStripMenuItem.Name = "bancosToolStripMenuItem";
-            this.bancosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.bancosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.bancosToolStripMenuItem.Text = "Bancos";
             this.bancosToolStripMenuItem.Click += new System.EventHandler(this.BanksToolStripMenuItem_Click);
             // 
             // modelosToolStripMenuItem
             // 
             this.modelosToolStripMenuItem.Name = "modelosToolStripMenuItem";
-            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.modelosToolStripMenuItem.Text = "Modelos";
             this.modelosToolStripMenuItem.Click += new System.EventHandler(this.modelosToolStripMenuItem_Click);
             // 
             // productoresToolStripMenuItem
             // 
             this.productoresToolStripMenuItem.Name = "productoresToolStripMenuItem";
-            this.productoresToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.productoresToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.productoresToolStripMenuItem.Text = "Productores";
             this.productoresToolStripMenuItem.Click += new System.EventHandler(this.productoresToolStripMenuItem_Click);
             // 
             // compañíasToolStripMenuItem
             // 
             this.compañíasToolStripMenuItem.Name = "compañíasToolStripMenuItem";
-            this.compañíasToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.compañíasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.compañíasToolStripMenuItem.Text = "Compañías";
             this.compañíasToolStripMenuItem.Click += new System.EventHandler(this.compañíasToolStripMenuItem_Click);
-            // 
-            // riesgosToolStripMenuItem
-            // 
-            this.riesgosToolStripMenuItem.Name = "riesgosToolStripMenuItem";
-            this.riesgosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.riesgosToolStripMenuItem.Text = "Riesgos";
-            this.riesgosToolStripMenuItem.Click += new System.EventHandler(this.riesgosToolStripMenuItem_Click);
-            // 
-            // coberturasToolStripMenuItem
-            // 
-            this.coberturasToolStripMenuItem.Name = "coberturasToolStripMenuItem";
-            this.coberturasToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.coberturasToolStripMenuItem.Text = "Coberturas";
-            this.coberturasToolStripMenuItem.Click += new System.EventHandler(this.coberturasToolStripMenuItem_Click_1);
-            // 
-            // paquetesToolStripMenuItem
-            // 
-            this.paquetesToolStripMenuItem.Name = "paquetesToolStripMenuItem";
-            this.paquetesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.paquetesToolStripMenuItem.Text = "Paquetes";
-            this.paquetesToolStripMenuItem.Click += new System.EventHandler(this.paquetesToolStripMenuItem_Click_1);
             // 
             // usosToolStripMenuItem
             // 
             this.usosToolStripMenuItem.Name = "usosToolStripMenuItem";
-            this.usosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.usosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.usosToolStripMenuItem.Text = "Usos";
             this.usosToolStripMenuItem.Click += new System.EventHandler(this.usosToolStripMenuItem_Click);
             // 
             // carroceríasToolStripMenuItem
             // 
             this.carroceríasToolStripMenuItem.Name = "carroceríasToolStripMenuItem";
-            this.carroceríasToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.carroceríasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.carroceríasToolStripMenuItem.Text = "Carrocerías";
             this.carroceríasToolStripMenuItem.Click += new System.EventHandler(this.carroceríasToolStripMenuItem_Click);
             // 
             // marcasToolStripMenuItem
             // 
             this.marcasToolStripMenuItem.Name = "marcasToolStripMenuItem";
-            this.marcasToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.marcasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.marcasToolStripMenuItem.Text = "Marcas";
             this.marcasToolStripMenuItem.Click += new System.EventHandler(this.marcasToolStripMenuItem_Click);
             // 
             // tiposDeVehiculosToolStripMenuItem
             // 
             this.tiposDeVehiculosToolStripMenuItem.Name = "tiposDeVehiculosToolStripMenuItem";
-            this.tiposDeVehiculosToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.tiposDeVehiculosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.tiposDeVehiculosToolStripMenuItem.Text = "Tipos de Vehiculos";
             this.tiposDeVehiculosToolStripMenuItem.Click += new System.EventHandler(this.tiposDeVehiculosToolStripMenuItem_Click);
             // 
@@ -713,13 +686,10 @@
         private System.Windows.Forms.ToolStripMenuItem reportesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rORToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rCRToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem riesgosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem carroceríasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem marcasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem coberturasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiposDeVehiculosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem paquetesToolStripMenuItem;
 
     }
 }

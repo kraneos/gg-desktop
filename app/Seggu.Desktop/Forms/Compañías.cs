@@ -20,7 +20,6 @@ namespace Seggu.Desktop.Forms
         private IMasterDataService masterDataService;
         private CompanyFullDto selectedFullCompany;
         private CompanyDto currentCompany;
-        private int lastCompanyIndex;
         private bool isNew;
 
         public Compañías(ICompanyService companyService, ICoverageService coverageService,
@@ -36,7 +35,6 @@ namespace Seggu.Desktop.Forms
             this.masterDataService = masterDataService;
             this.InitializeIndex();
             this.isNew = false;
-
         }
 
         private void InitializeRisks()
@@ -65,26 +63,16 @@ namespace Seggu.Desktop.Forms
 
         private void InitializeIndex()
         {
-            //isNew = false;
-            lastCompanyIndex = grdCompañias.CurrentCell == null ? 0 : grdCompañias.CurrentCell.RowIndex;
             lsbRiesgos.DataSource = null;
             grdCoveragesPack.DataSource = null;
             lsbCoberturas.DataSource = null;
             grdProductores.DataSource = null;
-            grdCompañias.DataSource = companyService.GetAll().ToList();
-            FormatCompanyGrid();
+
             PopulateComboboxes();
-            grdCompañias.CurrentCell = grdCompañias.Rows[lastCompanyIndex].Cells["Name"];
         }
-        private void FormatCompanyGrid()
-        {
-            foreach (DataGridViewColumn c in grdCompañias.Columns)
-                c.Visible = false;
-            grdCompañias.Columns["Name"].Visible = true;
-            grdCompañias.Columns["Name"].HeaderText = "Nombre";
-        }
+
         private void PopulateComboboxes()
-        {
+        {     
             cmbProductores.ValueMember = "Id";
             cmbProductores.DisplayMember = "Name";
             cmbProductores.DataSource = producerService.GetProducers().ToList();
@@ -92,29 +80,30 @@ namespace Seggu.Desktop.Forms
             cmbTipoRiesgos.ValueMember = "Id";
             cmbTipoRiesgos.DisplayMember = "Name";
             cmbTipoRiesgos.DataSource = masterDataService.GetRiskTypes().ToList();
+            
+            if (isNew) 
+                return;
+
+            cmbCompañias.ValueMember = "Id";
+            cmbCompañias.DisplayMember = "Name";
+            cmbCompañias.DataSource = companyService.GetAll().ToList();
+            cmbCompañias.SelectedItem = cmbCompañias.Items.Count -1;
+            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
+
+            PopulateForm();
         }
 
-        private void grdCompañias_SelectionChanged(object sender, EventArgs e)
+        private void cmbCompañias_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
             PopulateForm();
         }
-        private void grdCompañias_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            PopulateForm();
-        }
+
         private void PopulateForm()
         {
-
-            if (!grdCompañias.Focused)
-            {
-                grdCompañias.ClearSelection();
-                grdCompañias.Rows[0].Selected = false;
-                return;
-            }
-            isNew = false;
             lsbCoberturas.DataSource = null;
             grdCoveragesPack.DataSource = null;
-            currentCompany = (CompanyDto)grdCompañias.CurrentRow.DataBoundItem;
+
             BindCompaniesTextBoxes(currentCompany);
 
             selectedFullCompany = companyService.GetFullById(currentCompany.Id);
@@ -127,15 +116,7 @@ namespace Seggu.Desktop.Forms
         }
         private void BindCompaniesTextBoxes(CompanyDto company)
         {
-            txtNombre.DataBindings.Clear();
-            txtLiq1.DataBindings.Clear();
-            txtLiq2.DataBindings.Clear();
-            txtConvenio1.DataBindings.Clear();
-            txtConvenio2.DataBindings.Clear();
-            txtMail.DataBindings.Clear();
-            txtNotas.DataBindings.Clear();
-            txtTelefono.DataBindings.Clear();
-            txtCUIT.DataBindings.Clear();
+            ClearBindings();
 
             txtNombre.DataBindings.Add("text", company, "Name");
             txtLiq1.DataBindings.Add("text", company, "LiqDay1");
@@ -146,6 +127,19 @@ namespace Seggu.Desktop.Forms
             txtNotas.DataBindings.Add("text", company, "Notes");
             txtTelefono.DataBindings.Add("text", company, "Phone");
             txtCUIT.DataBindings.Add("text", company, "CUIT");
+        }
+
+        private void ClearBindings()
+        {
+            txtNombre.DataBindings.Clear();
+            txtLiq1.DataBindings.Clear();
+            txtLiq2.DataBindings.Clear();
+            txtConvenio1.DataBindings.Clear();
+            txtConvenio2.DataBindings.Clear();
+            txtMail.DataBindings.Clear();
+            txtNotas.DataBindings.Clear();
+            txtTelefono.DataBindings.Clear();
+            txtCUIT.DataBindings.Clear();
         }
         private void FillGrdContactos()
         {
@@ -187,6 +181,7 @@ namespace Seggu.Desktop.Forms
                     if (!companyService.ExistName(company.Name))
                     {
                         this.companyService.Create(company);
+                        isNew = false;
                     }
                     else
                     {
@@ -196,7 +191,7 @@ namespace Seggu.Desktop.Forms
                 }
                 else
                 {
-                    company = (CompanyDto)grdCompañias.CurrentRow.DataBoundItem;
+                    company = (CompanyDto)cmbCompañias.SelectedItem;
                     this.companyService.Update(company);
                 }
                 btnEditar_Click(sender, e);
@@ -292,6 +287,7 @@ namespace Seggu.Desktop.Forms
         {
             if (!btnGuardar.Visible)
             {
+                btnEditar.Text = "Cancelar";
                 btnGuardar.Visible = true;
                 btnNuevoProductor.Visible = true;
                 btnQuitarCobertura.Visible = true;
@@ -308,7 +304,6 @@ namespace Seggu.Desktop.Forms
                 btnDeleteFromPack.Visible = true;
                 txtCoveragesPack.Visible = true;
                 cmbProductores.Visible = true;
-                label8.Visible = true;
                 txtCode.Visible = true;
                 lblCodigo.Visible = true;
                 //btnRecuperar.Visible = true;
@@ -328,6 +323,7 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
+                btnEditar.Text = "Editar";
                 btnGuardar.Visible = false;
                 btnNuevoProductor.Visible = false;
                 btnQuitarCobertura.Visible = false;
@@ -344,7 +340,6 @@ namespace Seggu.Desktop.Forms
                 btnDeleteFromPack.Visible = false;
                 txtCoveragesPack.Visible = false;
                 cmbProductores.Visible = false;
-                label8.Visible = false;
                 txtCode.Visible = false;
                 lblCodigo.Visible = false;
                 //btnRecuperar.Visible = false;
@@ -361,20 +356,23 @@ namespace Seggu.Desktop.Forms
                 txtNombre.ReadOnly = true;
                 txtNotas.ReadOnly = true;
                 txtTelefono.ReadOnly = true;
+                if (isNew)
+                {
+                    isNew = false;
+                    InitializeIndex();
+                }
             }
         }
 
         private void btnAgregarCompañia_Click(object sender, EventArgs e)
         {
-            //limpiar todos los controles
             isNew = true;
-            currentCompany = null;
             btnAgregarCompañia.BackColor = SystemColors.Highlight;
-            lblNuevaCompañia.Visible = true;
-            grdCompañias.DataSource = null;
-            //lsbRiesgos.DataSource = riskService.GetAll().ToList();
-            //lsbCoberturas.DataSource = coverageService.GetAll().ToList();
-            //grdProductores.DataSource = producerService.GetProducers().ToList();
+
+            //limpiar todos los controles
+            ClearBindings();
+            currentCompany = null;
+            cmbCompañias.DataSource = null;
             grdContactos.DataSource = null;
 
             txtNombre.Clear();
@@ -400,7 +398,7 @@ namespace Seggu.Desktop.Forms
             {
                 try
                 {
-                    var obj = this.grdCompañias.CurrentRow.DataBoundItem;
+                    var obj = cmbCompañias.SelectedItem;
                     var company = (CompanyDto)obj;
                     companyService.DeleteCompany(company);
                     InitializeIndex();
@@ -681,12 +679,5 @@ namespace Seggu.Desktop.Forms
             MessageBox.Show("Cobertura removida del paquete.", "Cobertura Removida", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void grbRiesgos_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-
-        
     }
 }
