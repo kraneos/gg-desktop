@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Alphabetical">
+  <Class Name="Seggu.Domain.Accessory">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAARAAAgAQAAAAgAAAAIAA=</HashCode>
+      <FileName>Accessory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.AccessoryType">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AccessoryType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Accessories" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Address">
+    <Position X="54.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAgAoEAAAAAggAEAAAAAAAIAIAQAAAQ=</HashCode>
+      <FileName>Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Asset">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Asset.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="CashAccounts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.AttachedFile">
+    <Position X="59.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAAAAAAIIAAAAgAAIAAEAAAABAIAAAAAA=</HashCode>
+      <FileName>AttachedFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Bank">
+    <Position X="16" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Bank.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cheques" />
+      <Property Name="ClientCreditCards" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Bodywork">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Bodywork.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Vehicles" />
+      <Property Name="VehicleTypes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Brand">
+    <Position X="13.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Brand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="VehicleModels" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.CashAccount">
+    <Position X="62" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAAAlAAggAAgAAACAAgAQAEABAAAgAAAAAAA=</HashCode>
+      <FileName>CashAccount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Casualty">
+    <Position X="57" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAAAAEAAAAEAkoAAAAAAgAAAEAAIAAAAAAEQAA=</HashCode>
+      <FileName>Casualty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.CasualtyType">
+    <Position X="18.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CasualtyType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Casualtys" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Cheque">
+    <Position X="64.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAAAAAAAAAAABACAgAAAAAAA=</HashCode>
+      <FileName>Cheque.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Client">
+    <Position X="66.5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABgQMAABAQABAAAAAIAACQAgAgAAAACAQwAAQAgAAg=</HashCode>
+      <FileName>Client.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Addresses" />
+      <Property Name="ClientCreditCards" />
+      <Property Name="Policy" />
+      <Property Name="Endorse" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.ClientCreditCard">
+    <Position X="69" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAACAAAAAAAgUAAAAAAQAAAAAAAACAAAAAAAAQ=</HashCode>
+      <FileName>ClientCreditCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Company">
+    <Position X="29.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEgAAAAAAAAAAAAAAIAAAAAECAFIAAgAAAAIgIAAAA=</HashCode>
+      <FileName>Company.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Contacts" />
+      <Property Name="CreditCards" />
+      <Property Name="Liquidations" />
+      <Property Name="ProducerCodes" />
+      <Property Name="Risks" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Contact">
+    <Position X="80.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAEAAAAIAAAAACAAAAAAAAAAAAAAAAAAAJQAAAAg=</HashCode>
+      <FileName>Contact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Coverage">
+    <Position X="43.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAEgiAAAAAAAAAAACAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Coverage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="CoveragesPacks" />
+      <Property Name="Employees" />
+      <Property Name="Integrals" />
+      <Property Name="Vehicles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.CoveragesPack">
+    <Position X="2.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoveragesPack.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Coverages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.CreditCard">
+    <Position X="22.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CreditCard.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ClientCreditCards" />
+      <Property Name="Companies" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.District">
+    <Position X="32" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAkAAAAA=</HashCode>
+      <FileName>District.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Localities" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Employee">
+    <Position X="85" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QQAAAMAAAAAACAAAAAIAAAQAAAEEAEAAAAAgAAAAAAg=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Coverages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Endorse">
+    <Position X="87.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FABlAEAIAAAAgAAAwEIAQAAgCQEAAEAABAAgAEAAQAQ=</HashCode>
+      <FileName>Endorse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AttachedFiles" />
+      <Property Name="Employees" />
+      <Property Name="Fees" />
+      <Property Name="Integrals" />
+      <Property Name="Vehicles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Fee">
+    <Position X="71.25" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAgAAAAE6AQAAAQAIAAEAAAAAgBAAAAAA=</HashCode>
+      <FileName>Fee.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="CashAccount" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.FeeSelection">
+    <Position X="36.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAA=</HashCode>
+      <FileName>FeeSelection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Fees" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.IdEntity" Collapsed="true">
+    <Position X="45" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IdEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.ImplementedVersion">
+    <Position X="25" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImplementedVersion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Integral">
+    <Position X="76" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAACAAAAAIAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Integral.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Coverages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.KeyValueEntity" Collapsed="true">
+    <Position X="27.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KeyValueEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.LedgerAccount">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LedgerAccount.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="CashAccounts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Liquidation">
+    <Position X="73.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAIAAAAAEAAAAAAAARAAQAABAAAABAAAAAA=</HashCode>
+      <FileName>Liquidation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="FeeSelections" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Locality">
+    <Position X="41" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Locality.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Addresses" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Policy">
+    <Position X="78.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FABlAAEIAQEBiAAAwEAgAAAgCwEQAAAABAAgAEQAQAY=</HashCode>
+      <FileName>Policy.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AttachedFiles" />
+      <Property Name="Casualties" />
+      <Property Name="Employees" />
+      <Property Name="Endorses" />
+      <Property Name="Fees" />
+      <Property Name="Integrals" />
+      <Property Name="Vehicles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Producer">
+    <Position X="47.75" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAgAAAAAAAAAAAAEAIAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Producer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="CashAccounts" />
+      <Property Name="Policies" />
+      <Property Name="ProducerCodes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.ProducerCode">
+    <Position X="38.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIBAAAAAAAgAAAAAAAQAAAAAAAABAAAAAA=</HashCode>
+      <FileName>ProducerCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seggu.Domain.Province">
+    <Position X="38.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Province.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Districts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Risk">
+    <Position X="45.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIACAAACAIAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Risk.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Coverages" />
+      <Property Name="CoveragesPacks" />
+      <Property Name="Policy" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Use">
+    <Position X="34.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Use.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Vehicles" />
+      <Property Name="VehicleType" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.Vehicle">
+    <Position X="82.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAJAADAAACAAAQIJAAAAAAAAEAEAgBAAkAAgAAAA=</HashCode>
+      <FileName>Vehicle.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Accessories" />
+      <Property Name="Coverages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.VehicleModel">
+    <Position X="50.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAgAAAAAAAAAAAgTAAA=</HashCode>
+      <FileName>VehicleModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Vehicles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.VehicleType">
+    <Position X="52.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VehicleType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Bodyworks" />
+      <Property Name="Uses" />
+      <Property Name="VehicleModels" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Seggu.Domain.VersionRecord">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VersionRecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Seggu.Domain.AddressType" Collapsed="true">
+    <Position X="90" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AddressType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.EndorseType" Collapsed="true">
+    <Position X="91.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAABAQDhAAAAAAAAAAAAAAAAAAEAABgAAAAQ=</HashCode>
+      <FileName>EndorseType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.FeeState" Collapsed="true">
+    <Position X="93.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEQQAAAAAAAgAAAAAAAAEACEAAAQAAAAEAAAAAA=</HashCode>
+      <FileName>FeeState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.IdType" Collapsed="true">
+    <Position X="95.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAgACAAAAAAAAAAEAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>IdType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.IVA" Collapsed="true">
+    <Position X="90" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAAAgBAAAAAAAAAAAAACAAAAAACAQAIA=</HashCode>
+      <FileName>IVA.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.MaritalStatus" Collapsed="true">
+    <Position X="91.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAEAAAAAgAAAAAAAAIAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>MaritalStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.Origin" Collapsed="true">
+    <Position X="93.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Origin.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.Period" Collapsed="true">
+    <Position X="95.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEMAABAAAAAAE=</HashCode>
+      <FileName>Period.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.RiskType" Collapsed="true">
+    <Position X="90" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCAAAAAAARAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RiskType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Seggu.Domain.Sex" Collapsed="true">
+    <Position X="91.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Sex.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
