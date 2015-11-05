@@ -1,4 +1,5 @@
-﻿using Seggu.Desktop.Forms;
+﻿using Microsoft.Win32;
+using Seggu.Desktop.Forms;
 using Seggu.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,18 @@ namespace Seggu.Desktop
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
-            Application.Run(form);
-            //nnnnnnn
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
+                Application.Run(form);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

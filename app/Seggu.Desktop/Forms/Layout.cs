@@ -1,4 +1,5 @@
-﻿using Seggu.Data;
+﻿using Microsoft.Win32;
+using Seggu.Data;
 using Seggu.Desktop.UserControls;
 using Seggu.Domain;
 using Seggu.Dtos;
@@ -8,6 +9,7 @@ using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -34,7 +36,35 @@ namespace Seggu.Desktop.Forms
             this.feeService = feeService;
             this.companyService = companyService;
 
-            LaunchSplash();
+            try
+            {
+                LaunchSplash();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static bool ValidateRegistry()
+        {
+            var keyRoot = "HKEY_CURRENT_USER";
+            var keyName = keyRoot + "\\SOFTWARE\\Seggu";
+            var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
+            if (!string.IsNullOrEmpty(installationDate))
+            {
+                var date = DateTime.MinValue;
+                if (DateTime.TryParse(installationDate, out date))
+                {
+                    if (DateTime.Now - date < TimeSpan.FromDays(15))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void LaunchSplash()
@@ -45,6 +75,11 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
+            //if (!ValidateRegistry())
+            //{
+            //    MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
+            //    this.Close();
+            //}
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
             //{
