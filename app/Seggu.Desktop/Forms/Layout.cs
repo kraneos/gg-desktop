@@ -75,11 +75,11 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
-            //if (!ValidateRegistry())
-            //{
-            //    MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
-            //    this.Close();
-            //}
+            if (!ValidateRegistry())
+            {
+                MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
+                this.Close();
+            }
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
             //{
