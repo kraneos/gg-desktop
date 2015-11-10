@@ -86,24 +86,16 @@ namespace Seggu.Desktop.Forms
         private void FillBodyworks()
         {
             if (currentModel != null)
-            {
                 lstBodyworks.DataSource = currentModel.Bodyworks;
-            }
             else
-            {
                 lstBodyworks.DataSource = null;
-            }
         }
         private void FillUses()
         {
             if (currentModel != null)
-            {
                 lstUses.DataSource = currentModel.Uses;
-            }
             else
-            {
                 lstBodyworks.DataSource = null;
-            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -116,15 +108,17 @@ namespace Seggu.Desktop.Forms
             {
                 foreach (Control c in Controls)
                 {
-                    if (c is TextBox)
-                        c.Text = "Nuevo";
+                    //if (c is TextBox)
+                    //    c.Text = "Nuevo";
                     if (!c.Visible)
                         c.Visible = true;
                 }
+                btnEditar.Text = "Cancelar";
                 editMode = true;
             }
             else
             {
+                btnEditar.Text = "Editar";
                 txtMarcas.Visible = false;
                 txtModelo.Visible = false;
                 txtTipoVehiculo.Visible = false;
@@ -167,7 +161,11 @@ namespace Seggu.Desktop.Forms
 
         private void btnModelo_Click(object sender, EventArgs e)
         {
-            if (lstModelos.FindString(txtModelo.Text) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("El Modelo ya existe."); return; }
+            if (lstModelos.FindString(txtModelo.Text) != -1 || txtModelo.Text == "Nuevo Modelo")
+            {
+                MessageBox.Show("El Modelo ya existe o no igresó texto.");
+                return;
+            }
             currentModel.Id = default(int);
             btnGuardar_Click(sender, e);
         }
@@ -196,7 +194,11 @@ namespace Seggu.Desktop.Forms
         {
             var bodywork = new BodyworkDto();
             bodywork.Name = txtCarroceria.Text;
-            if (lstBodyworks.FindString(bodywork.Name) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("La Carroceria ya existe."); return; }
+            if (lstBodyworks.FindString(bodywork.Name) != -1 || txtCarroceria.Text == "Nueva carrocería")
+            {
+                MessageBox.Show("La Carroceria ya existe o no ingresó texto.");
+                return;
+            }
             try
             {
                 this.bodyworkService.Save(bodywork);
@@ -211,7 +213,11 @@ namespace Seggu.Desktop.Forms
         {
             var vehicleType = new VehicleTypeDto();
             vehicleType.Name = this.txtTipoVehiculo.Text;
-            if (cmbTipoVehiculo.FindString(vehicleType.Name) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("El Tipo de Vehiculo ya existe."); return; }
+            if (cmbTipoVehiculo.FindString(vehicleType.Name) != -1 || txtTipoVehiculo.Text == "Nuevo tipo")
+            {
+                MessageBox.Show("El Tipo de Vehiculo ya existe o no ingresó texto."); 
+                return;
+            }
             try
             {
                 this.vehicleTypeService.Save(vehicleType);
@@ -226,7 +232,11 @@ namespace Seggu.Desktop.Forms
         {
             BrandDto brand = new BrandDto();
             brand.Name = this.txtMarcas.Text;
-            if (cmbMarcas.FindString(brand.Name) != -1 || txtModelo.Text == "Nuevo") return;
+            if (cmbMarcas.FindString(brand.Name) != -1 || txtMarcas.Text == "Nueva marca")
+            {
+                MessageBox.Show("La Marca ya existe o no ingresó texto.");
+                return;
+            }
             try
             {
                 this.brandService.Save(brand);

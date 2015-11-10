@@ -77,10 +77,10 @@
             // btnGuardar
             // 
             this.btnGuardar.AutoSize = true;
-            this.btnGuardar.Location = new System.Drawing.Point(808, 500);
+            this.btnGuardar.Location = new System.Drawing.Point(202, 12);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(87, 35);
+            this.btnGuardar.Size = new System.Drawing.Size(66, 27);
             this.btnGuardar.TabIndex = 17;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -92,14 +92,14 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 30);
+            this.label1.Size = new System.Drawing.Size(114, 30);
             this.label1.TabIndex = 32;
             this.label1.Text = "MODELOS";
             // 
             // btnTipoVehiculo
             // 
             this.btnTipoVehiculo.AutoSize = true;
-            this.btnTipoVehiculo.Location = new System.Drawing.Point(430, 78);
+            this.btnTipoVehiculo.Location = new System.Drawing.Point(430, 64);
             this.btnTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnTipoVehiculo.Name = "btnTipoVehiculo";
             this.btnTipoVehiculo.Size = new System.Drawing.Size(37, 27);
@@ -111,7 +111,7 @@
             // 
             // txtTipoVehiculo
             // 
-            this.txtTipoVehiculo.Location = new System.Drawing.Point(249, 79);
+            this.txtTipoVehiculo.Location = new System.Drawing.Point(249, 65);
             this.txtTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTipoVehiculo.Name = "txtTipoVehiculo";
             this.txtTipoVehiculo.Size = new System.Drawing.Size(175, 25);
@@ -126,7 +126,7 @@
             this.cmbTipoVehiculo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbTipoVehiculo.DisplayMember = "Name";
             this.cmbTipoVehiculo.FormattingEnabled = true;
-            this.cmbTipoVehiculo.Location = new System.Drawing.Point(11, 79);
+            this.cmbTipoVehiculo.Location = new System.Drawing.Point(11, 65);
             this.cmbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoVehiculo.Name = "cmbTipoVehiculo";
             this.cmbTipoVehiculo.Size = new System.Drawing.Size(219, 25);
@@ -163,7 +163,7 @@
             // btnMarcas
             // 
             this.btnMarcas.AutoSize = true;
-            this.btnMarcas.Location = new System.Drawing.Point(430, 44);
+            this.btnMarcas.Location = new System.Drawing.Point(430, 96);
             this.btnMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMarcas.Name = "btnMarcas";
             this.btnMarcas.Size = new System.Drawing.Size(37, 27);
@@ -175,7 +175,7 @@
             // 
             // txtMarcas
             // 
-            this.txtMarcas.Location = new System.Drawing.Point(249, 46);
+            this.txtMarcas.Location = new System.Drawing.Point(249, 98);
             this.txtMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMarcas.Name = "txtMarcas";
             this.txtMarcas.Size = new System.Drawing.Size(175, 25);
@@ -193,7 +193,7 @@
             this.lstModelos.Location = new System.Drawing.Point(11, 183);
             this.lstModelos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstModelos.Name = "lstModelos";
-            this.lstModelos.Size = new System.Drawing.Size(400, 310);
+            this.lstModelos.Size = new System.Drawing.Size(400, 259);
             this.lstModelos.TabIndex = 14;
             this.lstModelos.ValueMember = "Id";
             this.lstModelos.SelectedIndexChanged += new System.EventHandler(this.lstModelos_SelectedIndexChanged);
@@ -202,7 +202,7 @@
             // 
             this.cmbOrigen.DisplayMember = "Name";
             this.cmbOrigen.FormattingEnabled = true;
-            this.cmbOrigen.Location = new System.Drawing.Point(11, 112);
+            this.cmbOrigen.Location = new System.Drawing.Point(12, 450);
             this.cmbOrigen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbOrigen.Name = "cmbOrigen";
             this.cmbOrigen.Size = new System.Drawing.Size(219, 25);
@@ -217,7 +217,7 @@
             this.cmbMarcas.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbMarcas.DisplayMember = "Name";
             this.cmbMarcas.FormattingEnabled = true;
-            this.cmbMarcas.Location = new System.Drawing.Point(12, 46);
+            this.cmbMarcas.Location = new System.Drawing.Point(12, 98);
             this.cmbMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbMarcas.Name = "cmbMarcas";
             this.cmbMarcas.Size = new System.Drawing.Size(219, 25);
@@ -236,7 +236,7 @@
             this.lstBodyworks.Location = new System.Drawing.Point(447, 182);
             this.lstBodyworks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstBodyworks.Name = "lstBodyworks";
-            this.lstBodyworks.Size = new System.Drawing.Size(219, 310);
+            this.lstBodyworks.Size = new System.Drawing.Size(219, 293);
             this.lstBodyworks.TabIndex = 15;
             this.lstBodyworks.ValueMember = "Id";
             // 
@@ -248,7 +248,7 @@
             this.lstUses.Location = new System.Drawing.Point(676, 182);
             this.lstUses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstUses.Name = "lstUses";
-            this.lstUses.Size = new System.Drawing.Size(219, 310);
+            this.lstUses.Size = new System.Drawing.Size(219, 293);
             this.lstUses.TabIndex = 16;
             this.lstUses.ValueMember = "Id";
             // 
@@ -260,7 +260,7 @@
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(52, 27);
             this.btnEditar.TabIndex = 38;
-            this.btnEditar.Text = "editar";
+            this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
@@ -300,7 +300,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 543);
+            this.ClientSize = new System.Drawing.Size(912, 487);
             this.Controls.Add(this.btnRemoveModel);
             this.Controls.Add(this.btnCarroceria);
             this.Controls.Add(this.txtCarroceria);

@@ -448,7 +448,7 @@ namespace Seggu.Desktop.Forms
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Modelos modelos = (Modelos)DependencyResolver.Instance.Resolve(typeof(Modelos));
+            Forms.ModelosVehiculos modelos = (ModelosVehiculos)DependencyResolver.Instance.Resolve(typeof(ModelosVehiculos));
             modelos.Show();
         }
 
