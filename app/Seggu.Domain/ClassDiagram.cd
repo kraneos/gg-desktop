@@ -48,8 +48,8 @@
       <FileName>Bank.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Cheques" />
       <Property Name="ClientCreditCards" />
+      <Property Name="Cheques" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Bodywork">
@@ -59,8 +59,8 @@
       <FileName>Bodywork.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Vehicles" />
       <Property Name="VehicleTypes" />
+      <Property Name="Vehicles" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Brand">
@@ -111,10 +111,10 @@
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Addresses" />
-      <Property Name="ClientCreditCards" />
       <Property Name="Policy" />
+      <Property Name="ClientCreditCards" />
       <Property Name="Endorse" />
+      <Property Name="Addresses" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.ClientCreditCard">
@@ -131,11 +131,11 @@
       <FileName>Company.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Contacts" />
-      <Property Name="CreditCards" />
-      <Property Name="Liquidations" />
       <Property Name="ProducerCodes" />
+      <Property Name="CreditCards" />
+      <Property Name="Contacts" />
       <Property Name="Risks" />
+      <Property Name="Liquidations" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Contact">
@@ -152,10 +152,10 @@
       <FileName>Coverage.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="CoveragesPacks" />
-      <Property Name="Employees" />
       <Property Name="Integrals" />
+      <Property Name="Employees" />
       <Property Name="Vehicles" />
+      <Property Name="CoveragesPacks" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.CoveragesPack">
@@ -206,11 +206,11 @@
       <FileName>Endorse.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="AttachedFiles" />
       <Property Name="Employees" />
-      <Property Name="Fees" />
-      <Property Name="Integrals" />
       <Property Name="Vehicles" />
+      <Property Name="Fees" />
+      <Property Name="AttachedFiles" />
+      <Property Name="Integrals" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Fee">
@@ -301,13 +301,13 @@
       <FileName>Policy.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="AttachedFiles" />
+      <Property Name="Fees" />
       <Property Name="Casualties" />
       <Property Name="Employees" />
-      <Property Name="Endorses" />
-      <Property Name="Fees" />
-      <Property Name="Integrals" />
       <Property Name="Vehicles" />
+      <Property Name="Endorses" />
+      <Property Name="AttachedFiles" />
+      <Property Name="Integrals" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Producer">
@@ -317,9 +317,9 @@
       <FileName>Producer.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
+      <Property Name="ProducerCodes" />
       <Property Name="CashAccounts" />
       <Property Name="Policies" />
-      <Property Name="ProducerCodes" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.ProducerCode">
@@ -346,9 +346,9 @@
       <FileName>Risk.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Coverages" />
       <Property Name="CoveragesPacks" />
       <Property Name="Policy" />
+      <Property Name="Coverages" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Use">
@@ -358,8 +358,8 @@
       <FileName>Use.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Vehicles" />
       <Property Name="VehicleType" />
+      <Property Name="Vehicles" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Seggu.Domain.Vehicle">
@@ -390,8 +390,8 @@
       <FileName>VehicleType.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Bodyworks" />
       <Property Name="Uses" />
+      <Property Name="Bodyworks" />
       <Property Name="VehicleModels" />
     </ShowAsCollectionAssociation>
   </Class>
