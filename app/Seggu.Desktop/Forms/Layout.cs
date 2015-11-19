@@ -51,6 +51,7 @@ namespace Seggu.Desktop.Forms
         {
             var keyRoot = "HKEY_CURRENT_USER";
             var keyName = keyRoot + "\\SOFTWARE\\Seggu";
+
             var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
             if (!string.IsNullOrEmpty(installationDate))
             {
