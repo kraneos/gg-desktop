@@ -84,6 +84,7 @@
             this.btnGuardar.TabIndex = 17;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Visible = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // label1
@@ -99,7 +100,7 @@
             // btnTipoVehiculo
             // 
             this.btnTipoVehiculo.AutoSize = true;
-            this.btnTipoVehiculo.Location = new System.Drawing.Point(430, 64);
+            this.btnTipoVehiculo.Location = new System.Drawing.Point(430, 97);
             this.btnTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnTipoVehiculo.Name = "btnTipoVehiculo";
             this.btnTipoVehiculo.Size = new System.Drawing.Size(37, 27);
@@ -111,7 +112,7 @@
             // 
             // txtTipoVehiculo
             // 
-            this.txtTipoVehiculo.Location = new System.Drawing.Point(249, 65);
+            this.txtTipoVehiculo.Location = new System.Drawing.Point(249, 98);
             this.txtTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTipoVehiculo.Name = "txtTipoVehiculo";
             this.txtTipoVehiculo.Size = new System.Drawing.Size(175, 25);
@@ -126,7 +127,7 @@
             this.cmbTipoVehiculo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbTipoVehiculo.DisplayMember = "Name";
             this.cmbTipoVehiculo.FormattingEnabled = true;
-            this.cmbTipoVehiculo.Location = new System.Drawing.Point(11, 65);
+            this.cmbTipoVehiculo.Location = new System.Drawing.Point(11, 98);
             this.cmbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoVehiculo.Name = "cmbTipoVehiculo";
             this.cmbTipoVehiculo.Size = new System.Drawing.Size(219, 25);
@@ -163,7 +164,7 @@
             // btnMarcas
             // 
             this.btnMarcas.AutoSize = true;
-            this.btnMarcas.Location = new System.Drawing.Point(430, 96);
+            this.btnMarcas.Location = new System.Drawing.Point(429, 63);
             this.btnMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMarcas.Name = "btnMarcas";
             this.btnMarcas.Size = new System.Drawing.Size(37, 27);
@@ -175,7 +176,7 @@
             // 
             // txtMarcas
             // 
-            this.txtMarcas.Location = new System.Drawing.Point(249, 98);
+            this.txtMarcas.Location = new System.Drawing.Point(248, 65);
             this.txtMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMarcas.Name = "txtMarcas";
             this.txtMarcas.Size = new System.Drawing.Size(175, 25);
@@ -217,7 +218,7 @@
             this.cmbMarcas.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbMarcas.DisplayMember = "Name";
             this.cmbMarcas.FormattingEnabled = true;
-            this.cmbMarcas.Location = new System.Drawing.Point(12, 98);
+            this.cmbMarcas.Location = new System.Drawing.Point(11, 65);
             this.cmbMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbMarcas.Name = "cmbMarcas";
             this.cmbMarcas.Size = new System.Drawing.Size(219, 25);

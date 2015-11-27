@@ -28,6 +28,7 @@ namespace Seggu.Desktop.Forms
             this.masterDataService = masterDataService;
             this.vehicleModelService = vehicleModelService;
             this.bodyworkService = bodyworkService;
+            currentModel = new VehicleModelDto();
             InitializeComboboxes();
         }
 
@@ -107,12 +108,8 @@ namespace Seggu.Desktop.Forms
             if (!txtMarcas.Visible)
             {
                 foreach (Control c in Controls)
-                {
-                    //if (c is TextBox)
-                    //    c.Text = "Nuevo";
                     if (!c.Visible)
                         c.Visible = true;
-                }
                 btnEditar.Text = "Cancelar";
                 editMode = true;
             }
@@ -128,6 +125,9 @@ namespace Seggu.Desktop.Forms
                 btnModelo.Visible = false;
                 btnRemoveModel.Visible = false;
                 btnTipoVehiculo.Visible = false;
+                btnGuardar.Visible = false;
+
+
                 editMode = false;
             }
         }
@@ -166,7 +166,7 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("El Modelo ya existe o no igresó texto.");
                 return;
             }
-            currentModel.Id = default(int);
+            currentModel.Id = default(int);// Null, hay que instanciar un new
             btnGuardar_Click(sender, e);
         }
 
@@ -180,7 +180,7 @@ namespace Seggu.Desktop.Forms
         private VehicleModelDto GetFormInformation()
         {
             var model = new VehicleModelDto();
-            model.Id = currentModel.Id;
+            model.Id = currentModel.Id; 
             model.BrandId = (int)cmbMarcas.SelectedValue;
             model.Origin = cmbOrigen.SelectedItem.ToString();
             model.Bodyworks = currentModel.Bodyworks;
