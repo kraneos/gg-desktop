@@ -63,7 +63,6 @@
             this.compañíasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carroceríasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.marcasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiposDeVehiculosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cobranzasARealizarEntreFechasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -418,12 +417,11 @@
             this.entidadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aseguradosToolStripMenuItem,
             this.bancosToolStripMenuItem,
-            this.modelosToolStripMenuItem,
             this.productoresToolStripMenuItem,
             this.compañíasToolStripMenuItem,
+            this.modelosToolStripMenuItem,
             this.usosToolStripMenuItem,
             this.carroceríasToolStripMenuItem,
-            this.marcasToolStripMenuItem,
             this.tiposDeVehiculosToolStripMenuItem});
             this.entidadesToolStripMenuItem.Name = "entidadesToolStripMenuItem";
             this.entidadesToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
@@ -463,7 +461,7 @@
             // 
             this.modelosToolStripMenuItem.Name = "modelosToolStripMenuItem";
             this.modelosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.modelosToolStripMenuItem.Text = "Modelos";
+            this.modelosToolStripMenuItem.Text = "Marcas y Modelos";
             this.modelosToolStripMenuItem.Click += new System.EventHandler(this.modelosToolStripMenuItem_Click);
             // 
             // productoresToolStripMenuItem
@@ -493,13 +491,6 @@
             this.carroceríasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.carroceríasToolStripMenuItem.Text = "Carrocerías";
             this.carroceríasToolStripMenuItem.Click += new System.EventHandler(this.carroceríasToolStripMenuItem_Click);
-            // 
-            // marcasToolStripMenuItem
-            // 
-            this.marcasToolStripMenuItem.Name = "marcasToolStripMenuItem";
-            this.marcasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.marcasToolStripMenuItem.Text = "Marcas";
-            this.marcasToolStripMenuItem.Click += new System.EventHandler(this.marcasToolStripMenuItem_Click);
             // 
             // tiposDeVehiculosToolStripMenuItem
             // 
@@ -688,7 +679,6 @@
         private System.Windows.Forms.ToolStripMenuItem rCRToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem carroceríasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem marcasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiposDeVehiculosToolStripMenuItem;
 
     }

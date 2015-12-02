@@ -1,8 +1,9 @@
-﻿using Seggu.Data;
-using Seggu.Dtos;
+﻿using Seggu.Dtos;
 using Seggu.Services.Interfaces;
+
+using Seggu.Infrastructure;
+
 using System;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -254,12 +255,14 @@ namespace Seggu.Desktop.Forms
 
         private void btnBodyworks_Click(object sender, EventArgs e)
         {
-
+            Forms.Carrocerias carrocerias = (Carrocerias)DependencyResolver.Instance.Resolve(typeof(Carrocerias));
+            carrocerias.Show();
         }
 
         private void btnUses_Click(object sender, EventArgs e)
         {
-
+            Forms.Usos usos = (Usos)DependencyResolver.Instance.Resolve(typeof(Usos));
+            usos.Show();
         }
     }
 }
