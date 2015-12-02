@@ -105,31 +105,36 @@ namespace Seggu.Desktop.Forms
         }
         private void ToggleEditionControls()
         {
-            if (!txtMarcas.Visible)
-            {
-                foreach (Control c in Controls)
-                    if (!c.Visible)
-                        c.Visible = true;
-                btnEditar.Text = "Cancelar";
-                editMode = true;
-            }
+            if (txtMarcas.Visible)
+                HideEditionControls();
             else
-            {
-                btnEditar.Text = "Editar";
-                txtMarcas.Visible = false;
-                txtModelo.Visible = false;
-                txtTipoVehiculo.Visible = false;
-                txtCarroceria.Visible = false;
-                btnCarroceria.Visible = false;
-                btnMarcas.Visible = false;
-                btnModelo.Visible = false;
-                btnRemoveModel.Visible = false;
-                btnTipoVehiculo.Visible = false;
-                btnGuardar.Visible = false;
+                ShowEditionControls();
+        }
+        private void HideEditionControls()
+        {
+            btnEditar.Text = "Editar";
+            txtMarcas.Visible = false;
+            txtModelo.Visible = false;
+            txtCarroceria.Visible = false;
+            btnCarroceria.Visible = false;
+            btnMarcas.Visible = false;
+            btnModelo.Visible = false;
+            btnRemoveModel.Visible = false;
+            btnGuardar.Visible = false;
+            cmbTipoVehiculo.Enabled = false;
+            cmbOrigen.Enabled = false;
 
-
-                editMode = false;
-            }
+            editMode = false;
+        }
+        private void ShowEditionControls()
+        {
+            foreach (Control c in Controls)
+                if (!c.Visible)
+                    c.Visible = true;
+            btnEditar.Text = "Cancelar";
+            editMode = true;
+            cmbTipoVehiculo.Enabled = true;
+            cmbOrigen.Enabled = true;
         }
 
         #region Txt Select On Click
@@ -138,25 +143,16 @@ namespace Seggu.Desktop.Forms
             txtMarcas.SelectionStart = 0;
             txtMarcas.SelectionLength = txtMarcas.Text.Length;
         }
-
-        private void txtTipoVehiculo_Click(object sender, EventArgs e)
-        {
-            txtTipoVehiculo.SelectionStart = 0;
-            txtTipoVehiculo.SelectionLength = txtTipoVehiculo.Text.Length;
-        }
-
         private void txtModelo_Click(object sender, EventArgs e)
         {
             txtModelo.SelectionStart = 0;
             txtModelo.SelectionLength = txtModelo.Text.Length;
         }
-
         private void txtCarroceria_Click(object sender, EventArgs e)
         {
             txtCarroceria.SelectionStart = 0;
             txtCarroceria.SelectionLength = txtCarroceria.Text.Length;
         }
-
         #endregion
 
         private void btnModelo_Click(object sender, EventArgs e)
@@ -209,25 +205,7 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show(ex.Message);
             }
         }
-        private void btnTipoVehiculo_Click(object sender, EventArgs e)
-        {
-            var vehicleType = new VehicleTypeDto();
-            vehicleType.Name = this.txtTipoVehiculo.Text;
-            if (cmbTipoVehiculo.FindString(vehicleType.Name) != -1 || txtTipoVehiculo.Text == "Nuevo tipo")
-            {
-                MessageBox.Show("El Tipo de Vehiculo ya existe o no ingresó texto."); 
-                return;
-            }
-            try
-            {
-                this.vehicleTypeService.Save(vehicleType);
-                ReInitiateForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+
         private void btnMarcas_Click(object sender, EventArgs e)
         {
             BrandDto brand = new BrandDto();
