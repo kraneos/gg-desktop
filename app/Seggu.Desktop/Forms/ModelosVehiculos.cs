@@ -1,8 +1,6 @@
 ﻿using Seggu.Dtos;
 using Seggu.Services.Interfaces;
-
 using Seggu.Infrastructure;
-
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,21 +10,25 @@ namespace Seggu.Desktop.Forms
     public partial class ModelosVehiculos : Form
     {
         private IVehicleTypeService vehicleTypeService;
+        private IUseService useService;
+        private IBodyworkService bodyworkService;
         private IBrandService brandService;
         private IMasterDataService masterDataService;
         private IVehicleModelService vehicleModelService;
         private VehicleModelDto currentModel;
         private bool editMode = false;
         private int currentBrandIndex;
-        public ModelosVehiculos(IBrandService brandService, IVehicleTypeService vehicleTypeService,
+        public ModelosVehiculos(IBrandService brandService, IUseService useService, IVehicleTypeService vehicleTypeService,
             IMasterDataService masterDataService, IVehicleModelService vehicleModelService,
             IBodyworkService bodyworkService)
         {
             InitializeComponent();
             this.brandService = brandService;
+            this.bodyworkService = bodyworkService;
             this.vehicleTypeService = vehicleTypeService;
             this.masterDataService = masterDataService;
             this.vehicleModelService = vehicleModelService;
+            this.useService = useService;
             currentModel = new VehicleModelDto();
             InitializeComboboxes();
         }
@@ -78,10 +80,10 @@ namespace Seggu.Desktop.Forms
         }
         private void cmbTipoVehiculo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editMode) return;
+            //if (editMode) return;
             if (!cmbTipoVehiculo.Focused) return;
-            FillBodyworks();
-            FillUses();
+            lstUses.DataSource = useService.GetByVehicleType((int)cmbTipoVehiculo.SelectedValue).ToList();
+            lstBodyworks.DataSource = bodyworkService.GetByVehicleType((int)cmbTipoVehiculo.SelectedValue).ToList();
         }
         private void FillBodyworks()
         {
@@ -255,14 +257,18 @@ namespace Seggu.Desktop.Forms
 
         private void btnBodyworks_Click(object sender, EventArgs e)
         {
-            Forms.Carrocerias carrocerias = (Carrocerias)DependencyResolver.Instance.Resolve(typeof(Carrocerias));
-            carrocerias.Show();
+            var vehicleType = this.vehicleTypeService.Get((int)cmbTipoVehiculo.SelectedValue);
+            var form = DependencyResolver.Instance.ResolveGeneric<GestionarCarrocerias>();
+            form.Initialize(vehicleType);
+            form.ShowDialog();
         }
 
         private void btnUses_Click(object sender, EventArgs e)
         {
-            Forms.Usos usos = (Usos)DependencyResolver.Instance.Resolve(typeof(Usos));
-            usos.Show();
+            var vehicleType = this.vehicleTypeService.Get((int)cmbTipoVehiculo.SelectedValue);
+            var form = DependencyResolver.Instance.ResolveGeneric<GestionarUsos>();
+            form.Initialize(vehicleType);
+            form.ShowDialog();
         }
     }
 }

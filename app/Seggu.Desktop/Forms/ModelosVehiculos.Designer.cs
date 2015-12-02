@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnBodyworks = new System.Windows.Forms.Button();
             this.btnUses = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnModelo
@@ -103,7 +104,7 @@
             this.cmbTipoVehiculo.DisplayMember = "Name";
             this.cmbTipoVehiculo.Enabled = false;
             this.cmbTipoVehiculo.FormattingEnabled = true;
-            this.cmbTipoVehiculo.Location = new System.Drawing.Point(450, 109);
+            this.cmbTipoVehiculo.Location = new System.Drawing.Point(449, 122);
             this.cmbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoVehiculo.Name = "cmbTipoVehiculo";
             this.cmbTipoVehiculo.Size = new System.Drawing.Size(219, 25);
@@ -146,7 +147,7 @@
             this.lstModelos.Location = new System.Drawing.Point(22, 139);
             this.lstModelos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstModelos.Name = "lstModelos";
-            this.lstModelos.Size = new System.Drawing.Size(400, 259);
+            this.lstModelos.Size = new System.Drawing.Size(400, 242);
             this.lstModelos.TabIndex = 14;
             this.lstModelos.ValueMember = "Id";
             this.lstModelos.SelectedIndexChanged += new System.EventHandler(this.lstModelos_SelectedIndexChanged);
@@ -156,7 +157,7 @@
             this.cmbOrigen.DisplayMember = "Name";
             this.cmbOrigen.Enabled = false;
             this.cmbOrigen.FormattingEnabled = true;
-            this.cmbOrigen.Location = new System.Drawing.Point(450, 76);
+            this.cmbOrigen.Location = new System.Drawing.Point(449, 72);
             this.cmbOrigen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbOrigen.Name = "cmbOrigen";
             this.cmbOrigen.Size = new System.Drawing.Size(219, 25);
@@ -187,7 +188,7 @@
             this.lstBodyworks.DisplayMember = "Name";
             this.lstBodyworks.FormattingEnabled = true;
             this.lstBodyworks.ItemHeight = 17;
-            this.lstBodyworks.Location = new System.Drawing.Point(450, 177);
+            this.lstBodyworks.Location = new System.Drawing.Point(449, 184);
             this.lstBodyworks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstBodyworks.Name = "lstBodyworks";
             this.lstBodyworks.SelectionMode = System.Windows.Forms.SelectionMode.None;
@@ -200,11 +201,11 @@
             this.lstUses.DisplayMember = "Name";
             this.lstUses.FormattingEnabled = true;
             this.lstUses.ItemHeight = 17;
-            this.lstUses.Location = new System.Drawing.Point(450, 309);
+            this.lstUses.Location = new System.Drawing.Point(449, 309);
             this.lstUses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstUses.Name = "lstUses";
             this.lstUses.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lstUses.Size = new System.Drawing.Size(219, 89);
+            this.lstUses.Size = new System.Drawing.Size(219, 72);
             this.lstUses.TabIndex = 16;
             this.lstUses.ValueMember = "Id";
             // 
@@ -224,7 +225,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(458, 148);
+            this.label2.Location = new System.Drawing.Point(446, 163);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 17);
             this.label2.TabIndex = 39;
@@ -256,7 +257,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(458, 271);
+            this.label3.Location = new System.Drawing.Point(446, 288);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 17);
             this.label3.TabIndex = 42;
@@ -265,12 +266,12 @@
             // btnBodyworks
             // 
             this.btnBodyworks.AutoSize = true;
-            this.btnBodyworks.Location = new System.Drawing.Point(450, 143);
+            this.btnBodyworks.Location = new System.Drawing.Point(449, 153);
             this.btnBodyworks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnBodyworks.Name = "btnBodyworks";
-            this.btnBodyworks.Size = new System.Drawing.Size(88, 27);
+            this.btnBodyworks.Size = new System.Drawing.Size(167, 27);
             this.btnBodyworks.TabIndex = 43;
-            this.btnBodyworks.Text = "Carrocerías:";
+            this.btnBodyworks.Text = "Carrocerías para ese tipo";
             this.btnBodyworks.UseVisualStyleBackColor = true;
             this.btnBodyworks.Visible = false;
             this.btnBodyworks.Click += new System.EventHandler(this.btnBodyworks_Click);
@@ -278,21 +279,32 @@
             // btnUses
             // 
             this.btnUses.AutoSize = true;
-            this.btnUses.Location = new System.Drawing.Point(450, 274);
+            this.btnUses.Location = new System.Drawing.Point(449, 278);
             this.btnUses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnUses.Name = "btnUses";
-            this.btnUses.Size = new System.Drawing.Size(88, 27);
+            this.btnUses.Size = new System.Drawing.Size(129, 27);
             this.btnUses.TabIndex = 44;
-            this.btnUses.Text = "Usos:";
+            this.btnUses.Text = "Usos para ese tipo";
             this.btnUses.UseVisualStyleBackColor = true;
             this.btnUses.Visible = false;
             this.btnUses.Click += new System.EventHandler(this.btnUses_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(446, 101);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(111, 17);
+            this.label5.TabIndex = 45;
+            this.label5.Text = "Tipo de vehículo";
             // 
             // ModelosVehiculos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 417);
+            this.ClientSize = new System.Drawing.Size(690, 398);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btnUses);
             this.Controls.Add(this.btnBodyworks);
             this.Controls.Add(this.label3);
@@ -343,5 +355,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnBodyworks;
         private System.Windows.Forms.Button btnUses;
+        private System.Windows.Forms.Label label5;
     }
 }

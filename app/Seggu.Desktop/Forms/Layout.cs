@@ -591,13 +591,6 @@ namespace Seggu.Desktop.Forms
             carrocerias.Show();
         }
 
-        private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Forms.Marcas marcas = (Marcas)DependencyResolver
-                .Instance.Resolve(typeof(Marcas));
-            marcas.Show();
-        }
-
         private void coberturasToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             Forms.CoberturasOnly coberturas = (CoberturasOnly)DependencyResolver
