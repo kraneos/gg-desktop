@@ -14,7 +14,6 @@ namespace Seggu.Desktop.Forms
         private IBrandService brandService;
         private IMasterDataService masterDataService;
         private IVehicleModelService vehicleModelService;
-        private IBodyworkService bodyworkService;
         private VehicleModelDto currentModel;
         private bool editMode = false;
         private int currentBrandIndex;
@@ -27,7 +26,6 @@ namespace Seggu.Desktop.Forms
             this.vehicleTypeService = vehicleTypeService;
             this.masterDataService = masterDataService;
             this.vehicleModelService = vehicleModelService;
-            this.bodyworkService = bodyworkService;
             currentModel = new VehicleModelDto();
             InitializeComboboxes();
         }
@@ -115,10 +113,10 @@ namespace Seggu.Desktop.Forms
             btnEditar.Text = "Editar";
             txtMarcas.Visible = false;
             txtModelo.Visible = false;
-            txtCarroceria.Visible = false;
-            btnCarroceria.Visible = false;
             btnMarcas.Visible = false;
             btnModelo.Visible = false;
+            btnBodyworks.Visible = false;
+            btnUses.Visible = false;
             btnRemoveModel.Visible = false;
             btnGuardar.Visible = false;
             cmbTipoVehiculo.Enabled = false;
@@ -148,11 +146,6 @@ namespace Seggu.Desktop.Forms
             txtModelo.SelectionStart = 0;
             txtModelo.SelectionLength = txtModelo.Text.Length;
         }
-        private void txtCarroceria_Click(object sender, EventArgs e)
-        {
-            txtCarroceria.SelectionStart = 0;
-            txtCarroceria.SelectionLength = txtCarroceria.Text.Length;
-        }
         #endregion
 
         private void btnModelo_Click(object sender, EventArgs e)
@@ -163,7 +156,14 @@ namespace Seggu.Desktop.Forms
                 return;
             }
             currentModel.Id = default(int);// Null, hay que instanciar un new
-            btnGuardar_Click(sender, e);
+            try
+            {
+                btnGuardar_Click(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -171,6 +171,7 @@ namespace Seggu.Desktop.Forms
             if (currentModel == null) return;
             var model = this.GetFormInformation();
             vehicleModelService.Save(model);
+            txtModelo.Text = "";
             ReInitiateForm();
         }
         private VehicleModelDto GetFormInformation()
@@ -186,26 +187,6 @@ namespace Seggu.Desktop.Forms
             return model;
         }
 
-        private void btnCarroceria_Click(object sender, EventArgs e)
-        {
-            var bodywork = new BodyworkDto();
-            bodywork.Name = txtCarroceria.Text;
-            if (lstBodyworks.FindString(bodywork.Name) != -1 || txtCarroceria.Text == "Nueva carrocería")
-            {
-                MessageBox.Show("La Carroceria ya existe o no ingresó texto.");
-                return;
-            }
-            try
-            {
-                this.bodyworkService.Save(bodywork);
-                ReInitiateForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private void btnMarcas_Click(object sender, EventArgs e)
         {
             BrandDto brand = new BrandDto();
@@ -218,6 +199,7 @@ namespace Seggu.Desktop.Forms
             try
             {
                 this.brandService.Save(brand);
+                txtMarcas.Text = "";
                 ReInitiateForm();
             }
             catch (Exception ex)
@@ -263,6 +245,21 @@ namespace Seggu.Desktop.Forms
         {
             if (e.KeyCode == Keys.Enter)
                 cmbMarcas_SelectionChangeCommitted(null, null);
+        }
+
+        private void txtCarroceria_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBodyworks_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnUses_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
