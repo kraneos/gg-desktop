@@ -101,6 +101,27 @@ namespace Seggu.Desktop.Forms
             this.bodyworkService.Save(bodywork);
             this.InitializeIndex();
             MessageBox.Show("Carroceria guardada exitosamente.");
+
+            
+            //private void btnCarroceria_Click(object sender, EventArgs e)
+            //{
+            //    var bodywork = new BodyworkDto();
+            //    bodywork.Name = txtCarroceria.Text;
+            //    if (lstBodyworks.FindString(bodywork.Name) != -1 || txtCarroceria.Text == "Nueva carrocería")
+            //    {
+            //        MessageBox.Show("La Carroceria ya existe o no ingresó texto.");
+            //        return;
+            //    }
+            //    try
+            //    {
+            //        this.bodyworkService.Save(bodywork);
+            //        ReInitiateForm();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}
         }
 
         private BodyworkDto GetFormData()

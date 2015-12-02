@@ -187,12 +187,6 @@
     <Compile Include="Forms\GestionarUsos.Designer.cs">
       <DependentUpon>GestionarUsos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Modelos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Modelos.Designer.cs">
-      <DependentUpon>Modelos.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\CobranzasRealizadas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,12 +217,6 @@
     </Compile>
     <Compile Include="Forms\CoberturasOnly.Designer.cs">
       <DependentUpon>CoberturasOnly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Marcas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Marcas.Designer.cs">
-      <DependentUpon>Marcas.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PolizasPorFecha.cs">
       <SubType>Form</SubType>
@@ -409,9 +397,6 @@
     <EmbeddedResource Include="Forms\GestionarUsos.resx">
       <DependentUpon>GestionarUsos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Modelos.resx">
-      <DependentUpon>Modelos.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CobranzasRealizadas.resx">
       <DependentUpon>CobranzasRealizadas.cs</DependentUpon>
     </EmbeddedResource>
@@ -427,9 +412,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CoberturasOnly.resx">
       <DependentUpon>CoberturasOnly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Marcas.resx">
-      <DependentUpon>Marcas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PolizasPorFecha.resx">
       <DependentUpon>PolizasPorFecha.cs</DependentUpon>

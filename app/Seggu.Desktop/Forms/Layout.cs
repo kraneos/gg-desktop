@@ -484,7 +484,7 @@ namespace Seggu.Desktop.Forms
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Modelos modelos = (Modelos)DependencyResolver.Instance.Resolve(typeof(Modelos));
+            Forms.ModelosVehiculos modelos = (ModelosVehiculos)DependencyResolver.Instance.Resolve(typeof(ModelosVehiculos));
             modelos.Show();
         }
 
@@ -625,13 +625,6 @@ namespace Seggu.Desktop.Forms
             Forms.Carrocerias carrocerias = (Carrocerias)DependencyResolver
                 .Instance.Resolve(typeof(Carrocerias));
             carrocerias.Show();
-        }
-
-        private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Forms.Marcas marcas = (Marcas)DependencyResolver
-                .Instance.Resolve(typeof(Marcas));
-            marcas.Show();
         }
 
         private void coberturasToolStripMenuItem_Click_1(object sender, EventArgs e)

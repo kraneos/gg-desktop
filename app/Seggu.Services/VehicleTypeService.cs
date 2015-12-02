@@ -27,6 +27,7 @@ namespace Seggu.Services
             var vehicletype = this.VehicleTypeDao.GetAll();
             return vehicletype.OrderBy(x => x.Name).Select(vt => VehicleTypeDtoMapper.GetDto(vt));
         }
+
         public void Save(VehicleTypeDto vType)
         {
             //vType.Id = Guid.Empty.ToString();
