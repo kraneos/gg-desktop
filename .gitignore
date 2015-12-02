@@ -5,6 +5,8 @@
 /app/packages
 bin/
 obj/
+Debug/
+Release/
 *.vspscc
 *.user
 *.suo
