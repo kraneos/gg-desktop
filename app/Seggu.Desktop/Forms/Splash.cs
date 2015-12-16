@@ -19,12 +19,12 @@ namespace Seggu.Desktop.Forms
         {
             InitializeComponent();
             this.versionManager = versionManager;
+            this.progressBar.Maximum = this.versionManager.GetVersionCountToRun();
             this.backgroundWorker.RunWorkerAsync();
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
-            progressBar.Maximum = this.versionManager.GetVersionCountToRun();
             versionManager.RunAllVersions(NotifyProgress);
         }
 
