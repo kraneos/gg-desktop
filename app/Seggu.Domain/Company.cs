@@ -19,10 +19,10 @@ namespace Seggu.Domain
         public bool Active { get; set; }
         public string EMail { get; set; }
         public string CUIT { get; set; }
-        public Nullable<short> LiqDay1 { get; set; }
-        public Nullable<short> LiqDay2 { get; set; }
-        public short PaymentDay1 { get; set; }
-        public short PaymentDay2 { get; set; }
+        public int LiqDay1 { get; set; }
+        public int LiqDay2 { get; set; }
+        public int PaymentDay1 { get; set; }
+        public int PaymentDay2 { get; set; }
     
         public virtual ICollection<ProducerCode> ProducerCodes { get; set; }
         public virtual ICollection<CreditCard> CreditCards { get; set; }

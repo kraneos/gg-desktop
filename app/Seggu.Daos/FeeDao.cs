@@ -109,11 +109,11 @@ namespace Seggu.Daos
         }
         public IEnumerable<Fee> GetOverdueEndorsesToday()
         {
-            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId == null);
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today);
         }
         public IEnumerable<Fee> GetOverduePoliciesToday()
         {
-            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId != null);
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today);
         }
     }
 }

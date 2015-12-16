@@ -24,8 +24,8 @@ namespace Seggu.Desktop.Forms
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
-            this.progressBar.Maximum = this.versionManager.GetVersionCountToRun();
-            this.versionManager.RunAllVersions(NotifyProgress);
+            progressBar.Maximum = this.versionManager.GetVersionCountToRun();
+            versionManager.RunAllVersions(NotifyProgress);
         }
 
         private void NotifyProgress()
