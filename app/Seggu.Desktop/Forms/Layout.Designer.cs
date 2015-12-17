@@ -43,10 +43,10 @@
             this.LblApellido = new System.Windows.Forms.Label();
             this.lblDNI = new System.Windows.Forms.Label();
             this.LblNombre = new System.Windows.Forms.Label();
-            this.grdPolicies = new System.Windows.Forms.DataGridView();
             this.tabCtrlPolicies = new System.Windows.Forms.TabControl();
             this.tabValids = new System.Windows.Forms.TabPage();
             this.grdValids = new System.Windows.Forms.DataGridView();
+            this.grdPolicies = new System.Windows.Forms.DataGridView();
             this.tabExpired = new System.Windows.Forms.TabPage();
             this.grdExpired = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -58,9 +58,9 @@
             this.todosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bancosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compañíasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carroceríasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiposDeVehiculosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +81,10 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdEndorses)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).BeginInit();
             this.tabCtrlPolicies.SuspendLayout();
             this.tabValids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdValids)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).BeginInit();
             this.tabExpired.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdExpired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -206,7 +206,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.LblApellido);
             this.splitContainer1.Panel1.Controls.Add(this.lblDNI);
             this.splitContainer1.Panel1.Controls.Add(this.LblNombre);
-            this.splitContainer1.Panel1.Controls.Add(this.grdPolicies);
             this.splitContainer1.Panel1.Controls.Add(this.tabCtrlPolicies);
             // 
             // splitContainer1.Panel2
@@ -289,21 +288,6 @@
             this.LblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.LblNombre.Click += new System.EventHandler(this.LblNombre_Click);
             // 
-            // grdPolicies
-            // 
-            this.grdPolicies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdPolicies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdPolicies.Location = new System.Drawing.Point(12, 167);
-            this.grdPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grdPolicies.MultiSelect = false;
-            this.grdPolicies.Name = "grdPolicies";
-            this.grdPolicies.ReadOnly = true;
-            this.grdPolicies.RowHeadersVisible = false;
-            this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdPolicies.Size = new System.Drawing.Size(238, 259);
-            this.grdPolicies.TabIndex = 39;
-            this.grdPolicies.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellContentClick);
-            // 
             // tabCtrlPolicies
             // 
             this.tabCtrlPolicies.Controls.Add(this.tabValids);
@@ -319,6 +303,7 @@
             // tabValids
             // 
             this.tabValids.Controls.Add(this.grdValids);
+            this.tabValids.Controls.Add(this.grdPolicies);
             this.tabValids.Location = new System.Drawing.Point(4, 26);
             this.tabValids.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabValids.Name = "tabValids";
@@ -342,7 +327,22 @@
             this.grdValids.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdValids.Size = new System.Drawing.Size(241, 263);
             this.grdValids.TabIndex = 0;
-            this.grdValids.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdValids_CellContentClick);
+            this.grdValids.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdValids_CellMouseDoubleClick);
+            // 
+            // grdPolicies
+            // 
+            this.grdPolicies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.grdPolicies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdPolicies.Location = new System.Drawing.Point(12, 52);
+            this.grdPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grdPolicies.MultiSelect = false;
+            this.grdPolicies.Name = "grdPolicies";
+            this.grdPolicies.ReadOnly = true;
+            this.grdPolicies.RowHeadersVisible = false;
+            this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grdPolicies.Size = new System.Drawing.Size(238, 259);
+            this.grdPolicies.TabIndex = 39;
+            this.grdPolicies.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellContentClick);
             // 
             // tabExpired
             // 
@@ -457,13 +457,6 @@
             this.bancosToolStripMenuItem.Text = "Bancos";
             this.bancosToolStripMenuItem.Click += new System.EventHandler(this.BanksToolStripMenuItem_Click);
             // 
-            // modelosToolStripMenuItem
-            // 
-            this.modelosToolStripMenuItem.Name = "modelosToolStripMenuItem";
-            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.modelosToolStripMenuItem.Text = "Marcas y Modelos";
-            this.modelosToolStripMenuItem.Click += new System.EventHandler(this.modelosToolStripMenuItem_Click);
-            // 
             // productoresToolStripMenuItem
             // 
             this.productoresToolStripMenuItem.Name = "productoresToolStripMenuItem";
@@ -477,6 +470,13 @@
             this.compañíasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.compañíasToolStripMenuItem.Text = "Compañías";
             this.compañíasToolStripMenuItem.Click += new System.EventHandler(this.compañíasToolStripMenuItem_Click);
+            // 
+            // modelosToolStripMenuItem
+            // 
+            this.modelosToolStripMenuItem.Name = "modelosToolStripMenuItem";
+            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.modelosToolStripMenuItem.Text = "Marcas y Modelos";
+            this.modelosToolStripMenuItem.Click += new System.EventHandler(this.modelosToolStripMenuItem_Click);
             // 
             // usosToolStripMenuItem
             // 
@@ -618,10 +618,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdEndorses)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).EndInit();
             this.tabCtrlPolicies.ResumeLayout(false);
             this.tabValids.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdValids)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).EndInit();
             this.tabExpired.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdExpired)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

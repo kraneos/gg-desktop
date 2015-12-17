@@ -323,22 +323,6 @@ namespace Seggu.Desktop.Forms
             lblDNI.Text = cli.Dni;
         }
 
-        private void grdValids_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentPolicy = (PolicyFullDto)grdValids.CurrentRow.DataBoundItem;
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            SetPanelControl(policyUc);
-            currentEndorse = null;
-            //SetPanelControl(policyUc);
-            policyUc.btnRenovar.Enabled = true;
-            policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
-                LoadEndorseGrid();
-            btnEndosos.Enabled = true;
-            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
-            btnSiniestros.Enabled = true;
-            btnCobranzas.Enabled = true;
-        }
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             currentPolicy = (PolicyFullDto)grdExpired.CurrentRow.DataBoundItem;
@@ -673,5 +657,21 @@ namespace Seggu.Desktop.Forms
 
         }
 
+        private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            currentPolicy = (PolicyFullDto)grdValids.CurrentRow.DataBoundItem;
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
+            SetPanelControl(policyUc);
+            currentEndorse = null;
+            //SetPanelControl(policyUc);
+            policyUc.btnRenovar.Enabled = true;
+            policyUc.PopulateDetails();
+            if (currentPolicy.Endorses.Count() > 0)
+                LoadEndorseGrid();
+            btnEndosos.Enabled = true;
+            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Enabled = true;
+            btnCobranzas.Enabled = true;
+        }
     }
 }
