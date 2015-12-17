@@ -37,14 +37,14 @@ namespace Seggu.VersionManager
             // Validate if the database is created
             if (delegateAction != null)
             {
-                delegateAction();
+                //delegateAction();
             }
             if (!IsDatabaseCreated())
             {
                 RunFirstVersion();
                 if (delegateAction != null)
                 {
-                    delegateAction();
+                    //delegateAction();
                 }
             }
 
@@ -72,7 +72,7 @@ namespace Seggu.VersionManager
                         
                         if (action != null)
                         {
-                            action();
+                            //action();
                         }
                     }
                 }
