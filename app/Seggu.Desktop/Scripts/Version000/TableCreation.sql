@@ -230,7 +230,11 @@ CREATE TABLE Policies (
     ProducerId INTEGER  NOT NULL,
     CollectorId INTEGER  NULL,
     RiskId INTEGER  NOT NULL,
-    foreign key(ClientId) references Clients(Id),
+	ObjectId TEXT NULL,
+    CreatedAt TEXT NULL,
+	UpdatedAt TEXT NULL,
+	LocallyUpdatedAt TEXT NULL,
+	foreign key(ClientId) references Clients(Id),
     foreign key(ProducerId) references Producers(Id),
     foreign key(CollectorId) references Producers(Id),
     foreign key(RiskId) references Risks(Id)

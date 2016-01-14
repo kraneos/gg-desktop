@@ -55,24 +55,26 @@ namespace Seggu.Service
                 this.eventLog.WriteEntry("Initialize context.");
                 using (var context = new SegguDataModelContext())
                 {
-                    this.eventLog.WriteEntry("Retrieve Fees.");
-                    var feesVm = this.client.GetFees();
-                    if (feesVm != null)
-                    {
-                        this.eventLog.WriteEntry("Fees retrieved = " + feesVm.Count());
-                        if (feesVm.Any())
-                        {
-                            var fees = feesVm.Select(x => new Fee { Value = x.Amount });
-                            context.Fees.AddRange(fees);
-                        }
-                        context.SaveChanges();
-                    }
+                    SendPoliciesToParse(context);
                 }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+        }
+
+        private void SendPoliciesToParse(SegguDataModelContext context)
+        {
+            var newPolicies = context.Policies
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedPolicies = context.Policies
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedPolicies = this.client.CreatePolicies(newPolicies);
+            var parseUpdatedPolicies = this.client.UpdatePolicies(updatedPolicies);
+
+            context.SaveChanges();
         }
 
         private void HandleException(Exception ex)

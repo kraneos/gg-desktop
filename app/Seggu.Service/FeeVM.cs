@@ -6,9 +6,9 @@ namespace Seggu.Service
     [DataContract]
     public class FeeVM
     {
-        [DataMember(Name = "amount")]
+        //[DataMember(Name = "amount")]
         public decimal Amount { get; set; }
-        [DataMember(Name = "date")]
+        //[DataMember(Name = "date")]
         public DateTime Date { get; set; }
     }
 }
