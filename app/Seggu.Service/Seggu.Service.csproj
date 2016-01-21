@@ -80,6 +80,7 @@
     <Compile Include="BatchRequest.cs" />
     <Compile Include="BatchResponse.cs" />
     <Compile Include="CamelCaseSerializationStrategy.cs" />
+    <Compile Include="DateVM.cs" />
     <Compile Include="FeeVM.cs" />
     <Compile Include="ParseClient.cs" />
     <Compile Include="ParseQueryResult.cs" />
@@ -97,6 +98,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RelationVM.cs" />
     <Compile Include="SegguService.cs">
       <SubType>Component</SubType>
     </Compile>

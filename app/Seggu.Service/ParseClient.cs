@@ -6,6 +6,8 @@ using System.Net;
 using Seggu.Domain;
 using System.Linq;
 using Seggu.Service;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Seggu.Service
 {
@@ -61,23 +63,73 @@ namespace Seggu.Service
                     Id = x.Id,
                     Value = x.Value,
                     Number = x.Number,
+                    ClientId = x.ClientId,
                     ClientName = x.Client.FirstName + " " + x.Client.LastName,
-                    FeeAmount = x.Fees.Count
+                    FeeAmount = x.Fees.Count,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate
                 }
             });
-            req.AddBody(batch);
+            req.SetBody(batch);
             var res = this.restClient.Execute(req);
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 var data = JsonConvert.DeserializeObject<List<BatchResponse<PolicyVM>>>(res.Content);
                 for (int i = 0; i < newPolicies.Count(); i++)
                 {
-                    newPolicies.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
-                    newPolicies.ElementAt(i).CreatedAt= data.ElementAt(i).Success.CreatedAt;
-                    newPolicies.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
-                    newPolicies.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        newPolicies.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
+                        newPolicies.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newPolicies.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newPolicies.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                    }
                 }
                 return newPolicies;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Fee> CreateFees(List<Fee> newFees)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<FeeVM>();
+            batch.Requests = newFees.Select(x => new BatchElement<FeeVM>
+            {
+                Method = "POST",
+                Path = "/1/classes/Fee",
+                Body = new FeeVM
+                {
+                    Id = x.Id,
+                    Value = x.Value,
+                    Number = x.Number,
+                    State = (int)x.State,
+                    StateName = x.State.ToString(),
+                    PolicyId = x.Policy != null ? x.Policy.ObjectId : null,
+                    ExpirationDate = x.ExpirationDate,
+                    Policy = x.Policy != null ? new PointerVM("Policy", x.Policy.ObjectId) : null
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<FeeVM>>>(res.Content);
+                for (int i = 0; i < newFees.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        newFees.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
+                        newFees.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newFees.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newFees.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
+
+                    }
+                }
+                return newFees;
             }
             else
             {
@@ -98,19 +150,25 @@ namespace Seggu.Service
                     Id = x.Id,
                     Value = x.Value,
                     Number = x.Number,
-                    ClientName = x.Client.FirstName + ' ' + x.Client.LastName,
-                    FeeAmount = x.Fees.Count
+                    ClientId = x.ClientId,
+                    ClientName = x.Client.FirstName + " " + x.Client.LastName,
+                    FeeAmount = x.Fees.Count,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate
                 }
             });
-            req.AddBody(batch);
+            req.SetBody(batch);
             var res = this.restClient.Execute(req);
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 var data = JsonConvert.DeserializeObject<List<BatchResponse<PolicyVM>>>(res.Content);
                 for (int i = 0; i < updatedPolicies.Count(); i++)
                 {
-                    updatedPolicies.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
-                    updatedPolicies.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        updatedPolicies.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                        updatedPolicies.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    }
                 }
                 return updatedPolicies;
             }
@@ -118,6 +176,58 @@ namespace Seggu.Service
             {
                 return null;
             }
+        }
+
+        public IEnumerable<Fee> UpdateFees(List<Fee> updatedFees)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<FeeVM>();
+            batch.Requests = updatedFees.Select(x => new BatchElement<FeeVM>
+            {
+                Method = "PUT",
+                Path = "/1/classes/Fee/" + x.ObjectId,
+                Body = new FeeVM
+                {
+                    Id = x.Id,
+                    Value = x.Value,
+                    Number = x.Number,
+                    StateName = x.State.ToString(),
+                    State = (int)x.State,
+                    PolicyId = x.Policy != null ? x.Policy.ObjectId : null,
+                    ExpirationDate = x.ExpirationDate,
+                    Policy = x.Policy != null ? new PointerVM("Policy", x.Policy.ObjectId) : null
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<FeeVM>>>(res.Content);
+                for (int i = 0; i < updatedFees.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        updatedFees.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                        updatedFees.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    }
+                }
+                return updatedFees;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public static class RestRequestExtensions
+    {
+        public static IRestRequest SetBody(this RestRequest req, object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            req.AddParameter("application/json", json, ParameterType.RequestBody);
+
+            return req;
         }
     }
 }

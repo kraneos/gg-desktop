@@ -3,6 +3,12 @@
     public class BatchResponse<T>
     {
         public T Success { get; set; }
-        public T Error { get; set; }
+        public ErrorMessage Error { get; set; }
+    }
+
+    public class ErrorMessage
+    {
+        public int Code { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
 
-    public partial class Policy : IdEntity
+    public partial class Policy : ParseEntity
     {
         public Policy()
         {
@@ -38,10 +38,6 @@ namespace Seggu.Domain
         public long ProducerId { get; set; }
         public Nullable<long> CollectorId { get; set; }
         public long RiskId { get; set; }
-        public string ObjectId { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? LocallyUpdatedAt { get; set; }
         public virtual Client Client { get; set; }
         public virtual ICollection<Fee> Fees { get; set; }
         public virtual ICollection<Casualty> Casualties { get; set; }

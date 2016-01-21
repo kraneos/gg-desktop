@@ -1,4 +1,7 @@
-﻿using Seggu.Data;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -40,6 +43,13 @@ namespace Seggu.Service
             this.myTimer = new Timer(10000);
             this.myTimer.Elapsed += Process;
             this.myTimer.Start();
+
+            // JsonConvert Configuration
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         protected override void OnStop()
@@ -56,12 +66,26 @@ namespace Seggu.Service
                 using (var context = new SegguDataModelContext())
                 {
                     SendPoliciesToParse(context);
+                    SendFeesToParse(context);
                 }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+        }
+
+        private void SendFeesToParse(SegguDataModelContext context)
+        {
+            var newFees = context.Fees
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedFees = context.Fees
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedFees = this.client.CreateFees(newFees);
+            var parseUpdatedFees = this.client.UpdateFees(updatedFees);
+
+            context.SaveChanges();
         }
 
         private void SendPoliciesToParse(SegguDataModelContext context)

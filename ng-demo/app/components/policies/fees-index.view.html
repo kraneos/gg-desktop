@@ -1,0 +1,17 @@
+<h1>Cuotas</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Numero</th>
+      <th>Monto</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="fee in fCtrl.fees">
+      <td>{{fee.number}}</td>
+      <td>{{fee.value | currency}}</td>
+      <td>{{fee.stateName}}</td>
+    </tr>
+  </tbody>
+</table>
