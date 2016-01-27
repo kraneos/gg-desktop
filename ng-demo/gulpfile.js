@@ -1,6 +1,7 @@
 var NG_APP = 'app/**/*.*';
 var JS_APP = 'app/**/*.js';
 var HTML_APP = 'app/**/*.html';
+var CSS_ASSETS = 'assets/scss/app.scss';
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
@@ -9,11 +10,11 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var clean = require('gulp-clean');
-//var minifyCss = require('gulp-minify-css');
+var sass = require('gulp-sass');
 
 gulp.task('default', ['build-dev'], function () { });
 
-gulp.task('build-dev', ['copy-html', 'dev-ng'], function () { });
+gulp.task('build-dev', ['copy-html', 'dev-css', 'dev-ng'], function () { });
 
 gulp.task('build-prod', ['copy-html', 'dev-css', 'dev-js', 'prod-ng'], function () { });
 
@@ -43,15 +44,17 @@ gulp.task('dev-ng', function () {
 });
 
 gulp.task('dev-css', function () {
-    gulp.src([CSS_APP])
+    gulp.src([CSS_ASSETS])
         .pipe(sourcemaps.init())
-        .pipe(minifyCss())
+        .pipe(sass({
+          compressed: true
+        }).on('error', sass.logError))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('wwwroot'));
-    gulp.src([FONTS_APP])
-        .pipe(gulp.dest('wwwroot/css/fonts'));
-    gulp.src([IMG_APP])
-        .pipe(gulp.dest('wwwroot/imgs'));
+        .pipe(gulp.dest('wwwroot/css'));
+    // gulp.src([FONTS_APP])
+    //     .pipe(gulp.dest('wwwroot/css/fonts'));
+    // gulp.src([IMG_APP])
+    //     .pipe(gulp.dest('wwwroot/imgs'));
 });
 
 gulp.task('dev-js', function () {

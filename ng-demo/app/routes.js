@@ -15,6 +15,16 @@
           }
         }
       })
+      .state('home-slash', {
+        url: '/',
+        views: {
+          main: {
+            templateUrl: 'wwwroot/components/home/home-index.view.html',
+            controller: 'HomeIndexCtrl',
+            controllerAs: 'hCtrl'
+          }
+        }
+      })
       .state('policies', {
         url: '/policies',
         views: {
