@@ -1,13 +1,45 @@
-<h1>Resultados</h1>
-<h3>Polizas</h3>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Numero</th>
-      <th>Cliente</th>
-      <th>Riesgo</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<h1>Resultados de '<span class="text-error">{{sCtrl.criteria}}</span>'</h1>
+<uib-accordion close-others="true">
+  <uib-accordion-group>
+    <uib-accordion-heading>
+      <span>Vehiculos Asegurados</span><b class="pull-right">{{sCtrl.vehicles.length}}</b>
+    </uib-accordion-heading>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Patente</th>
+          <th>Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="vehicle in sCtrl.vehicles">
+          <td>
+            <a ui-sref="policiesDetails({policyId: vehicle.policy.objectId})">{{vehicle.plate}}</a>
+          </td>
+          <td>{{vehicle.policy.clientName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </uib-accordion-group>
+  <uib-accordion-group>
+    <uib-accordion-heading>
+      <span>Clientes</span><b class="pull-right">{{sCtrl.clients.length}}</b>
+    </uib-accordion-heading>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Apellido</th>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="client in sCtrl.clients">
+          <td>
+            <a ui-sref="clientsDetails({clientId: client.objectId})">{{client.lastName}}</a>
+          </td>
+          <td>{{client.firstName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </uib-accordion-group>
+</uib-accordion>
