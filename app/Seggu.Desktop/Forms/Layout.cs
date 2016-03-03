@@ -460,7 +460,7 @@ namespace Seggu.Desktop.Forms
             compañias.Show();
         }
 
-        private void controlDeCajaToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void controlDeCajaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Forms.ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
             controlCaja.Show();
@@ -673,5 +673,6 @@ namespace Seggu.Desktop.Forms
             btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
         }
+
     }
 }
