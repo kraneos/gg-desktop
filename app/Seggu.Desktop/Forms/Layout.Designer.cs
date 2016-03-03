@@ -76,7 +76,6 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rCRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlDeCajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -559,8 +558,7 @@
             // utilidadesToolStripMenuItem
             // 
             this.utilidadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.liquidacionesToolStripMenuItem,
-            this.controlDeCajaToolStripMenuItem});
+            this.liquidacionesToolStripMenuItem});
             this.utilidadesToolStripMenuItem.Name = "utilidadesToolStripMenuItem";
             this.utilidadesToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.utilidadesToolStripMenuItem.Text = "Utilidades";
@@ -568,7 +566,7 @@
             // liquidacionesToolStripMenuItem
             // 
             this.liquidacionesToolStripMenuItem.Name = "liquidacionesToolStripMenuItem";
-            this.liquidacionesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.liquidacionesToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.liquidacionesToolStripMenuItem.Text = "Liquidaciones";
             this.liquidacionesToolStripMenuItem.Click += new System.EventHandler(this.liquidacionesToolStripMenuItem_Click);
             // 
@@ -594,13 +592,6 @@
             this.rCRToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.rCRToolStripMenuItem.Text = "RCR";
             this.rCRToolStripMenuItem.Click += new System.EventHandler(this.rCRToolStripMenuItem_Click);
-            // 
-            // controlDeCajaToolStripMenuItem
-            // 
-            this.controlDeCajaToolStripMenuItem.Name = "controlDeCajaToolStripMenuItem";
-            this.controlDeCajaToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.controlDeCajaToolStripMenuItem.Text = "Control de Caja";
-            this.controlDeCajaToolStripMenuItem.Click += new System.EventHandler(this.controlDeCajaToolStripMenuItem_Click);
             // 
             // Layout
             // 
@@ -689,7 +680,6 @@
         private System.Windows.Forms.ToolStripMenuItem usosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem carroceríasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiposDeVehiculosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem controlDeCajaToolStripMenuItem;
 
     }
 }
