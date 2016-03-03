@@ -1,0 +1,26 @@
+<h1>Polizas</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Numero</th>
+      <th>Cliente</th>
+      <th>Tipo de Riesgo</th>
+      <th>Cantidad de Cuotas</th>
+      <th>Monto Total</th>
+      <th>Fecha Inicio</th>
+      <th>Fecha Fin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="policy in pCtrl.policies">
+      <td>{{policy.number}}</td>
+      <td>{{policy.clientName}}</td>
+      <td>{{policy.riskName}}</td>
+      <td>{{policy.feeAmount}}</td>
+      <td>{{policy.value | currency}}</td>
+      <td>{{policy.startDate.iso | date}}</td>
+      <td>{{policy.endDate.iso | date}}</td>
+      <td><a href="/#/policies/{{policy.objectId}}/fees">Cuotas</a></td>
+    </tr>
+  </tbody>
+</table>

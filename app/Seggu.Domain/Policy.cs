@@ -2,8 +2,8 @@ namespace Seggu.Domain
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Policy : IdEntity
+
+    public partial class Policy : ParseEntity
     {
         public Policy()
         {
@@ -15,7 +15,7 @@ namespace Seggu.Domain
             this.AttachedFiles = new HashSet<AttachedFile>();
             this.Integrals = new HashSet<Integral>();
         }
-    
+
         public string PreviousNumber { get; set; }
         public long ClientId { get; set; }
         public Period Period { get; set; }
@@ -38,7 +38,6 @@ namespace Seggu.Domain
         public long ProducerId { get; set; }
         public Nullable<long> CollectorId { get; set; }
         public long RiskId { get; set; }
-    
         public virtual Client Client { get; set; }
         public virtual ICollection<Fee> Fees { get; set; }
         public virtual ICollection<Casualty> Casualties { get; set; }
