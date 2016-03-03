@@ -19,7 +19,7 @@ gulp.task('build-dev', ['copy-html', 'dev-css', 'dev-ng'], function () { });
 gulp.task('build-prod', ['copy-html', 'dev-css', 'dev-js', 'prod-ng'], function () { });
 
 gulp.task('watch', function () {
-    return gulp.watch(NG_APP, ['build-dev']);
+    gulp.watch(NG_APP, ['build-dev']);
 });
 
 gulp.task('copy-html', function () {

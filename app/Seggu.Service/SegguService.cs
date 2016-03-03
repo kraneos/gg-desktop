@@ -65,56 +65,14 @@ namespace Seggu.Service
                 this.eventLog.WriteEntry("Initialize context.");
                 using (var context = new SegguDataModelContext())
                 {
-                    SendClientsToParse(context);
-                    SendAddressesToParse(context);
                     SendPoliciesToParse(context);
                     SendFeesToParse(context);
-                    SendVehiclesToParse(context);
                 }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-        }
-
-        private void SendVehiclesToParse(SegguDataModelContext context)
-        {
-            var newVehicles = context.Vehicles
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedVehicles = context.Vehicles
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedVehicles = this.client.CreateVehicles(newVehicles);
-            var parseUpdatedVehicles = this.client.UpdateVehicles(updatedVehicles);
-
-            context.SaveChanges();
-        }
-
-        private void SendAddressesToParse(SegguDataModelContext context)
-        {
-            var newAddresses = context.Addresses
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedAddresses = context.Addresses
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedAddresses = this.client.CreateAddresses(newAddresses);
-            var parseUpdatedAddresses = this.client.UpdateAddresses(updatedAddresses);
-
-            context.SaveChanges();
-        }
-
-        private void SendClientsToParse(SegguDataModelContext context)
-        {
-            var newClients = context.Clients
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedClients = context.Clients
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedClients = this.client.CreateClients(newClients);
-            var parseUpdatedClients = this.client.UpdateClients(updatedClients);
-
-            context.SaveChanges();
         }
 
         private void SendFeesToParse(SegguDataModelContext context)

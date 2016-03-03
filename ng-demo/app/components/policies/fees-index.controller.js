@@ -18,7 +18,6 @@
       
       function onSucceded(res) {
         self.fees = res.results;
-        
       }
     }
   }
