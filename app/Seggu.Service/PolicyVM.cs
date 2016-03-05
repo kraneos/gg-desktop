@@ -13,6 +13,7 @@ namespace Seggu.Service
         public decimal Value { get; set; }
         public int FeeAmount { get; set; }
         public string ClientName { get; set; }
+        public string CompanyName { get; set; }
         public DateVM StartDate { get; set; }
         public DateVM EndDate { get; set; }
         public long ClientId { get; set; }

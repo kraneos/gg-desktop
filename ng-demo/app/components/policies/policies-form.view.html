@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <p class="text-center">
+      <b>{{pfCtrl.policy.companyName}}</b>
+    </p>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <p class="text-center">
+        <span># {{pfCtrl.policy.number}}</span>
+      </p>
+    </li>
+    <li ng-repeat-start="vehicle in pfCtrl.vehicles" class="list-group-item">
+      <p class="text-center">
+        <span>{{vehicle.plate}}</span>
+      </p>
+    </li>
+    <li ng-repeat-end class="list-group-item">
+      <p class="text-center">
+        <span>{{vehicle.vehicleModelName}}</span>
+      </p>
+    </li>
+  </ul>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Estado</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="fee in pfCtrl.fees | orderBy: 'number'">
+        <td>{{fee.number}}</td>
+        <td>
+          <div ng-switch on="fee.state">
+            <div ng-switch-when="0">Debe</div>
+            <div ng-switch-when="1">Pagada</div>
+            <div ng-switch-when="2">Observada</div>
+            <div ng-switch-when="3">Preliquidada</div>
+            <div ng-switch-when="4">Liquidada</div>
+            <div ng-switch-when="5">Mantener Cubierto</div>
+            <div ng-switch-when="6">Moroso</div>
+            <div ng-switch-when="7">Sin Cobertura</div>
+            <div ng-switch-when="8">Debe y Preliquidada</div>
+            <div ng-switch-when="9">Otro</div>
+          </div>
+        </td>
+        <td>{{fee.value | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

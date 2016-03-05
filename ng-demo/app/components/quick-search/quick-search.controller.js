@@ -13,7 +13,8 @@
     }
     
     function search() {
-      $state.go('search/' + vm.searchText);
+      var params = { criteria: vm.searchText };
+      $state.go('search', params);
     }
   }
 })();

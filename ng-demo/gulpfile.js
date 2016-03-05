@@ -1,5 +1,6 @@
 var NG_APP = 'app/**/*.*';
 var JS_APP = 'app/**/*.js';
+var JS_DEP_APP = '';
 var HTML_APP = 'app/**/*.html';
 var CSS_ASSETS = 'assets/scss/app.scss';
 
@@ -19,7 +20,7 @@ gulp.task('build-dev', ['copy-html', 'dev-css', 'dev-ng'], function () { });
 gulp.task('build-prod', ['copy-html', 'dev-css', 'dev-js', 'prod-ng'], function () { });
 
 gulp.task('watch', function () {
-    gulp.watch(NG_APP, ['build-dev']);
+    return gulp.watch(NG_APP, ['build-dev']);
 });
 
 gulp.task('copy-html', function () {
@@ -58,11 +59,11 @@ gulp.task('dev-css', function () {
 });
 
 gulp.task('dev-js', function () {
-    gulp.src([JS_DEP_APP])
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('wwwroot'));
+    // gulp.src([JS_DEP_APP])
+    //     .pipe(sourcemaps.init())
+    //     .pipe(uglify())
+    //     .pipe(sourcemaps.write())
+    //     .pipe(gulp.dest('wwwroot'));
 });
 
 // Handle the error

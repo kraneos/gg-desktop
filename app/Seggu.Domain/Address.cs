@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Address : IdEntity
+    public partial class Address : ParseEntity
     {
         public string Street { get; set; }
         public string Phone { get; set; }

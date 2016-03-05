@@ -65,6 +65,7 @@ namespace Seggu.Service
                     Number = x.Number,
                     ClientId = x.ClientId,
                     ClientName = x.Client.FirstName + " " + x.Client.LastName,
+                    CompanyName = x.Risk.Company.Name,
                     FeeAmount = x.Fees.Count,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate
@@ -137,6 +138,135 @@ namespace Seggu.Service
             }
         }
 
+        public IEnumerable<Client> CreateClients(List<Client> newClients)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<ClientVM>();
+            batch.Requests = newClients.Select(x => new BatchElement<ClientVM>
+            {
+                Method = "POST",
+                Path = "/1/classes/Client",
+                Body = new ClientVM
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Document = x.Document,
+                    CellPhone = x.CellPhone
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<ClientVM>>>(res.Content);
+                for (int i = 0; i < newClients.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        newClients.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
+                        newClients.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newClients.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newClients.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
+
+                    }
+                }
+                return newClients;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Address> CreateAddresses(List<Address> newAddresses)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<AddressVM>();
+            batch.Requests = newAddresses.Select(x => new BatchElement<AddressVM>
+            {
+                Method = "POST",
+                Path = "/1/classes/Address",
+                Body = new AddressVM
+                {
+                    Id = x.Id,
+                    Street = x.Street,
+                    Number = x.Number,
+                    Floor = x.Floor,
+                    Appartment = x.Appartment,
+                    PostalCode = x.PostalCode,
+                    LocalityId = x.LocalityId,
+                    LocalityName = x.Locality.Name,
+                    ProvinceName = x.Locality.District.Province.Name
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<AddressVM>>>(res.Content);
+                for (int i = 0; i < newAddresses.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        newAddresses.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
+                        newAddresses.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newAddresses.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newAddresses.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
+
+                    }
+                }
+                return newAddresses;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Vehicle> CreateVehicles(List<Vehicle> newVehicles)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<VehicleVM>();
+            batch.Requests = newVehicles.Select(x => new BatchElement<VehicleVM>
+            {
+                Method = "POST",
+                Path = "/1/classes/Vehicle",
+                Body = new VehicleVM
+                {
+                    Id = x.Id,
+                    Plate = x.Plate,
+                    BrandName = x.VehicleModel.Brand.Name,
+                    PolicyId = x.PolicyId,
+                    Policy = new PointerVM("Policy", x.Policy.ObjectId),
+                    VehicleModelId = x.VehicleModelId,
+                    VehicleModelName = x.VehicleModel.Name
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<VehicleVM>>>(res.Content);
+                for (int i = 0; i < newVehicles.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        newVehicles.ElementAt(i).ObjectId = data.ElementAt(i).Success.ObjectId;
+                        newVehicles.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newVehicles.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
+                        newVehicles.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
+
+                    }
+                }
+                return newVehicles;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<Policy> UpdatePolicies(IEnumerable<Policy> updatedPolicies)
         {
             var req = GetRequest("/1/batch", Method.POST);
@@ -152,6 +282,7 @@ namespace Seggu.Service
                     Number = x.Number,
                     ClientId = x.ClientId,
                     ClientName = x.Client.FirstName + " " + x.Client.LastName,
+                    CompanyName = x.Risk.Company.Name,
                     FeeAmount = x.Fees.Count,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate
@@ -212,6 +343,126 @@ namespace Seggu.Service
                     }
                 }
                 return updatedFees;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Client> UpdateClients(List<Client> updatedClients)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<ClientVM>();
+            batch.Requests = updatedClients.Select(x => new BatchElement<ClientVM>
+            {
+                Method = "PUT",
+                Path = "/1/classes/Client/" + x.ObjectId,
+                Body = new ClientVM
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Document = x.Document,
+                    CellPhone = x.CellPhone
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<ClientVM>>>(res.Content);
+                for (int i = 0; i < updatedClients.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        updatedClients.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                        updatedClients.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    }
+                }
+                return updatedClients;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Address> UpdateAddresses(List<Address> updatedAddresses)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<AddressVM>();
+            batch.Requests = updatedAddresses.Select(x => new BatchElement<AddressVM>
+            {
+                Method = "PUT",
+                Path = "/1/classes/Address/" + x.ObjectId,
+                Body = new AddressVM
+                {
+                    Id = x.Id,
+                    Street = x.Street,
+                    Number = x.Number,
+                    Floor = x.Floor,
+                    Appartment = x.Appartment,
+                    PostalCode = x.PostalCode,
+                    LocalityId = x.LocalityId,
+                    LocalityName = x.Locality.Name,
+                    ProvinceName = x.Locality.District.Province.Name
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<AddressVM>>>(res.Content);
+                for (int i = 0; i < updatedAddresses.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        updatedAddresses.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                        updatedAddresses.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    }
+                }
+                return updatedAddresses;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Vehicle> UpdateVehicles(List<Vehicle> updatedVehicles)
+        {
+            var req = GetRequest("/1/batch", Method.POST);
+            var batch = new BatchRequest<VehicleVM>();
+            batch.Requests = updatedVehicles.Select(x => new BatchElement<VehicleVM>
+            {
+                Method = "PUT",
+                Path = "/1/classes/Vehicle/" + x.ObjectId,
+                Body = new VehicleVM
+                {
+                    Id = x.Id,
+                    Plate = x.Plate,
+                    BrandName = x.VehicleModel.Brand.Name,
+                    PolicyId = x.PolicyId,
+                    Policy = new PointerVM("Policy", x.Policy.ObjectId),
+                    VehicleModelId = x.VehicleModelId,
+                    VehicleModelName = x.VehicleModel.Name
+                }
+            });
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<VehicleVM>>>(res.Content);
+                for (int i = 0; i < updatedVehicles.Count(); i++)
+                {
+                    if (data.ElementAt(i).Success != null)
+                    {
+                        updatedVehicles.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                        updatedVehicles.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.UpdatedAt;
+                    }
+                }
+                return updatedVehicles;
             }
             else
             {
