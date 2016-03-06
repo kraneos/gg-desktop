@@ -1,15 +1,14 @@
 using Newtonsoft.Json;
 using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using Seggu.Domain;
 using System.Linq;
-using Seggu.Service;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Seggu.Service.ViewModels;
+using Seggu.Service.Services.Properties;
+using System;
 
-namespace Seggu.Service
+namespace Seggu.Service.Services
 {
     public class ParseClient
     {
@@ -17,7 +16,7 @@ namespace Seggu.Service
 
         public ParseClient()
         {
-            this.restClient = new RestClient(Properties.Settings.Default.ParseBaseUrl);
+            this.restClient = new RestClient(Settings.Default.ParseBaseUrl);
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
         }
 
@@ -127,10 +126,124 @@ namespace Seggu.Service
                         newFees.ElementAt(i).CreatedAt = data.ElementAt(i).Success.CreatedAt;
                         newFees.ElementAt(i).UpdatedAt = data.ElementAt(i).Success.CreatedAt;
                         newFees.ElementAt(i).LocallyUpdatedAt = data.ElementAt(i).Success.CreatedAt;
-
                     }
                 }
                 return newFees;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<TParseEntity> CreateEntities<TParseEntity, TViewModel>(
+            IEnumerable<TParseEntity> newEntities,
+            string parseEntityName,
+            Func<TParseEntity, TViewModel> mapper)
+            where TParseEntity : ParseEntity
+            where TViewModel : ParseViewModel
+        {
+            return ExecuteManyRequests<TParseEntity, TViewModel>(
+                 newEntities,
+                 parseEntityName,
+                 "POST",
+                 mapper,
+                 CreateMapper);
+        }
+
+        public IEnumerable<TParseEntity> UpdateEntities<TParseEntity, TViewModel>(
+            IEnumerable<TParseEntity> updatedEntities,
+            string parseEntityName,
+            Func<TParseEntity, TViewModel> mapper)
+            where TParseEntity : ParseEntity
+            where TViewModel : ParseViewModel
+        {
+            return ExecuteManyRequests<TParseEntity, TViewModel>(
+                updatedEntities,
+                parseEntityName,
+                "PUT",
+                mapper,
+                UpdateMapper,
+                (x, y) => x + y.ObjectId);
+        }
+
+        public IEnumerable<TParseEntity> ExecuteManyRequests<TParseEntity, TViewModel>(
+            IEnumerable<TParseEntity> entities,
+            string parseEntityName,
+            string statusCode,
+            Func<TParseEntity, TViewModel> mapper,
+            Action<TParseEntity, TViewModel> callback,
+            Func<string, TParseEntity, string> resourceNameResolver = null)
+            where TParseEntity : ParseEntity
+            where TViewModel : ParseViewModel
+        {
+            var totalRecords = entities.Count();
+            var recordsPerPage = 50M;
+            var recordsPerPageInt = 50;
+            var pageCount = Math.Ceiling(totalRecords / recordsPerPage);
+
+            for (int i = 0; i < pageCount; i++)
+            {
+                IEnumerable<TParseEntity> entitiesToExecute;
+
+                if ((i + 1) * recordsPerPageInt <= totalRecords)
+                {
+                    entitiesToExecute = entities.Skip(i * recordsPerPageInt).Take(recordsPerPageInt);
+                }
+                else
+                {
+                    entitiesToExecute = entities.Skip(i * recordsPerPageInt).Take(totalRecords - (i * recordsPerPageInt));
+                }
+
+                ExecuteRequests<TParseEntity, TViewModel>(
+                    entitiesToExecute,
+                    parseEntityName,
+                    statusCode,
+                    mapper,
+                    CreateMapper);
+            }
+
+            return entities;
+        }
+
+        public IEnumerable<TParseEntity> ExecuteRequests<TParseEntity, TViewModel>(
+            IEnumerable<TParseEntity> entities,
+            string parseEntityName,
+            string statusCode,
+            Func<TParseEntity, TViewModel> mapper,
+            Action<TParseEntity, TViewModel> callback,
+            Func<string, TParseEntity, string> resourceNameResolver = null)
+            where TParseEntity : ParseEntity
+            where TViewModel : ParseViewModel
+        {
+            var reqPath = "/1/classes/" + parseEntityName;
+            var req = GetRequest("/1/batch", Method.POST);
+
+            var batch = new BatchRequest<TViewModel>();
+            batch.Requests = entities.Select(e => new BatchElement<TViewModel>
+            {
+                Method = statusCode,
+                Path = resourceNameResolver == null ? reqPath : resourceNameResolver.Invoke(reqPath, e),
+                Body = mapper.Invoke(e)
+            });
+
+            req.SetBody(batch);
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var data = JsonConvert.DeserializeObject<List<BatchResponse<TViewModel>>>(res.Content);
+                var count = entities.Count();
+                for (int i = 0; i < count; i++)
+                {
+                    var vm = data.ElementAt(i);
+                    var e = entities.ElementAt(i);
+                    if (vm.Success != null)
+                    {
+                        callback.Invoke(e, vm.Success);
+                    }
+                }
+
+                return entities;
             }
             else
             {
@@ -469,6 +582,27 @@ namespace Seggu.Service
                 return null;
             }
         }
+
+        #region MethodMappers
+        private void CreateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
+            where TParseEntity : ParseEntity
+            where TParseViewModel : ParseViewModel
+        {
+            e.ObjectId = vm.ObjectId;
+            e.CreatedAt = vm.CreatedAt;
+            e.UpdatedAt = vm.CreatedAt;
+            e.LocallyUpdatedAt = vm.CreatedAt;
+        }
+
+        private void UpdateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
+            where TParseEntity : ParseEntity
+            where TParseViewModel : ParseViewModel
+        {
+            e.UpdatedAt = vm.UpdatedAt;
+            e.LocallyUpdatedAt = vm.UpdatedAt;
+        }
+
+        #endregion
     }
 
     public static class RestRequestExtensions

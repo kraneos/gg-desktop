@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Seggu.Service.Properties {
+namespace Seggu.Service.Services.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,29 @@ namespace Seggu.Service.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SeGGu")]
-        public string EventLogSourceName {
+        [global::System.Configuration.DefaultSettingValueAttribute("vzDi67WTpOZNP3vdjRrvOJUiHWCTPiAp5fvfc0ZN")]
+        public string ParseAppId {
             get {
-                return ((string)(this["EventLogSourceName"]));
+                return ((string)(this["ParseAppId"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SeGGuLog")]
-        public string EventLogName {
+        [global::System.Configuration.DefaultSettingValueAttribute("Ft0Y2gCc081zjfWfvJvVX5UzXe9NPsTOTqAuGgOs")]
+        public string ParseSecretKey {
             get {
-                return ((string)(this["EventLogName"]));
+                return ((string)(this["ParseSecretKey"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.parse.com")]
+        public string ParseBaseUrl {
+            get {
+                return ((string)(this["ParseBaseUrl"]));
             }
         }
     }

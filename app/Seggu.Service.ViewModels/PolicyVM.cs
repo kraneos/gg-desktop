@@ -1,13 +1,9 @@
 ﻿using System;
 
-namespace Seggu.Service
+namespace Seggu.Service.ViewModels
 {
-    public class PolicyVM
+    public class PolicyVM : ParseViewModel
     {
-        public string ObjectId { get; set; }
-        public DateVM CreatedAt { get; set; }
-        public DateVM UpdatedAt { get; set; }
-        public DateVM LocallyUpdatedAt { get; set; }
         public long Id { get; set; }
         public string Number { get; set; }
         public decimal Value { get; set; }

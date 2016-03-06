@@ -2,6 +2,8 @@ using Microsoft.Practices.Unity;
 using Seggu.Daos;
 using Seggu.Daos.Interfaces;
 using Seggu.Data;
+using Seggu.Service.Services;
+using Seggu.Service.Services.Interfaces;
 using Seggu.Services;
 using Seggu.Services.Interfaces;
 using Seggu.VersionManager.Interfaces;
@@ -107,6 +109,9 @@ namespace Seggu.Infrastructure
             container.RegisterType<ICoveragesPackDao, CoveragesPackDao>();
             container.RegisterType<IIntegralDao, IntegralDao>();
             container.RegisterType<IImplementedVersionDao, ImplementedVersionDao>();
+
+            // Service Services
+            container.RegisterType<ISynchronizationService, SynchronizationService>();
 
             // Version Manager
             container.RegisterType<IVersionManager, VersionManager.VersionManager>();

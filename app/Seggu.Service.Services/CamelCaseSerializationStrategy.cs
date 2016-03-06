@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using System.Linq;
 
-namespace Seggu.Service
+namespace Seggu.Service.Services
 {
     public class CamelCaseSerializationStrategy : PocoJsonSerializerStrategy
     {

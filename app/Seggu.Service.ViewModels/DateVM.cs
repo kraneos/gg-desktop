@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Seggu.Service
+namespace Seggu.Service.ViewModels
 {
     [DataContract]
     public class DateVM

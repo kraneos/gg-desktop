@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Seggu.Service.Properties {
+namespace Seggu.Data.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,10 @@ namespace Seggu.Service.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SeGGu")]
-        public string EventLogSourceName {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SetUpdatedDate {
             get {
-                return ((string)(this["EventLogSourceName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SeGGuLog")]
-        public string EventLogName {
-            get {
-                return ((string)(this["EventLogName"]));
+                return ((bool)(this["SetUpdatedDate"]));
             }
         }
     }

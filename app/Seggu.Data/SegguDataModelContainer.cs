@@ -2,12 +2,10 @@
 {
     using Seggu.Domain;
     using System;
-    using System.Configuration;
     using System.Data.Common;
     using System.Data.Entity;
-    using System.Data.Entity.Core.Objects;
-    using System.Data.Entity.Infrastructure;
     using System.Data.SQLite;
+
     public partial class SegguDataModelContext : DbContext
     {
         public SegguDataModelContext(string nameOrConnectionString)
@@ -67,11 +65,5 @@
         public virtual DbSet<CoveragesPack> CoveragesPacks { get; set; }
         //public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VersionRecord> VersionRecords { get; set; }
-
-        public void RefreshSet<T>() where T : class
-        {
-            var objectContext = ((IObjectContextAdapter)this).ObjectContext;
-            objectContext.Refresh(RefreshMode.StoreWins, this.Set<T>());
-        }
     }
 }

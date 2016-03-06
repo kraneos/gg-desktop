@@ -34,11 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -76,17 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressVM.cs" />
-    <Compile Include="BatchElement.cs" />
-    <Compile Include="BatchRequest.cs" />
-    <Compile Include="BatchResponse.cs" />
-    <Compile Include="CamelCaseSerializationStrategy.cs" />
-    <Compile Include="ClientVM.cs" />
-    <Compile Include="DateVM.cs" />
-    <Compile Include="FeeVM.cs" />
-    <Compile Include="ParseClient.cs" />
-    <Compile Include="ParseQueryResult.cs" />
-    <Compile Include="PolicyVM.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -100,14 +89,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RelationVM.cs" />
     <Compile Include="SegguService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SegguService.Designer.cs">
       <DependentUpon>SegguService.cs</DependentUpon>
     </Compile>
-    <Compile Include="VehicleVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,6 +112,22 @@
     <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
       <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
       <Name>Seggu.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Infrastructure\Seggu.Infrastructure.csproj">
+      <Project>{15de0369-c38d-47b4-85ad-56651efb0d30}</Project>
+      <Name>Seggu.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.Services.Interfaces\Seggu.Service.Services.Interfaces.csproj">
+      <Project>{bfaf01b1-0798-405d-bbb3-6280928ae802}</Project>
+      <Name>Seggu.Service.Services.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.Services\Seggu.Service.Services.csproj">
+      <Project>{2a018ce8-22ce-4947-a189-243906113079}</Project>
+      <Name>Seggu.Service.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.ViewModels\Seggu.Service.ViewModels.csproj">
+      <Project>{1bec6bee-d066-4a28-8ef7-e790fdf3cef4}</Project>
+      <Name>Seggu.Service.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

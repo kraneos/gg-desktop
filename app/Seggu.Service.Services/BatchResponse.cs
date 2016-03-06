@@ -1,4 +1,4 @@
-﻿namespace Seggu.Service
+﻿namespace Seggu.Service.Services
 {
     public class BatchResponse<T>
     {
