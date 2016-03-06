@@ -86,6 +86,7 @@
     <Compile Include="Locality.cs" />
     <Compile Include="MaritalStatus.cs" />
     <Compile Include="Origin.cs" />
+    <Compile Include="ParseEntity.cs" />
     <Compile Include="Period.cs" />
     <Compile Include="Policy.cs" />
     <Compile Include="Producer.cs" />

@@ -10,5 +10,9 @@ Release/
 *.vspscc
 *.user
 *.suo
-
+node_modules/
+wwwroot/
+bower_components/
 app/UpgradeLog.htm
+!ng-demo/bin/
+typings/

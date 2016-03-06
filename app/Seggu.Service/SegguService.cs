@@ -1,4 +1,7 @@
-﻿using Seggu.Data;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
@@ -40,6 +43,13 @@ namespace Seggu.Service
             this.myTimer = new Timer(10000);
             this.myTimer.Elapsed += Process;
             this.myTimer.Start();
+
+            // JsonConvert Configuration
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         protected override void OnStop()
@@ -55,24 +65,82 @@ namespace Seggu.Service
                 this.eventLog.WriteEntry("Initialize context.");
                 using (var context = new SegguDataModelContext())
                 {
-                    this.eventLog.WriteEntry("Retrieve Fees.");
-                    var feesVm = this.client.GetFees();
-                    if (feesVm != null)
-                    {
-                        this.eventLog.WriteEntry("Fees retrieved = " + feesVm.Count());
-                        if (feesVm.Any())
-                        {
-                            var fees = feesVm.Select(x => new Fee { Value = x.Amount });
-                            context.Fees.AddRange(fees);
-                        }
-                        context.SaveChanges();
-                    }
+                    SendClientsToParse(context);
+                    SendAddressesToParse(context);
+                    SendPoliciesToParse(context);
+                    SendFeesToParse(context);
+                    SendVehiclesToParse(context);
                 }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+        }
+
+        private void SendVehiclesToParse(SegguDataModelContext context)
+        {
+            var newVehicles = context.Vehicles
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedVehicles = context.Vehicles
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedVehicles = this.client.CreateVehicles(newVehicles);
+            var parseUpdatedVehicles = this.client.UpdateVehicles(updatedVehicles);
+
+            context.SaveChanges();
+        }
+
+        private void SendAddressesToParse(SegguDataModelContext context)
+        {
+            var newAddresses = context.Addresses
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedAddresses = context.Addresses
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedAddresses = this.client.CreateAddresses(newAddresses);
+            var parseUpdatedAddresses = this.client.UpdateAddresses(updatedAddresses);
+
+            context.SaveChanges();
+        }
+
+        private void SendClientsToParse(SegguDataModelContext context)
+        {
+            var newClients = context.Clients
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedClients = context.Clients
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedClients = this.client.CreateClients(newClients);
+            var parseUpdatedClients = this.client.UpdateClients(updatedClients);
+
+            context.SaveChanges();
+        }
+
+        private void SendFeesToParse(SegguDataModelContext context)
+        {
+            var newFees = context.Fees
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedFees = context.Fees
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedFees = this.client.CreateFees(newFees);
+            var parseUpdatedFees = this.client.UpdateFees(updatedFees);
+
+            context.SaveChanges();
+        }
+
+        private void SendPoliciesToParse(SegguDataModelContext context)
+        {
+            var newPolicies = context.Policies
+                .Where(p => p.ObjectId == null).ToList();
+            var updatedPolicies = context.Policies
+                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
+
+            var parseCreatedPolicies = this.client.CreatePolicies(newPolicies);
+            var parseUpdatedPolicies = this.client.UpdatePolicies(updatedPolicies);
+
+            context.SaveChanges();
         }
 
         private void HandleException(Exception ex)

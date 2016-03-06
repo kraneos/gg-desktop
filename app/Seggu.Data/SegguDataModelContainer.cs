@@ -2,16 +2,30 @@
 {
     using Seggu.Domain;
     using System;
+    using System.Configuration;
+    using System.Data.Common;
     using System.Data.Entity;
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-
+    using System.Data.SQLite;
     public partial class SegguDataModelContext : DbContext
     {
+        public SegguDataModelContext(string nameOrConnectionString)
+            : base(new SQLiteConnection(nameOrConnectionString), true)
+        {
+            this.Database.Log = Console.Write;
+        }
+
         public SegguDataModelContext()
             : base("SegguDataModelContainer")
         {
             this.Database.Log = Console.Write;
+        }
+
+        public static DbConnection GetConnection(string connectionString)
+        {
+            var dbConnection = new SQLiteConnection(connectionString);
+            return dbConnection;
         }
 
         public virtual DbSet<Locality> Localities { get; set; }
