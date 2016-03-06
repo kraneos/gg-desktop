@@ -391,14 +391,6 @@ namespace Seggu.Desktop.Forms
         {
         }
 
-        //private void btnLiquidaciones_Click(object sender, EventArgs e)
-        //{
-        //    var uc = (LiquidacionesUserControl)DependencyContainer
-        //        .Instance.Resolve(typeof(LiquidacionesUserControl));
-        //    CollapsePanel1();
-        //    SetPanelControl(uc);
-        //    SetButtonsLiquidations();
-        //}
         private void liquidacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var uc = (LiquidacionesUserControl)DependencyResolver.Instance.Resolve(typeof(LiquidacionesUserControl));
@@ -460,7 +452,7 @@ namespace Seggu.Desktop.Forms
             compañias.Show();
         }
 
-        private void controlDeCajaToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void controlDeCajaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Forms.ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
             controlCaja.Show();
@@ -673,5 +665,6 @@ namespace Seggu.Desktop.Forms
             btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
         }
+
     }
 }
