@@ -4,7 +4,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class CasualtyTypeDao : IdEntityDao<CasualtyType>, ICasualtyTypeDao
+    public sealed class CasualtyTypeDao : IdParseEntityDao<CasualtyType>, ICasualtyTypeDao
     {
         public CasualtyTypeDao(SegguDataModelContext context)
             : base(context)

@@ -9,7 +9,7 @@ using Seggu.Data;
 
 namespace Seggu.Daos
 {
-    public sealed class IntegralDao : IdEntityDao<Integral>, IIntegralDao
+    public sealed class IntegralDao : IdParseEntityDao<Integral>, IIntegralDao
     {
         public IntegralDao(SegguDataModelContext context)
             : base(context)

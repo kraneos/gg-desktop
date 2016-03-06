@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee : IdEntity
+    public partial class Employee : IdParseEntity
     {
         public Employee()
         {

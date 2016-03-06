@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Use : KeyValueEntity
+    public partial class Use : ParseKeyValueEntity
     {
         public Use()
         {

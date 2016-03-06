@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class FeeSelectionDao : IdEntityDao<FeeSelection>, IFeeSelectionDao
+    public sealed class FeeSelectionDao : IdParseEntityDao<FeeSelection>, IFeeSelectionDao
     {
         public FeeSelectionDao(SegguDataModelContext context)
             : base(context)

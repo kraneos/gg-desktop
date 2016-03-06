@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class CashAccount : IdEntity
+    public partial class CashAccount : IdParseEntity
     {
         public CashAccount()
         {

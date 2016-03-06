@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IFeeDao : IIdEntityDao<Fee>
+    public interface IFeeDao : IParseIdEntityDao<Fee>
     {
         IEnumerable<Fee> GetByPolicyId(long guid);
         IEnumerable<Fee> GetByEndorseId(long guid);

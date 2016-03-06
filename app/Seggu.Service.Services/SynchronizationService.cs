@@ -107,11 +107,11 @@ namespace Seggu.Service.Services
         public void SendEntitiesToParse<TParseEntity, TViewModel>(
             string parseEntityName,
             Func<TParseEntity, TViewModel> mapper)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TViewModel : ParseViewModel
         {
             var newEntities = context.Set<TParseEntity>().Where(e => e.ObjectId == null).ToList();
-            var updatedEntities = context.Set<TParseEntity>().Where(e => e.UpdatedAt < e.LocallyUpdatedAt).ToList();
+            var updatedEntities = context.Set<TParseEntity>().Where(e => e.ObjectId != null && e.UpdatedAt < e.LocallyUpdatedAt).ToList();
 
             var parseCreatedEntities = this.client.CreateEntities(newEntities, parseEntityName, mapper);
             var parseUpdatedEntities = this.client.UpdateEntities(updatedEntities, parseEntityName, mapper);

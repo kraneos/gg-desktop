@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
 
-    public partial class Policy : ParseEntity
+    public partial class Policy : IdParseEntity
     {
         public Policy()
         {

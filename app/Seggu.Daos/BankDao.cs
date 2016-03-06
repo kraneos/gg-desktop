@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Seggu.Daos
 {
-    public sealed class BankDao : IdEntityDao<Bank>, IBankDao
+    public sealed class BankDao : IdParseEntityDao<Bank>, IBankDao
     {
         public BankDao(SegguDataModelContext context)
             : base(context)

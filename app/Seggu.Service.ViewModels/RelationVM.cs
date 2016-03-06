@@ -5,8 +5,6 @@ namespace Seggu.Service.ViewModels
     [DataContract]
     public class PointerVM
     {
-        private string type;
-
         [DataMember(Name ="__type")]
         public string Type
         {

@@ -32,7 +32,10 @@ namespace Seggu.Data
                     if (entry.State == EntityState.Modified)
                     {
                         var parseEntity = (ParseEntity)entry.Entity;
-                        parseEntity.LocallyUpdatedAt = DateTime.Now;
+                        if (parseEntity.ObjectId != null)
+                        {
+                            parseEntity.LocallyUpdatedAt = DateTime.Now;
+                        }
                     }
                 }
             }

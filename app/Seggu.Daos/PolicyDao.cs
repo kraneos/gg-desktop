@@ -9,7 +9,7 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class PolicyDao : IdEntityDao<Policy>, IPolicyDao
+    public sealed class PolicyDao : IdParseEntityDao<Policy>, IPolicyDao
     {
         private IVehicleDao vehicleDao;
         private IEmployeeDao employeeDao;

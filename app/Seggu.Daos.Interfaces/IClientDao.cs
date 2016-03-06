@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IClientDao : IIdEntityDao<Client>
+    public interface IClientDao : IParseIdEntityDao<Client>
     {
         IEnumerable<Client> GetByDni(string search);
 

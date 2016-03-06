@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IPolicyDao : IIdEntityDao<Policy>
+    public interface IPolicyDao : IParseIdEntityDao<Policy>
     { 
         IEnumerable<Policy> GetByPolicyNumber(string polNum);
         IEnumerable<Policy> GetByVehiclePlate(string plate);

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Vehicle : ParseEntity
+    public partial class Vehicle : IdParseEntity
     {
         public Vehicle()
         {

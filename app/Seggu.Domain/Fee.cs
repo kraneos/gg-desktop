@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Fee : ParseEntity
+    public partial class Fee : IdParseEntity
     {
         public Fee()
         {

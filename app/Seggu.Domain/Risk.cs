@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Risk : KeyValueEntity
+    public partial class Risk : ParseKeyValueEntity
     {
         public Risk()
         {

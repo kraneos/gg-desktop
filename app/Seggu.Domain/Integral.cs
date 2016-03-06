@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Integral : IdEntity
+    public partial class Integral : IdParseEntity
     {
         public Integral()
         {

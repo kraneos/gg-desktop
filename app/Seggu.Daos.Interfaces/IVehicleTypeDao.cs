@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IVehicleTypeDao : IIdEntityDao<VehicleType>
+    public interface IVehicleTypeDao : IParseIdEntityDao<VehicleType>
     {
         bool GetByName(string name);
     }

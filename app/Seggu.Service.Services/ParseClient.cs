@@ -140,7 +140,7 @@ namespace Seggu.Service.Services
             IEnumerable<TParseEntity> newEntities,
             string parseEntityName,
             Func<TParseEntity, TViewModel> mapper)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TViewModel : ParseViewModel
         {
             return ExecuteManyRequests<TParseEntity, TViewModel>(
@@ -155,7 +155,7 @@ namespace Seggu.Service.Services
             IEnumerable<TParseEntity> updatedEntities,
             string parseEntityName,
             Func<TParseEntity, TViewModel> mapper)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TViewModel : ParseViewModel
         {
             return ExecuteManyRequests<TParseEntity, TViewModel>(
@@ -174,7 +174,7 @@ namespace Seggu.Service.Services
             Func<TParseEntity, TViewModel> mapper,
             Action<TParseEntity, TViewModel> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TViewModel : ParseViewModel
         {
             var totalRecords = entities.Count();
@@ -213,7 +213,7 @@ namespace Seggu.Service.Services
             Func<TParseEntity, TViewModel> mapper,
             Action<TParseEntity, TViewModel> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TViewModel : ParseViewModel
         {
             var reqPath = "/1/classes/" + parseEntityName;
@@ -585,7 +585,7 @@ namespace Seggu.Service.Services
 
         #region MethodMappers
         private void CreateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TParseViewModel : ParseViewModel
         {
             e.ObjectId = vm.ObjectId;
@@ -595,7 +595,7 @@ namespace Seggu.Service.Services
         }
 
         private void UpdateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
-            where TParseEntity : ParseEntity
+            where TParseEntity : IdParseEntity
             where TParseViewModel : ParseViewModel
         {
             e.UpdatedAt = vm.UpdatedAt;

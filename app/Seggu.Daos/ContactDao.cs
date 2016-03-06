@@ -4,7 +4,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class ContactDao : IdEntityDao<Contact> , IContactDao
+    public sealed class ContactDao : IdParseEntityDao<Contact> , IContactDao
     {
         public ContactDao(SegguDataModelContext context)
             : base(context)

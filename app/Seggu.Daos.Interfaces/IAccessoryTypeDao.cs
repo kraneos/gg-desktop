@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IAccessoryTypeDao : IIdEntityDao<AccessoryType>
+    public interface IAccessoryTypeDao : IParseIdEntityDao<AccessoryType>
     {
     }
 }

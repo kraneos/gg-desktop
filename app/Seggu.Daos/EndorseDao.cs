@@ -9,7 +9,7 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class EndorseDao : IdEntityDao<Endorse>, IEndorseDao
+    public sealed class EndorseDao : IdParseEntityDao<Endorse>, IEndorseDao
     {
         private IVehicleDao vehicleDao;
         private IEmployeeDao employeeDao;

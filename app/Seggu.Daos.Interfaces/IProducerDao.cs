@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IProducerDao : IIdEntityDao<Producer>
+    public interface IProducerDao : IParseIdEntityDao<Producer>
     {
         IEnumerable<Producer> GetCollectors();
         bool GetByRegistrationNumberId(string registrationNumber, long id);

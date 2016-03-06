@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class FeeDao : IdEntityDao<Fee>, IFeeDao
+    public sealed class FeeDao : IdParseEntityDao<Fee>, IFeeDao
     {
         public FeeDao(SegguDataModelContext context)
             : base(context)
