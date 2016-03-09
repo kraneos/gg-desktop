@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Services", "Seggu.Services\Seggu.Services.csproj", "{12BEB30D-6C15-49B1-8A97-E4EA81DAB443}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -49,6 +49,8 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Seggu.Setup", "Seggu.Setup\Seggu.Setup.vdproj", "{932D0CAF-9E9F-4DE9-BF2D-5C32BD79AC48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Service", "Seggu.Service\Seggu.Service.csproj", "{B5E1373C-8687-4220-8894-4680E6827D21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{E9529A91-EBDD-4DF5-AB87-27C2131E4B35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Service.Services", "Seggu.Service.Services\Seggu.Service.Services.csproj", "{2A018CE8-22CE-4947-A189-243906113079}"
 EndProject

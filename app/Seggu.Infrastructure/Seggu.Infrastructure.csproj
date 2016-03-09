@@ -103,6 +103,10 @@
       <Project>{2a018ce8-22ce-4947-a189-243906113079}</Project>
       <Name>Seggu.Service.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.ViewModels\Seggu.Service.ViewModels.csproj">
+      <Project>{1bec6bee-d066-4a28-8ef7-e790fdf3cef4}</Project>
+      <Name>Seggu.Service.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seggu.Services.Interfaces\Seggu.Services.Interfaces.csproj">
       <Project>{ed582ff0-f547-49a8-a62f-55b3f96ab02f}</Project>
       <Name>Seggu.Services.Interfaces</Name>
