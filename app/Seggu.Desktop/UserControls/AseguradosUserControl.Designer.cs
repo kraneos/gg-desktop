@@ -170,7 +170,7 @@
             this.clientGrid.TabIndex = 1;
             this.clientGrid.TabStop = false;
             this.clientGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellClick);
-            this.clientGrid.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GoToDetails_DoubleCLick);
+            this.clientGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GoToDetails_CellDoubleClick);
             this.clientGrid.SelectionChanged += new System.EventHandler(this.clientGrid_SelectionChanged);
             this.clientGrid.MouseLeave += new System.EventHandler(this.clientGrid_MouseLeave);
             // 
@@ -300,7 +300,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 151);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(36, 17);
+            this.label13.Size = new System.Drawing.Size(35, 17);
             this.label13.TabIndex = 78;
             this.label13.Text = "Telef";
             // 
@@ -589,7 +589,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(664, 86);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(27, 17);
+            this.label22.Size = new System.Drawing.Size(26, 17);
             this.label22.TabIndex = 99;
             this.label22.Text = "IVA";
             // 
@@ -677,7 +677,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(16, 166);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(36, 17);
+            this.label10.Size = new System.Drawing.Size(35, 17);
             this.label10.TabIndex = 46;
             this.label10.Text = "Telef";
             // 
