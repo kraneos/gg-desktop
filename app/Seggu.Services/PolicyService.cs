@@ -27,19 +27,19 @@ namespace Seggu.Services
             this.feeDao = feeDao;
             this.addressDao = addressDao;
         }
-        public IEnumerable<PolicyFullDto> GetValidsByClient(int clientId)
+        public IEnumerable<PolicyGridItemDto> GetValidsByClient(long clientId)
         {
             var id = clientId;
             var policies = this.policyDao.GetValidsByClient(id);
-            return policies.Select(p => PolicyDtoMapper.GetFullDto(p));
+            return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
         }
-        public IEnumerable<PolicyFullDto> GetNotValidsByClient(int clientId)
+        public IEnumerable<PolicyGridItemDto> GetNotValidsByClient(long clientId)
         {
             var id = clientId;
             var policies = this.policyDao.GetNotValidsByClient(id).OrderByDescending(x => x.EndDate);
-            return policies.Select(p => PolicyDtoMapper.GetFullDto(p));
+            return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
         }
-        public PolicyFullDto GetById(int policyId)
+        public PolicyFullDto GetById(long policyId)
         {
             var id = policyId;
             var policy = policyDao.Get(id);

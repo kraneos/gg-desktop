@@ -285,16 +285,16 @@ namespace Seggu.Desktop.Forms
         {
             foreach (DataGridViewColumn c in grdValids.Columns)
                 c.Visible = false;
-            grdValids.Columns["Número"].Visible = true;
-            grdValids.Columns["Vence"].Visible = true;
+            grdValids.Columns["Name"].Visible = true;
+            grdValids.Columns["EndDate"].Visible = true;
             grdValids.ClearSelection();
         }
         private void FormatExpiredGrid()
         {
             foreach (DataGridViewColumn c in grdExpired.Columns)
                 c.Visible = false;
-            grdExpired.Columns["Número"].Visible = true;
-            grdExpired.Columns["Vence"].Visible = true;
+            grdExpired.Columns["Name"].Visible = true;
+            grdExpired.Columns["EndDate"].Visible = true;
             grdExpired.ClearSelection();
         }
 
@@ -325,17 +325,17 @@ namespace Seggu.Desktop.Forms
 
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            currentPolicy = (PolicyFullDto)grdExpired.CurrentRow.DataBoundItem;
+            var currentPolicy = (PolicyGridItemDto)grdExpired.CurrentRow.DataBoundItem;
+            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
             currentEndorse = null;
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            //SetPanelControl(policyUc);
 
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
+            if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
         }
         private void LoadEndorseGrid()
         {
@@ -651,17 +651,18 @@ namespace Seggu.Desktop.Forms
 
         private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            currentPolicy = (PolicyFullDto)grdValids.CurrentRow.DataBoundItem;
+            var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
+            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             currentEndorse = null;
             //SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
+            if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
             btnEndosos.Enabled = true;
-            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
             btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
         }

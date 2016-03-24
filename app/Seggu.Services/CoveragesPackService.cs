@@ -80,5 +80,13 @@ namespace Seggu.Services
             var riskIds = riskId;
             return coveragesPackDao.BetByNameId(name, coverageId, riskIds);
         }
+
+        public IEnumerable<KeyValueDto> GetAllByRiskIdCombobox(int riskId)
+        {
+            return this.coveragesPackDao
+                .GetByRiskId(riskId)
+                .OrderBy(x => x.Name)
+                .Select(x => new KeyValueDto { Id = (int)x.Id, Name = x.Name });
+        }
     }
 }
