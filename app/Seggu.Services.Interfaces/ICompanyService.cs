@@ -17,5 +17,6 @@ namespace Seggu.Services.Interfaces
         bool ExistName(string name);
         IEnumerable<CompanyDto> GetActive();
         IEnumerable<CompanyFormDto> GetAllFull();
+        IEnumerable<KeyValueDto> GetAllCombobox();
     }
 }

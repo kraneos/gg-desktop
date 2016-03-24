@@ -29,7 +29,7 @@ namespace Seggu.Desktop.UserControls
         private IFeeService feeService;
         private IPrintService printService;
         private IAttachedFileService attachedFileService;
-        private CompanyFullDto selectedCompany;
+        //private CompanyFullDto selectedCompany;
         private ClientIndexDto currentClient;
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
@@ -58,7 +58,7 @@ namespace Seggu.Desktop.UserControls
 
             cmbCompania.ValueMember = "Id";
             cmbCompania.DisplayMember = "Name";
-            cmbCompania.DataSource = companyService.GetAll().ToList();
+            cmbCompania.DataSource = companyService.GetAllCombobox().ToList();
 
             cmbProductor.ValueMember = "Id";
             cmbProductor.DisplayMember = "Name";
@@ -166,7 +166,7 @@ namespace Seggu.Desktop.UserControls
             var cp = LayoutForm.currentPolicy;
             if (!string.IsNullOrWhiteSpace(cp.Número))
             {
-                selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
+                //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
                 //cp.Id = null;
                 cp.PreviousNumber = cp.Número;
                 cp.Número = "";
@@ -226,9 +226,10 @@ namespace Seggu.Desktop.UserControls
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
-            selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-            cmbProductor.DataSource = selectedCompany.Producers;
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
+            //this.selectedCompany = this.
+            cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
             //LoadAttachedFilesGrid();
@@ -482,14 +483,14 @@ namespace Seggu.Desktop.UserControls
             vehicle_uc = null;
             vida_uc = null;
 
-            var risk = (RiskCompanyDto)cmbRiesgo.SelectedItem;
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
 
-            var riesgo = RiskTypeDtoMapper.ToEnum(risk.RiskType);
+            var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
+                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
                     vehicle_uc.PopulatePolicyVehicle();
             }
@@ -519,10 +520,10 @@ namespace Seggu.Desktop.UserControls
         {
             if (this.cmbCompania.SelectedValue != null)
             {
-                var CompanyId = (int)cmbCompania.SelectedValue;
-                selectedCompany = companyService.GetFullById(CompanyId);
-                cmbRiesgo.DataSource = selectedCompany.Risks;
-                cmbProductor.DataSource = selectedCompany.Producers;
+                var companyId = (int)cmbCompania.SelectedValue;
+                //selectedCompany = companyService.GetFullById(CompanyId);
+                cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
+                cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
                 cmbCobrador.SelectedIndex = 0;
             }
         }
@@ -731,7 +732,7 @@ namespace Seggu.Desktop.UserControls
             {
                 e.Handled = true;
             }
-            else if (!char.IsDigit(c) && c != 8 &&c!= 46)
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
             {
                 e.Handled = true;
             }
