@@ -59,7 +59,7 @@ namespace Seggu.Desktop.Forms
             table.Columns.Add("Fecha", typeof(DateTime));
             table.Columns.Add("Descripción");
             table.Columns.Add("Valor", typeof(int));
-            table.Columns.Add("Balance");
+            table.Columns.Add("Balance", typeof(float));
 
             var index = cashAccountService.GetAll();
 
@@ -77,6 +77,7 @@ namespace Seggu.Desktop.Forms
             }
             grdControlCaja.DataSource = table;
             grdControlCaja.Columns["Id"].Visible = false;
+            grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "#.##";
 
             //txtDescripcion.DataBindings.Add("text", index, "Descripción");
             //txtValor.DataBindings.Add("text", index, "Valor");
