@@ -275,7 +275,7 @@ namespace Seggu.Desktop.UserControls
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
+                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
                 if (MainForm.currentEndorse != null)
                     vehicle_uc.PopulateEndorseVehicle();
             }

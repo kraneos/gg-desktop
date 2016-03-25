@@ -33,7 +33,7 @@ namespace Seggu.Services
             var guid = id;
             riskDao.Delete(guid);
         }
-        
+
         public void Create(RiskCompanyDto risk)
         {
             riskDao.Save(RiskDtoMapper.GetObject(risk));
@@ -80,6 +80,14 @@ namespace Seggu.Services
 
             var riskId = id;
             return coveragePackDao.HasRiskPackege(riskId);
+        }
+
+        public IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId)
+        {
+            return this.riskDao.GetAll()
+                .Where(x => x.CompanyId == companyId)
+                .OrderBy(x => x.Name)
+                .Select(x => new RiskItemDto { Id = (int)x.Id, Name = x.Name, RiskType = x.RiskType });
         }
     }
 }
