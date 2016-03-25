@@ -286,7 +286,9 @@ namespace Seggu.Desktop.Forms
             foreach (DataGridViewColumn c in grdValids.Columns)
                 c.Visible = false;
             grdValids.Columns["Name"].Visible = true;
+            grdValids.Columns["Name"].HeaderText = "Nro Poliza";
             grdValids.Columns["EndDate"].Visible = true;
+            grdValids.Columns["EndDate"].HeaderText = "Vence";
             grdValids.ClearSelection();
         }
         private void FormatExpiredGrid()
@@ -294,7 +296,9 @@ namespace Seggu.Desktop.Forms
             foreach (DataGridViewColumn c in grdExpired.Columns)
                 c.Visible = false;
             grdExpired.Columns["Name"].Visible = true;
+            grdExpired.Columns["Name"].HeaderText = "Nro Poliza";
             grdExpired.Columns["EndDate"].Visible = true;
+            grdExpired.Columns["EndDate"].HeaderText = "Vence";
             grdExpired.ClearSelection();
         }
 
