@@ -5,6 +5,7 @@ using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -130,6 +131,67 @@ namespace Seggu.Desktop.UserControls
                 employees.Add(employee);
             }
             return employees;
+        }
+
+        private void grdEmployees_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            var ctrl = (DataGridView)sender;
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && !ctrl.Rows[e.RowIndex].IsNewRow)
+            {
+                ResetCell(ctrl, e.RowIndex, e.ColumnIndex);
+                if (e.ColumnIndex == 3)
+                {
+                    var i = 0L;
+                    if (!long.TryParse(e.FormattedValue.ToString(), out i))
+                    {
+                        e.Cancel = true;
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.");
+                    }
+                }
+                else if (e.ColumnIndex == 4)
+                {
+                    var i = 0L;
+                    if (!long.TryParse(e.FormattedValue.ToString(), out i))
+                    {
+                        e.Cancel = true;
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.");
+                    }
+                }
+                else if (e.ColumnIndex == 5)
+                {
+                    var i = DateTime.Now;
+                    if (!DateTime.TryParse(e.FormattedValue.ToString(), out i))
+                    {
+                        e.Cancel = true;
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.");
+                    }
+                }
+                else if (e.ColumnIndex == 6)
+                {
+                    var i = 0M;
+                    if (!decimal.TryParse(e.FormattedValue.ToString(), out i))
+                    {
+                        e.Cancel = true;
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.");
+                    }
+                }
+            }
+        }
+
+        private void ResetCell(DataGridView sender, int rowIndex, int columnIndex)
+        {
+            //var cell = sender.Rows[rowIndex].Cells[columnIndex];
+            //cell.Style.ForeColor = Color.Black;
+            //cell.ToolTipText = string.Empty;
+        }
+
+        private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg)
+        {
+            //var cell = sender.Rows[rowIndex].Cells[columnIndex];
+            //cell.Style.ForeColor = Color.Red;
+            //cell.ToolTipText = errorMsg;
+            //cell.ErrorText = errorMsg;
+            MessageBox.Show(errorMsg);
         }
     }
 }

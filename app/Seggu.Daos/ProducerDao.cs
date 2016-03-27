@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public class ProducerDao : IdEntityDao<Producer>, IProducerDao
+    public class ProducerDao : IdParseEntityDao<Producer>, IProducerDao
     {
         public ProducerDao(SegguDataModelContext context)
             : base(context)

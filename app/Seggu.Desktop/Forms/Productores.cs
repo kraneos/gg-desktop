@@ -114,7 +114,7 @@ namespace Seggu.Desktop.Forms
 
             var producer = this.GetProducerFromForm();
 
-            if (this.grdProductores.SelectedRows.Count == 0 || string.IsNullOrWhiteSpace((string)this.grdProductores.SelectedCells[0].Value))
+            if (this.grdProductores.SelectedRows.Count == 0 || string.IsNullOrWhiteSpace(Convert.ToString(grdProductores.SelectedRows[0].Cells[1].Value)))
             {
                 MessageBox.Show("Debe seleccionar un productor.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -274,7 +274,7 @@ namespace Seggu.Desktop.Forms
 
         private void btnEditarProductor_Click(object sender, EventArgs e)
         {
-            if (this.grdProductores.SelectedRows.Count == 0 || string.IsNullOrWhiteSpace((string)this.grdProductores.SelectedCells[0].Value))
+            if (this.grdProductores.SelectedRows.Count == 0 || string.IsNullOrWhiteSpace(Convert.ToString(grdProductores.SelectedRows[0].Cells[1].Value)))
             {
                 MessageBox.Show("Debe seleccionar un productor.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -312,7 +312,7 @@ namespace Seggu.Desktop.Forms
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             CancelarAccion();
-            if (this.grdProductores.SelectedCells.Count > 0 && !string.IsNullOrWhiteSpace((string)this.grdProductores.SelectedCells[0].Value))
+            if (this.grdProductores.SelectedCells.Count > 0 && !string.IsNullOrWhiteSpace(Convert.ToString(grdProductores.SelectedRows[0].Cells[1].Value)))
             {
                 grdProductores_SelectionChanged(null, null);
             }

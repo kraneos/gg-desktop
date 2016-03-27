@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using Seggu.Services.Interfaces;
 using Seggu.Dtos;
 using Seggu.Desktop.Forms;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Seggu.Desktop.UserControls
 {
@@ -218,11 +220,14 @@ namespace Seggu.Desktop.UserControls
         private void btnAddCoverage_Click(object sender, EventArgs e)
         {
             if (cmbCoverages.SelectedIndex == -1) return;
+            var coverageInCombo = (CoverageDto)cmbCoverages.SelectedItem;
 
             var coveragesInGrid = (List<CoverageDto>)grdCoverages.DataSource;
-            var coverageInCombo = (CoverageDto)cmbCoverages.SelectedItem;
-            if ((coveragesInGrid).Exists(x => x.Id == coverageInCombo.Id)) return;
-
+            if (coveragesInGrid != null)
+            {
+                if (coveragesInGrid.Exists(x => x.Id == coverageInCombo.Id))
+                    return;
+            }
             coverages.Add((CoverageDto)cmbCoverages.SelectedItem);
             ReLoadGrdCoverages();
         }
@@ -238,6 +243,91 @@ namespace Seggu.Desktop.UserControls
             grdCoverages.DataSource = null;
             grdCoverages.DataSource = coverages;
             FormatCoveragesGrid();
+        }
+
+        public void ValidarNumeros(object sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && (sender as TextBox).Text.IndexOf(decimalSeparator) != -1)
+            {
+                e.Handled = true;
+            }
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtHomePostal_Validating(object sender, CancelEventArgs e)
+        {
+            //var regex = @"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$";
+            //var re = new Regex(regex);
+            //var match = re.Match(this.txtHomePostal.Text);
+            //if (!match.Success)
+            //{
+            //    this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
+            //    e.Cancel = true;
+            //}
+            if (this.txtHomePostal.Text.Length != 4)
+            {
+                this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
+            }
+        }
+
+        private void txtHomeStreet_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.txtHomeStreet.Text))
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.txtHomeStreet, "Este campo es obligatorio.");
+
+            }
+        }
+
+        private void txtHomeNumber_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.txtHomeNumber.Text))
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.txtHomeNumber, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbProvince_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbProvince.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbProvince, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbDistrict_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbDistrict.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbDistrict, "Este campo es obligatorio.");
+            }
+        }
+
+        private void cmbLocality_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbLocality.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbLocality, "Este campo es obligatorio.");
+            }
+        }
+
+        private void grdCoverages_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.coverages.Count == 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
+            }
         }
     }
 }

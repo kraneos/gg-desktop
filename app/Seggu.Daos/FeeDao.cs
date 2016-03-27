@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class FeeDao : IdEntityDao<Fee>, IFeeDao
+    public sealed class FeeDao : IdParseEntityDao<Fee>, IFeeDao
     {
         public FeeDao(SegguDataModelContext context)
             : base(context)
@@ -109,11 +109,11 @@ namespace Seggu.Daos
         }
         public IEnumerable<Fee> GetOverdueEndorsesToday()
         {
-            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId == null);
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today);
         }
         public IEnumerable<Fee> GetOverduePoliciesToday()
         {
-            return this.Set.Where(x => x.ExpirationDate == DateTime.Today && x.PolicyId != null);
+            return this.Set.Where(x => x.ExpirationDate == DateTime.Today);
         }
     }
 }

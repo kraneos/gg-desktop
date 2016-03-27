@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class AttachedFile : IdEntity
+    public partial class AttachedFile : IdParseEntity
     {
         public Nullable<long> EndorseId { get; set; }
         public string FilePath { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IContactDao : IIdEntityDao<Contact>
+    public interface IContactDao : IParseIdEntityDao<Contact>
     {
     }
 }

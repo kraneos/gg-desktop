@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlPolizasDatos = new System.Windows.Forms.TabControl();
             this.tabPageDatos = new System.Windows.Forms.TabPage();
             this.chkOtherClient = new System.Windows.Forms.CheckBox();
@@ -85,6 +85,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtPrima = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -108,7 +109,6 @@
             this.btnRenovar = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.txtSumaAsegurado = new System.Windows.Forms.TextBox();
             this.tctrlPolizasDatos.SuspendLayout();
             this.tabPageDatos.SuspendLayout();
             this.tabPagePlanes.SuspendLayout();
@@ -551,7 +551,6 @@
             this.txtPaymentDay.Name = "txtPaymentDay";
             this.txtPaymentDay.Size = new System.Drawing.Size(54, 25);
             this.txtPaymentDay.TabIndex = 53;
-            this.txtPaymentDay.Visible = false;
             this.txtPaymentDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaymentDay_KeyPress);
             this.txtPaymentDay.Validating += new System.ComponentModel.CancelEventHandler(this.txtPaymentDay_Validating);
             // 
@@ -563,7 +562,6 @@
             this.label9.Size = new System.Drawing.Size(80, 17);
             this.label9.TabIndex = 52;
             this.label9.Text = "Día de Pago";
-            this.label9.Visible = false;
             // 
             // txtTotalPagar
             // 
@@ -632,6 +630,7 @@
             this.txtNetoCobrar.ReadOnly = true;
             this.txtNetoCobrar.Size = new System.Drawing.Size(110, 25);
             this.txtNetoCobrar.TabIndex = 6;
+            this.txtNetoCobrar.Validating += new System.ComponentModel.CancelEventHandler(this.txtNetoCobrar_Validating);
             // 
             // txtBonificacionPropia
             // 
@@ -696,6 +695,14 @@
             this.label8.TabIndex = 3;
             this.label8.Text = "Neto a Cobrar";
             // 
+            // txtSumaAsegurado
+            // 
+            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
+            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
+            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
+            this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -743,6 +750,7 @@
             // 
             // cmbPlanAsegurado
             // 
+            this.cmbPlanAsegurado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPlanAsegurado.FormattingEnabled = true;
             this.cmbPlanAsegurado.Items.AddRange(new object[] {
             "1 cuota",
@@ -846,11 +854,11 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdFees.Location = new System.Drawing.Point(6, 151);
             this.grdFees.Name = "grdFees";
             this.grdFees.RowHeadersVisible = false;
@@ -871,6 +879,7 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Plan Cía / Aseg";
+            this.groupBox4.Visible = false;
             // 
             // rdbDistintos
             // 
@@ -929,6 +938,7 @@
             this.lblAnulada.Size = new System.Drawing.Size(59, 17);
             this.lblAnulada.TabIndex = 53;
             this.lblAnulada.Text = "Anulada";
+            this.lblAnulada.Visible = false;
             // 
             // btnNuevaPoliza
             // 
@@ -968,14 +978,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // txtSumaAsegurado
-            // 
-            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
-            this.txtSumaAsegurado.Name = "txtSumaAsegurado";
-            this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
-            this.txtSumaAsegurado.TabIndex = 0;
-            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
-            // 
             // PolizasUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1008,7 +1010,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnGrabar;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TabControl tctrlPolizasDatos;
         private System.Windows.Forms.TabPage tabPageDatos;
         private System.Windows.Forms.TextBox txtNroPoliza;
@@ -1086,5 +1087,6 @@
         internal System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtSumaAsegurado;
+        public System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

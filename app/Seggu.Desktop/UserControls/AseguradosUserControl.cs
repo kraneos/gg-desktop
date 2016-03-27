@@ -347,19 +347,7 @@ namespace Seggu.Desktop.UserControls
             SendClientToSideBar();
             if (clientGrid.RowCount > 0) clientGrid.Select();// para navegar con teclas flecha            
         }
-        private void GoToDetails_DoubleCLick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (clientGrid.CurrentRow.DataBoundItem.GetType().Name == "ClientFullDto")
-                currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;
-            else
-            {
-                var clientId = ((ClientIndexDto)clientGrid.CurrentRow.DataBoundItem).Id;
-                currentClient = clientService.GetById(clientId);
-            }
-            SendClientToSideBar();
-            PopulateClientInformation();
-            tctrlAseguradosControl.SelectedIndex = 1;
-        }
+
         private void SendClientToSideBar()
         {
             var clientId = (int)clientGrid.CurrentRow.Cells["Id"].Value;
@@ -521,6 +509,20 @@ namespace Seggu.Desktop.UserControls
             {
                 this.tctrlAseguradosControl.SelectedIndex = 0;
             }
+        }
+
+        private void clientGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (clientGrid.CurrentRow.DataBoundItem.GetType().Name == "ClientFullDto")
+                currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;
+            else
+            {
+                var clientId = ((ClientIndexDto)clientGrid.CurrentRow.DataBoundItem).Id;
+                currentClient = clientService.GetById(clientId);
+            }
+            SendClientToSideBar();
+            PopulateClientInformation();
+            tctrlAseguradosControl.SelectedIndex = 1;
         }
 
 

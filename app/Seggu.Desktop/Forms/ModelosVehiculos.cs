@@ -1,8 +1,7 @@
-﻿using Seggu.Data;
-using Seggu.Dtos;
+﻿using Seggu.Dtos;
 using Seggu.Services.Interfaces;
+using Seggu.Infrastructure;
 using System;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -11,23 +10,26 @@ namespace Seggu.Desktop.Forms
     public partial class ModelosVehiculos : Form
     {
         private IVehicleTypeService vehicleTypeService;
+        private IUseService useService;
+        private IBodyworkService bodyworkService;
         private IBrandService brandService;
         private IMasterDataService masterDataService;
         private IVehicleModelService vehicleModelService;
-        private IBodyworkService bodyworkService;
         private VehicleModelDto currentModel;
         private bool editMode = false;
         private int currentBrandIndex;
-        public ModelosVehiculos(IBrandService brandService, IVehicleTypeService vehicleTypeService,
+        public ModelosVehiculos(IBrandService brandService, IUseService useService, IVehicleTypeService vehicleTypeService,
             IMasterDataService masterDataService, IVehicleModelService vehicleModelService,
             IBodyworkService bodyworkService)
         {
             InitializeComponent();
             this.brandService = brandService;
+            this.bodyworkService = bodyworkService;
             this.vehicleTypeService = vehicleTypeService;
             this.masterDataService = masterDataService;
             this.vehicleModelService = vehicleModelService;
-            this.bodyworkService = bodyworkService;
+            this.useService = useService;
+            currentModel = new VehicleModelDto();
             InitializeComboboxes();
         }
 
@@ -78,32 +80,24 @@ namespace Seggu.Desktop.Forms
         }
         private void cmbTipoVehiculo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editMode) return;
+            //if (editMode) return;
             if (!cmbTipoVehiculo.Focused) return;
-            FillBodyworks();
-            FillUses();
+            lstUses.DataSource = useService.GetByVehicleType((int)cmbTipoVehiculo.SelectedValue).ToList();
+            lstBodyworks.DataSource = bodyworkService.GetByVehicleType((int)cmbTipoVehiculo.SelectedValue).ToList();
         }
         private void FillBodyworks()
         {
             if (currentModel != null)
-            {
                 lstBodyworks.DataSource = currentModel.Bodyworks;
-            }
             else
-            {
                 lstBodyworks.DataSource = null;
-            }
         }
         private void FillUses()
         {
             if (currentModel != null)
-            {
                 lstUses.DataSource = currentModel.Uses;
-            }
             else
-            {
                 lstBodyworks.DataSource = null;
-            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -112,30 +106,36 @@ namespace Seggu.Desktop.Forms
         }
         private void ToggleEditionControls()
         {
-            if (!txtMarcas.Visible)
-            {
-                foreach (Control c in Controls)
-                {
-                    if (c is TextBox)
-                        c.Text = "Nuevo";
-                    if (!c.Visible)
-                        c.Visible = true;
-                }
-                editMode = true;
-            }
+            if (txtMarcas.Visible)
+                HideEditionControls();
             else
-            {
-                txtMarcas.Visible = false;
-                txtModelo.Visible = false;
-                txtTipoVehiculo.Visible = false;
-                txtCarroceria.Visible = false;
-                btnCarroceria.Visible = false;
-                btnMarcas.Visible = false;
-                btnModelo.Visible = false;
-                btnRemoveModel.Visible = false;
-                btnTipoVehiculo.Visible = false;
-                editMode = false;
-            }
+                ShowEditionControls();
+        }
+        private void HideEditionControls()
+        {
+            btnEditar.Text = "Editar";
+            txtMarcas.Visible = false;
+            txtModelo.Visible = false;
+            btnMarcas.Visible = false;
+            btnModelo.Visible = false;
+            btnBodyworks.Visible = false;
+            btnUses.Visible = false;
+            btnRemoveModel.Visible = false;
+            btnGuardar.Visible = false;
+            cmbTipoVehiculo.Enabled = false;
+            cmbOrigen.Enabled = false;
+
+            editMode = false;
+        }
+        private void ShowEditionControls()
+        {
+            foreach (Control c in Controls)
+                if (!c.Visible)
+                    c.Visible = true;
+            btnEditar.Text = "Cancelar";
+            editMode = true;
+            cmbTipoVehiculo.Enabled = true;
+            cmbOrigen.Enabled = true;
         }
 
         #region Txt Select On Click
@@ -144,32 +144,29 @@ namespace Seggu.Desktop.Forms
             txtMarcas.SelectionStart = 0;
             txtMarcas.SelectionLength = txtMarcas.Text.Length;
         }
-
-        private void txtTipoVehiculo_Click(object sender, EventArgs e)
-        {
-            txtTipoVehiculo.SelectionStart = 0;
-            txtTipoVehiculo.SelectionLength = txtTipoVehiculo.Text.Length;
-        }
-
         private void txtModelo_Click(object sender, EventArgs e)
         {
             txtModelo.SelectionStart = 0;
             txtModelo.SelectionLength = txtModelo.Text.Length;
         }
-
-        private void txtCarroceria_Click(object sender, EventArgs e)
-        {
-            txtCarroceria.SelectionStart = 0;
-            txtCarroceria.SelectionLength = txtCarroceria.Text.Length;
-        }
-
         #endregion
 
         private void btnModelo_Click(object sender, EventArgs e)
         {
-            if (lstModelos.FindString(txtModelo.Text) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("El Modelo ya existe."); return; }
-            currentModel.Id = default(int);
-            btnGuardar_Click(sender, e);
+            if (lstModelos.FindString(txtModelo.Text) != -1 || txtModelo.Text == "Nuevo Modelo")
+            {
+                MessageBox.Show("El Modelo ya existe o no igresó texto.");
+                return;
+            }
+            currentModel.Id = default(int);// Null, hay que instanciar un new
+            try
+            {
+                btnGuardar_Click(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -177,12 +174,13 @@ namespace Seggu.Desktop.Forms
             if (currentModel == null) return;
             var model = this.GetFormInformation();
             vehicleModelService.Save(model);
+            txtModelo.Text = "";
             ReInitiateForm();
         }
         private VehicleModelDto GetFormInformation()
         {
             var model = new VehicleModelDto();
-            model.Id = currentModel.Id;
+            model.Id = currentModel.Id; 
             model.BrandId = (int)cmbMarcas.SelectedValue;
             model.Origin = cmbOrigen.SelectedItem.ToString();
             model.Bodyworks = currentModel.Bodyworks;
@@ -192,44 +190,19 @@ namespace Seggu.Desktop.Forms
             return model;
         }
 
-        private void btnCarroceria_Click(object sender, EventArgs e)
-        {
-            var bodywork = new BodyworkDto();
-            bodywork.Name = txtCarroceria.Text;
-            if (lstBodyworks.FindString(bodywork.Name) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("La Carroceria ya existe."); return; }
-            try
-            {
-                this.bodyworkService.Save(bodywork);
-                ReInitiateForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        private void btnTipoVehiculo_Click(object sender, EventArgs e)
-        {
-            var vehicleType = new VehicleTypeDto();
-            vehicleType.Name = this.txtTipoVehiculo.Text;
-            if (cmbTipoVehiculo.FindString(vehicleType.Name) != -1 || txtModelo.Text == "Nuevo") { MessageBox.Show("El Tipo de Vehiculo ya existe."); return; }
-            try
-            {
-                this.vehicleTypeService.Save(vehicleType);
-                ReInitiateForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
         private void btnMarcas_Click(object sender, EventArgs e)
         {
             BrandDto brand = new BrandDto();
             brand.Name = this.txtMarcas.Text;
-            if (cmbMarcas.FindString(brand.Name) != -1 || txtModelo.Text == "Nuevo") return;
+            if (cmbMarcas.FindString(brand.Name) != -1 || txtMarcas.Text == "Nueva marca")
+            {
+                MessageBox.Show("La Marca ya existe o no ingresó texto.");
+                return;
+            }
             try
             {
                 this.brandService.Save(brand);
+                txtMarcas.Text = "";
                 ReInitiateForm();
             }
             catch (Exception ex)
@@ -275,6 +248,27 @@ namespace Seggu.Desktop.Forms
         {
             if (e.KeyCode == Keys.Enter)
                 cmbMarcas_SelectionChangeCommitted(null, null);
+        }
+
+        private void txtCarroceria_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBodyworks_Click(object sender, EventArgs e)
+        {
+            var vehicleType = this.vehicleTypeService.Get((int)cmbTipoVehiculo.SelectedValue);
+            var form = DependencyResolver.Instance.ResolveGeneric<GestionarCarrocerias>();
+            form.Initialize(vehicleType);
+            form.ShowDialog();
+        }
+
+        private void btnUses_Click(object sender, EventArgs e)
+        {
+            var vehicleType = this.vehicleTypeService.Get((int)cmbTipoVehiculo.SelectedValue);
+            var form = DependencyResolver.Instance.ResolveGeneric<GestionarUsos>();
+            form.Initialize(vehicleType);
+            form.ShowDialog();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using Seggu.Domain;
 namespace Seggu.Daos.Interfaces
 {
-    public interface IIntegralDao : IIdEntityDao<Integral>
+    public interface IIntegralDao : IParseIdEntityDao<Integral>
     {
         void SaveIntegral(Integral newIntegral);
     }

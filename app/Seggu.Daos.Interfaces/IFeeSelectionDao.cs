@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IFeeSelectionDao : IIdEntityDao<FeeSelection>
+    public interface IFeeSelectionDao : IParseIdEntityDao<FeeSelection>
     {
     }
 }

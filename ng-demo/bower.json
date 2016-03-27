@@ -1,0 +1,32 @@
+{
+  "name": "ng-demo",
+  "homepage": "https://github.com/seggu/seggu",
+  "authors": [
+    "Agustin Polo <poloagustin@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "wwwroot/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-resource": "~1.4.8",
+    "angular-local-storage": "~0.2.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-bootstrap": "~1.1.0",
+    "angular-animate": "~1.4.9",
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0"
+  },
+  "resolutions": {
+    "angular": ">=1.4.0"
+  }
+}

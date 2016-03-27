@@ -101,6 +101,7 @@
     <Compile Include="LiquidationDto.cs" />
     <Compile Include="LocalityDto.cs" />
     <Compile Include="PolicyFullDto.cs" />
+    <Compile Include="PolicyGridItemDto.cs" />
     <Compile Include="PolicyRosViewDto.cs" />
     <Compile Include="ProducerCodeDto.cs" />
     <Compile Include="ProducerCompanyDto.cs" />
@@ -108,9 +109,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceDto.cs" />
     <Compile Include="RiskCompanyDto.cs" />
+    <Compile Include="RiskItemDto.cs" />
     <Compile Include="SexDto.cs" />
     <Compile Include="UseDto.cs" />
-    <Compile Include="UserDto.cs" />
     <Compile Include="VehicleDto.cs" />
     <Compile Include="VehicleModelDto.cs" />
     <Compile Include="VehicleModelFullDto.cs" />
@@ -119,6 +120,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
+      <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
+      <Name>Seggu.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

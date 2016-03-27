@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Accessory : KeyValueEntity
+    public partial class Accessory : ParseKeyValueEntity
     {
         public string Stamp { get; set; }
         public System.DateTime ExpirationDate { get; set; }

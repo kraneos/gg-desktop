@@ -4,7 +4,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class AssetDao : IdEntityDao<Asset> , IAssetDao
+    public sealed class AssetDao : IdParseEntityDao<Asset> , IAssetDao
     {
         public AssetDao(SegguDataModelContext context)
             : base(context)

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class VehicleModelDao : IdEntityDao<VehicleModel>, IVehicleModelDao
+    public sealed class VehicleModelDao : IdParseEntityDao<VehicleModel>, IVehicleModelDao
     {
         public VehicleModelDao(SegguDataModelContext context)
             : base(context)

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class AccessoryDao: IdEntityDao<Accessory>, IAccessoryDao
+    public sealed class AccessoryDao: IdParseEntityDao<Accessory>, IAccessoryDao
     {
         public AccessoryDao(SegguDataModelContext context)
             : base(context)

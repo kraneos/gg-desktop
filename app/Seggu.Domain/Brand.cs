@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Brand : KeyValueEntity
+    public partial class Brand : ParseKeyValueEntity
     {
         public Brand()
         {

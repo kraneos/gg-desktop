@@ -4,7 +4,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class AccessoryTypeDao : IdEntityDao<AccessoryType>, IAccessoryTypeDao
+    public sealed class AccessoryTypeDao : IdParseEntityDao<AccessoryType>, IAccessoryTypeDao
     {
         public AccessoryTypeDao(SegguDataModelContext context)
             : base(context)

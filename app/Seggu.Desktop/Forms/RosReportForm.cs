@@ -26,7 +26,7 @@ namespace Seggu.Desktop.Forms
             InitializeComponent();
             this.producerService = producerService;
             this.cashAccountService = cashAccountService;
-            this.ProductorComboBox.DataSource = this.producerService.GetProducers();
+            this.ProductorComboBox.DataSource = this.producerService.GetProducers().ToList();
             this.ProductorComboBox.ValueMember = "Id";
             this.ProductorComboBox.DisplayMember = "Name";
         }

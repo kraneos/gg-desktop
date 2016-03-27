@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class EmployeeDao : IdEntityDao<Employee>, IEmployeeDao
+    public sealed class EmployeeDao : IdParseEntityDao<Employee>, IEmployeeDao
     {
         public EmployeeDao(SegguDataModelContext context)
             : base(context)

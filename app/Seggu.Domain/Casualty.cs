@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Casualty : IdEntity
+    public partial class Casualty : IdParseEntity
     {
         public Casualty()
         {
@@ -11,7 +11,7 @@ namespace Seggu.Domain
         }
     
         public long PolicyId { get; set; }
-        public short Number { get; set; }
+        public int Number { get; set; }
         public long CasualtyTypeId { get; set; }
         public bool OurCharge { get; set; }
         public System.DateTime OccurredDate { get; set; }

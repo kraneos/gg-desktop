@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Bodywork : KeyValueEntity
+    public partial class Bodywork : ParseKeyValueEntity
     {
         public Bodywork()
         {

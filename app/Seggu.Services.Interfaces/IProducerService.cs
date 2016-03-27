@@ -18,5 +18,6 @@ namespace Seggu.Services.Interfaces
         void Save(ProducerDto producer);
         IEnumerable<ProducerCodeDto> GetByCompanyId(int companyId);
         bool HasPolicies(int p);
+        IEnumerable<KeyValueDto> GetByCompanyIdCombobox(int companyId);
     }
 }

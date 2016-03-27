@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IEndorseDao : IIdEntityDao<Endorse>
+    public interface IEndorseDao : IParseIdEntityDao<Endorse>
     {
         IEnumerable<Endorse> GetByPolicyId(long Id);
         void SaveEndorse(Endorse obj);

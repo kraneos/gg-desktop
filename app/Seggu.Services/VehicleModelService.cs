@@ -17,6 +17,12 @@ namespace Seggu.Services
             this.VehicleModelDao = VehicleModelDao;
         }
 
+        public IEnumerable<VehicleModelFullDto> GetFullAll()
+        {
+            var vehicleModels = this.VehicleModelDao.GetWithReferences();
+            return vehicleModels.Select(vm => VehicleModelDtoMapper.GetFullDto(vm));
+        }
+
         public IEnumerable<VehicleModelDto> GetAll()
         {
             var models = this.VehicleModelDao.GetAll();
@@ -30,6 +36,7 @@ namespace Seggu.Services
                 .Where(m => m.BrandId == brandId)
                 .Select(b => VehicleModelDtoMapper.GetDto(b));
         }
+
         public void Save(VehicleModelDto model)
         {
             bool isNew = model.Id == default(int);
@@ -39,6 +46,7 @@ namespace Seggu.Services
             else
                 VehicleModelDao.Update(vehicleModel);
         }
+
         public void Delete(VehicleModelDto model)
         {
             var vehicleModel = VehicleModelDtoMapper.GetObject(model);

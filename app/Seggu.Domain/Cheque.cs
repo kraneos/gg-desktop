@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Cheque : IdEntity
+    public partial class Cheque : IdParseEntity
     {
         public string Number { get; set; }
         public long BankId { get; set; }

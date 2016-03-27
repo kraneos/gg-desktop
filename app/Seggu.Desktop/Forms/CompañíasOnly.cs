@@ -225,7 +225,7 @@ namespace Seggu.Desktop.Forms
             {
                 if (control == txtNombre || control == txtTelefono || control == txtMail)
                 {
-                    if (control.Text == string.Empty)
+                    if (string.IsNullOrWhiteSpace(control.Text))
                     {
                         errorProvider1.SetError(control, "Campo vacío");
                         ok = false;
@@ -247,7 +247,7 @@ namespace Seggu.Desktop.Forms
             {
                 if (control == txtLiq2 || control == txtLiq1 || control == txtConvenio1 || control == txtConvenio2)
                 {
-                    if (control.Text != string.Empty)
+                    if (!string.IsNullOrWhiteSpace(control.Text))
                     {
                         int dia;
                         try

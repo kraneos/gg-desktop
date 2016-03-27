@@ -1,7 +1,6 @@
 ﻿using iTextSharp.text.pdf;
 using Seggu.Data;
 using Seggu.Desktop.Forms;
-using Seggu.Desktop.Helpers;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
@@ -48,11 +47,6 @@ namespace Seggu.Desktop.UserControls
             this.feeService = feeService;
             this.printService = printService;
             InitializeDetailComboBoxes();
-            cmbPlanes.Enabled = false;
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                this.btnGrabar.Visible = false;
-            }
         }
         private void InitializeDetailComboBoxes()
         {
@@ -281,7 +275,7 @@ namespace Seggu.Desktop.UserControls
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
+                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
                 if (MainForm.currentEndorse != null)
                     vehicle_uc.PopulateEndorseVehicle();
             }

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Coverage : KeyValueEntity
+    public partial class Coverage : ParseKeyValueEntity
     {
         public Coverage()
         {

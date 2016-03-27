@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IUseDao : IIdEntityDao<Use>
+    public interface IUseDao : IParseIdEntityDao<Use>
     {
         bool GetByName(string name);
 

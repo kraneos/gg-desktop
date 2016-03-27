@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class RiskDao : IdEntityDao<Risk> , IRiskDao
+    public sealed class RiskDao : IdParseEntityDao<Risk> , IRiskDao
     {
         public RiskDao(SegguDataModelContext context)
             : base(context)

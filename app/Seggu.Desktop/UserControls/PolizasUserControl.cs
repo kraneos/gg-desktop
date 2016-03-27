@@ -2,7 +2,6 @@
 using iTextSharp.text.pdf;
 using Seggu.Data;
 using Seggu.Desktop.Forms;
-using Seggu.Desktop.Helpers;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
@@ -30,7 +29,7 @@ namespace Seggu.Desktop.UserControls
         private IFeeService feeService;
         private IPrintService printService;
         private IAttachedFileService attachedFileService;
-        private CompanyFullDto selectedCompany;
+        //private CompanyFullDto selectedCompany;
         private ClientIndexDto currentClient;
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
@@ -52,13 +51,6 @@ namespace Seggu.Desktop.UserControls
             this.attachedFileService = attachedFileService;
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                this.btnNuevaPoliza.Visible = false;
-                this.btnRenovar.Visible = false;
-                this.btnGrabar.Visible = false;
-                this.btnPrint.Visible = false;
-            }
         }
         private void InitializeDetailComboBoxes()
         {
@@ -66,7 +58,7 @@ namespace Seggu.Desktop.UserControls
 
             cmbCompania.ValueMember = "Id";
             cmbCompania.DisplayMember = "Name";
-            cmbCompania.DataSource = companyService.GetAll().ToList();
+            cmbCompania.DataSource = companyService.GetAllCombobox().ToList();
 
             cmbProductor.ValueMember = "Id";
             cmbProductor.DisplayMember = "Name";
@@ -174,7 +166,7 @@ namespace Seggu.Desktop.UserControls
             var cp = LayoutForm.currentPolicy;
             if (!string.IsNullOrWhiteSpace(cp.Número))
             {
-                selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
+                //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
                 //cp.Id = null;
                 cp.PreviousNumber = cp.Número;
                 cp.Número = "";
@@ -234,9 +226,10 @@ namespace Seggu.Desktop.UserControls
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
-            selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-            cmbProductor.DataSource = selectedCompany.Producers;
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
+            //this.selectedCompany = this.
+            cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
             //LoadAttachedFilesGrid();
@@ -380,7 +373,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls())
+            if (ValidateControls() && this.ValidateChildren())
             {
                 try
                 {
@@ -439,7 +432,7 @@ namespace Seggu.Desktop.UserControls
                             }
                 }
             }
-            return ok;
+            return ok || this.ValidateChildren();
         }
         private PolicyFullDto GetFormInfo()
         {
@@ -490,14 +483,14 @@ namespace Seggu.Desktop.UserControls
             vehicle_uc = null;
             vida_uc = null;
 
-            var risk = (RiskCompanyDto)cmbRiesgo.SelectedItem;
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
 
-            var riesgo = RiskTypeDtoMapper.ToEnum(risk.RiskType);
+            var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes(selectedCompany, (int)cmbRiesgo.SelectedValue);
+                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
                     vehicle_uc.PopulatePolicyVehicle();
             }
@@ -527,10 +520,10 @@ namespace Seggu.Desktop.UserControls
         {
             if (this.cmbCompania.SelectedValue != null)
             {
-                var CompanyId = (int)cmbCompania.SelectedValue;
-                selectedCompany = companyService.GetFullById(CompanyId);
-                cmbRiesgo.DataSource = selectedCompany.Risks;
-                cmbProductor.DataSource = selectedCompany.Producers;
+                var companyId = (int)cmbCompania.SelectedValue;
+                //selectedCompany = companyService.GetFullById(CompanyId);
+                cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
+                cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
                 cmbCobrador.SelectedIndex = 0;
             }
         }
@@ -550,10 +543,22 @@ namespace Seggu.Desktop.UserControls
             int cuotas;
             decimal[] importesCobrar;
             decimal[] importesPagar;
-            DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
-            this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
-            FormatFeeGrid();
-            CalculateFeeTotals();
+            var neto = 0M;
+
+            if (decimal.TryParse(this.txtNetoCobrar.Text, out neto))
+            {
+                if (neto > 0)
+                {
+                    DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
+                    this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
+                    FormatFeeGrid();
+                    CalculateFeeTotals();
+                }
+                else
+                {
+                    MessageBox.Show("El valor neto a cobrar debe ser mayor a 0.");
+                }
+            }
         }
         private void DivideValueInFees(out int cuotas, out decimal[] importesCobrar, out decimal[] importesPagar)
         {
@@ -727,7 +732,7 @@ namespace Seggu.Desktop.UserControls
             {
                 e.Handled = true;
             }
-            else if (!char.IsDigit(c) && c != 8 &&c!= 46)
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
             {
                 e.Handled = true;
             }
@@ -751,7 +756,7 @@ namespace Seggu.Desktop.UserControls
                 // Cancel the event and select the text to be corrected by the user.
                 e.Cancel = true;
                 txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
-
+                errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
             }
         }
 
@@ -800,6 +805,25 @@ namespace Seggu.Desktop.UserControls
         private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
         {
             ValidarNumeros((TextBox)sender, e);
+        }
+
+        private void txtNetoCobrar_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var netoCobrar = 0M;
+
+            if (decimal.TryParse(this.txtNetoCobrar.Text, out netoCobrar))
+            {
+                if (netoCobrar <= 0)
+                {
+                    errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
+                e.Cancel = true;
+            }
         }
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

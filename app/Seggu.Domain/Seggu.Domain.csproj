@@ -86,6 +86,8 @@
     <Compile Include="Locality.cs" />
     <Compile Include="MaritalStatus.cs" />
     <Compile Include="Origin.cs" />
+    <Compile Include="ParseEntity.cs" />
+    <Compile Include="ParseKeyValueEntity.cs" />
     <Compile Include="Period.cs" />
     <Compile Include="Policy.cs" />
     <Compile Include="Producer.cs" />
@@ -94,10 +96,8 @@
     <Compile Include="Province.cs" />
     <Compile Include="Risk.cs" />
     <Compile Include="RiskType.cs" />
-    <Compile Include="Role.cs" />
     <Compile Include="Sex.cs" />
     <Compile Include="Use.cs" />
-    <Compile Include="User.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="VehicleModel.cs" />
     <Compile Include="VehicleType.cs" />
@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

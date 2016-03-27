@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IBrandDao : IIdEntityDao<Brand>
+    public interface IBrandDao : IParseIdEntityDao<Brand>
     {
         bool GetByName(string name);
     }

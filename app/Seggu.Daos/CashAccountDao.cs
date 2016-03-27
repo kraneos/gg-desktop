@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class CashAccountDao : IdEntityDao<CashAccount> , ICashAccountDao
+    public sealed class CashAccountDao : IdParseEntityDao<CashAccount> , ICashAccountDao
     {
         public CashAccountDao(SegguDataModelContext context)
             : base(context)

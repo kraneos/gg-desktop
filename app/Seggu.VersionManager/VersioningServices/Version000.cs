@@ -13,7 +13,7 @@ namespace Seggu.VersionManager.VersioningServices
     public class Version000 : BaseVersioningService, IVersioningService
     {
         private readonly string tableCreationScriptFileName = "Scripts\\Version000\\TableCreation.sql";
-        private string sampleDataInsertScriptFileName = "Scripts\\Version000\\SampleDataInsert.sql";
+        //private string sampleDataInsertScriptFileName = "Scripts\\Version000\\SampleDataInsert.sql";
         
         public Version000()
         {
@@ -22,16 +22,17 @@ namespace Seggu.VersionManager.VersioningServices
 
         public void ApplyVersion()
         {
-            var connection = new SQLiteConnection(ConfigurationManager.ConnectionStrings[Properties.Settings.Default.SegguSQLiteConnectionString].ConnectionString);
-            
-            CreateDatabase();
-            CreateTables(connection);
-            CreateSampleData(connection);
+            using (var connection = new SQLiteConnection(ConfigurationManager.ConnectionStrings[Properties.Settings.Default.SegguSQLiteConnectionString].ConnectionString))
+            {
+                CreateDatabase();
+                CreateTables(connection);
+                CreateSampleData(connection);
+            }
         }
 
         private void CreateSampleData(SQLiteConnection connection)
         {
-            base.ExecuteFileScript(connection, this.sampleDataInsertScriptFileName);
+            //base.ExecuteFileScript(connection, this.sampleDataInsertScriptFileName);
         }
 
         private void CreateTables(SQLiteConnection connection)

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Bank : KeyValueEntity
+    public partial class Bank : ParseKeyValueEntity
     {
         public Bank()
         {

@@ -1,5 +1,5 @@
-﻿using Seggu.Data;
-using Seggu.Desktop.Helpers;
+﻿using Microsoft.Win32;
+using Seggu.Data;
 using Seggu.Desktop.UserControls;
 using Seggu.Domain;
 using Seggu.Dtos;
@@ -9,6 +9,7 @@ using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -35,7 +36,36 @@ namespace Seggu.Desktop.Forms
             this.feeService = feeService;
             this.companyService = companyService;
 
-            LaunchSplash();
+            try
+            {
+                LaunchSplash();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static bool ValidateRegistry()
+        {
+            var keyRoot = "HKEY_CURRENT_USER";
+            var keyName = keyRoot + "\\SOFTWARE\\Seggu";
+
+            var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
+            if (!string.IsNullOrEmpty(installationDate))
+            {
+                var date = DateTime.MinValue;
+                if (DateTime.TryParse(installationDate, out date))
+                {
+                    if (DateTime.Now - date < TimeSpan.FromDays(15))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void LaunchSplash()
@@ -46,32 +76,37 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
-            var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
-            if (loginForm.ShowDialog() == DialogResult.OK)
-            {
-                SetButtonsPrincipal();
-                txtBuscar.Focus();
-                switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
-                {
-                    case Role.Administrador:
-                        ConfigureUserAdministratorVisibility();
-                        break;
-                    case Role.Asesor:
-                        ConfigureConsultantVisibility();
-                        break;
-                    case Role.Cajero:
-                        ConfigureCashierVisibility();
-                        break;
-                    default:
-                        MessageBox.Show("El usuario no posee un rol soportado por el sistema.");
-                        this.Close();
-                        break;
-                }
-            }
-            else
-            {
-                this.Close();
-            }
+            //if (!ValidateRegistry())
+            //{
+            //    MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
+            //    this.Close();
+            //}
+            //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
+            //if (loginForm.ShowDialog() == DialogResult.OK)
+            //{
+            SetButtonsPrincipal();
+            txtBuscar.Focus();
+            //    switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
+            //    {
+            //        case Role.Administrador:
+            //            ConfigureUserAdministratorVisibility();
+            //            break;
+            //        case Role.Asesor:
+            //            ConfigureConsultantVisibility();
+            //            break;
+            //        case Role.Cajero:
+            //            ConfigureCashierVisibility();
+            //            break;
+            //        default:
+            //            MessageBox.Show("El usuario no posee un rol soportado por el sistema.");
+            //            this.Close();
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    this.Close();
+            //}
         }
 
         private void ConfigureCashierVisibility()
@@ -95,26 +130,6 @@ namespace Seggu.Desktop.Forms
         {
             //throw new NotImplementedException();
             this.btnCobranzas.Visible = false;
-        }
-
-        private void ConfigureUserAdministratorVisibility()
-        {
-            //this.splitContainer1.Visible = false;
-            //this.txtBuscar.Visible = false;
-            //this.btnLimpiar.Visible = false;
-            //this.btnPolizas.Visible = false;
-            //this.btnNotifications.Visible = false;
-            //this.archivoToolStripMenuItem.Visible = false;
-            //this.entidadesToolStripMenuItem.Visible = false;
-            //this.utilidadesToolStripMenuItem.Visible = false;
-            //this.reportesToolStripMenuItem.Visible = false;
-            //this.polizasVigentesToolStripMenuItem.Visible = false;
-            //this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Visible = false;
-            //this.pólizasSinCobranzasNiLiquidacionesToolStripMenuItem.Visible = false;
-            //this.pólizasARenovarToolStripMenuItem.Visible = false;
-            var userForm = DependencyResolver.Instance.ResolveGeneric<Users>();
-            userForm.ShowDialog();
-            this.Close();
         }
 
         public void SetButtonsPrincipal()
@@ -270,16 +285,20 @@ namespace Seggu.Desktop.Forms
         {
             foreach (DataGridViewColumn c in grdValids.Columns)
                 c.Visible = false;
-            grdValids.Columns["Número"].Visible = true;
-            grdValids.Columns["Vence"].Visible = true;
+            grdValids.Columns["Name"].Visible = true;
+            grdValids.Columns["Name"].HeaderText = "Nro Poliza";
+            grdValids.Columns["EndDate"].Visible = true;
+            grdValids.Columns["EndDate"].HeaderText = "Vence";
             grdValids.ClearSelection();
         }
         private void FormatExpiredGrid()
         {
             foreach (DataGridViewColumn c in grdExpired.Columns)
                 c.Visible = false;
-            grdExpired.Columns["Número"].Visible = true;
-            grdExpired.Columns["Vence"].Visible = true;
+            grdExpired.Columns["Name"].Visible = true;
+            grdExpired.Columns["Name"].HeaderText = "Nro Poliza";
+            grdExpired.Columns["EndDate"].Visible = true;
+            grdExpired.Columns["EndDate"].HeaderText = "Vence";
             grdExpired.ClearSelection();
         }
 
@@ -294,11 +313,8 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
-            {
-                btnEndosos.Enabled = true;
-                btnSiniestros.Enabled = true;
-            }
+            btnEndosos.Enabled = true;
+            btnSiniestros.Enabled = true;
             btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
             btnCobranzas.Enabled = true;
             SetPanelControl(policyUc);
@@ -311,41 +327,19 @@ namespace Seggu.Desktop.Forms
             lblDNI.Text = cli.Dni;
         }
 
-        private void grdValids_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentPolicy = (PolicyFullDto)grdValids.CurrentRow.DataBoundItem;
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            SetPanelControl(policyUc);
-            currentEndorse = null;
-            //SetPanelControl(policyUc);
-            policyUc.btnRenovar.Enabled = true;
-            policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
-                LoadEndorseGrid();
-            if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Asesor)
-            {
-                btnEndosos.Enabled = true;
-                btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
-                btnSiniestros.Enabled = true;
-            }
-            else if ((Role)SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            {
-                btnCobranzas.Enabled = true;
-            }
-        }
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            currentPolicy = (PolicyFullDto)grdExpired.CurrentRow.DataBoundItem;
+            var currentPolicy = (PolicyGridItemDto)grdExpired.CurrentRow.DataBoundItem;
+            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
             currentEndorse = null;
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            //SetPanelControl(policyUc);
 
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
+            if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
         }
         private void LoadEndorseGrid()
         {
@@ -401,14 +395,6 @@ namespace Seggu.Desktop.Forms
         {
         }
 
-        //private void btnLiquidaciones_Click(object sender, EventArgs e)
-        //{
-        //    var uc = (LiquidacionesUserControl)DependencyContainer
-        //        .Instance.Resolve(typeof(LiquidacionesUserControl));
-        //    CollapsePanel1();
-        //    SetPanelControl(uc);
-        //    SetButtonsLiquidations();
-        //}
         private void liquidacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var uc = (LiquidacionesUserControl)DependencyResolver.Instance.Resolve(typeof(LiquidacionesUserControl));
@@ -465,12 +451,12 @@ namespace Seggu.Desktop.Forms
 
         private void compañíasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.CompañíasOnly compañias = (CompañíasOnly)DependencyResolver
-                 .Instance.Resolve(typeof(CompañíasOnly));
+            Forms.Compañías compañias = (Compañías)DependencyResolver
+                 .Instance.Resolve(typeof(Compañías));
             compañias.Show();
         }
 
-        private void controlDeCajaToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void controlDeCajaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Forms.ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
             controlCaja.Show();
@@ -478,7 +464,7 @@ namespace Seggu.Desktop.Forms
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Modelos modelos = (Modelos)DependencyResolver.Instance.Resolve(typeof(Modelos));
+            Forms.ModelosVehiculos modelos = (ModelosVehiculos)DependencyResolver.Instance.Resolve(typeof(ModelosVehiculos));
             modelos.Show();
         }
 
@@ -621,13 +607,6 @@ namespace Seggu.Desktop.Forms
             carrocerias.Show();
         }
 
-        private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Forms.Marcas marcas = (Marcas)DependencyResolver
-                .Instance.Resolve(typeof(Marcas));
-            marcas.Show();
-        }
-
         private void coberturasToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             Forms.CoberturasOnly coberturas = (CoberturasOnly)DependencyResolver
@@ -672,6 +651,24 @@ namespace Seggu.Desktop.Forms
         private void lblPolizas_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
+            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
+            SetPanelControl(policyUc);
+            currentEndorse = null;
+            //SetPanelControl(policyUc);
+            policyUc.btnRenovar.Enabled = true;
+            policyUc.PopulateDetails();
+            if (this.currentPolicy.Endorses.Count() > 0)
+                LoadEndorseGrid();
+            btnEndosos.Enabled = true;
+            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
+            btnSiniestros.Enabled = true;
+            btnCobranzas.Enabled = true;
         }
 
     }

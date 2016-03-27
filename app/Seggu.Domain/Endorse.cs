@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Endorse : IdEntity
+    public partial class Endorse : IdParseEntity
     {
         public Endorse()
         {

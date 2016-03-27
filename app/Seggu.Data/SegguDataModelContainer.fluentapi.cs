@@ -1,9 +1,5 @@
 ﻿using Seggu.Domain;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
 
 namespace Seggu.Data
 {
@@ -17,7 +13,8 @@ namespace Seggu.Data
             ConfigureBodyworkVehicleTypeEntity(modelBuilder);
             ConfigureVehicleTypeUse(modelBuilder);
             ConfigureVehicleCoverages(modelBuilder);
-
+            ConfigureIntegralCoverages(modelBuilder);
+            ConfigureEmployeeCoverages(modelBuilder);            
         }
 
         private void ConfigureVehicleCoverages(DbModelBuilder modelBuilder)
@@ -32,6 +29,36 @@ namespace Seggu.Data
                         .MapLeftKey("Vehicles_Id")
                         .MapRightKey("Coverages_Id")
                         .ToTable("VehicleCoverage");
+                });
+        }
+
+        private void ConfigureIntegralCoverages(DbModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Integral>()
+                .HasMany(v => v.Coverages)
+                .WithMany(c => c.Integrals)
+                .Map(configurationAction =>
+                {
+                    configurationAction
+                        .MapLeftKey("Integrals_Id")
+                        .MapRightKey("Coverages_Id")
+                        .ToTable("IntegralCoverage");
+                });
+        }
+
+        private void ConfigureEmployeeCoverages(DbModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Employee>()
+                .HasMany(v => v.Coverages)
+                .WithMany(c => c.Employees)
+                .Map(configurationAction =>
+                {
+                    configurationAction
+                        .MapLeftKey("Employees_Id")
+                        .MapRightKey("Coverages_Id")
+                        .ToTable("EmployeeCoverage");
                 });
         }
 

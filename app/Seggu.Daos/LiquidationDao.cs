@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class LiquidationDao : IdEntityDao<Liquidation>, ILiquidationDao
+    public sealed class LiquidationDao : IdParseEntityDao<Liquidation>, ILiquidationDao
     {
         public LiquidationDao(SegguDataModelContext context)
             : base(context)

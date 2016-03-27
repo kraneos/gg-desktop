@@ -280,7 +280,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 77);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(27, 17);
+            this.label13.Size = new System.Drawing.Size(26, 17);
             this.label13.TabIndex = 27;
             this.label13.Text = "IVA";
             // 
@@ -289,7 +289,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 17);
+            this.label4.Size = new System.Drawing.Size(96, 17);
             this.label4.TabIndex = 25;
             this.label4.Text = "Premio con IVA";
             // 
@@ -453,7 +453,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(392, 359);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(50, 17);
+            this.label20.Size = new System.Drawing.Size(49, 17);
             this.label20.TabIndex = 7;
             this.label20.Text = "Totales";
             // 
@@ -492,7 +492,7 @@
             this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdFees.Location = new System.Drawing.Point(3, 141);
             this.grdFees.Name = "grdFees";
             this.grdFees.RowHeadersVisible = false;
@@ -818,9 +818,9 @@
             this.tabPagePlanes.Controls.Add(this.lblPlanes);
             this.tabPagePlanes.Controls.Add(this.grdFees);
             this.tabPagePlanes.Controls.Add(this.groupBox4);
-            this.tabPagePlanes.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePlanes.Location = new System.Drawing.Point(4, 26);
             this.tabPagePlanes.Name = "tabPagePlanes";
-            this.tabPagePlanes.Size = new System.Drawing.Size(987, 393);
+            this.tabPagePlanes.Size = new System.Drawing.Size(987, 389);
             this.tabPagePlanes.TabIndex = 3;
             this.tabPagePlanes.Text = "Sumas y Planes de Cobranza";
             this.tabPagePlanes.UseVisualStyleBackColor = true;
@@ -848,7 +848,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(589, 359);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(50, 17);
+            this.label5.Size = new System.Drawing.Size(49, 17);
             this.label5.TabIndex = 49;
             this.label5.Text = "Totales";
             // 

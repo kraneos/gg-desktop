@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Liquidation : IdEntity
+    public partial class Liquidation : IdParseEntity
     {
         public Liquidation()
         {
