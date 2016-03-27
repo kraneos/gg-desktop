@@ -96,7 +96,6 @@
     <Compile Include="IProvinceDao.cs" />
     <Compile Include="IRiskDao.cs" />
     <Compile Include="IUseDao.cs" />
-    <Compile Include="IUserDao.cs" />
     <Compile Include="IVehicleDao.cs" />
     <Compile Include="IVehicleModelDao.cs" />
     <Compile Include="IVehicleTypeDao.cs" />

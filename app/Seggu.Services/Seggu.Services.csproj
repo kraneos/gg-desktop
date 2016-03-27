@@ -125,7 +125,6 @@
     <Compile Include="DtoMappers\RiskTypeDtoMapper.cs" />
     <Compile Include="DtoMappers\SexDtoMapper.cs" />
     <Compile Include="DtoMappers\UseDtoMapper.cs" />
-    <Compile Include="DtoMappers\UserDtoMapper.cs" />
     <Compile Include="DtoMappers\VehicleDtoMapper.cs" />
     <Compile Include="DtoMappers\VehicleModelDtoMapper.cs" />
     <Compile Include="DtoMappers\VehicleTypeDtoMapper.cs" />
@@ -149,7 +148,6 @@
     <Compile Include="ProvinceService.cs" />
     <Compile Include="RiskService.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="UserService.cs" />
     <Compile Include="UseService.cs" />
     <Compile Include="VehicleModelService.cs" />
     <Compile Include="VehicleService.cs" />
