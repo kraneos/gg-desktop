@@ -64,15 +64,15 @@ namespace Seggu.Desktop.UserControls
         }
 
 
-        public void InitializeComboboxes(CompanyFullDto selectedCompany, int riskId)
+        public void InitializeComboboxes(int riskId)
         {
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
-            cmbCoberturas.DataSource = selectedCompany.Risks
-                .Single(r => r.Id == riskId)
-                .CoveragesPacks
-                .OrderBy(cp => cp.Name)
-                .ToList();
+            cmbCoberturas.DataSource = this.coveragesPackService.GetAllByRiskIdCombobox(riskId).ToList();// selectedCompany.Risks
+                //.Single(r => r.Id == riskId)
+                //.CoveragesPacks
+                //.OrderBy(cp => cp.Name)
+                //.ToList();
 
             cmbMarcas.ValueMember = "Id";
             cmbMarcas.DisplayMember = "Name";

@@ -103,5 +103,13 @@ namespace Seggu.Services
 
             return false;
         }
+
+        public IEnumerable<KeyValueDto> GetByCompanyIdCombobox(int companyId)
+        {
+            return this.producerDao.GetAll()
+                .Where(x => x.ProducerCodes.Any(y => y.CompanyId == companyId))
+                .OrderBy(x => x.Name)
+                .Select(x => new KeyValueDto { Id = (int)x.Id, Name = x.Name });
+        }
     }
 }

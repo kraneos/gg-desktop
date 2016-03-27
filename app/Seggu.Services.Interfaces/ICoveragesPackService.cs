@@ -18,5 +18,6 @@ namespace Seggu.Services.Interfaces
         bool ExistName(string name);
         bool ExistNameRisk(string name, int idRisk);
         bool ExistNameId(string name, int id, int riskId);
-     }
+        IEnumerable<KeyValueDto> GetAllByRiskIdCombobox(int riskId);
+    }
 }
