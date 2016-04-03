@@ -5,12 +5,16 @@ using System.Text;
 
 namespace Seggu.Service.ViewModels
 {
-    public abstract class ParseViewModel
+    public abstract class ViewModel
     {
-        public string ObjectId { get; set; }
-        public DateVM CreatedAt { get; set; }
-        public DateVM UpdatedAt { get; set; }
-        public DateVM LocallyUpdatedAt { get; set; }
+        public string Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
+    }
+
+    public abstract class KeyValueViewModel : ViewModel
+    {
+        public string Name { get; set; }
     }
 }

@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Seggu.Data;
 using Seggu.Domain;
 using Seggu.Service.Services.Interfaces;
 using Seggu.Service.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Seggu.Service.Services
 {
@@ -30,170 +29,43 @@ namespace Seggu.Service.Services
             };
         }
 
+        public static void Initialize()
+        {
+            Mapper.CreateMap<Domain.Bank, BankVM>().ForMember(x => x.Id, y => y.MapFrom(x => x.ObjectId));
+            Mapper.CreateMap<BankVM, Domain.Bank>().ForMember(x => x.ObjectId, y => y.MapFrom(x => x.Id));
+            Mapper.CreateMap<Domain.Client, ClientVM>().ForMember(x => x.Id, y => y.MapFrom(x => x.ObjectId));
+            Mapper.CreateMap<ClientVM, Domain.Client>().ForMember(x => x.ObjectId, y => y.MapFrom(x => x.Id));
+            Mapper.CreateMap<Domain.Address, AddressVM>().ForMember(x => x.Id, y => y.MapFrom(x => x.ObjectId));
+            Mapper.CreateMap<AddressVM, Domain.Address>().ForMember(x => x.ObjectId, y => y.MapFrom(x => x.Id));
+        }
+
         public void SynchronizeParseEntities()
         {
-            SendEntitiesToParse<Client, ClientVM>("Client", MapClient);
-            SendEntitiesToParse<Address, AddressVM>("Address", MapAddress);
-            SendEntitiesToParse<Policy, PolicyVM>("Policy", MapPolicy);
-            SendEntitiesToParse<Fee, FeeVM>("Fee", MapFee);
-            SendEntitiesToParse<Vehicle, VehicleVM>("Vehicle", MapVehicle);
-        }
-
-        private void SendVehiclesToParse(SegguDataModelContext context)
-        {
-            var newVehicles = context.Vehicles
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedVehicles = context.Vehicles
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedVehicles = this.client.CreateVehicles(newVehicles);
-            var parseUpdatedVehicles = this.client.UpdateVehicles(updatedVehicles);
-
-            context.SaveChanges();
-        }
-
-        private void SendAddressesToParse(SegguDataModelContext context)
-        {
-            var newAddresses = context.Addresses
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedAddresses = context.Addresses
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedAddresses = this.client.CreateAddresses(newAddresses);
-            var parseUpdatedAddresses = this.client.UpdateAddresses(updatedAddresses);
-
-            context.SaveChanges();
-        }
-
-        private void SendClientsToParse(SegguDataModelContext context)
-        {
-            var newClients = context.Clients
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedClients = context.Clients
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedClients = this.client.CreateClients(newClients);
-            var parseUpdatedClients = this.client.UpdateClients(updatedClients);
-
-            context.SaveChanges();
-        }
-
-        private void SendFeesToParse(SegguDataModelContext context)
-        {
-            var newFees = context.Fees
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedFees = context.Fees
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedFees = this.client.CreateFees(newFees);
-            var parseUpdatedFees = this.client.UpdateFees(updatedFees);
-
-            context.SaveChanges();
-        }
-
-        private void SendPoliciesToParse(SegguDataModelContext context)
-        {
-            var newPolicies = context.Policies
-                .Where(p => p.ObjectId == null).ToList();
-            var updatedPolicies = context.Policies
-                .Where(p => p.UpdatedAt < p.LocallyUpdatedAt).ToList();
-
-            var parseCreatedPolicies = this.client.CreatePolicies(newPolicies);
-            var parseUpdatedPolicies = this.client.UpdatePolicies(updatedPolicies);
-
-            context.SaveChanges();
+            SendEntitiesToParse<Bank, BankVM>("Banks");
+            SendEntitiesToParse<Client, ClientVM>("Clients");
+            //SendEntitiesToParse<Address, AddressVM>("Addresses");
+            //SendEntitiesToParse<Policy, PolicyVM>("Policies", MapPolicy);
+            //SendEntitiesToParse<Fee, FeeVM>("Fees", MapFee);
+            //SendEntitiesToParse<Vehicle, VehicleVM>("Vehicles", MapVehicle);
         }
 
         public void SendEntitiesToParse<TParseEntity, TViewModel>(
-            string parseEntityName,
-            Func<TParseEntity, TViewModel> mapper)
+            string parseEntityName)
             where TParseEntity : IdParseEntity
-            where TViewModel : ParseViewModel
+            where TViewModel : ViewModel
         {
             var newEntities = context.Set<TParseEntity>().Where(e => e.ObjectId == null).ToList();
             var updatedEntities = context.Set<TParseEntity>().Where(e => e.ObjectId != null && e.UpdatedAt < e.LocallyUpdatedAt).ToList();
 
-            var parseCreatedEntities = this.client.CreateEntities(newEntities, parseEntityName, mapper);
-            var parseUpdatedEntities = this.client.UpdateEntities(updatedEntities, parseEntityName, mapper);
+            var parseCreatedEntities = this.client.CreateEntities<TParseEntity, TViewModel>(newEntities, parseEntityName);
+            var parseUpdatedEntities = this.client.UpdateEntities<TParseEntity, TViewModel>(updatedEntities, parseEntityName);
 
             context.SaveChanges();
         }
 
-        #region Mappers
-        private ClientVM MapClient(Client x)
+        public TViewModel Map<TEntity, TViewModel>(TEntity e)
         {
-            return new ClientVM
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Document = x.Document,
-                CellPhone = x.CellPhone
-            };
+            return Mapper.Map<TEntity, TViewModel>(e);
         }
-
-        private AddressVM MapAddress(Address x)
-        {
-            return new AddressVM
-            {
-                Id = x.Id,
-                Street = x.Street,
-                Number = x.Number,
-                Floor = x.Floor,
-                Appartment = x.Appartment,
-                PostalCode = x.PostalCode,
-                LocalityId = x.LocalityId,
-                LocalityName = x.Locality.Name,
-                ProvinceName = x.Locality.District.Province.Name
-            };
-        }
-
-        private PolicyVM MapPolicy(Policy x)
-        {
-            return new PolicyVM
-            {
-                Id = x.Id,
-                Value = x.Value,
-                Number = x.Number,
-                ClientId = x.ClientId,
-                ClientName = x.Client.FirstName + " " + x.Client.LastName,
-                CompanyName = x.Risk.Company.Name,
-                FeeAmount = x.Fees.Count,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate
-            };
-        }
-
-        private FeeVM MapFee(Fee x)
-        {
-            return new FeeVM
-            {
-                Id = x.Id,
-                Value = x.Value,
-                Number = x.Number,
-                State = (int)x.State,
-                StateName = x.State.ToString(),
-                PolicyId = x.Policy != null ? x.Policy.ObjectId : null,
-                ExpirationDate = x.ExpirationDate,
-                Policy = x.Policy != null ? new PointerVM("Policy", x.Policy.ObjectId) : null
-            };
-        }
-
-        private VehicleVM MapVehicle(Vehicle x)
-        {
-            return new VehicleVM
-            {
-                Id = x.Id,
-                Plate = x.Plate,
-                BrandName = x.VehicleModel.Brand.Name,
-                PolicyId = x.PolicyId,
-                Policy = new PointerVM("Policy", x.Policy.ObjectId),
-                VehicleModelId = x.VehicleModelId,
-                VehicleModelName = x.VehicleModel.Name
-            };
-        }
-
-
-        #endregion
     }
 }

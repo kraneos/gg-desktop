@@ -2,7 +2,7 @@
 
 namespace Seggu.Service.ViewModels
 {
-    public class VehicleVM : ParseViewModel
+    public class VehicleVM : ViewModel
     {
         public long Id { get; set; }
         public string Plate { get; set; }

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Serialization;
 using Seggu.Data;
 using Seggu.Domain;
 using Seggu.Infrastructure;
+using Seggu.Service.Services;
 using Seggu.Service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Seggu.Service
         public SegguService()
         {
             InitializeComponent();
+            SynchronizationService.Initialize();
         }
 
         protected override void OnStart(string[] args)
@@ -34,7 +36,7 @@ namespace Seggu.Service
 
             this.eventLog.WriteEntry("The service has started.");
 
-            this.myTimer = new Timer(10000);
+            this.myTimer = new Timer(Properties.Settings.Default.Interval);
             this.myTimer.Elapsed += Process;
             this.myTimer.Start();
         }

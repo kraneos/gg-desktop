@@ -40,5 +40,14 @@ namespace Seggu.Service.Properties {
                 return ((string)(this["EventLogName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60000")]
+        public double Interval {
+            get {
+                return ((double)(this["Interval"]));
+            }
+        }
     }
 }

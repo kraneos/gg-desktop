@@ -2,7 +2,7 @@
 
 namespace Seggu.Service.ViewModels
 {
-    public class AddressVM : ParseViewModel
+    public class AddressVM : ViewModel
     {
         public long Id { get; set; }
         public string Street { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Seggu.Service.ViewModels
 {
-    public class PolicyVM : ParseViewModel
+    public class PolicyVM : ViewModel
     {
         public long Id { get; set; }
         public string Number { get; set; }

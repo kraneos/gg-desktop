@@ -1,6 +1,6 @@
 namespace Seggu.Service.ViewModels
 {
-    public class FeeVM : ParseViewModel
+    public class FeeVM : ViewModel
     {
         public long Id { get; set; }
         public int Number { get; set; }

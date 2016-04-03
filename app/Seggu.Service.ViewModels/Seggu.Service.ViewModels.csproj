@@ -40,7 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessoryTypeVM.cs" />
     <Compile Include="AddressVM.cs" />
+    <Compile Include="AssetVM.cs" />
+    <Compile Include="BankVM.cs" />
+    <Compile Include="BodyworkVM.cs" />
     <Compile Include="ClientVM.cs" />
     <Compile Include="DateVM.cs" />
     <Compile Include="FeeVM.cs" />
