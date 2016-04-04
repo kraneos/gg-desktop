@@ -170,11 +170,7 @@
             this.clientGrid.TabIndex = 1;
             this.clientGrid.TabStop = false;
             this.clientGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellClick);
-<<<<<<< HEAD
-            this.clientGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GoToDetails_CellDoubleClick);
-=======
             this.clientGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellDoubleClick);
->>>>>>> origin/develop
             this.clientGrid.SelectionChanged += new System.EventHandler(this.clientGrid_SelectionChanged);
             this.clientGrid.MouseLeave += new System.EventHandler(this.clientGrid_MouseLeave);
             // 

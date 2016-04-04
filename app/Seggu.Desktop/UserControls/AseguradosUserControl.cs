@@ -347,10 +347,7 @@ namespace Seggu.Desktop.UserControls
             SendClientToSideBar();
             if (clientGrid.RowCount > 0) clientGrid.Select();// para navegar con teclas flecha            
         }
-<<<<<<< HEAD
-=======
-        
->>>>>>> origin/develop
+
         private void SendClientToSideBar()
         {
             var clientId = (int)clientGrid.CurrentRow.Cells["Id"].Value;
@@ -514,11 +511,7 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-<<<<<<< HEAD
-        private void GoToDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-=======
         private void clientGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
->>>>>>> origin/develop
         {
             if (clientGrid.CurrentRow.DataBoundItem.GetType().Name == "ClientFullDto")
                 currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;
