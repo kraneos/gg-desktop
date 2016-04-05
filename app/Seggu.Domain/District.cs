@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class District : KeyValueEntity
+    public partial class District : ParseKeyValueEntity
     {
         public District()
         {

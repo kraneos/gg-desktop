@@ -45,12 +45,24 @@
     <Compile Include="AssetVM.cs" />
     <Compile Include="BankVM.cs" />
     <Compile Include="BodyworkVM.cs" />
+    <Compile Include="BrandVM.cs" />
+    <Compile Include="CasualtyTypeVM.cs" />
+    <Compile Include="ChequeVM.cs" />
     <Compile Include="ClientVM.cs" />
+    <Compile Include="CompanyVM.cs" />
+    <Compile Include="ContactVM.cs" />
+    <Compile Include="CreditCardVM.cs" />
     <Compile Include="DateVM.cs" />
+    <Compile Include="DistrictVM.cs" />
     <Compile Include="FeeVM.cs" />
+    <Compile Include="LedgerAccountVM.cs" />
+    <Compile Include="LiquidationVM.cs" />
     <Compile Include="ParseViewModel.cs" />
     <Compile Include="PolicyVM.cs" />
+    <Compile Include="ProducerCodeVM.cs" />
+    <Compile Include="ProducerVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvinceVM.cs" />
     <Compile Include="RelationVM.cs" />
     <Compile Include="VehicleVM.cs" />
   </ItemGroup>

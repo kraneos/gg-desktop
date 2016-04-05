@@ -93,7 +93,6 @@
     <Compile Include="FeeSelection.cs" />
     <Compile Include="FeeState.cs" />
     <Compile Include="IdEntity.cs" />
-    <Compile Include="IdentityClaim.cs" />
     <Compile Include="IdType.cs" />
     <Compile Include="Integral.cs" />
     <Compile Include="IVA.cs" />
