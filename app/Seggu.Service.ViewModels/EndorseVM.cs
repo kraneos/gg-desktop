@@ -10,8 +10,8 @@ namespace Seggu.Service.ViewModels
         public int EndorseType { get; set; }
         public string Number { get; set; }
         public string Cause { get; set; }
-        public long PolicyId { get; set; }
-        public Nullable<long> ClientId { get; set; }
+        public Guid PolicyId { get; set; }
+        public Nullable<Guid> ClientId { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public System.DateTime RequestDate { get; set; }

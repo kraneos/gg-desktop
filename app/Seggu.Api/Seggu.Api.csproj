@@ -221,8 +221,28 @@
     <Compile Include="Controllers\ChequesController.cs" />
     <Compile Include="Controllers\ClientCreditCardsController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\CreditCardsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\DistrictsController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\EndorsesController.cs" />
+    <Compile Include="Controllers\FeesController.cs" />
+    <Compile Include="Controllers\FeeSelectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntegralsController.cs" />
+    <Compile Include="Controllers\LedgerAccountsController.cs" />
+    <Compile Include="Controllers\LiquidationsController.cs" />
+    <Compile Include="Controllers\LocalitiesController.cs" />
+    <Compile Include="Controllers\PoliciesController.cs" />
+    <Compile Include="Controllers\ProducersController.cs" />
+    <Compile Include="Controllers\ProvincesController.cs" />
+    <Compile Include="Controllers\RisksController.cs" />
+    <Compile Include="Controllers\UsesController.cs" />
+    <Compile Include="Controllers\VehicleModelsController.cs" />
+    <Compile Include="Controllers\VehiclesController.cs" />
+    <Compile Include="Controllers\VehicleTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,7 +280,9 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

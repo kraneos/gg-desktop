@@ -4,12 +4,15 @@ namespace Seggu.Service.ViewModels
 {
     public class VehicleVM : ViewModel
     {
-        public long Id { get; set; }
         public string Plate { get; set; }
-        public long PolicyId { get; set; }
-        public PointerVM Policy { get; set; }
-        public long VehicleModelId { get; set; }
-        public string VehicleModelName { get; set; }
-        public string BrandName { get; set; }
+        public string Engine { get; set; }
+        public string Year { get; set; }
+        public string Chassis { get; set; }
+        public Guid PolicyId { get; set; }
+        public Nullable<Guid> EndorseId { get; set; }
+        public Guid VehicleModelId { get; set; }
+        public Guid UseId { get; set; }
+        public Guid BodyworkId { get; set; }
+        public Nullable<bool> IsRemoved { get; set; }
     }
 }

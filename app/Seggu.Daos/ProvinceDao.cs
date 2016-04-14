@@ -4,7 +4,7 @@ using Seggu.Domain;
 
 namespace Seggu.Daos
 {
-    public sealed class ProvinceDao : IdEntityDao<Province>, IProvinceDao
+    public sealed class ProvinceDao : IdParseEntityDao<Province>, IProvinceDao
     {
         public ProvinceDao(SegguDataModelContext context)
             : base(context)

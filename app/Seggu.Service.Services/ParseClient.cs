@@ -8,15 +8,21 @@ using Seggu.Service.ViewModels;
 using Seggu.Service.Services.Properties;
 using System;
 using AutoMapper;
+using System.Diagnostics;
+using Seggu.Data;
 
 namespace Seggu.Service.Services
 {
     public class ParseClient
     {
         private RestSharp.RestClient restClient;
+        private EventLog eventLog;
+        private SegguDataModelContext context;
 
-        public ParseClient()
+        public ParseClient(SegguDataModelContext context, EventLog eventLog)
         {
+            this.eventLog = eventLog;
+            this.context = context;
             this.restClient = new RestClient(Settings.Default.ParseBaseUrl);
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
         }
@@ -95,6 +101,8 @@ namespace Seggu.Service.Services
                     parseEntityName,
                     statusCode,
                     CreateMapper);
+
+                context.SaveChanges();
             }
 
             return entities;
@@ -120,10 +128,12 @@ namespace Seggu.Service.Services
                 Body = Mapper.Map<TParseEntity, TViewModel>(e)
             });
 
+            this.eventLog.WriteEntry("About to execute batch for " + parseEntityName);
             req.SetBody(batch);
             var res = this.restClient.Execute(req);
             if (res.StatusCode == HttpStatusCode.OK)
             {
+                this.eventLog.WriteEntry(parseEntityName + " everything ok.");
                 var data = JsonConvert.DeserializeObject<List<BatchResponse<TViewModel>>>(res.Content);
                 var count = entities.Count();
                 for (int i = 0; i < count; i++)
@@ -140,6 +150,7 @@ namespace Seggu.Service.Services
             }
             else
             {
+                this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
                 return null;
             }
         }
@@ -149,7 +160,7 @@ namespace Seggu.Service.Services
             where TParseEntity : IdParseEntity
             where TParseViewModel : ViewModel
         {
-            e.ObjectId = vm.Id;
+            e.ObjectId = vm.Id.ToString();
             e.CreatedAt = vm.CreatedAt;
             e.UpdatedAt = vm.CreatedAt;
             e.LocallyUpdatedAt = vm.CreatedAt;
