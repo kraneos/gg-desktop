@@ -53,6 +53,7 @@ namespace Seggu.Desktop.Forms
             ledgerAccountId = ledgerAccountService.GetCobranzaId();
             InitializeComboboxes();
             InitializeGrdCuotas();
+            
         }
             private void InitializeComboboxes()
             {
@@ -85,7 +86,10 @@ namespace Seggu.Desktop.Forms
                     grdCuotas.Columns["CompanyId"].Visible = false;
                     grdCuotas.Columns["Annulated"].Visible = false;
                     grdCuotas.Columns["EndorseId"].Visible = false;
-                }
+                    grdCuotas.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+                    grdCuotas.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
+                    grdCuotas.Columns["Valor"].DefaultCellStyle.Format = "c2";
+        }
 
 
         private void btnCobrar_Click(object sender, EventArgs e)
@@ -287,7 +291,7 @@ namespace Seggu.Desktop.Forms
                 var fee = (FeeDto)row.DataBoundItem;
                 value += fee.Saldo;
             }
-            txtImporte.Text = value.ToString();
+            txtImporte.Text = value.ToString("N2");
 
             //string[] vencimiento_cuotas = new string[grdCuotas.SelectedRows.Count];
             //decimal value = 0;
