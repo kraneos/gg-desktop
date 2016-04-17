@@ -276,7 +276,7 @@ namespace Seggu.Service.Services
             SendEntitiesToParse<Fee, FeeVM>("Fees");
             SendEntitiesToParse<Vehicle, VehicleVM>("Vehicles");
             SendEntitiesToParse<Accessory, AccessoryVM>("Accessories");
-            SendEntitiesToParse<Integral, IntegralVM>("Integrals");
+            //SendEntitiesToParse<Integral, IntegralVM>("Integrals");
             SendEntitiesToParse<Address, AddressVM>("Addresses");
             SendEntitiesToParse<CashAccount, CashAccountVM>("CashAccounts");
             // TODO: The rest...
