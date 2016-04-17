@@ -577,8 +577,8 @@ namespace Seggu.Desktop.UserControls
             ////////////dividir el importe total en cuotas////////////////////////
             decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
             importesPagar = new decimal[cuotas];
-            decimal resto2 = netoPagar % cuotas;
-            netoPagar -= resto2;
+            //decimal resto2 = netoPagar % cuotas;
+            //netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
             {
                 importesPagar[i] = netoPagar / (decimal)cuotas;
@@ -825,6 +825,7 @@ namespace Seggu.Desktop.UserControls
                 e.Cancel = true;
             }
         }
+
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{

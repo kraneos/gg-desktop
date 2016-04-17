@@ -58,8 +58,8 @@ namespace Seggu.Desktop.Forms
             table.Columns.Add("Cuenta");
             table.Columns.Add("Fecha", typeof(DateTime));
             table.Columns.Add("Descripción");
-            table.Columns.Add("Valor", typeof(int));
-            table.Columns.Add("Balance", typeof(float));
+            table.Columns.Add("Valor", typeof(decimal));
+            table.Columns.Add("Balance", typeof(decimal));
 
             var index = cashAccountService.GetAll();
 
@@ -77,7 +77,8 @@ namespace Seggu.Desktop.Forms
             }
             grdControlCaja.DataSource = table;
             grdControlCaja.Columns["Id"].Visible = false;
-            grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "#.##";
+            grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
 
             //txtDescripcion.DataBindings.Add("text", index, "Descripción");
             //txtValor.DataBindings.Add("text", index, "Valor");
@@ -212,8 +213,8 @@ namespace Seggu.Desktop.Forms
         {
             string accion = cmbAccion.Text;
             string num = txtValor.Text;
-            int valor;
-            bool isNume = int.TryParse(num, out valor);
+            decimal valor;
+            bool isNume = decimal.TryParse(num, out valor);
             if (isNume)
             {
                 if (cmbActivos.Text.Trim() != "Activos" && cmbActivos.Text.Trim() != ""
@@ -231,7 +232,7 @@ namespace Seggu.Desktop.Forms
             else
                 errorProvider1.SetError(txtValor, "ingrese un número solamente");
         }
-        private void SaveTransaction(string accion, int valor)
+        private void SaveTransaction(string accion, decimal valor)
         {
             AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
             decimal AssetTotal = selectedAsset.Amount;
@@ -259,7 +260,7 @@ namespace Seggu.Desktop.Forms
             obj.Balance = selectedAsset.Amount;
             this.cashAccountService.Save(obj);
         }
-        private void CreateSecondCashaccountForTransfer(int valor, AssetDto selectedAsset, CashAccountDto obj)
+        private void CreateSecondCashaccountForTransfer(decimal valor, AssetDto selectedAsset, CashAccountDto obj)
         {
             CashAccountDto cashAcc1 = new CashAccountDto();
             cashAcc1.Amount = valor;

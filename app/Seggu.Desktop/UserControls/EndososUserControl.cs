@@ -243,6 +243,9 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Cliente"].Visible = false;
             grdFees.Columns["EndorseId"].Visible = false;
             grdFees.Columns["Nro_Endoso"].Visible = false;
+            grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
+            grdFees.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdFees.Columns["Valor"].DefaultCellStyle.Format = "c2";
         }
         private void CalculateFeeTotals()
         {
@@ -480,20 +483,20 @@ namespace Seggu.Desktop.UserControls
             cuotas = cmbPlanes.SelectedIndex + 1;
             decimal netoCobrar = decimal.Parse(txtNetoCobrar.Text);
             importesCobrar = new decimal[cuotas];
-            decimal resto = netoCobrar % cuotas;
-            netoCobrar -= resto;
+            //decimal resto = netoCobrar % cuotas;
+            //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
                 importesCobrar[i] = netoCobrar / cuotas;
-            importesCobrar[cuotas - 1] += resto;
+            //importesCobrar[cuotas - 1] += resto;
 
             ////////////dividir el importe total en cuotas////////////////////////
             decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
             importesPagar = new decimal[cuotas];
-            decimal resto2 = netoPagar % cuotas;
-            netoPagar -= resto2;
+            //decimal resto2 = netoPagar % cuotas;
+            //netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
                 importesPagar[i] = netoPagar / cuotas;
-            importesPagar[cuotas - 1] += resto2;
+            //importesPagar[cuotas - 1] += resto2;
         }
         private List<FeeDto> CreateFeeObjectsList(int cuotas, decimal[] importesCobrar, decimal[] importesPagar)
         {

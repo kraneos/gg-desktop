@@ -176,6 +176,9 @@ namespace Seggu.Desktop.UserControls
             grdCandidateFees.Columns["CompanyId"].Visible = false;
             grdCandidateFees.Columns["Annulated"].Visible = false;
             grdCandidateFees.Columns["EndorseId"].Visible = false;
+            grdCandidateFees.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdCandidateFees.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdCandidateFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
         }
         private void FormatSelectedFeesGrid()
         {
@@ -185,6 +188,9 @@ namespace Seggu.Desktop.UserControls
             grdSelectedFees.Columns["FeeSelectionId"].Visible = false;
             grdSelectedFees.Columns["Annulated"].Visible = false;
             grdSelectedFees.Columns["EndorseId"].Visible = false;
+            grdSelectedFees.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdSelectedFees.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdSelectedFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
         }
 
 
@@ -477,5 +483,6 @@ namespace Seggu.Desktop.UserControls
                     ));
             backgroundThread.Start();
         }
+
     }
 }
