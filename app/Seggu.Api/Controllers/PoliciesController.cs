@@ -1,4 +1,5 @@
 using Seggu.Api.Domain;
+using Seggu.Service.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Seggu.Api.Controllers
 {
-    public class PoliciesController : BaseApiController<Policy>
+    public class PoliciesController : BaseApiController<Policy, PolicyVM>
     {
 
     }

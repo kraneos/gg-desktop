@@ -1,15 +1,13 @@
-using Seggu.Api.Domain;
+﻿using Seggu.Api.Domain;
 using Seggu.Service.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace Seggu.Api.Controllers
 {
-    public class FeesController : BaseApiController<Fee, FeeVM>
+    public class SegguClientsController : BaseApiController<SegguClient, SegguClientVM>
     {
-
     }
 }

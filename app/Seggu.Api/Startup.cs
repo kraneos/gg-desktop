@@ -13,6 +13,8 @@ namespace Seggu.Api
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            MapperConfiguration.Initialize();
         }
     }
 }

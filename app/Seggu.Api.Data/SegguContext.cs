@@ -54,5 +54,7 @@ namespace Seggu.Api.Data
         public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
         public virtual DbSet<CoveragesPack> CoveragesPacks { get; set; }
 
+        public virtual DbSet<SegguClient> SegguClients { get; set; }
+
     }
 }

@@ -12,10 +12,11 @@ using System.Web.ModelBinding;
 using Seggu.Api.Data;
 using Seggu.Api.Domain;
 using Seggu.Api.Models;
+using Seggu.Service.ViewModels;
 
 namespace Seggu.Api.Controllers
 {
-    public class ClientsController : BaseApiController<Client>
+    public class ClientsController : BaseApiController<Client, ClientVM>
     {
     }
 }

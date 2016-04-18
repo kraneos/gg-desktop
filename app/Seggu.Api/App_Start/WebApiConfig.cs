@@ -7,6 +7,8 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Seggu.Api.Domain;
 using System.Net.Http.Formatting;
+using System.Web.OData.Builder;
+using System.Web.OData.Extensions;
 
 namespace Seggu.Api
 {
@@ -34,6 +36,11 @@ namespace Seggu.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Odata
+
         }
+
+      
     }
 }

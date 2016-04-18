@@ -110,6 +110,7 @@
     <Compile Include="Province.cs" />
     <Compile Include="Risk.cs" />
     <Compile Include="RiskType.cs" />
+    <Compile Include="SegguClient.cs" />
     <Compile Include="Sex.cs" />
     <Compile Include="Use.cs" />
     <Compile Include="Vehicle.cs" />

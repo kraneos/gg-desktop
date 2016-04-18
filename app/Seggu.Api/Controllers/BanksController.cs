@@ -11,10 +11,13 @@ using System.Web.Http;
 using System.Web.ModelBinding;
 using Seggu.Api.Data;
 using Seggu.Api.Domain;
+using System.Web.OData;
+using Seggu.Service.ViewModels;
+using AutoMapper;
 
 namespace Seggu.Api.Controllers
 {
-    public class BanksController : BaseApiController<Bank>
+    public class BanksController : BaseApiController<Bank, BankVM>
     {
     }
 }
