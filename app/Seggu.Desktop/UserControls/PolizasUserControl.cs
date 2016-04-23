@@ -642,15 +642,18 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalculateFeeTotals()
         {
-            decimal totcobrar = 0;
-            decimal totpagar = 0;
+            decimal totcobrar = 0M;
+            decimal totpagar = 0M;
+            var totsaldo = 0M;
             foreach (DataGridViewRow row in grdFees.Rows)
             {
                 totcobrar += decimal.Parse(row.Cells["Saldo"].Value.ToString());
                 totpagar += decimal.Parse(row.Cells["Pago_Cía"].Value.ToString());
+                totsaldo += decimal.Parse(row.Cells["Saldo"].Value.ToString());
             }
             txtTotalCobrar.Text = totcobrar.ToString("F");
             txtTotalPagar.Text = totpagar.ToString("F");
+            txtTotalSaldo.Text = totsaldo.ToString("F");
         }
 
 
