@@ -69,8 +69,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.btnDarDeBaja = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtPaymentDay = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.txtTotalPagar = new System.Windows.Forms.TextBox();
             this.btnGrabar = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -91,16 +89,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtTotalCobrar = new System.Windows.Forms.TextBox();
-            this.cmbPlanAsegurado = new System.Windows.Forms.ComboBox();
-            this.lblPlanAsegurado = new System.Windows.Forms.Label();
-            this.cmbPlanCia = new System.Windows.Forms.ComboBox();
-            this.lblPlanCia = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.cmbPlanes = new System.Windows.Forms.ComboBox();
             this.grdFees = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdbDistintos = new System.Windows.Forms.RadioButton();
             this.rdbIguales = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtPaymentDay = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lblPlanAsegurado = new System.Windows.Forms.Label();
+            this.lblPlanCia = new System.Windows.Forms.Label();
+            this.cmbPlanAsegurado = new System.Windows.Forms.ComboBox();
+            this.cmbPlanCia = new System.Windows.Forms.ComboBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.PanelCoverage = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
@@ -114,6 +115,7 @@
             this.tabPagePlanes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFees)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -442,8 +444,6 @@
             this.tabPagePlanes.Controls.Add(this.label15);
             this.tabPagePlanes.Controls.Add(this.btnDarDeBaja);
             this.tabPagePlanes.Controls.Add(this.label14);
-            this.tabPagePlanes.Controls.Add(this.txtPaymentDay);
-            this.tabPagePlanes.Controls.Add(this.label9);
             this.tabPagePlanes.Controls.Add(this.txtTotalPagar);
             this.tabPagePlanes.Controls.Add(this.btnGrabar);
             this.tabPagePlanes.Controls.Add(this.label5);
@@ -464,14 +464,15 @@
             this.tabPagePlanes.Controls.Add(this.label3);
             this.tabPagePlanes.Controls.Add(this.label2);
             this.tabPagePlanes.Controls.Add(this.txtTotalCobrar);
-            this.tabPagePlanes.Controls.Add(this.cmbPlanAsegurado);
-            this.tabPagePlanes.Controls.Add(this.lblPlanAsegurado);
-            this.tabPagePlanes.Controls.Add(this.cmbPlanCia);
-            this.tabPagePlanes.Controls.Add(this.lblPlanCia);
             this.tabPagePlanes.Controls.Add(this.label20);
             this.tabPagePlanes.Controls.Add(this.cmbPlanes);
             this.tabPagePlanes.Controls.Add(this.grdFees);
             this.tabPagePlanes.Controls.Add(this.groupBox4);
+            this.tabPagePlanes.Controls.Add(this.groupBox1);
+            this.tabPagePlanes.Controls.Add(this.lblPlanAsegurado);
+            this.tabPagePlanes.Controls.Add(this.lblPlanCia);
+            this.tabPagePlanes.Controls.Add(this.cmbPlanAsegurado);
+            this.tabPagePlanes.Controls.Add(this.cmbPlanCia);
             this.tabPagePlanes.Location = new System.Drawing.Point(4, 26);
             this.tabPagePlanes.Name = "tabPagePlanes";
             this.tabPagePlanes.Size = new System.Drawing.Size(987, 389);
@@ -543,25 +544,6 @@
             this.label14.Size = new System.Drawing.Size(127, 17);
             this.label14.TabIndex = 0;
             this.label14.Text = "Bonificación P/ Pago";
-            // 
-            // txtPaymentDay
-            // 
-            this.txtPaymentDay.Location = new System.Drawing.Point(889, 73);
-            this.txtPaymentDay.MaxLength = 2;
-            this.txtPaymentDay.Name = "txtPaymentDay";
-            this.txtPaymentDay.Size = new System.Drawing.Size(54, 25);
-            this.txtPaymentDay.TabIndex = 53;
-            this.txtPaymentDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaymentDay_KeyPress);
-            this.txtPaymentDay.Validating += new System.ComponentModel.CancelEventHandler(this.txtPaymentDay_Validating);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(795, 76);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 17);
-            this.label9.TabIndex = 52;
-            this.label9.Text = "Día de Pago";
             // 
             // txtTotalPagar
             // 
@@ -748,72 +730,6 @@
             this.txtTotalCobrar.Size = new System.Drawing.Size(54, 25);
             this.txtTotalCobrar.TabIndex = 11;
             // 
-            // cmbPlanAsegurado
-            // 
-            this.cmbPlanAsegurado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPlanAsegurado.FormattingEnabled = true;
-            this.cmbPlanAsegurado.Items.AddRange(new object[] {
-            "1 cuota",
-            "2 cuotas",
-            "3 cuotas",
-            "4 cuotas",
-            "5 cuotas",
-            "6 cuotas",
-            "7 cuotas",
-            "8 cuotas",
-            "9 cuotas",
-            "10 cuotas",
-            "11 cuotas",
-            "12 cuotas"});
-            this.cmbPlanAsegurado.Location = new System.Drawing.Point(889, 26);
-            this.cmbPlanAsegurado.Name = "cmbPlanAsegurado";
-            this.cmbPlanAsegurado.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanAsegurado.TabIndex = 16;
-            this.cmbPlanAsegurado.Visible = false;
-            // 
-            // lblPlanAsegurado
-            // 
-            this.lblPlanAsegurado.AutoSize = true;
-            this.lblPlanAsegurado.Location = new System.Drawing.Point(858, 3);
-            this.lblPlanAsegurado.Name = "lblPlanAsegurado";
-            this.lblPlanAsegurado.Size = new System.Drawing.Size(100, 17);
-            this.lblPlanAsegurado.TabIndex = 15;
-            this.lblPlanAsegurado.Text = "Plan Asegurado";
-            this.lblPlanAsegurado.Visible = false;
-            // 
-            // cmbPlanCia
-            // 
-            this.cmbPlanCia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPlanCia.FormattingEnabled = true;
-            this.cmbPlanCia.Items.AddRange(new object[] {
-            "1 cuota",
-            "2 cuotas",
-            "3 cuotas",
-            "4 cuotas",
-            "5 cuotas",
-            "6 cuotas",
-            "7 cuotas",
-            "8 cuotas",
-            "9 cuotas",
-            "10 cuotas",
-            "11 cuotas",
-            "12 cuotas"});
-            this.cmbPlanCia.Location = new System.Drawing.Point(798, 26);
-            this.cmbPlanCia.Name = "cmbPlanCia";
-            this.cmbPlanCia.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanCia.TabIndex = 14;
-            this.cmbPlanCia.Visible = false;
-            // 
-            // lblPlanCia
-            // 
-            this.lblPlanCia.AutoSize = true;
-            this.lblPlanCia.Location = new System.Drawing.Point(795, 3);
-            this.lblPlanCia.Name = "lblPlanCia";
-            this.lblPlanCia.Size = new System.Drawing.Size(57, 17);
-            this.lblPlanCia.TabIndex = 13;
-            this.lblPlanCia.Text = "Plan Cía.";
-            this.lblPlanCia.Visible = false;
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -904,6 +820,102 @@
             this.rdbIguales.Text = "Iguales";
             this.rdbIguales.UseVisualStyleBackColor = true;
             this.rdbIguales.CheckedChanged += new System.EventHandler(this.rdbIguales_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtPaymentDay);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Location = new System.Drawing.Point(810, 27);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(119, 56);
+            this.groupBox1.TabIndex = 103;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "cobro al cliente";
+            // 
+            // txtPaymentDay
+            // 
+            this.txtPaymentDay.Location = new System.Drawing.Point(56, 20);
+            this.txtPaymentDay.MaxLength = 2;
+            this.txtPaymentDay.Name = "txtPaymentDay";
+            this.txtPaymentDay.Size = new System.Drawing.Size(31, 25);
+            this.txtPaymentDay.TabIndex = 53;
+            this.txtPaymentDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaymentDay_KeyPress);
+            this.txtPaymentDay.Validating += new System.ComponentModel.CancelEventHandler(this.txtPaymentDay_Validating);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 25);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(34, 17);
+            this.label9.TabIndex = 52;
+            this.label9.Text = "Día: ";
+            // 
+            // lblPlanAsegurado
+            // 
+            this.lblPlanAsegurado.AutoSize = true;
+            this.lblPlanAsegurado.Location = new System.Drawing.Point(858, 3);
+            this.lblPlanAsegurado.Name = "lblPlanAsegurado";
+            this.lblPlanAsegurado.Size = new System.Drawing.Size(100, 17);
+            this.lblPlanAsegurado.TabIndex = 15;
+            this.lblPlanAsegurado.Text = "Plan Asegurado";
+            this.lblPlanAsegurado.Visible = false;
+            // 
+            // lblPlanCia
+            // 
+            this.lblPlanCia.AutoSize = true;
+            this.lblPlanCia.Location = new System.Drawing.Point(795, 3);
+            this.lblPlanCia.Name = "lblPlanCia";
+            this.lblPlanCia.Size = new System.Drawing.Size(57, 17);
+            this.lblPlanCia.TabIndex = 13;
+            this.lblPlanCia.Text = "Plan Cía.";
+            this.lblPlanCia.Visible = false;
+            // 
+            // cmbPlanAsegurado
+            // 
+            this.cmbPlanAsegurado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPlanAsegurado.FormattingEnabled = true;
+            this.cmbPlanAsegurado.Items.AddRange(new object[] {
+            "1 cuota",
+            "2 cuotas",
+            "3 cuotas",
+            "4 cuotas",
+            "5 cuotas",
+            "6 cuotas",
+            "7 cuotas",
+            "8 cuotas",
+            "9 cuotas",
+            "10 cuotas",
+            "11 cuotas",
+            "12 cuotas"});
+            this.cmbPlanAsegurado.Location = new System.Drawing.Point(889, 26);
+            this.cmbPlanAsegurado.Name = "cmbPlanAsegurado";
+            this.cmbPlanAsegurado.Size = new System.Drawing.Size(54, 25);
+            this.cmbPlanAsegurado.TabIndex = 16;
+            this.cmbPlanAsegurado.Visible = false;
+            // 
+            // cmbPlanCia
+            // 
+            this.cmbPlanCia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPlanCia.FormattingEnabled = true;
+            this.cmbPlanCia.Items.AddRange(new object[] {
+            "1 cuota",
+            "2 cuotas",
+            "3 cuotas",
+            "4 cuotas",
+            "5 cuotas",
+            "6 cuotas",
+            "7 cuotas",
+            "8 cuotas",
+            "9 cuotas",
+            "10 cuotas",
+            "11 cuotas",
+            "12 cuotas"});
+            this.cmbPlanCia.Location = new System.Drawing.Point(798, 26);
+            this.cmbPlanCia.Name = "cmbPlanCia";
+            this.cmbPlanCia.Size = new System.Drawing.Size(54, 25);
+            this.cmbPlanCia.TabIndex = 14;
+            this.cmbPlanCia.Visible = false;
             // 
             // errorProvider1
             // 
@@ -1001,6 +1013,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdFees)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1088,5 +1102,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtSumaAsegurado;
         public System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

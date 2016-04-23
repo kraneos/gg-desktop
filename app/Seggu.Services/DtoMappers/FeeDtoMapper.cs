@@ -49,7 +49,7 @@ namespace Seggu.Services.DtoMappers
             fs.Number = short.Parse(dto.Cuota);
             fs.PolicyId = dto.PolicyId;
             fs.State = FeeStateDtoMapper.ToEnum(dto.Estado);
-            fs.Value = (int)dto.Valor;
+            fs.Value = dto.Valor;
             return fs;
         }
     }
