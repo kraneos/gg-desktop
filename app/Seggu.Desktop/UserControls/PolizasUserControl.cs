@@ -597,7 +597,7 @@ namespace Seggu.Desktop.UserControls
             {
                 FeeDto fee = new FeeDto();
                 fee.Cuota = (f + 1).ToString();
-                fee.Venc_Cuota = payDate.AddMonths(f).ToShortDateString();
+                fee.Venc_Cuota = payDate.AddMonths(f);
                 fee.Valor = importesCobrar[f];
                 fee.Annulated = false;
                 fee.Estado = "Debe";
@@ -620,6 +620,8 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Valor"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Saldo"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "0.00";
+            grdFees.Columns["Venc_Cuota"].HeaderText = "Vencimiento";
+            grdFees.Columns["Venc_Cuota"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
         private void CalculateFeeTotals()
         {
@@ -754,7 +756,7 @@ namespace Seggu.Desktop.UserControls
             int input = 0;
             bool isNum = Int32.TryParse(txtPaymentDay.Text, out input);
 
-            if (!isNum || input < 1 || input > 30)
+            if (!isNum || input < 1 || input > 28)
             {
                 // Cancel the event and select the text to be corrected by the user.
                 e.Cancel = true;
@@ -826,6 +828,27 @@ namespace Seggu.Desktop.UserControls
             {
                 errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
                 e.Cancel = true;
+            }
+        }
+
+        private void txtPaymentDay_Validated(object sender, EventArgs e)
+        {
+            var val = 0;
+            if (int.TryParse(txtPaymentDay.Text, out val))
+            {
+                if (val > 0 && val < 29)
+                {
+                    var fees = (List<FeeDto>)this.grdFees.DataSource;
+                    foreach (var fee in fees)
+                    {
+                        if (fee.Estado == "Debe")
+                        {
+                            fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                        }
+                    }
+                    this.grdFees.DataSource = fees;
+
+                }
             }
         }
 

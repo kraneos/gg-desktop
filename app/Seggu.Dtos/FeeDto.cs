@@ -10,7 +10,7 @@ namespace Seggu.Dtos
         public string Nro_Póliza { get; set; }
         public string Nro_Endoso { get; set; }
         public string Cuota { get; set; }
-        public string Venc_Cuota { get; set; }
+        public DateTime Venc_Cuota { get; set; }
         public decimal Valor { get; set; }
         public decimal Saldo { get; set; }
         public decimal Pago_Cía { get; set; }

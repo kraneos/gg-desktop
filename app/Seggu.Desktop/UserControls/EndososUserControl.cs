@@ -505,7 +505,7 @@ namespace Seggu.Desktop.UserControls
             {
                 FeeDto fee = new FeeDto();
                 fee.Cuota = (f + 1).ToString();
-                fee.Venc_Cuota = dtpInicio.Value.AddMonths(f).ToShortDateString();
+                fee.Venc_Cuota = dtpInicio.Value.AddMonths(f);
                 fee.Valor = importesCobrar[f];
                 fee.Annulated = false;
                 fee.Estado = "Debe";
