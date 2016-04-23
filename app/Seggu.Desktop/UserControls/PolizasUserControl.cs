@@ -266,6 +266,7 @@ namespace Seggu.Desktop.UserControls
             txtNotas.DataBindings.Add("Text", policy, "Notes");
 
             dtpInicio.DataBindings.Add("Value", policy, "StartDate");
+         //   txtNetoCobrar.Text = policy.NetCharge.ToString();
             dtpFin.Value = DateTime.Parse(policy.Vence);
             cmbPeriodo.SelectedItem = LayoutForm.currentPolicy.Period;
 
@@ -468,7 +469,7 @@ namespace Seggu.Desktop.UserControls
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
             policy.PaymentDay = int.Parse(txtPaymentDay.Text);
             policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
-
+          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
             return policy;
         }
 
@@ -663,10 +664,16 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalcularNetoPagar()
         {
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal netoPagar = premioConIva - bonificacionPagaCia;
-            txtNetoPagar.Text = netoPagar.ToString();
+            var d = 0M;
+            if (
+                decimal.TryParse(txtPremioIva.Text, out d) &&
+                decimal.TryParse(txtBonificacionPago.Text, out d))
+            {
+                decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+                decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+                decimal netoPagar = premioConIva - bonificacionPagaCia;
+                txtNetoPagar.Text = netoPagar.ToString();
+            }
         }
         private void txtBonificacionPropia_TextChanged(object sender, EventArgs e)
         {
@@ -682,12 +689,21 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalcularNetoCobrar()
         {
-            decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            decimal bonificacionPropia = txtBonificacionPropia.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPropia.Text);
-            decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal netoCobrar = premioConIva - bonificacionPagar - bonificacionPropia + recargoPropio;
-            txtNetoCobrar.Text = netoCobrar.ToString();
+            var d = 0M;
+            if (
+                decimal.TryParse(txtRecargoPropio.Text, out d) &&
+                decimal.TryParse(txtBonificacionPropia.Text, out d) &&
+                decimal.TryParse(txtBonificacionPago.Text, out d) &&
+                decimal.TryParse(txtPremioIva.Text, out d))
+            {
+                decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
+                decimal bonificacionPropia = txtBonificacionPropia.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPropia.Text);
+                decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+                decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+                decimal netoCobrar = premioConIva - bonificacionPagar - bonificacionPropia + recargoPropio;
+                txtNetoCobrar.Text = netoCobrar.ToString();
+
+            }
         }
 
 
