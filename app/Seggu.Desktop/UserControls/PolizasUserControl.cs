@@ -256,6 +256,8 @@ namespace Seggu.Desktop.UserControls
             txtNroPoliza.DataBindings.Add("Text", policy, "Número");
             txtPrima.DataBindings.Add("Text", policy, "Prima");
             txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
+            //txtPaymentDay.DataBindings.Add("Text", policy, "PaymentDay");
+            txtPaymentDay.Text = policy.PaymentDay.ToString();
             txtSumaAsegurado.DataBindings.Add("Text", policy, "Value");
             txtPremioIva.DataBindings.Add("Text", policy, "Premium");
             txtNotas.DataBindings.Add("Text", policy, "Notes");
@@ -461,6 +463,7 @@ namespace Seggu.Desktop.UserControls
             policy.StartDate = dtpInicio.Value.ToShortDateString();
             policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
+            policy.PaymentDay = int.Parse(txtPaymentDay.Text);
 
             return policy;
         }

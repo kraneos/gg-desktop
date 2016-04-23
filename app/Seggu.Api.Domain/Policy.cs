@@ -38,6 +38,7 @@ namespace Seggu.Api.Domain
         public Guid ProducerId { get; set; }
         public Nullable<Guid> CollectorId { get; set; }
         public Guid RiskId { get; set; }
+        public int? PaymentDay { get; set; }
         public virtual Client Client { get; set; }
         public virtual ICollection<Fee> Fees { get; set; }
         public virtual ICollection<Casualty> Casualties { get; set; }

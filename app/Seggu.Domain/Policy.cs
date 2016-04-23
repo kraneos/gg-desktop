@@ -49,5 +49,6 @@ namespace Seggu.Domain
         public virtual ICollection<AttachedFile> AttachedFiles { get; set; }
         public virtual Risk Risk { get; set; }
         public virtual ICollection<Integral> Integrals { get; set; }
+        public int? PaymentDay { get; set; }
     }
 }
