@@ -306,7 +306,7 @@ namespace Seggu.Service.Services
             var className = typeof(TParseEntity).FullName;
             var lastSync = this.context.Synchronizations.FirstOrDefault(x=>x.ClassName == className);
 
-            this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync.LastSync);
+            this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync);
         }
 
         private void EntitiesToApi<TParseEntity, TViewModel>(string parseEntityName)
