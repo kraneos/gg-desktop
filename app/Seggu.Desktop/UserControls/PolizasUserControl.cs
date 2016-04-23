@@ -573,7 +573,13 @@ namespace Seggu.Desktop.UserControls
             //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
             {
-                importesCobrar[i] = netoCobrar / (decimal)cuotas;
+                importesCobrar[i] = Math.Round(netoCobrar / (decimal)cuotas, 2);
+            }
+
+            if (importesCobrar.Sum() != netoCobrar)
+            {
+                var resto = netoCobrar - importesCobrar.Sum();
+                importesCobrar[importesCobrar.Length - 1] += resto;
             }
             //importesCobrar[cuotas - 1] += resto;
 
@@ -584,7 +590,13 @@ namespace Seggu.Desktop.UserControls
             //netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
             {
-                importesPagar[i] = netoPagar / (decimal)cuotas;
+                importesPagar[i] = Math.Round(netoPagar / (decimal)cuotas, 2);
+            }
+
+            if (importesPagar.Sum() != netoPagar)
+            {
+                var resto = netoPagar - importesPagar.Sum();
+                importesPagar[importesPagar.Length - 1] += resto;
             }
             //importesPagar[cuotas - 1] += resto2;
         }
@@ -839,15 +851,18 @@ namespace Seggu.Desktop.UserControls
                 if (val > 0 && val < 29)
                 {
                     var fees = (List<FeeDto>)this.grdFees.DataSource;
-                    foreach (var fee in fees)
+                    if (fees != null)
                     {
-                        if (fee.Estado == "Debe")
+                        foreach (var fee in fees)
                         {
-                            fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                            if (fee.Estado == "Debe")
+                            {
+                                fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                            }
                         }
+                        this.grdFees.DataSource = fees;
+                        this.grdFees.Invalidate();
                     }
-                    this.grdFees.DataSource = fees;
-
                 }
             }
         }
