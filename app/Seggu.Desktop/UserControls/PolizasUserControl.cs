@@ -682,6 +682,8 @@ namespace Seggu.Desktop.UserControls
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
             CalcularNetoCobrar();
+            CalcularNetoPagar();
+
         }
         private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
@@ -702,7 +704,6 @@ namespace Seggu.Desktop.UserControls
                 decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
                 decimal netoCobrar = premioConIva - bonificacionPagar - bonificacionPropia + recargoPropio;
                 txtNetoCobrar.Text = netoCobrar.ToString();
-
             }
         }
 
