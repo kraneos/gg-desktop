@@ -251,11 +251,14 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.DataBindings.Add("SelectedValue", policy, "CollectorId");
 
             txtAsegurado.DataBindings.Add("Text", policy, "Asegurado");
-            txtBonificacionPropia.DataBindings.Add("Text", policy, "Bonus");
+            //txtBonificacionPropia.DataBindings.Add("Text", policy, "Bonus");
+            txtBonificacionPropia.Text = policy.Bonus.ToString();
             txtNroPolAnt.DataBindings.Add("Text", policy, "PreviousNumber");
             txtNroPoliza.DataBindings.Add("Text", policy, "Número");
             txtPrima.DataBindings.Add("Text", policy, "Prima");
-            txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
+            //txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
+            txtRecargoPropio.Text = policy.Surcharge.ToString();
+            txtBonificacionPago.Text = policy.PaymentBonus.ToString();
             //txtPaymentDay.DataBindings.Add("Text", policy, "PaymentDay");
             txtPaymentDay.Text = policy.PaymentDay.ToString();
             txtSumaAsegurado.DataBindings.Add("Text", policy, "Value");
@@ -464,6 +467,7 @@ namespace Seggu.Desktop.UserControls
             policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
             policy.PaymentDay = int.Parse(txtPaymentDay.Text);
+            policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
 
             return policy;
         }
@@ -866,7 +870,6 @@ namespace Seggu.Desktop.UserControls
                 }
             }
         }
-
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{

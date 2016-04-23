@@ -35,6 +35,7 @@ namespace Seggu.Dtos
 
         public string StartDate { get; set; }        
         public decimal? Surcharge { get; set; }
+        public decimal? PaymentBonus { get; set; }
         public string TipoRiesgo { get; set; }
 
         public decimal? Value { get; set; }

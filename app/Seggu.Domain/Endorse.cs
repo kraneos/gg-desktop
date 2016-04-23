@@ -32,7 +32,9 @@ namespace Seggu.Domain
         public Nullable<bool> IsAnnulled { get; set; }
         public Nullable<System.DateTime> AnnulationDate { get; set; }
         public Nullable<bool> IsRemoved { get; set; }
-    
+        public Nullable<decimal> PaymentBonus { get; set; }
+        public Nullable<int> PaymentDay { get; set; }
+
         public virtual Policy Policy { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<Vehicle> Vehicles { get; set; }

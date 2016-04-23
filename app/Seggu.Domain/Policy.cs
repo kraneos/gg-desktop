@@ -50,5 +50,6 @@ namespace Seggu.Domain
         public virtual Risk Risk { get; set; }
         public virtual ICollection<Integral> Integrals { get; set; }
         public int? PaymentDay { get; set; }
+        public decimal? PaymentBonus { get; set; }
     }
 }

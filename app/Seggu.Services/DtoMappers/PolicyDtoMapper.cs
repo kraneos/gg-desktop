@@ -48,6 +48,7 @@ namespace Seggu.Services.DtoMappers
             
             dto.Surcharge = obj.Surcharge;
             dto.PaymentDay = obj.PaymentDay;
+            dto.PaymentBonus = obj.PaymentBonus;
             dto.StartDate = obj.StartDate.ToShortDateString();
             
             dto.TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Risk.RiskType);
@@ -94,6 +95,7 @@ namespace Seggu.Services.DtoMappers
             obj.StartDate = DateTime.Parse(dto.StartDate);
             obj.Surcharge = dto.Surcharge;
             obj.PaymentDay = dto.PaymentDay;
+            obj.PaymentBonus = dto.PaymentBonus;
             obj.Value = dto.Value;
 
             obj.Fees = dto.Fees == null ? null : dto.Fees.Select(f => FeeDtoMapper.GetObject(f)).ToList();
