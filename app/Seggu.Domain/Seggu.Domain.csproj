@@ -97,6 +97,7 @@
     <Compile Include="Risk.cs" />
     <Compile Include="RiskType.cs" />
     <Compile Include="Sex.cs" />
+    <Compile Include="Synchronization.cs" />
     <Compile Include="Use.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="VehicleModel.cs" />

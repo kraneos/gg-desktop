@@ -18,6 +18,7 @@ namespace Seggu.Service.Services
         private RestSharp.RestClient restClient;
         private EventLog eventLog;
         private SegguDataModelContext context;
+        private string token;
 
         public ParseClient(SegguDataModelContext context, EventLog eventLog)
         {
@@ -34,12 +35,35 @@ namespace Seggu.Service.Services
 
         private RestRequest GetRequest(string resource, Method method)
         {
+            var token = this.GetToken();
+
             var req = new RestRequest(resource, method);
             req.AddHeader("Content-Type", "application/json");
+            req.AddHeader("Authorization", "Bearer " + token);
             //req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
             //req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
             req.RequestFormat = DataFormat.Json;
             return req;
+        }
+
+        private string GetToken()
+        {
+            if (string.IsNullOrWhiteSpace(this.token))
+            {
+                var req = new RestRequest("/token", Method.POST);
+                req.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+                req.AddHeader("Accept", "application/json");
+
+                var body = "grant_type=password&username=" + Properties.Settings.Default.Username + "&password=" + Properties.Settings.Default.Password;
+
+                req.AddBody(body);
+
+                var res = this.restClient.Execute(req);
+
+                this.token = JsonConvert.DeserializeObject<TokenResponseVM>(res.Content).AccessToken;
+            }
+
+            return this.token;
         }
 
         public IEnumerable<TParseEntity> CreateEntities<TParseEntity, TViewModel>(
@@ -67,6 +91,81 @@ namespace Seggu.Service.Services
                 "PUT",
                 UpdateMapper,
                 (x, y) => x + y.ObjectId);
+        }
+
+        internal void GetManyEntities<TParseEntity, TViewModel>(string parseEntityName, Synchronization lastSync)
+            where TParseEntity : IdParseEntity
+            where TViewModel : ViewModel
+        {
+            var page = 0;
+            var thisSync = DateTime.Now;
+
+            IEnumerable<TParseEntity> entities = null;
+
+            while (GetEntities<TParseEntity, TViewModel>(parseEntityName, page, 50, lastSync.LastSync, entities))
+            {
+                MergeEntities<TParseEntity>(entities);
+                page++;
+            }
+
+            lastSync.LastSync = thisSync;
+            
+            this.context.SaveChanges();
+        }
+
+        private void MergeEntities<TParseEntity>(IEnumerable<TParseEntity> entities) where TParseEntity : IdParseEntity
+        {
+            var objectIds = entities.Select(x => x.ObjectId);
+            var existingEntities = this.context.Set<TParseEntity>()
+                .Where(x => objectIds.Any(y => y == x.ObjectId));
+            var newEntities = entities
+                .Where(x => existingEntities.Any(y => y.ObjectId != x.ObjectId));
+
+            this.context.Set<TParseEntity>().AddRange(newEntities);
+
+            foreach (var entity in existingEntities)
+            {
+                var apiEntity = entities.First(x => x.ObjectId == entity.ObjectId);
+                var entry = this.context.Entry<TParseEntity>(entity);
+                entry.CurrentValues.SetValues(apiEntity);
+            }
+
+
+
+            this.context.SaveChanges();
+        }
+
+        private bool GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from, IEnumerable<TParseEntity> entities)
+            where TParseEntity : IdParseEntity
+            where TViewModel : ViewModel
+        {
+            var path = "/api/" + parseEntityName;
+
+            var req = GetRequest(path, Method.GET);
+
+            req.AddQueryParameter("page", page.ToString());
+            req.AddQueryParameter("count", count.ToString());
+            if (from != null)
+            {
+                req.AddQueryParameter("from", from.Value.ToString());
+            }
+
+            this.eventLog.WriteEntry("About to execute query for " + parseEntityName);
+
+            var res = this.restClient.Execute(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                this.eventLog.WriteEntry(parseEntityName + " everything ok.");
+                entities = JsonConvert.DeserializeObject<List<TViewModel>>(res.Content)
+                    .Select(Mapper.Map<TViewModel, TParseEntity>)
+                    .ToList();
+                return entities.Any();
+            }
+            else
+            {
+                this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
+                return false;
+            }
         }
 
         public IEnumerable<TParseEntity> ExecuteManyRequests<TParseEntity, TViewModel>(

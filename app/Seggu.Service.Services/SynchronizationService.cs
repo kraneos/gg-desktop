@@ -289,17 +289,35 @@ namespace Seggu.Service.Services
         {
             try
             {
-                var newEntities = context.Set<TParseEntity>().Where(e => e.ObjectId == null).ToList();
-                var updatedEntities = context.Set<TParseEntity>().Where(e => e.ObjectId != null && e.UpdatedAt < e.LocallyUpdatedAt).ToList();
-
-                var parseCreatedEntities = this.client.CreateEntities<TParseEntity, TViewModel>(newEntities, parseEntityName);
-                var parseUpdatedEntities = this.client.UpdateEntities<TParseEntity, TViewModel>(updatedEntities, parseEntityName);
+                ApiToEntities<TParseEntity, TViewModel>(parseEntityName);
+                EntitiesToApi<TParseEntity, TViewModel>(parseEntityName);
             }
             catch (Exception ex)
             {
                 this.eventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
                 WriteEntryInnerEx(ex);
             }
+        }
+
+        private void ApiToEntities<TParseEntity, TViewModel>(string parseEntityName)
+            where TParseEntity : IdParseEntity
+            where TViewModel : ViewModel
+        {
+            var className = typeof(TParseEntity).FullName;
+            var lastSync = this.context.Synchronizations.FirstOrDefault(x=>x.ClassName == className);
+
+            this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync.LastSync);
+        }
+
+        private void EntitiesToApi<TParseEntity, TViewModel>(string parseEntityName)
+            where TParseEntity : IdParseEntity
+            where TViewModel : ViewModel
+        {
+            var newEntities = context.Set<TParseEntity>().Where(e => e.ObjectId == null).ToList();
+            var updatedEntities = context.Set<TParseEntity>().Where(e => e.ObjectId != null && e.UpdatedAt < e.LocallyUpdatedAt).ToList();
+
+            var parseCreatedEntities = this.client.CreateEntities<TParseEntity, TViewModel>(newEntities, parseEntityName);
+            var parseUpdatedEntities = this.client.UpdateEntities<TParseEntity, TViewModel>(updatedEntities, parseEntityName);
         }
 
         private void WriteEntryInnerEx(Exception ex)

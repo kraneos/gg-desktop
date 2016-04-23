@@ -50,5 +50,23 @@ namespace Seggu.Service.Services.Properties {
                 return ((string)(this["ParseBaseUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("poloagustin")]
+        public string Username {
+            get {
+                return ((string)(this["Username"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("thestral")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+        }
     }
 }

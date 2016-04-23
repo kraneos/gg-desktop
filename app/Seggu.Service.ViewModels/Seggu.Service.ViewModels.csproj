@@ -76,6 +76,7 @@
     <Compile Include="EndorseVM.cs" />
     <Compile Include="FeeSelectionVM.cs" />
     <Compile Include="FeeVM.cs" />
+    <Compile Include="FilterVM.cs" />
     <Compile Include="IntegralVM.cs" />
     <Compile Include="LedgerAccountVM.cs" />
     <Compile Include="LiquidationVM.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="RelationVM.cs" />
     <Compile Include="RiskVM.cs" />
     <Compile Include="SegguClientVM.cs" />
+    <Compile Include="TokenResponseVM.cs" />
     <Compile Include="UseVM.cs" />
     <Compile Include="VehicleModelVM.cs" />
     <Compile Include="VehicleTypeVM.cs" />

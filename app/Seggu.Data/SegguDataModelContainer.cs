@@ -65,5 +65,7 @@
         public virtual DbSet<CoveragesPack> CoveragesPacks { get; set; }
         //public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VersionRecord> VersionRecords { get; set; }
+        public virtual DbSet<Synchronization> Synchronizations { get; set; }
+
     }
 }
