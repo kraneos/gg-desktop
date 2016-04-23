@@ -649,8 +649,8 @@ namespace Seggu.Desktop.UserControls
                 totcobrar += decimal.Parse(row.Cells["Saldo"].Value.ToString());
                 totpagar += decimal.Parse(row.Cells["Pago_Cía"].Value.ToString());
             }
-            txtTotalCobrar.Text = totcobrar.ToString();
-            txtTotalPagar.Text = totpagar.ToString();
+            txtTotalCobrar.Text = totcobrar.ToString("F");
+            txtTotalPagar.Text = totpagar.ToString("F");
         }
 
 
