@@ -1,4 +1,20 @@
-﻿namespace Seggu.Desktop.UserControls
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Seggu.Data;
+using Seggu.Desktop.Forms;
+using Seggu.Domain;
+using Seggu.Dtos;
+using Seggu.Infrastructure;
+using Seggu.Services.DtoMappers;
+using Seggu.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace Seggu.Desktop.UserControls
 {
     partial class EndososUserControl
     {
@@ -29,7 +45,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnImprimir = new System.Windows.Forms.Button();
             this.cmbTipoEndosos = new System.Windows.Forms.ComboBox();
             this.txtNroEndoso = new System.Windows.Forms.TextBox();
@@ -196,6 +212,7 @@
             this.txtBonificacionPago.Size = new System.Drawing.Size(100, 25);
             this.txtBonificacionPago.TabIndex = 1;
             this.txtBonificacionPago.TextChanged += new System.EventHandler(this.txtBonificacionPago_TextChanged);
+            this.txtBonificacionPago.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBonificacionPago_KeyPress);
             // 
             // label15
             // 
@@ -222,6 +239,7 @@
             this.txtRecargoPropio.Size = new System.Drawing.Size(100, 25);
             this.txtRecargoPropio.TabIndex = 5;
             this.txtRecargoPropio.TextChanged += new System.EventHandler(this.txtRecargoPropio_TextChanged);
+            this.txtRecargoPropio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRecargoPropio_KeyPress);
             // 
             // txtNetoCobrar
             // 
@@ -274,6 +292,7 @@
             this.txtSumaAsegurado.Name = "txtSumaAsegurado";
             this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
             this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
             // 
             // label13
             // 
@@ -488,8 +507,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
