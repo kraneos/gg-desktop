@@ -289,7 +289,7 @@ namespace Seggu.Desktop.Forms
             grdValids.Columns["Name"].HeaderText = "Nro Poliza";
             grdValids.Columns["EndDate"].Visible = true;
             grdValids.Columns["EndDate"].HeaderText = "Vence";
-            grdValids.ClearSelection();
+            //grdValids.ClearSelection();
         }
         private void FormatExpiredGrid()
         {
@@ -509,9 +509,9 @@ namespace Seggu.Desktop.Forms
             var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             SetPanelControl(uc);
             uc.PopulateDetails();
-            grdValids.ClearSelection();
-            grdExpired.ClearSelection();
-            grdPolicies.ClearSelection();
+            //grdValids.ClearSelection();
+            //grdExpired.ClearSelection();
+            //grdPolicies.ClearSelection();
         }
 
         private void LblNombre_Click(object sender, EventArgs e)
@@ -655,6 +655,25 @@ namespace Seggu.Desktop.Forms
 
         private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            //var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
+            //this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
+            //policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
+            //SetPanelControl(policyUc);
+            //currentEndorse = null;
+            ////SetPanelControl(policyUc);
+            //policyUc.btnRenovar.Enabled = true;
+            //policyUc.PopulateDetails();
+            //if (this.currentPolicy.Endorses.Count() > 0)
+            //    LoadEndorseGrid();
+            //btnEndosos.Enabled = true;
+            //btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
+            //btnSiniestros.Enabled = true;
+            //btnCobranzas.Enabled = true;
+        }
+
+        private void grdValids_SelectionChanged(object sender, EventArgs e)
+        {
+            if (grdValids.CurrentRow == null) return;
             var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
             this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
@@ -665,11 +684,13 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
+            else
+                grdEndorses.Visible = false;
+
             btnEndosos.Enabled = true;
             btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
             btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
         }
-
     }
 }
