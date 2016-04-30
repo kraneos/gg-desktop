@@ -77,35 +77,44 @@ namespace Seggu.Daos
         }
         public void AssignFeeSelection(IEnumerable<Fee> fees)
         {
-            var table = new DataTable();
-            table.Columns.Add("Id");
-            table.Columns.Add("FeeSelectionId");
-            table.Columns.Add("Status");
-
+            var modifiedFees = new List<Fee>();
             foreach (var fee in fees)
             {
-                var row = table.NewRow();
-                row["Id"] = fee.Id;
-                row["FeeSelectionId"] = fee.FeeSelectionId;
-                row["Status"] = (long)fee.State;
-                table.Rows.Add(row);
+                var existingFee = context.Fees.Find(fee.Id);
+                existingFee.FeeSelectionId = fee.FeeSelectionId;
+                existingFee.State = fee.State;
+                modifiedFees.Add(existingFee);
             }
+            context.SaveChanges();
+            //var table = new DataTable();
+            //table.Columns.Add("Id");
+            //table.Columns.Add("FeeSelectionId");
+            //table.Columns.Add("Status");
 
-            var param = new SqlParameter("@FeesToUpdate", SqlDbType.Structured);
-            param.Value = table;
-            param.TypeName = "FeeSelectionAssigmentTable";
+            //foreach (var fee in fees)
+            //{
+            //    var row = table.NewRow();
+            //    row["Id"] = fee.Id;
+            //    row["FeeSelectionId"] = fee.FeeSelectionId;
+            //    row["Status"] = (long)fee.State;
+            //    table.Rows.Add(row);
+            //}
 
-            var command = "EXEC FeeSelectionAssignment @FeesToUpdate;";
+            //var param = new SqlParameter("@FeesToUpdate", SqlDbType.Structured);
+            //param.Value = table;
+            //param.TypeName = "FeeSelectionAssigmentTable";
 
-            try
-            {
-                this.context.Database.ExecuteSqlCommand(command, param);
-                this.context.RefreshSet<Fee>();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //var command = "EXEC FeeSelectionAssignment @FeesToUpdate;";
+
+            //try
+            //{
+            //    this.context.Database.ExecuteSqlCommand(command, param);
+            //    this.context.RefreshSet<Fee>();
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
         }
         public IEnumerable<Fee> GetOverdueEndorsesToday()
         {
