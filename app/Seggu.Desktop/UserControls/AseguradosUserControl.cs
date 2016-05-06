@@ -352,7 +352,8 @@ namespace Seggu.Desktop.UserControls
         {
             var clientId = (int)clientGrid.CurrentRow.Cells["Id"].Value;
             currentIndexClient = clientService.GetShortDtoById(clientId);
-            LayoutForm.LoadClientSideBar(currentIndexClient);
+            if (LayoutForm != null)
+                LayoutForm.LoadClientSideBar(currentIndexClient);
         }
 
         private void PopulateClientInformation()
