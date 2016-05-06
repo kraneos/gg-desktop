@@ -76,6 +76,7 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
+            btnLimpiar_Click(sender, e);
             //if (!ValidateRegistry())
             //{
             //    MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
@@ -84,8 +85,8 @@ namespace Seggu.Desktop.Forms
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
             //{
-            SetButtonsPrincipal();
-            txtBuscar.Focus();
+            //SetButtonsPrincipal();
+            //txtBuscar.Focus();
             //    switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
             //    {
             //        case Role.Administrador:
@@ -178,7 +179,6 @@ namespace Seggu.Desktop.Forms
             splitContainer1.Panel2.Controls.Clear();
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
-            SetButtonsClients();
             clientUC.FindClientByDNI(str);
         }
         private void SearchByPolicyNumber(string str)
@@ -188,7 +188,6 @@ namespace Seggu.Desktop.Forms
             FormatPoliciesGrid();
 
             SetPanelControl(policyUc);
-            SetButtonsClients();
             SetButtonsPolicies();
             SetButtonsPoliciesPlateSearch();
         }
@@ -199,7 +198,7 @@ namespace Seggu.Desktop.Forms
             grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
 
             FormatPoliciesGrid();
-            SetButtonsClients();
+            //SetButtonsClients();
             SetButtonsPolicies();
             SetButtonsPoliciesPlateSearch();
             SetPanelControl(policyUc);
@@ -208,7 +207,7 @@ namespace Seggu.Desktop.Forms
         {
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
-            SetButtonsClients();
+            //SetButtonsClients();
             clientUC.FindClientByName(str);
         }
         private void FormatPoliciesGrid()
@@ -255,13 +254,15 @@ namespace Seggu.Desktop.Forms
             SetPanelControl(policyUc);
 
             if (currentClient != null)
+            {
                 LoadPoliciesGrids();
+                SetButtonsPolicies();
+            }
             else
             {
                 MessageBox.Show("debe cargar un asegurado primero");
                 this.btnLimpiar_Click(sender, e);
             }
-            SetButtonsPolicies();
         }
         private void SetPanelControl(UserControl uc)
         {
@@ -375,6 +376,8 @@ namespace Seggu.Desktop.Forms
             splitContainer1.Panel1Collapsed = false;
             grdEndorses.DataSource = null;
             SetButtonsPrincipal();
+            currentClient = null;
+            currentEndorse = null;
             currentPolicy = null;
             txtBuscar.Text = "DNI, Apellido, Patente, Póliza";
             this.txtBuscar.Focus();
@@ -482,11 +485,10 @@ namespace Seggu.Desktop.Forms
 
         private void todosToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            btnLimpiar_Click(sender, e);
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.InitializeIndex();
-            SetButtonsPrincipal();
-            SetButtonsClients();
         }
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -495,7 +497,7 @@ namespace Seggu.Desktop.Forms
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.NewClient();
-            SetButtonsClients();
+            //SetButtonsClients();
         }
         #endregion
 
@@ -551,11 +553,12 @@ namespace Seggu.Desktop.Forms
 
         private void pólizasVigentesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            btnLimpiar_Click(sender, e);
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.ListClientsWithValidsPolicies();
-            SetButtonsPrincipal();
-            SetButtonsClients();
+            //SetButtonsPrincipal();
+            //SetButtonsClients();
         }
 
         private void byKr4neosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -665,6 +668,11 @@ namespace Seggu.Desktop.Forms
             btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
             btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
+        }
+
+        private void LblNombre_TextChanged(object sender, EventArgs e)
+        {
+            SetButtonsClients();
         }
 
     }

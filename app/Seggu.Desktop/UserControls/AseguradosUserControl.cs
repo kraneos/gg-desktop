@@ -338,7 +338,7 @@ namespace Seggu.Desktop.UserControls
 
         private void clientGrid_SelectionChanged(object sender, EventArgs e)
         {
-            if (!clientGrid.Focused) return;//para evitar error null reference
+            if (clientGrid.CurrentRow == null) return;//para evitar error null reference
             if (clientGrid.CurrentRow.DataBoundItem.GetType().Name == "ClientFullDto")
             {
                 currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;

@@ -73,10 +73,10 @@
             this.pólizasARenovarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.utilidadesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.liquidacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.controlDeCajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rCRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlDeCajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -287,6 +287,7 @@
             this.LblNombre.TabIndex = 0;
             this.LblNombre.Text = "Nombre";
             this.LblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LblNombre.TextChanged += new System.EventHandler(this.LblNombre_TextChanged);
             this.LblNombre.Click += new System.EventHandler(this.LblNombre_Click);
             // 
             // tabCtrlPolicies
@@ -572,6 +573,13 @@
             this.liquidacionesToolStripMenuItem.Text = "Liquidaciones";
             this.liquidacionesToolStripMenuItem.Click += new System.EventHandler(this.liquidacionesToolStripMenuItem_Click);
             // 
+            // controlDeCajaToolStripMenuItem
+            // 
+            this.controlDeCajaToolStripMenuItem.Name = "controlDeCajaToolStripMenuItem";
+            this.controlDeCajaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.controlDeCajaToolStripMenuItem.Text = "Control de caja";
+            this.controlDeCajaToolStripMenuItem.Click += new System.EventHandler(this.controlDeCajaToolStripMenuItem_Click);
+            // 
             // reportesToolStripMenuItem
             // 
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -594,13 +602,6 @@
             this.rCRToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.rCRToolStripMenuItem.Text = "RCR";
             this.rCRToolStripMenuItem.Click += new System.EventHandler(this.rCRToolStripMenuItem_Click);
-            // 
-            // controlDeCajaToolStripMenuItem
-            // 
-            this.controlDeCajaToolStripMenuItem.Name = "controlDeCajaToolStripMenuItem";
-            this.controlDeCajaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.controlDeCajaToolStripMenuItem.Text = "Control de caja";
-            this.controlDeCajaToolStripMenuItem.Click += new System.EventHandler(this.controlDeCajaToolStripMenuItem_Click);
             // 
             // Layout
             // 
