@@ -253,7 +253,7 @@ namespace Seggu.Desktop.Forms
         {
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
-            //ClearPanelControl();
+
             if (currentClient != null)
                 LoadPoliciesGrids();
             else
@@ -268,11 +268,7 @@ namespace Seggu.Desktop.Forms
             this.splitContainer1.Panel2.Controls.Clear();
             this.splitContainer1.Panel2.Controls.Add(uc);
         }
-        private void ClearPanelControl()
-        {
-            this.splitContainer1.Panel2.Controls.Clear();
-            //this.splitContainer1.Panel2.Controls.Add(uc);
-        }
+
         private void LoadPoliciesGrids()
         {
             grdValids.DataSource = policyService.GetValidsByClient(currentClient.Id).ToList();
