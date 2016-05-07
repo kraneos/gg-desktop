@@ -63,7 +63,7 @@
             this.label60 = new System.Windows.Forms.Label();
             this.tabPagePlanes = new System.Windows.Forms.TabPage();
             this.txtNetoPagar = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTotalSaldo = new System.Windows.Forms.TextBox();
             this.txtBonificacionPago = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -438,7 +438,7 @@
             // tabPagePlanes
             // 
             this.tabPagePlanes.Controls.Add(this.txtNetoPagar);
-            this.tabPagePlanes.Controls.Add(this.textBox1);
+            this.tabPagePlanes.Controls.Add(this.txtTotalSaldo);
             this.tabPagePlanes.Controls.Add(this.txtBonificacionPago);
             this.tabPagePlanes.Controls.Add(this.label11);
             this.tabPagePlanes.Controls.Add(this.label15);
@@ -489,14 +489,14 @@
             this.txtNetoPagar.Size = new System.Drawing.Size(77, 25);
             this.txtNetoPagar.TabIndex = 2;
             // 
-            // textBox1
+            // txtTotalSaldo
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(415, 355);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(54, 25);
-            this.textBox1.TabIndex = 55;
+            this.txtTotalSaldo.Enabled = false;
+            this.txtTotalSaldo.Location = new System.Drawing.Point(415, 355);
+            this.txtTotalSaldo.Name = "txtTotalSaldo";
+            this.txtTotalSaldo.ReadOnly = true;
+            this.txtTotalSaldo.Size = new System.Drawing.Size(54, 25);
+            this.txtTotalSaldo.TabIndex = 55;
             // 
             // txtBonificacionPago
             // 
@@ -1096,7 +1096,7 @@
         internal System.Windows.Forms.Button btnRenovar;
         private System.Windows.Forms.Button btnDarDeBaja;
         private System.Windows.Forms.TextBox txtPaymentDay;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTotalSaldo;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox chkOtherClient;
         internal System.Windows.Forms.Button btnPrint;

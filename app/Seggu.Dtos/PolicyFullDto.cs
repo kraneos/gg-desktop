@@ -53,5 +53,7 @@ namespace Seggu.Dtos
         public IEnumerable<EmployeeDto> Employees { get; set; }
         public IEnumerable<IntegralDto> Integrals { get; set; }
         public int? PaymentDay { get; set; }
+        public decimal? PaymentBonus { get; set; }
+        public decimal? NetCharge { get; set; }
     }
 }

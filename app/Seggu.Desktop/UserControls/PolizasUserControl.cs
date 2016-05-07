@@ -251,11 +251,14 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.DataBindings.Add("SelectedValue", policy, "CollectorId");
 
             txtAsegurado.DataBindings.Add("Text", policy, "Asegurado");
-            txtBonificacionPropia.DataBindings.Add("Text", policy, "Bonus");
+            //txtBonificacionPropia.DataBindings.Add("Text", policy, "Bonus");
+            txtBonificacionPropia.Text = policy.Bonus.ToString();
             txtNroPolAnt.DataBindings.Add("Text", policy, "PreviousNumber");
             txtNroPoliza.DataBindings.Add("Text", policy, "Número");
             txtPrima.DataBindings.Add("Text", policy, "Prima");
-            txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
+            //txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
+            txtRecargoPropio.Text = policy.Surcharge.ToString();
+            txtBonificacionPago.Text = policy.PaymentBonus.ToString();
             //txtPaymentDay.DataBindings.Add("Text", policy, "PaymentDay");
             txtPaymentDay.Text = policy.PaymentDay.ToString();
             txtSumaAsegurado.DataBindings.Add("Text", policy, "Value");
@@ -263,6 +266,7 @@ namespace Seggu.Desktop.UserControls
             txtNotas.DataBindings.Add("Text", policy, "Notes");
 
             dtpInicio.DataBindings.Add("Value", policy, "StartDate");
+         //   txtNetoCobrar.Text = policy.NetCharge.ToString();
             dtpFin.Value = DateTime.Parse(policy.Vence);
             cmbPeriodo.SelectedItem = LayoutForm.currentPolicy.Period;
 
@@ -464,7 +468,8 @@ namespace Seggu.Desktop.UserControls
             policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
             policy.PaymentDay = int.Parse(txtPaymentDay.Text);
-
+            policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
+          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
             return policy;
         }
 
@@ -573,7 +578,13 @@ namespace Seggu.Desktop.UserControls
             //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
             {
-                importesCobrar[i] = netoCobrar / (decimal)cuotas;
+                importesCobrar[i] = Math.Round(netoCobrar / (decimal)cuotas, 2);
+            }
+
+            if (importesCobrar.Sum() != netoCobrar)
+            {
+                var resto = netoCobrar - importesCobrar.Sum();
+                importesCobrar[importesCobrar.Length - 1] += resto;
             }
             //importesCobrar[cuotas - 1] += resto;
 
@@ -584,7 +595,13 @@ namespace Seggu.Desktop.UserControls
             //netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
             {
-                importesPagar[i] = netoPagar / (decimal)cuotas;
+                importesPagar[i] = Math.Round(netoPagar / (decimal)cuotas, 2);
+            }
+
+            if (importesPagar.Sum() != netoPagar)
+            {
+                var resto = netoPagar - importesPagar.Sum();
+                importesPagar[importesPagar.Length - 1] += resto;
             }
             //importesPagar[cuotas - 1] += resto2;
         }
@@ -625,15 +642,18 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalculateFeeTotals()
         {
-            decimal totcobrar = 0;
-            decimal totpagar = 0;
+            decimal totcobrar = 0M;
+            decimal totpagar = 0M;
+            var totsaldo = 0M;
             foreach (DataGridViewRow row in grdFees.Rows)
             {
                 totcobrar += decimal.Parse(row.Cells["Saldo"].Value.ToString());
                 totpagar += decimal.Parse(row.Cells["Pago_Cía"].Value.ToString());
+                totsaldo += decimal.Parse(row.Cells["Saldo"].Value.ToString());
             }
-            txtTotalCobrar.Text = totcobrar.ToString();
-            txtTotalPagar.Text = totpagar.ToString();
+            txtTotalCobrar.Text = totcobrar.ToString("F");
+            txtTotalPagar.Text = totpagar.ToString("F");
+            txtTotalSaldo.Text = totsaldo.ToString("F");
         }
 
 
@@ -647,10 +667,16 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalcularNetoPagar()
         {
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal netoPagar = premioConIva - bonificacionPagaCia;
-            txtNetoPagar.Text = netoPagar.ToString();
+            var d = 0M;
+            if (
+                decimal.TryParse(txtPremioIva.Text, out d) &&
+                decimal.TryParse(txtBonificacionPago.Text, out d))
+            {
+                decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+                decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+                decimal netoPagar = premioConIva - bonificacionPagaCia;
+                txtNetoPagar.Text = netoPagar.ToString();
+            }
         }
         private void txtBonificacionPropia_TextChanged(object sender, EventArgs e)
         {
@@ -659,6 +685,8 @@ namespace Seggu.Desktop.UserControls
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
             CalcularNetoCobrar();
+            CalcularNetoPagar();
+
         }
         private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
@@ -666,12 +694,20 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalcularNetoCobrar()
         {
-            decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            decimal bonificacionPropia = txtBonificacionPropia.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPropia.Text);
-            decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal netoCobrar = premioConIva - bonificacionPagar - bonificacionPropia + recargoPropio;
-            txtNetoCobrar.Text = netoCobrar.ToString();
+            var d = 0M;
+            if (
+                decimal.TryParse(txtRecargoPropio.Text, out d) &&
+                decimal.TryParse(txtBonificacionPropia.Text, out d) &&
+                decimal.TryParse(txtBonificacionPago.Text, out d) &&
+                decimal.TryParse(txtPremioIva.Text, out d))
+            {
+                decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
+                decimal bonificacionPropia = txtBonificacionPropia.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPropia.Text);
+                decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+                decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+                decimal netoCobrar = premioConIva - bonificacionPagar - bonificacionPropia + recargoPropio;
+                txtNetoCobrar.Text = netoCobrar.ToString();
+            }
         }
 
 
@@ -839,19 +875,21 @@ namespace Seggu.Desktop.UserControls
                 if (val > 0 && val < 29)
                 {
                     var fees = (List<FeeDto>)this.grdFees.DataSource;
-                    foreach (var fee in fees)
+                    if (fees != null)
                     {
-                        if (fee.Estado == "Debe")
+                        foreach (var fee in fees)
                         {
-                            fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                            if (fee.Estado == "Debe")
+                            {
+                                fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                            }
                         }
+                        this.grdFees.DataSource = fees;
+                        this.grdFees.Invalidate();
                     }
-                    this.grdFees.DataSource = fees;
-
                 }
             }
         }
-
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{
