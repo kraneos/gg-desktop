@@ -524,7 +524,6 @@ namespace Seggu.Desktop.Forms
         private void btnEndosos_Click(object sender, EventArgs e)
         {
             var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
-            //, new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
             SetPanelControl(uc);
             uc.NewEndorse();
             SetButtonsEndorses();
@@ -645,11 +644,6 @@ namespace Seggu.Desktop.Forms
             SetButtonsPrincipal();
             SetButtonsClients();
             new FormCobranzasVencidas().Show();*/
-        }
-
-        private void lblPolizas_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)

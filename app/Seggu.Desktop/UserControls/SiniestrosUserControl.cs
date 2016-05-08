@@ -206,11 +206,6 @@ namespace Seggu.Desktop.UserControls
             currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
             return currentCasualty;
         }
-        private CasualtyDto ConvertToSubmitForm(CasualtyDto casualty, List<FeeDto> injuries)
-        {
-            throw new NotImplementedException();
-        }
-
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {

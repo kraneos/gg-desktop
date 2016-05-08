@@ -35,9 +35,19 @@ namespace Seggu.Desktop.UserControls
         private VidaPolicyUserControl vida_uc = null;
         private IntegralPolicyUserControl integral_uc = null;
 
+        #region Siniestros Vars
+        private ICasualtyService casualtyService;
+        private ICasualtyTypeService casualtyTypeService;
+
+        private CasualtyDto currentCasualty;
+        private List<CasualtyDto> casualties;
+
+        #endregion
+
         public PolizasUserControl(IPolicyService polServ, IClientService cliServ, ICompanyService compServ,
             IRiskService riskServ, IMasterDataService masterDataServ, IProducerService prodServ,
-            IFeeService feeService, IPrintService printService, IAttachedFileService attachedFileService)
+            IFeeService feeService, IPrintService printService, IAttachedFileService attachedFileService,
+            ICasualtyTypeService casualtyTypeService, ICasualtyService casualtyService)
         {
             InitializeComponent();
             this.policyService = polServ;
@@ -49,6 +59,10 @@ namespace Seggu.Desktop.UserControls
             this.feeService = feeService;
             this.printService = printService;
             this.attachedFileService = attachedFileService;
+
+            this.casualtyService = casualtyService;
+            this.casualtyTypeService = casualtyTypeService;
+
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
         }
@@ -890,6 +904,203 @@ namespace Seggu.Desktop.UserControls
                 }
             }
         }
+
+        #region siniestrosTab
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tctrlPolizasDatos_Selected(object sender, TabControlEventArgs e)
+        {
+            if (tctrlPolizasDatos.SelectedTab.Text == "Siniestros")
+            {
+                LazyLoadSiniestrosTab();
+            }
+        }
+
+        private void LazyLoadSiniestrosTab()
+        {
+            casualties = casualtyService.GetByPolicyId(LayoutForm.currentPolicy.Id).OrderByDescending(x => x.Number).ToList();
+            InitializeSiniestrosComboboxes();
+            btnNuevoSiniestro.Enabled = true;
+            //btnExcel.Enabled = true;
+            if (casualties.Count == 0)
+                NewCasualty();
+        }
+
+        private void InitializeSiniestrosComboboxes()
+        {
+            cmbType.ValueMember = "Id";
+            cmbType.DisplayMember = "Name";
+            cmbType.DataSource = casualtyTypeService.GetAll().ToList();
+
+            cmbNumber.DataSource = null;
+            cmbNumber.ValueMember = "Id";
+            cmbNumber.DisplayMember = "Number";
+            cmbNumber.DataSource = casualties;
+        }
+
+        private void NewCasualty()
+        {
+            int casualtiesCount = cmbNumber.Items.Count;
+            EmptyControlsDetalleTab();
+
+            currentCasualty = new CasualtyDto();
+            currentCasualty.Number = (casualtiesCount + 1).ToString();
+            currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
+            currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
+            currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
+
+            casualties.Add(currentCasualty);
+            InitializeSiniestrosComboboxes();
+            cmbNumber.SelectedIndex = casualtiesCount;
+            btnNuevoSiniestro.Enabled = false;
+            //btnExcel.Enabled = false;
+
+        }
+
+        private void cmbNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbNumber.SelectedItem == null) return;
+
+            currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
+            ClearSiniestrosDataBindings();
+            BindControls();
+        }
+
+        private void ClearSiniestrosDataBindings()
+        {
+            lblSiniestroId.DataBindings.Clear();
+            txtDescripcionSiniestro.DataBindings.Clear();
+            txtIndemnizacionDef.DataBindings.Clear();
+            txtIndemnizacionEst.DataBindings.Clear();
+            chkbNuestroCargo.DataBindings.Clear();
+            cmbType.DataBindings.Clear();
+            dtpDenunciaPolicial.DataBindings.Clear();
+            dtpOcurrio.DataBindings.Clear();
+            dtpRecibido.DataBindings.Clear();
+        }
+
+        private void BindControls()
+        {
+            lblSiniestroId.DataBindings.Add("Text", currentCasualty, "Id");
+            txtDescripcionSiniestro.DataBindings.Add("Text", currentCasualty, "Notes");
+            txtIndemnizacionDef.DataBindings.Add("Text", currentCasualty, "DefinedCompensation");
+            txtIndemnizacionEst.DataBindings.Add("Text", currentCasualty, "EstimatedCompensation");
+            #region Faltan esos campos en la BD
+            //txtAbogados.DataBindings.Add();
+            //txtActa.DataBindings.Add();
+            //txtComisaria.DataBindings.Add();
+            //txtConductor.DataBindings.Add();
+            //txtDanios.DataBindings.Add();
+            //txtDatos.DataBindings.Add();
+            //txtDomicilio.DataBindings.Add("Text", currentCasualty, "bla");
+            //txtJuzgado.DataBindings.Add();
+            //txtPatente.DataBindings.Add();
+            //txtPoliza.DataBindings.Add();
+            //txtProximaGestion.DataBindings.Add();
+            //txtRegistro.DataBindings.Add();
+            //txtSecretaria.DataBindings.Add();
+            //txtTelefono.DataBindings.Add();
+            //txtTitular.DataBindings.Add();
+            //txtVehiculo.DataBindings.Add();
+
+            //cmbCompania.DataBindings.Add("SelectedValue", currentCasualty, "")
+            //dtpDenunciaCia.DataBindings.Add("Value", currentCasualty, "")
+            //dtpDesestimamiento.DataBindings.Add("Value", currentCasualty, "");
+            //dtpFechaPagoDef.DataBindings.Add();
+            //dtpFechaPagoEst.DataBindings.Add("Value", currentCasualty, ")
+            //dtpInicioDemanda.DataBindings.Add();
+            //dtpInspeccion.DataBindings.Add();
+            //dtpProximaGestion.DataBindings.Add();
+            //dtpRechazoCia.DataBindings.Add();
+            #endregion
+            chkbNuestroCargo.DataBindings.Add("Checked", currentCasualty, "OurCharge");
+            cmbType.DataBindings.Add("SelectedValue", currentCasualty, "CasualtyTypeId");
+            dtpDenunciaPolicial.DataBindings.Add("Value", currentCasualty, "PoliceReportDate");
+            dtpOcurrio.DataBindings.Add("Value", currentCasualty, "OccurredDate");
+            dtpRecibido.DataBindings.Add("Value", currentCasualty, "ReceiveDate");
+        }
+
+        private void btnGrabarSiniestro_Click(object sender, EventArgs e)
+        {
+            if (ValidateSiniestrosControls())
+            {
+                try
+                {
+                    CasualtyDto casualty = GetSiniestroInfo();
+                    //var injuries = (List<FeeDto>)this.grdInjuries.DataSource;
+                    //CasualtyDto submitCasualtyFormDto = this.ConvertToSubmitForm(casualty, injuries);
+                    casualtyService.Save(casualty);
+                    MessageBox.Show("Guardó OK, refresque los datos apretando el botón de Pólizas");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
+                        ex.Message +
+                        "\n" +
+                        ex.StackTrace +
+                        (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
+                        ex.InnerException.Message +
+                        "\nStackTrace: " +
+                        ex.InnerException.StackTrace),
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            else
+                MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            LazyLoadSiniestrosTab();
+        }
+
+        private CasualtyDto GetSiniestroInfo()
+        {
+            //CasualtyDto dto = new CasualtyDto();
+            currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
+            currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
+            currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
+            currentCasualty.Id = string.IsNullOrWhiteSpace(lblSiniestroId.Text) ? default(int) : Convert.ToInt32(lblSiniestroId.Text);
+            currentCasualty.Notes = txtDescripcionSiniestro.Text;
+            currentCasualty.Number = cmbNumber.Text;
+            currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
+            currentCasualty.OurCharge = chkbNuestroCargo.Checked;
+            currentCasualty.PoliceReportDate = dtpDenunciaPolicial.Value.ToShortDateString();
+            currentCasualty.PolicyId = LayoutForm.currentPolicy.Id;
+            currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
+            return currentCasualty;
+        }
+
+        private bool ValidateSiniestrosControls()
+        {
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (TabPage tabPage in this.tctrlSiniestrosDatos.TabPages)
+            {
+                foreach (Control c in tabPage.Controls)
+                {
+                    if (c is TextBox)
+                        if (c == txtDescripcionSiniestro || c == txtIndemnizacionEst || c == txtIndemnizacionDef)
+                            if (c.Text == string.Empty)
+                            {
+                                errorProvider1.SetError(c, "Campo vacio");
+                                ok = false;
+                            }
+                    else if (c is ComboBox)
+                        if (c == cmbType || c == cmbNumber)
+                            if ((c as ComboBox).SelectedIndex == -1)
+                            {
+                                errorProvider1.SetError(c, "Debe seleccionar un elemento");
+                                ok = false;
+                            }
+                }
+            }
+            return ok;
+        }
+
+        #endregion
 
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{
