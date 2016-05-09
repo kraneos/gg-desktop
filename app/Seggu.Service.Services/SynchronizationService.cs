@@ -213,7 +213,7 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.AccessoryTypeId, y => y.ResolveUsing(res => res.Value == null ? null : ((SegguDataModelContext)res.Context.Options.Items["dbContext"]).AccessoryTypes.Find(res.Value)))
                 .ForMember(x => x.VehicleId, y => y.ResolveUsing(res => res.Value == null ? null : ((SegguDataModelContext)res.Context.Options.Items["dbContext"]).Vehicles.Find(res.Value)));
 
-            Mapper.CreateMap<Domain.Integral, IntegralVM>()
+            Mapper.CreateMap<Integral, IntegralVM>()
                 .ForMember(x => x.Id, y => y.MapFrom(x => string.IsNullOrWhiteSpace(x.ObjectId) ? Guid.Empty : new Guid(x.ObjectId)))
                 .ForMember(x => x.EndorseId, y => y.MapFrom(x => x.Endorse == null ? null : x.Endorse.ObjectId))
                 .ForMember(x => x.PolicyId, y => y.MapFrom(x => x.Policy == null ? null : x.Policy.ObjectId)).ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.HasValue ? x.CreatedAt.Value : DateTime.MinValue)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.HasValue ? x.UpdatedAt.Value : DateTime.MinValue));

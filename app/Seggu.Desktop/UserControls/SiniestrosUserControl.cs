@@ -369,7 +369,7 @@ namespace Seggu.Desktop.UserControls
             xlWorkBook = xlApp.Workbooks.Open(tempPath, 0, true, 5, "", "", true, Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
             xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 
-            PopulateExcelPoliceReport(xlWorkSheet);
+            //PopulateExcelPoliceReport(xlWorkSheet);
 
             tempFile.Delete();
             xlWorkBook.SaveAs(policeReportFilePath);
@@ -387,28 +387,28 @@ namespace Seggu.Desktop.UserControls
             if (!(Directory.Exists(pathFolder))) Directory.CreateDirectory(pathFolder);
             return pathFolder;
         }
-        private void PopulateExcelPoliceReport(Excel.Worksheet xlWorkSheet)
-        {
-            VehicleDto vehicle = currentCasualty.Vehicles.First();
-            var client = currentCasualty.Client;
-            xlWorkSheet.Cells[5, 3] = currentCasualty.Producer;
-            xlWorkSheet.Cells[6, 3] = MainForm.currentPolicy.Compañía;
-            xlWorkSheet.Cells[6, 13] = MainForm.currentPolicy.Número;
-            xlWorkSheet.Cells[6, 18] = currentCasualty.Number;
-            xlWorkSheet.Cells[8, 2] = currentCasualty.OccurredDate;
-            xlWorkSheet.Cells[27, 5] = client.Apellido + ", " + client.Nombre;
+        //private void PopulateExcelPoliceReport(Excel.Worksheet xlWorkSheet)
+        //{
+        //    VehicleDto vehicle = currentCasualty.Vehicles.First();
+        //    var client = currentCasualty.Client;
+        //    xlWorkSheet.Cells[5, 3] = currentCasualty.Producer;
+        //    xlWorkSheet.Cells[6, 3] = MainForm.currentPolicy.Compañía;
+        //    xlWorkSheet.Cells[6, 13] = MainForm.currentPolicy.Número;
+        //    xlWorkSheet.Cells[6, 18] = currentCasualty.Number;
+        //    xlWorkSheet.Cells[8, 2] = currentCasualty.OccurredDate;
+        //    xlWorkSheet.Cells[27, 5] = client.Apellido + ", " + client.Nombre;
 
-            xlWorkSheet.Cells[28, 3] = client.DNI;
-            xlWorkSheet.Cells[28, 13] = client.Tel_Móvil;
-            xlWorkSheet.Cells[29, 3] = client.HomeStreet + " " + client.HomeNumber;
-            xlWorkSheet.Cells[32, 2] = vehicle.Brand;
-            xlWorkSheet.Cells[32, 9] = vehicle.Model;
-            xlWorkSheet.Cells[32, 17] = vehicle.VehicleType;
-            xlWorkSheet.Cells[33, 2] = vehicle.Plate;
-            xlWorkSheet.Cells[33, 17] = vehicle.Year;
-            xlWorkSheet.Cells[34, 2] = vehicle.Engine;
-            xlWorkSheet.Cells[34, 13] = vehicle.Chassis;
-        }
+        //    xlWorkSheet.Cells[28, 3] = client.DNI;
+        //    xlWorkSheet.Cells[28, 13] = client.Tel_Móvil;
+        //    xlWorkSheet.Cells[29, 3] = client.HomeStreet + " " + client.HomeNumber;
+        //    xlWorkSheet.Cells[32, 2] = vehicle.Brand;
+        //    xlWorkSheet.Cells[32, 9] = vehicle.Model;
+        //    xlWorkSheet.Cells[32, 17] = vehicle.VehicleType;
+        //    xlWorkSheet.Cells[33, 2] = vehicle.Plate;
+        //    xlWorkSheet.Cells[33, 17] = vehicle.Year;
+        //    xlWorkSheet.Cells[34, 2] = vehicle.Engine;
+        //    xlWorkSheet.Cells[34, 13] = vehicle.Chassis;
+        //}
         private void releaseObject(object obj)
         {
             try
