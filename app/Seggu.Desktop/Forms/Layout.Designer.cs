@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnSiniestros = new System.Windows.Forms.Button();
             this.btnCobranzas = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.txtBuscar = new System.Windows.Forms.TextBox();
@@ -96,22 +95,6 @@
             // 
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnSiniestros
-            // 
-            this.btnSiniestros.AutoSize = true;
-            this.btnSiniestros.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSiniestros.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSiniestros.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSiniestros.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSiniestros.Location = new System.Drawing.Point(153, 436);
-            this.btnSiniestros.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
-            this.btnSiniestros.Name = "btnSiniestros";
-            this.btnSiniestros.Size = new System.Drawing.Size(81, 28);
-            this.btnSiniestros.TabIndex = 39;
-            this.btnSiniestros.Text = "Siniestros";
-            this.btnSiniestros.UseVisualStyleBackColor = false;
-            this.btnSiniestros.Click += new System.EventHandler(this.btnSiniestros_Click);
             // 
             // btnCobranzas
             // 
@@ -202,7 +185,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.btnEndosos);
-            this.splitContainer1.Panel1.Controls.Add(this.btnSiniestros);
             this.splitContainer1.Panel1.Controls.Add(this.grdEndorses);
             this.splitContainer1.Panel1.Controls.Add(this.LblApellido);
             this.splitContainer1.Panel1.Controls.Add(this.lblDNI);
@@ -645,7 +627,6 @@
         #endregion
 
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button btnSiniestros;
         private System.Windows.Forms.Button btnCobranzas;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.TextBox txtBuscar;

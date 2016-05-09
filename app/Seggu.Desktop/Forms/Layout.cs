@@ -140,7 +140,6 @@ namespace Seggu.Desktop.Forms
             btnPolizas.Enabled = false;
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Regular);
             btnPolizas.Text = "Pólizas";
-            btnSiniestros.Visible = false;
             grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
             btnEndosos.Visible = false;
@@ -225,8 +224,6 @@ namespace Seggu.Desktop.Forms
             grdPolicies.Visible = false;
             //if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
             //{
-            btnSiniestros.Visible = true;
-            btnSiniestros.Enabled = false;
             btnEndosos.Visible = true;
             btnEndosos.Enabled = false;
             //}
@@ -311,8 +308,6 @@ namespace Seggu.Desktop.Forms
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
             btnEndosos.Enabled = true;
-            btnSiniestros.Enabled = true;
-            btnSiniestros.Text = "Siniestros (" + currentPolicy.Casualties.Count + ")";
             btnCobranzas.Enabled = true;
             SetPanelControl(policyUc);
         }
@@ -336,7 +331,6 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
-            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
         }
         private void LoadEndorseGrid()
         {
@@ -363,7 +357,6 @@ namespace Seggu.Desktop.Forms
         {
             grdEndorses.Visible = false;
             tabCtrlPolicies.Visible = false;
-            btnSiniestros.Visible = false;
             btnEndosos.Visible = false;
         }
 
@@ -388,10 +381,6 @@ namespace Seggu.Desktop.Forms
             var uc = (SiniestrosUserControl)DependencyResolver.Instance.Resolve(typeof(SiniestrosUserControl)
                 , new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
             SetPanelControl(uc);
-            SetButtonsCasualtys();
-        }
-        private void SetButtonsCasualtys()
-        {
         }
 
         private void liquidacionesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -539,13 +528,11 @@ namespace Seggu.Desktop.Forms
             {
                 //btnEndosos.Enabled = true;
                 grdEndorses.Visible = false;
-                btnSiniestros.Enabled = true;
                 btnCobranzas.Enabled = true;
             }
             else
             {
                 btnEndosos.Enabled = false;
-                btnSiniestros.Enabled = false;
                 btnCobranzas.Enabled = false;
             }
         }
@@ -659,8 +646,6 @@ namespace Seggu.Desktop.Forms
             if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
             btnEndosos.Enabled = true;
-            btnSiniestros.Text = "Siniestros (" + this.currentPolicy.Casualties.Count + ")";
-            btnSiniestros.Enabled = true;
             btnCobranzas.Enabled = true;
         }
 

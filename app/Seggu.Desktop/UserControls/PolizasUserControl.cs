@@ -83,11 +83,8 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.ValueMember = "Id";
             cmbCobrador.DisplayMember = "Name";
             cmbCobrador.DataSource = producerService.GetCollectors().ToList();
-
-            if (cmbCompania.Items.Count > 0)
-            {
-                cmbCompania.SelectedIndex = 0;
-            }
+          
+            cmbCompania.SelectedIndex = cmbCompania.Items.Count > 0 ? 0 : -1;
 
             if (cmbRiesgo.Items.Count > 0)
             {
@@ -121,6 +118,10 @@ namespace Seggu.Desktop.UserControls
                 cmbRiesgo_SelectionChangeCommitted(null, null);
                 grdFees.Rows.Clear();
                 cmbPlanes.Enabled = true;
+                foreach(Control c in tctrlPolizasDatos.TabPages[2].Controls)
+                {
+                    c.Visible = false;
+                }
             }
             else
             {
@@ -181,7 +182,7 @@ namespace Seggu.Desktop.UserControls
             if (!string.IsNullOrWhiteSpace(cp.Número))
             {
                 //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-                //cp.Id = null;
+                cp.Id = default(int);
                 cp.PreviousNumber = cp.Número;
                 cp.Número = "";
                 cp.StartDate = DateTime.Today.ToShortDateString();
@@ -228,6 +229,10 @@ namespace Seggu.Desktop.UserControls
                 chkOtherClient.Visible = true;
                 PopulateDetails();
                 CalcularNetoCobrar();
+                foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)
+                {
+                    c.Visible = false;
+                }
             }
             else
             {
@@ -240,8 +245,6 @@ namespace Seggu.Desktop.UserControls
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
-            //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-            //this.selectedCompany = this.
             cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
             cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
@@ -906,25 +909,21 @@ namespace Seggu.Desktop.UserControls
         }
 
         #region siniestrosTab
-        private void btnExcel_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void tctrlPolizasDatos_Selected(object sender, TabControlEventArgs e)
         {
             if (tctrlPolizasDatos.SelectedTab.Text == "Siniestros")
-            {
-                LazyLoadSiniestrosTab();
-            }
+                LoadSiniestrosTab();
         }
 
-        private void LazyLoadSiniestrosTab()
+        private void LoadSiniestrosTab()
         {
-            casualties = casualtyService.GetByPolicyId(LayoutForm.currentPolicy.Id).OrderByDescending(x => x.Number).ToList();
+            //casualties = casualtyService.GetByPolicyId(LayoutForm.currentPolicy.Id).OrderByDescending(x => x.Number).ToList();
+            casualties = LayoutForm.currentPolicy.Casualties;
             InitializeSiniestrosComboboxes();
             btnNuevoSiniestro.Enabled = true;
             //btnExcel.Enabled = true;
+            if (LayoutForm.currentPolicy.Casualties == null) return;
             if (casualties.Count == 0)
                 NewCasualty();
         }
@@ -941,25 +940,6 @@ namespace Seggu.Desktop.UserControls
             cmbNumber.DataSource = casualties;
         }
 
-        private void NewCasualty()
-        {
-            int casualtiesCount = cmbNumber.Items.Count;
-            EmptyControlsDetalleTab();
-
-            currentCasualty = new CasualtyDto();
-            currentCasualty.Number = (casualtiesCount + 1).ToString();
-            currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
-            currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
-            currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
-
-            casualties.Add(currentCasualty);
-            InitializeSiniestrosComboboxes();
-            cmbNumber.SelectedIndex = casualtiesCount;
-            btnNuevoSiniestro.Enabled = false;
-            //btnExcel.Enabled = false;
-
-        }
-
         private void cmbNumber_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbNumber.SelectedItem == null) return;
@@ -971,7 +951,6 @@ namespace Seggu.Desktop.UserControls
 
         private void ClearSiniestrosDataBindings()
         {
-            lblSiniestroId.DataBindings.Clear();
             txtDescripcionSiniestro.DataBindings.Clear();
             txtIndemnizacionDef.DataBindings.Clear();
             txtIndemnizacionEst.DataBindings.Clear();
@@ -984,7 +963,6 @@ namespace Seggu.Desktop.UserControls
 
         private void BindControls()
         {
-            lblSiniestroId.DataBindings.Add("Text", currentCasualty, "Id");
             txtDescripcionSiniestro.DataBindings.Add("Text", currentCasualty, "Notes");
             txtIndemnizacionDef.DataBindings.Add("Text", currentCasualty, "DefinedCompensation");
             txtIndemnizacionEst.DataBindings.Add("Text", currentCasualty, "EstimatedCompensation");
@@ -1053,16 +1031,14 @@ namespace Seggu.Desktop.UserControls
             }
             else
                 MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            LazyLoadSiniestrosTab();
+            LoadSiniestrosTab();
         }
 
         private CasualtyDto GetSiniestroInfo()
         {
-            //CasualtyDto dto = new CasualtyDto();
             currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
             currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
             currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
-            currentCasualty.Id = string.IsNullOrWhiteSpace(lblSiniestroId.Text) ? default(int) : Convert.ToInt32(lblSiniestroId.Text);
             currentCasualty.Notes = txtDescripcionSiniestro.Text;
             currentCasualty.Number = cmbNumber.Text;
             currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
@@ -1082,22 +1058,53 @@ namespace Seggu.Desktop.UserControls
                 foreach (Control c in tabPage.Controls)
                 {
                     if (c is TextBox)
+                    {
                         if (c == txtDescripcionSiniestro || c == txtIndemnizacionEst || c == txtIndemnizacionDef)
+                        {
                             if (c.Text == string.Empty)
                             {
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
+                        }
+                    }
                     else if (c is ComboBox)
+                    {
                         if (c == cmbType || c == cmbNumber)
+                        {
                             if ((c as ComboBox).SelectedIndex == -1)
                             {
                                 errorProvider1.SetError(c, "Debe seleccionar un elemento");
                                 ok = false;
                             }
+                        }
+                    }
                 }
             }
             return ok;
+        }
+
+        private void btnNuevoSiniestro_Click(object sender, EventArgs e)
+        {
+            NewCasualty();
+        }
+
+        private void NewCasualty()
+        {
+            int casualtiesCount = cmbNumber.Items.Count;
+            EmptyControlsDetalleTab();
+
+            currentCasualty = new CasualtyDto();
+            currentCasualty.Number = (casualtiesCount + 1).ToString();
+            currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
+            currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
+            currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
+
+            casualties.Add(currentCasualty);
+            InitializeSiniestrosComboboxes();
+            cmbNumber.SelectedIndex = casualtiesCount;
+            btnNuevoSiniestro.Enabled = false;
+            //btnExcel.Enabled = false;
         }
 
         #endregion

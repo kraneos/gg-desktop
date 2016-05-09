@@ -16,8 +16,6 @@ namespace Seggu.Desktop.UserControls
         private ICasualtyService casualtyService;
         private ICasualtyTypeService casualtyTypeService;
         private int policyId;
-        private CasualtyDto currentCasualty;
-        private List<CasualtyDto> casualties;
         public Layout MainForm
         {
             get
@@ -36,94 +34,6 @@ namespace Seggu.Desktop.UserControls
             this.policyId = policyId;
             TabPage page2 = tctrlSiniestrosDatos.TabPages[1];
             page2.Enabled = false;
-            InitializeUC();
-        }
-
-        private void InitializeUC()
-        {
-            casualties = casualtyService.GetByPolicyId(policyId).OrderByDescending(x => x.Number).ToList();
-            InitializeComboboxes();
-            btnNuevo.Enabled = true;
-            btnExcel.Enabled = true;
-            if (casualties.Count == 0)
-                NewCasualty();
-        }
-        private void InitializeComboboxes()
-        {
-            cmbType.ValueMember = "Id";
-            cmbType.DisplayMember = "Name";
-            cmbType.DataSource = casualtyTypeService.GetAll().ToList();
-
-            cmbNumber.DataSource = null;
-            cmbNumber.ValueMember = "Id";
-            cmbNumber.DisplayMember = "Number";
-            cmbNumber.DataSource = casualties;
-        }
-        //private void PopulateFiles()
-        //{
-        //    var files = AttachedFileServ
-        //}
-
-
-        private void cmbNumber_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbNumber.SelectedItem == null) return;
-
-            currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
-            ClearDataBindings();
-            BindControls();
-        }
-        private void BindControls()
-        {
-            lblId.DataBindings.Add("Text", currentCasualty, "Id");
-            txtDescripcionSiniestro.DataBindings.Add("Text", currentCasualty, "Notes");
-            txtIndemnizacionDef.DataBindings.Add("Text", currentCasualty, "DefinedCompensation");
-            txtIndemnizacionEst.DataBindings.Add("Text", currentCasualty, "EstimatedCompensation");
-            #region Faltan esos campos en la BD
-            //txtAbogados.DataBindings.Add();
-            //txtActa.DataBindings.Add();
-            //txtComisaria.DataBindings.Add();
-            //txtConductor.DataBindings.Add();
-            //txtDanios.DataBindings.Add();
-            //txtDatos.DataBindings.Add();
-            //txtDomicilio.DataBindings.Add("Text", currentCasualty, "bla");
-            //txtJuzgado.DataBindings.Add();
-            //txtPatente.DataBindings.Add();
-            //txtPoliza.DataBindings.Add();
-            //txtProximaGestion.DataBindings.Add();
-            //txtRegistro.DataBindings.Add();
-            //txtSecretaria.DataBindings.Add();
-            //txtTelefono.DataBindings.Add();
-            //txtTitular.DataBindings.Add();
-            //txtVehiculo.DataBindings.Add();
-
-            //cmbCompania.DataBindings.Add("SelectedValue", currentCasualty, "")
-            //dtpDenunciaCia.DataBindings.Add("Value", currentCasualty, "")
-            //dtpDesestimamiento.DataBindings.Add("Value", currentCasualty, "");
-            //dtpFechaPagoDef.DataBindings.Add();
-            //dtpFechaPagoEst.DataBindings.Add("Value", currentCasualty, ")
-            //dtpInicioDemanda.DataBindings.Add();
-            //dtpInspeccion.DataBindings.Add();
-            //dtpProximaGestion.DataBindings.Add();
-            //dtpRechazoCia.DataBindings.Add();
-            #endregion
-            chkbNuestroCargo.DataBindings.Add("Checked", currentCasualty, "OurCharge");
-            cmbType.DataBindings.Add("SelectedValue", currentCasualty, "CasualtyTypeId");
-            dtpDenunciaPolicial.DataBindings.Add("Value", currentCasualty, "PoliceReportDate");
-            dtpOcurrio.DataBindings.Add("Value", currentCasualty, "OccurredDate");
-            dtpRecibido.DataBindings.Add("Value", currentCasualty, "ReceiveDate");
-        }
-        private void ClearDataBindings()
-        {
-            lblId.DataBindings.Clear();
-            txtDescripcionSiniestro.DataBindings.Clear();
-            txtIndemnizacionDef.DataBindings.Clear();
-            txtIndemnizacionEst.DataBindings.Clear();
-            chkbNuestroCargo.DataBindings.Clear();
-            cmbType.DataBindings.Clear();
-            dtpDenunciaPolicial.DataBindings.Clear();
-            dtpOcurrio.DataBindings.Clear();
-            dtpRecibido.DataBindings.Clear();
         }
 
 
@@ -158,8 +68,13 @@ namespace Seggu.Desktop.UserControls
             }
             else
                 MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            InitializeUC();
         }
+
+        private CasualtyDto GetFormInfo()
+        {
+            throw new NotImplementedException();
+        }
+
         private bool ValidateControls()
         {
             bool ok = true;
@@ -190,45 +105,7 @@ namespace Seggu.Desktop.UserControls
             }
             return ok;
         }
-        private CasualtyDto GetFormInfo()
-        {
-            //CasualtyDto dto = new CasualtyDto();
-            currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
-            currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
-            currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
-            currentCasualty.Id = string.IsNullOrWhiteSpace(lblId.Text) ? default(int) : Convert.ToInt32(lblId.Text);
-            currentCasualty.Notes = txtDescripcionSiniestro.Text;
-            currentCasualty.Number = cmbNumber.Text;
-            currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
-            currentCasualty.OurCharge = chkbNuestroCargo.Checked;
-            currentCasualty.PoliceReportDate = dtpDenunciaPolicial.Value.ToShortDateString();
-            currentCasualty.PolicyId = policyId;
-            currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
-            return currentCasualty;
-        }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
-        {
-            NewCasualty();
-        }
-        private void NewCasualty()
-        {
-            int casualtiesCount = cmbNumber.Items.Count;
-            EmptyControlsDetalleTab();
-
-            currentCasualty = new CasualtyDto();
-            currentCasualty.Number = (casualtiesCount + 1).ToString();
-            currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
-            currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
-            currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
-
-            casualties.Add(currentCasualty);
-            InitializeComboboxes();
-            cmbNumber.SelectedIndex = casualtiesCount;
-            btnNuevo.Enabled = false;
-            btnExcel.Enabled = false;
-
-        }
         private void EmptyControlsDetalleTab()
         {
             foreach (TabPage tabPage in this.tctrlSiniestrosDatos.TabPages)
@@ -353,7 +230,7 @@ namespace Seggu.Desktop.UserControls
         private void btnExcel_Click(object sender, EventArgs e)
         {
             string policeReportDirectoryPath = ValidateDirectory();
-            string fileName = "P-" + MainForm.currentPolicy.Número + " D-" + currentCasualty.Number;
+            string fileName = "P-" + MainForm.currentPolicy.Número + " D-";// + currentCasualty.Number;
             string policeReportFilePath = Path.Combine(policeReportDirectoryPath, fileName);
 
             string tempPath = System.IO.Path.GetTempFileName();
