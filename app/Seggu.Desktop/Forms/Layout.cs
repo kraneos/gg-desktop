@@ -232,7 +232,6 @@ namespace Seggu.Desktop.Forms
         private void SetButtonsPoliciesPlateSearch()
         {
             grdPolicies.Visible = true;
-
             tabCtrlPolicies.Visible = false;
         }
         public void SetButtonsClients()
@@ -356,6 +355,7 @@ namespace Seggu.Desktop.Forms
         public void CleanLeftPanel()
         {
             grdEndorses.Visible = false;
+            grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
             btnEndosos.Visible = false;
         }

@@ -185,6 +185,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.btnEndosos);
+            this.splitContainer1.Panel1.Controls.Add(this.grdPolicies);
             this.splitContainer1.Panel1.Controls.Add(this.grdEndorses);
             this.splitContainer1.Panel1.Controls.Add(this.LblApellido);
             this.splitContainer1.Panel1.Controls.Add(this.lblDNI);
@@ -287,7 +288,6 @@
             // tabValids
             // 
             this.tabValids.Controls.Add(this.grdValids);
-            this.tabValids.Controls.Add(this.grdPolicies);
             this.tabValids.Location = new System.Drawing.Point(4, 26);
             this.tabValids.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabValids.Name = "tabValids";
@@ -317,7 +317,7 @@
             // 
             this.grdPolicies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdPolicies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdPolicies.Location = new System.Drawing.Point(12, 52);
+            this.grdPolicies.Location = new System.Drawing.Point(9, 163);
             this.grdPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grdPolicies.MultiSelect = false;
             this.grdPolicies.Name = "grdPolicies";
