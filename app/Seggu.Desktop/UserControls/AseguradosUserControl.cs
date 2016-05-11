@@ -321,7 +321,13 @@ namespace Seggu.Desktop.UserControls
                 clientGrid.Focus();
                 clientGrid.DataSource = clientService.GetByName(txtBuscar).ToList();
                 FormatFullClientGrid();
-                clientGrid.Select();
+                if (clientGrid.RowCount == 1)
+                {
+                    clientGrid.CurrentCell = clientGrid.Rows[0].Cells[0];
+                    ShowClientDetails();
+                }
+                else
+                    clientGrid.Select();
             }
             catch (Exception ex)
             { throw ex; }
@@ -506,13 +512,18 @@ namespace Seggu.Desktop.UserControls
 
         private void tctrlAseguradosControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.tctrlAseguradosControl.SelectedIndex == 1 && this.clientGrid.Rows.Count > 0)
+            if (this.tctrlAseguradosControl.SelectedIndex == 1)
             {
-                this.tctrlAseguradosControl.SelectedIndex = 0;
+                ShowClientDetails();
             }
         }
 
         private void clientGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowClientDetails();
+        }
+
+        private void ShowClientDetails()
         {
             if (clientGrid.CurrentRow.DataBoundItem.GetType().Name == "ClientFullDto")
                 currentClient = (ClientFullDto)clientGrid.CurrentRow.DataBoundItem;
