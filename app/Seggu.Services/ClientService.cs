@@ -53,16 +53,16 @@ namespace Seggu.Services
             #endregion
         }
 
-        public IEnumerable<ClientFullDto> GetByDNI(string str)
+        public IEnumerable<ClientIndexDto> GetByDNI(string str)
         {
             var clients = this.clientDao.GetByDni(str);
-            return clients.Select(x => ClientDtoMapper.GetDto(x));
+            return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
         }
 
-        public IEnumerable<ClientFullDto> GetByName(string str)
+        public IEnumerable<ClientIndexDto> GetByName(string str)
         {
             var clients = this.clientDao.GetByFullName(str);
-            return clients.Select(x => ClientDtoMapper.GetDto(x));
+            return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
         }
 
         public IEnumerable<ClientIndexDto> GetAll()

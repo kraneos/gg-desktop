@@ -172,7 +172,6 @@
             this.clientGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellClick);
             this.clientGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellDoubleClick);
             this.clientGrid.SelectionChanged += new System.EventHandler(this.clientGrid_SelectionChanged);
-            this.clientGrid.MouseLeave += new System.EventHandler(this.clientGrid_MouseLeave);
             // 
             // tabPageDetalle
             // 
