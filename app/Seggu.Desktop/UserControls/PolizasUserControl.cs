@@ -939,7 +939,6 @@ namespace Seggu.Desktop.UserControls
         private void NewCasualty()
         {
             int casualtiesCount = cmbNumber.Items.Count;
-            EmptyControlsDetalleTab();
 
             currentCasualty = new CasualtyDto();
             currentCasualty.Number = (casualtiesCount + 1).ToString();
