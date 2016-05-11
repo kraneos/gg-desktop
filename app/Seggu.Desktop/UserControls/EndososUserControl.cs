@@ -102,10 +102,10 @@ namespace Seggu.Desktop.UserControls
             ce.ProducerId = cp.ProducerId;
             ce.RiskId = cp.RiskId;
 
-            ce.AnnulationDate = cp.AnnulationDate;
-            ce.EmissionDate = cp.EmissionDate;
+            ce.AnnulationDate = DateTime.Today.ToShortDateString();
+            ce.EmissionDate = DateTime.Today.ToShortDateString();
             ce.EndDate = cp.Vence;
-            ce.ReceptionDate = cp.ReceptionDate;
+            ce.ReceptionDate = DateTime.Today.ToShortDateString();
             ce.RequestDate = DateTime.Today.ToShortDateString();
             ce.StartDate = DateTime.Today.ToShortDateString();
 
@@ -201,9 +201,11 @@ namespace Seggu.Desktop.UserControls
 
             dtpSolicitud.Value = DateTime.Parse(endorse.RequestDate);
             dtpRecibido.Value = DateTime.Parse(endorse.ReceptionDate);
+            dtpRecibido.Checked = false;
             dtpInicio.Value = DateTime.Parse(endorse.StartDate);
             dtpFin.Value = DateTime.Parse(endorse.EndDate);
             dtpEmision.Value = DateTime.Parse(endorse.EmissionDate);
+            dtpEmision.Checked = false;
         }
 
 
@@ -269,7 +271,7 @@ namespace Seggu.Desktop.UserControls
             vehicle_uc = null;
             vida_uc = null;
 
-            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;// (RiskCompanyDto)cmbRiesgo.SelectedItem;
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
 
             var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
