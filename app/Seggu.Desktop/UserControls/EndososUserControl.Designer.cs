@@ -280,7 +280,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 77);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(26, 17);
+            this.label13.Size = new System.Drawing.Size(27, 17);
             this.label13.TabIndex = 27;
             this.label13.Text = "IVA";
             // 
@@ -289,7 +289,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 17);
+            this.label4.Size = new System.Drawing.Size(97, 17);
             this.label4.TabIndex = 25;
             this.label4.Text = "Premio con IVA";
             // 
@@ -453,7 +453,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(392, 359);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(49, 17);
+            this.label20.Size = new System.Drawing.Size(50, 17);
             this.label20.TabIndex = 7;
             this.label20.Text = "Totales";
             // 
@@ -579,9 +579,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(433, 275);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 17);
+            this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 80;
-            this.label1.Text = "Recibida el";
+            this.label1.Text = "Recibido el";
             // 
             // dtpRecibido
             // 
@@ -614,9 +614,9 @@
             this.label48.AutoSize = true;
             this.label48.Location = new System.Drawing.Point(433, 237);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(65, 17);
+            this.label48.Size = new System.Drawing.Size(66, 17);
             this.label48.TabIndex = 75;
-            this.label48.Text = "Emitida el";
+            this.label48.Text = "Emitido el";
             // 
             // label49
             // 
@@ -848,7 +848,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(589, 359);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 17);
+            this.label5.Size = new System.Drawing.Size(50, 17);
             this.label5.TabIndex = 49;
             this.label5.Text = "Totales";
             // 

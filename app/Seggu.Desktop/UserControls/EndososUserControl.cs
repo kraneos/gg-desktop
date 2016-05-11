@@ -26,7 +26,6 @@ namespace Seggu.Desktop.UserControls
         private IFeeService feeService;
         private IPrintService printService;
 
-        private CompanyFullDto selectedCompany;
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
         private IntegralPolicyUserControl integral_uc = null;
@@ -75,12 +74,12 @@ namespace Seggu.Desktop.UserControls
 
         public void NewEndorse()
         {
-            selectedCompany = companyService.GetFullById(MainForm.currentPolicy.CompanyId);
-            cmbCompania.SelectedValue = selectedCompany.Id;
+            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
 
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
             if (MainForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
@@ -210,11 +209,9 @@ namespace Seggu.Desktop.UserControls
 
         public void PopulateDetails()
         {
-            selectedCompany = companyService.GetFullById(MainForm.currentEndorse.CompanyId);
-
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
 
             populateTextBoxesAndCombos(MainForm.currentEndorse);
             LoadFeeGrid();
@@ -272,8 +269,9 @@ namespace Seggu.Desktop.UserControls
             vehicle_uc = null;
             vida_uc = null;
 
-            var risk = (RiskCompanyDto)cmbRiesgo.SelectedItem;
-            var riesgo = RiskTypeDtoMapper.ToEnum(risk.RiskType);
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;// (RiskCompanyDto)cmbRiesgo.SelectedItem;
+
+            var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
@@ -311,10 +309,9 @@ namespace Seggu.Desktop.UserControls
         private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var CompanyId = (int)cmbCompania.SelectedValue;
-            selectedCompany = companyService.GetFullById(CompanyId);
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
         }
 
 
