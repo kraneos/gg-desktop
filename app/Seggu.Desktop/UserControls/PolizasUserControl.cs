@@ -19,7 +19,6 @@ namespace Seggu.Desktop.UserControls
 
     public partial class PolizasUserControl : UserControl
     {
-
         private IPolicyService policyService;
         private IClientService clientService;
         private ICompanyService companyService;
@@ -29,7 +28,6 @@ namespace Seggu.Desktop.UserControls
         private IFeeService feeService;
         private IPrintService printService;
         private IAttachedFileService attachedFileService;
-        //private CompanyFullDto selectedCompany;
         private ClientIndexDto currentClient;
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
@@ -66,6 +64,7 @@ namespace Seggu.Desktop.UserControls
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
         }
+
         private void InitializeDetailComboBoxes()
         {
             cmbPeriodo.DataSource = masterDataService.GetPeriods().ToList();
@@ -333,26 +332,12 @@ namespace Seggu.Desktop.UserControls
                 cmbPlanes.Enabled = true;
         }
 
-        //private void LoadAttachedFilesGrid()
-        //{
-        //    grdFiles.Columns.Clear();
-        //    var files = string.IsNullOrEmpty(LayoutForm.currentPolicy.Id) ?
-        //        null : attachedFileService.GetByPolicyId(LayoutForm.currentPolicy.Id).ToList();
-        //    grdFiles.DataSource = files;
-        //    if(grdFiles.RowCount !=0)
-        //        FormatFilesGrid();
-        //}
-        //    private void FormatFilesGrid()
-        //    {
-        //        grdFiles.Columns["CasualtyId"].Visible = false;
-        //        grdFiles.Columns["Id"].Visible = false;
-        //        grdFiles.Columns["CashAccountId"].Visible = false;
-        //        grdFiles.Columns["EndorseId"].Visible = false;
-        //        grdFiles.Columns["PolicyId"].Visible = false;
-        //        grdFiles.Columns["FilePath"].HeaderText = "Ruta del Archivo";
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            printService.PolicyPDF(LayoutForm.currentClient, LayoutForm.currentPolicy, vehicle_uc.GetSelectedPlate());
+        }
 
-        //    }
-
+        #region Datos grales Tab
 
         private void dtpInicio_ValueChanged(object sender, EventArgs e)
         {
@@ -394,100 +379,16 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        private void btnGrabar_Click(object sender, EventArgs e)
+        private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (ValidateControls() && this.ValidateChildren())
+            if (this.cmbCompania.SelectedValue != null)
             {
-                try
-                {
-                    var policy = GetFormInfo();
-                    policy.Fees = (List<FeeDto>)this.grdFees.DataSource;
-
-                    if (vida_uc != null)
-                        policy.Employees = vida_uc.GetEmployees();
-                    else if (vehicle_uc != null && vehicle_uc.ValidateControls())
-                        policy.Vehicles = vehicle_uc.vehicleList;
-                    else if (integral_uc != null && integral_uc.ValidateControls())
-                        policy.Integrals = integral_uc.GetIntegral();
-                    else
-                        return;
-                    policyService.SavePolicy(policy);
-
-                    MessageBox.Show("La poliza se ha guardado con exito.");
-                    //limpiar layout
-                    var mainForm = (Layout)this.FindForm();
-                    mainForm.CleanLeftPanel();
-                    this.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        "Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
-                        ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
-                        ex.InnerException.Message + "\nStackTrace: " +
-                        ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                var companyId = (int)cmbCompania.SelectedValue;
+                //selectedCompany = companyService.GetFullById(CompanyId);
+                cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
+                cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
+                cmbCobrador.SelectedIndex = 0;
             }
-            else
-                MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        private bool ValidateControls()
-        {
-            bool ok = true;
-            errorProvider1.Clear();
-            foreach (TabPage tabPage in this.tctrlPolizasDatos.TabPages)
-            {
-                foreach (Control c in tabPage.Controls)
-                {
-                    if (c is TextBox)
-                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
-                            if (c.Text == string.Empty || c.Text == "0")
-                            {
-                                errorProvider1.SetError(c, "Campo vacio");
-                                ok = false;
-                            }
-                    if (c is ComboBox)
-                        if (c == cmbCompania || c == cmbRiesgo || c == cmbPeriodo || c == cmbProductor || c == cmbCobrador)
-                            if ((c as ComboBox).SelectedIndex == -1)
-                            {
-                                errorProvider1.SetError(c, "Debe seleccionar un elemento");
-                                ok = false;
-                            }
-                }
-            }
-            return ok || this.ValidateChildren();
-        }
-        private PolicyFullDto GetFormInfo()
-        {
-            PolicyFullDto policy = new PolicyFullDto();
-            policy.Id = LayoutForm.currentPolicy == null ? default(int) : LayoutForm.currentPolicy.Id;
-            policy.AnnulationDate = null;
-            policy.Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text);
-            policy.ClientId = chkOtherClient.Checked ? ((ClientIndexDto)this.cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id;
-            policy.CollectorId = (int)cmbCobrador.SelectedValue;
-            policy.EmissionDate = dtpEmision.Checked ? dtpEmision.Value.ToShortDateString() : null;
-            policy.Vence = dtpFin.Value.ToShortDateString();
-            policy.IsAnnulled = LayoutForm.currentPolicy.IsAnnulled;
-            policy.IsRemoved = LayoutForm.currentPolicy.IsRemoved;
-            policy.IsRenovated = LayoutForm.currentPolicy.IsRenovated;
-            policy.Notes = txtNotas.Text;
-            policy.Número = txtNroPoliza.Text;
-            policy.Period = (string)cmbPeriodo.SelectedValue;
-            policy.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
-            policy.PreviousNumber = txtNroPolAnt.Text;
-            policy.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
-            policy.ProducerId = (int)cmbProductor.SelectedValue;
-            policy.ReceptionDate = dtpRecibido.Checked ? dtpRecibido.Value.ToShortDateString() : null;
-            policy.RequestDate = dtpSolicitud.Value.ToShortDateString();
-            policy.RiskId = (int)cmbRiesgo.SelectedValue;
-
-            policy.StartDate = dtpInicio.Value.ToShortDateString();
-            policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
-            policy.PaymentDay = int.Parse(txtPaymentDay.Text);
-            policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
-          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
-            return policy;
         }
 
         private void cmbRiesgo_SelectionChangeCommitted(object sender, EventArgs e)
@@ -541,20 +442,25 @@ namespace Seggu.Desktop.UserControls
             PanelCoverage.Controls.Add(uc);
         }
 
-        private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
+        private void cmbClient_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (this.cmbCompania.SelectedValue != null)
-            {
-                var companyId = (int)cmbCompania.SelectedValue;
-                //selectedCompany = companyService.GetFullById(CompanyId);
-                cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
-                cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
-                cmbCobrador.SelectedIndex = 0;
-            }
+            txtAsegurado.Text = cmbClient.SelectedText;
+            LayoutForm.currentPolicy.ClientId = (int)cmbClient.SelectedValue;
         }
+        private void chkOtherClient_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbClient.ValueMember = "Id";
+            cmbClient.DisplayMember = "FullName";
+            cmbClient.DataSource = clientService.GetAll().ToList();
+            if (chkOtherClient.Checked)
+                cmbClient.Visible = true;
+            else
+                cmbClient.Visible = false;
 
+        }
+        #endregion
 
-        #region Sumas y Planes de pago
+        #region Sumas y Planes de pago Tab
 
         private void cmbPlanes_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -752,163 +658,104 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        #endregion
-
-
-        #region Validaciones
-
-        private void txtAsegurado_KeyPress(object sender, KeyPressEventArgs e)
+        private void btnGrabar_Click(object sender, EventArgs e)
         {
-            ValidarNumeros((TextBox)sender, e);
-        }
-
-        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        private void txtBonificacionPago_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        private void txtBonificacionPropia_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        private void txtRecargoPropio_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
-        {
-            var c = e.KeyChar;
-            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
+            if (ValidateControls() && this.ValidateChildren())
             {
-                e.Handled = true;
-            }
-            else if (!char.IsDigit(c) && c != 8 && c != 46)
-            {
-                e.Handled = true;
-            }
-        }
-
-        #endregion
-
-        private void cmbClient_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            txtAsegurado.Text = cmbClient.SelectedText;
-            LayoutForm.currentPolicy.ClientId = (int)cmbClient.SelectedValue;
-        }
-
-        private void txtPaymentDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            int input = 0;
-            bool isNum = Int32.TryParse(txtPaymentDay.Text, out input);
-
-            if (!isNum || input < 1 || input > 28)
-            {
-                // Cancel the event and select the text to be corrected by the user.
-                e.Cancel = true;
-                txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
-                errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
-            }
-        }
-
-        private void chkOtherClient_CheckedChanged(object sender, EventArgs e)
-        {
-            cmbClient.ValueMember = "Id";
-            cmbClient.DisplayMember = "FullName";
-            cmbClient.DataSource = clientService.GetAll().ToList();
-            if (chkOtherClient.Checked)
-                cmbClient.Visible = true;
-            else
-                cmbClient.Visible = false;
-
-        }
-
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            printService.PolicyPDF(LayoutForm.currentClient, LayoutForm.currentPolicy, vehicle_uc.GetSelectedPlate());
-        }
-
-        private void tabPageFiles_DragDrop(object sender, DragEventArgs e)
-        {
-
-        }
-
-        private void grdFiles_DragDrop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
-                foreach (string fileLoc in filePaths)
+                try
                 {
-                    // Code to read the contents of the text file
-                    if (File.Exists(fileLoc))
-                    {
-                        using (TextReader tr = new StreamReader(fileLoc))
-                        {
-                            MessageBox.Show(tr.ReadToEnd());
-                        }
-                    }
+                    var policy = GetFormInfo();
+                    policy.Fees = (List<FeeDto>)this.grdFees.DataSource;
 
+                    if (vida_uc != null)
+                        policy.Employees = vida_uc.GetEmployees();
+                    else if (vehicle_uc != null && vehicle_uc.ValidateControls())
+                        policy.Vehicles = vehicle_uc.vehicleList;
+                    else if (integral_uc != null && integral_uc.ValidateControls())
+                        policy.Integrals = integral_uc.GetIntegral();
+                    else
+                        return;
+                    policyService.SavePolicy(policy);
+
+                    MessageBox.Show("La poliza se ha guardado con exito.");
+                    //limpiar layout
+                    var mainForm = (Layout)this.FindForm();
+                    mainForm.CleanLeftPanel();
+                    this.Dispose();
                 }
-            }
-        }
-
-        private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-
-        private void txtNetoCobrar_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var netoCobrar = 0M;
-
-            if (decimal.TryParse(this.txtNetoCobrar.Text, out netoCobrar))
-            {
-                if (netoCobrar <= 0)
+                catch (Exception ex)
                 {
-                    errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
-                    e.Cancel = true;
+                    MessageBox.Show(
+                        "Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
+                        ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
+                        ex.InnerException.Message + "\nStackTrace: " +
+                        ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
-            {
-                errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
-                e.Cancel = true;
-            }
+                MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        private void txtPaymentDay_Validated(object sender, EventArgs e)
+        private bool ValidateControls()
         {
-            var val = 0;
-            if (int.TryParse(txtPaymentDay.Text, out val))
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (TabPage tabPage in this.tctrlPolizasDatos.TabPages)
             {
-                if (val > 0 && val < 29)
+                foreach (Control c in tabPage.Controls)
                 {
-                    var fees = (List<FeeDto>)this.grdFees.DataSource;
-                    if (fees != null)
-                    {
-                        foreach (var fee in fees)
-                        {
-                            if (fee.Estado == "Debe")
+                    if (c is TextBox)
+                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
+                            if (c.Text == string.Empty || c.Text == "0")
                             {
-                                fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                                errorProvider1.SetError(c, "Campo vacio");
+                                ok = false;
                             }
-                        }
-                        this.grdFees.DataSource = fees;
-                        this.grdFees.Invalidate();
-                    }
+                    if (c is ComboBox)
+                        if (c == cmbCompania || c == cmbRiesgo || c == cmbPeriodo || c == cmbProductor || c == cmbCobrador)
+                            if ((c as ComboBox).SelectedIndex == -1)
+                            {
+                                errorProvider1.SetError(c, "Debe seleccionar un elemento");
+                                ok = false;
+                            }
                 }
             }
+            return ok || this.ValidateChildren();
         }
+        private PolicyFullDto GetFormInfo()
+        {
+            PolicyFullDto policy = new PolicyFullDto();
+            policy.Id = LayoutForm.currentPolicy == null ? default(int) : LayoutForm.currentPolicy.Id;
+            policy.AnnulationDate = null;
+            policy.Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text);
+            policy.ClientId = chkOtherClient.Checked ? ((ClientIndexDto)this.cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id;
+            policy.CollectorId = (int)cmbCobrador.SelectedValue;
+            policy.EmissionDate = dtpEmision.Checked ? dtpEmision.Value.ToShortDateString() : null;
+            policy.Vence = dtpFin.Value.ToShortDateString();
+            policy.IsAnnulled = LayoutForm.currentPolicy.IsAnnulled;
+            policy.IsRemoved = LayoutForm.currentPolicy.IsRemoved;
+            policy.IsRenovated = LayoutForm.currentPolicy.IsRenovated;
+            policy.Notes = txtNotas.Text;
+            policy.Número = txtNroPoliza.Text;
+            policy.Period = (string)cmbPeriodo.SelectedValue;
+            policy.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
+            policy.PreviousNumber = txtNroPolAnt.Text;
+            policy.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
+            policy.ProducerId = (int)cmbProductor.SelectedValue;
+            policy.ReceptionDate = dtpRecibido.Checked ? dtpRecibido.Value.ToShortDateString() : null;
+            policy.RequestDate = dtpSolicitud.Value.ToShortDateString();
+            policy.RiskId = (int)cmbRiesgo.SelectedValue;
 
-        #region siniestrosTab
+            policy.StartDate = dtpInicio.Value.ToShortDateString();
+            policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
+            policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
+            policy.PaymentDay = int.Parse(txtPaymentDay.Text);
+            policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
+          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
+            return policy;
+        }
+        #endregion
+
+        #region Siniestros Tab
 
         private void tctrlPolizasDatos_Selected(object sender, TabControlEventArgs e)
         {
@@ -1109,6 +956,49 @@ namespace Seggu.Desktop.UserControls
 
         #endregion
 
+        #region Files Tab
+        //private void LoadAttachedFilesGrid()
+        //{
+        //    grdFiles.Columns.Clear();
+        //    var files = string.IsNullOrEmpty(LayoutForm.currentPolicy.Id) ?
+        //        null : attachedFileService.GetByPolicyId(LayoutForm.currentPolicy.Id).ToList();
+        //    grdFiles.DataSource = files;
+        //    if(grdFiles.RowCount !=0)
+        //        FormatFilesGrid();
+        //}
+        //    private void FormatFilesGrid()
+        //    {
+        //        grdFiles.Columns["CasualtyId"].Visible = false;
+        //        grdFiles.Columns["Id"].Visible = false;
+        //        grdFiles.Columns["CashAccountId"].Visible = false;
+        //        grdFiles.Columns["EndorseId"].Visible = false;
+        //        grdFiles.Columns["PolicyId"].Visible = false;
+        //        grdFiles.Columns["FilePath"].HeaderText = "Ruta del Archivo";
+
+        //    }
+        private void tabPageFiles_DragDrop(object sender, DragEventArgs e)
+        {
+
+        }
+        private void grdFiles_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string fileLoc in filePaths)
+                {
+                    // Code to read the contents of the text file
+                    if (File.Exists(fileLoc))
+                    {
+                        using (TextReader tr = new StreamReader(fileLoc))
+                        {
+                            MessageBox.Show(tr.ReadToEnd());
+                        }
+                    }
+
+                }
+            }
+        }
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{
         //    string path = grdFiles.SelectedCells[0].Value.ToString();
@@ -1143,5 +1033,107 @@ namespace Seggu.Desktop.UserControls
         //        }
         //}
         //}
+        #endregion
+
+        #region Validaciones
+        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
+            {
+                e.Handled = true;
+            }
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtAsegurado_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtBonificacionPago_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtBonificacionPropia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtRecargoPropio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtPaymentDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            int input = 0;
+            bool isNum = Int32.TryParse(txtPaymentDay.Text, out input);
+
+            if (!isNum || input < 1 || input > 28)
+            {
+                // Cancel the event and select the text to be corrected by the user.
+                e.Cancel = true;
+                txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
+                errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
+            }
+        }
+        private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        private void txtNetoCobrar_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var netoCobrar = 0M;
+
+            if (decimal.TryParse(this.txtNetoCobrar.Text, out netoCobrar))
+            {
+                if (netoCobrar <= 0)
+                {
+                    errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
+                e.Cancel = true;
+            }
+        }
+        private void txtPaymentDay_Validated(object sender, EventArgs e)
+        {
+            var val = 0;
+            if (int.TryParse(txtPaymentDay.Text, out val))
+            {
+                if (val > 0 && val < 29)
+                {
+                    var fees = (List<FeeDto>)this.grdFees.DataSource;
+                    if (fees != null)
+                    {
+                        foreach (var fee in fees)
+                        {
+                            if (fee.Estado == "Debe")
+                            {
+                                fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
+                            }
+                        }
+                        this.grdFees.DataSource = fees;
+                        this.grdFees.Invalidate();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
     }
 }
