@@ -296,6 +296,14 @@ namespace Seggu.Desktop.Forms
             btnPolizas.Text = "Pólizas";
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Regular);
         }
+        private void LblNombre_MouseHover(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+        private void LblNombre_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
+        }
         #endregion
 
         #region Polizas
