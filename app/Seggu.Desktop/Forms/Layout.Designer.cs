@@ -38,6 +38,7 @@
             this.btnPolizas = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnEndosos = new System.Windows.Forms.Button();
+            this.grdPolicies = new System.Windows.Forms.DataGridView();
             this.grdEndorses = new System.Windows.Forms.DataGridView();
             this.LblApellido = new System.Windows.Forms.Label();
             this.lblDNI = new System.Windows.Forms.Label();
@@ -45,7 +46,6 @@
             this.tabCtrlPolicies = new System.Windows.Forms.TabControl();
             this.tabValids = new System.Windows.Forms.TabPage();
             this.grdValids = new System.Windows.Forms.DataGridView();
-            this.grdPolicies = new System.Windows.Forms.DataGridView();
             this.tabExpired = new System.Windows.Forms.TabPage();
             this.grdExpired = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -76,15 +76,17 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rCRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.agendaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byKr4neosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdEndorses)).BeginInit();
             this.tabCtrlPolicies.SuspendLayout();
             this.tabValids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdValids)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).BeginInit();
             this.tabExpired.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdExpired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -217,6 +219,21 @@
             this.btnEndosos.UseVisualStyleBackColor = false;
             this.btnEndosos.Click += new System.EventHandler(this.btnEndosos_Click);
             // 
+            // grdPolicies
+            // 
+            this.grdPolicies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.grdPolicies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdPolicies.Location = new System.Drawing.Point(9, 163);
+            this.grdPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grdPolicies.MultiSelect = false;
+            this.grdPolicies.Name = "grdPolicies";
+            this.grdPolicies.ReadOnly = true;
+            this.grdPolicies.RowHeadersVisible = false;
+            this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grdPolicies.Size = new System.Drawing.Size(238, 259);
+            this.grdPolicies.TabIndex = 39;
+            this.grdPolicies.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellContentClick);
+            // 
             // grdEndorses
             // 
             this.grdEndorses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -313,21 +330,6 @@
             this.grdValids.TabIndex = 0;
             this.grdValids.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdValids_CellMouseDoubleClick);
             // 
-            // grdPolicies
-            // 
-            this.grdPolicies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdPolicies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdPolicies.Location = new System.Drawing.Point(9, 163);
-            this.grdPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grdPolicies.MultiSelect = false;
-            this.grdPolicies.Name = "grdPolicies";
-            this.grdPolicies.ReadOnly = true;
-            this.grdPolicies.RowHeadersVisible = false;
-            this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdPolicies.Size = new System.Drawing.Size(238, 259);
-            this.grdPolicies.TabIndex = 39;
-            this.grdPolicies.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellContentClick);
-            // 
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
@@ -370,11 +372,11 @@
             // 
             this.mainMenuBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.mainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem,
             this.entidadesToolStripMenuItem,
             this.informesToolStripMenuItem,
             this.utilidadesToolStripMenuItem,
-            this.reportesToolStripMenuItem});
+            this.reportesToolStripMenuItem,
+            this.archivoToolStripMenuItem});
             this.mainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.mainMenuBar.Name = "mainMenuBar";
             this.mainMenuBar.Size = new System.Drawing.Size(1268, 24);
@@ -384,15 +386,16 @@
             // archivoToolStripMenuItem
             // 
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menu_archivo_salir});
+            this.menu_archivo_salir,
+            this.byKr4neosToolStripMenuItem});
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.archivoToolStripMenuItem.Text = "Archivo";
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.archivoToolStripMenuItem.Text = "Acerca de...";
             // 
             // menu_archivo_salir
             // 
             this.menu_archivo_salir.Name = "menu_archivo_salir";
-            this.menu_archivo_salir.Size = new System.Drawing.Size(96, 22);
+            this.menu_archivo_salir.Size = new System.Drawing.Size(152, 22);
             this.menu_archivo_salir.Text = "Salir";
             this.menu_archivo_salir.Click += new System.EventHandler(this.menu_archivo_salir_Click);
             // 
@@ -400,13 +403,13 @@
             // 
             this.entidadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aseguradosToolStripMenuItem,
-            this.bancosToolStripMenuItem,
-            this.productoresToolStripMenuItem,
             this.compañíasToolStripMenuItem,
+            this.productoresToolStripMenuItem,
             this.modelosToolStripMenuItem,
             this.usosToolStripMenuItem,
             this.carroceríasToolStripMenuItem,
-            this.tiposDeVehiculosToolStripMenuItem});
+            this.tiposDeVehiculosToolStripMenuItem,
+            this.bancosToolStripMenuItem});
             this.entidadesToolStripMenuItem.Name = "entidadesToolStripMenuItem";
             this.entidadesToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.entidadesToolStripMenuItem.Text = "Entidades";
@@ -543,7 +546,8 @@
             // 
             this.utilidadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.liquidacionesToolStripMenuItem,
-            this.controlDeCajaToolStripMenuItem});
+            this.controlDeCajaToolStripMenuItem,
+            this.agendaToolStripMenuItem});
             this.utilidadesToolStripMenuItem.Name = "utilidadesToolStripMenuItem";
             this.utilidadesToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.utilidadesToolStripMenuItem.Text = "Utilidades";
@@ -574,16 +578,30 @@
             // rORToolStripMenuItem
             // 
             this.rORToolStripMenuItem.Name = "rORToolStripMenuItem";
-            this.rORToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.rORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rORToolStripMenuItem.Text = "ROS";
             this.rORToolStripMenuItem.Click += new System.EventHandler(this.rORToolStripMenuItem_Click);
             // 
             // rCRToolStripMenuItem
             // 
             this.rCRToolStripMenuItem.Name = "rCRToolStripMenuItem";
-            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rCRToolStripMenuItem.Text = "RCR";
             this.rCRToolStripMenuItem.Click += new System.EventHandler(this.rCRToolStripMenuItem_Click);
+            // 
+            // agendaToolStripMenuItem
+            // 
+            this.agendaToolStripMenuItem.Name = "agendaToolStripMenuItem";
+            this.agendaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.agendaToolStripMenuItem.Text = "Agenda";
+            this.agendaToolStripMenuItem.Click += new System.EventHandler(this.agendaToolStripMenuItem_Click);
+            // 
+            // byKr4neosToolStripMenuItem
+            // 
+            this.byKr4neosToolStripMenuItem.Name = "byKr4neosToolStripMenuItem";
+            this.byKr4neosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.byKr4neosToolStripMenuItem.Text = "by Kr4neos";
+            this.byKr4neosToolStripMenuItem.Click += new System.EventHandler(this.byKr4neosToolStripMenuItem_Click);
             // 
             // Layout
             // 
@@ -609,11 +627,11 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdEndorses)).EndInit();
             this.tabCtrlPolicies.ResumeLayout(false);
             this.tabValids.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdValids)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdPolicies)).EndInit();
             this.tabExpired.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdExpired)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -672,6 +690,7 @@
         private System.Windows.Forms.ToolStripMenuItem carroceríasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiposDeVehiculosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controlDeCajaToolStripMenuItem;
-
+        private System.Windows.Forms.ToolStripMenuItem agendaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem byKr4neosToolStripMenuItem;
     }
 }
