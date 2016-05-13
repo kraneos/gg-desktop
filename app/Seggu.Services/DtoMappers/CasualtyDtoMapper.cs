@@ -26,7 +26,7 @@ namespace Seggu.Services.DtoMappers
             dto.ReceiveDate = obj.ReceiveDate.ToShortDateString();
             dto.Producer = obj.Policy.Producer.Name;
             //dto.Client = ClientDtoMapper.GetDto(obj.Policy.Client);
-            dto.Vehicles = obj.Policy.Vehicles.Select(x => VehicleDtoMapper.GetDto(x)).ToList();
+            //dto.Vehicles = obj.Policy.Vehicles.Select(x => VehicleDtoMapper.GetDto(x)).ToList();
 
             return dto;
         }

@@ -104,27 +104,20 @@ namespace Seggu.Desktop.UserControls
         }
         private void NewPolicy()
         {
-            if (this.cmbCompania.Items.Count > 0)
+            currentClient = LayoutForm.currentClient;
+            EmptyControlsDetalleTab();
+            PanelCoverage.Controls.Clear();
+            txtAsegurado.Text = currentClient.Nombre + " " + currentClient.Apellido;
+            NavigateToDetalle();
+            ClearDataBindings();
+            LayoutForm.currentPolicy = new PolicyFullDto();
+            cmbCompania_SelectionChangeCommitted(null, null);
+            cmbRiesgo_SelectionChangeCommitted(null, null);
+            grdFees.Rows.Clear();
+            cmbPlanes.Enabled = true;
+            foreach(Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
             {
-                currentClient = LayoutForm.currentClient;
-                EmptyControlsDetalleTab();
-                PanelCoverage.Controls.Clear();
-                txtAsegurado.Text = currentClient.Nombre + " " + currentClient.Apellido;
-                NavigateToDetalle();
-                ClearDataBindings();
-                LayoutForm.currentPolicy = new PolicyFullDto();
-                cmbCompania_SelectionChangeCommitted(null, null);
-                cmbRiesgo_SelectionChangeCommitted(null, null);
-                grdFees.Rows.Clear();
-                cmbPlanes.Enabled = true;
-                foreach(Control c in tctrlPolizasDatos.TabPages[2].Controls)
-                {
-                    c.Visible = false;
-                }
-            }
-            else
-            {
-                MessageBox.Show("No se han encontrado Compañias en el sistema.\nPara utilizar esta funcionalidad debera crear Compañias y asociarles las Coberturas que estas proveen.");
+                c.Visible = false;
             }
         }
         private void EmptyControlsDetalleTab()
@@ -765,16 +758,16 @@ namespace Seggu.Desktop.UserControls
 
         private void LoadSiniestrosTab()
         {
+            if (LayoutForm.currentPolicy.Casualties == null) return;
             //casualties = casualtyService.GetByPolicyId(LayoutForm.currentPolicy.Id).OrderByDescending(x => x.Number).ToList();
             casualties = LayoutForm.currentPolicy.Casualties;
             InitializeSiniestrosComboboxes();
-            btnNuevoSiniestro.Enabled = true;
-            //btnExcel.Enabled = true;
-            if (LayoutForm.currentPolicy.Casualties == null) return;
+
             if (casualties.Count == 0)
                 NewCasualty();
+            else
+                btnNuevoSiniestro.Enabled = true;
         }
-
         private void InitializeSiniestrosComboboxes()
         {
             cmbType.ValueMember = "Id";
@@ -785,17 +778,16 @@ namespace Seggu.Desktop.UserControls
             cmbNumber.ValueMember = "Id";
             cmbNumber.DisplayMember = "Number";
             cmbNumber.DataSource = casualties;
+            cmbNumber.SelectedIndex = cmbNumber.Items.Count - 1;
         }
 
         private void cmbNumber_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbNumber.SelectedItem == null) return;
-
             currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
             ClearSiniestrosDataBindings();
             BindControls();
         }
-
         private void ClearSiniestrosDataBindings()
         {
             txtDescripcionSiniestro.DataBindings.Clear();
@@ -807,7 +799,6 @@ namespace Seggu.Desktop.UserControls
             dtpOcurrio.DataBindings.Clear();
             dtpRecibido.DataBindings.Clear();
         }
-
         private void BindControls()
         {
             txtDescripcionSiniestro.DataBindings.Add("Text", currentCasualty, "Notes");
@@ -858,7 +849,7 @@ namespace Seggu.Desktop.UserControls
                     //var injuries = (List<FeeDto>)this.grdInjuries.DataSource;
                     //CasualtyDto submitCasualtyFormDto = this.ConvertToSubmitForm(casualty, injuries);
                     casualtyService.Save(casualty);
-                    MessageBox.Show("Guardó OK, refresque los datos apretando el botón de Pólizas");
+                    MessageBox.Show("Guardó OK, refresque los datos con doble click en la póliza deseada");
                 }
                 catch (Exception ex)
                 {
@@ -878,16 +869,14 @@ namespace Seggu.Desktop.UserControls
             }
             else
                 MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            LoadSiniestrosTab();
         }
-
         private CasualtyDto GetSiniestroInfo()
         {
             currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
             currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
             currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
             currentCasualty.Notes = txtDescripcionSiniestro.Text;
-            currentCasualty.Number = cmbNumber.Text;
+            //currentCasualty.Number = ;
             currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
             currentCasualty.OurCharge = chkbNuestroCargo.Checked;
             currentCasualty.PoliceReportDate = dtpDenunciaPolicial.Value.ToShortDateString();
@@ -895,7 +884,6 @@ namespace Seggu.Desktop.UserControls
             currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
             return currentCasualty;
         }
-
         private bool ValidateSiniestrosControls()
         {
             bool ok = true;
@@ -904,25 +892,40 @@ namespace Seggu.Desktop.UserControls
             {
                 foreach (Control c in tabPage.Controls)
                 {
-                    if (c is TextBox)
+                    if (c == txtDescripcionSiniestro)
                     {
-                        if (c == txtDescripcionSiniestro || c == txtIndemnizacionEst || c == txtIndemnizacionDef)
+                        if (c.Text == string.Empty)
                         {
-                            if (c.Text == string.Empty)
-                            {
-                                errorProvider1.SetError(c, "Campo vacio");
-                                ok = false;
-                            }
+                            errorProvider1.SetError(c, "Campo vacío");
+                            ok = false;
                         }
                     }
+                    
                     else if (c is ComboBox)
                     {
-                        if (c == cmbType || c == cmbNumber)
+                        if (c == cmbType)
                         {
                             if ((c as ComboBox).SelectedIndex == -1)
                             {
                                 errorProvider1.SetError(c, "Debe seleccionar un elemento");
                                 ok = false;
+                            }
+                        }
+                    }
+                    else if (c is GroupBox)
+                    {
+                        foreach (Control groupBoxControl in c.Controls)
+                        {
+                            if (groupBoxControl is TextBox)
+                            {
+                                if (groupBoxControl == txtIndemnizacionEst || groupBoxControl == txtIndemnizacionDef)
+                                {
+                                    if (groupBoxControl.Text == string.Empty)
+                                    {
+                                        errorProvider1.SetError(groupBoxControl, "Campo vacío");
+                                        ok = false;
+                                    }
+                                }
                             }
                         }
                     }
@@ -935,22 +938,61 @@ namespace Seggu.Desktop.UserControls
         {
             NewCasualty();
         }
-
         private void NewCasualty()
         {
-            int casualtiesCount = cmbNumber.Items.Count;
+            EmptyControlsSiniestrosTab();
 
+            cmbNumber.Visible = false;
+
+            ClearSiniestrosDataBindings();
+            int casualtiesCount = cmbNumber.Items.Count;
+            lblNumber.Text = (casualtiesCount + 1).ToString();
+            
             currentCasualty = new CasualtyDto();
             currentCasualty.Number = (casualtiesCount + 1).ToString();
             currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
             currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
             currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
 
-            casualties.Add(currentCasualty);
-            InitializeSiniestrosComboboxes();
-            cmbNumber.SelectedIndex = casualtiesCount;
             btnNuevoSiniestro.Enabled = false;
-            //btnExcel.Enabled = false;
+        }
+        private void EmptyControlsSiniestrosTab()
+        {
+            foreach (TabPage tabPage in tctrlSiniestrosDatos.TabPages)
+            {
+                foreach (Control control in tabPage.Controls)
+                {
+                    if (control is TextBox)
+                        control.Text = string.Empty;
+                    //else if (control is ComboBox)
+                    //(control as ComboBox).SelectedIndex = -1;
+
+                    else if (control is CheckBox)
+                        (control as CheckBox).Checked = false;
+                    else if (control is DateTimePicker)
+                    {
+                        (control as DateTimePicker).Value = DateTime.Today;
+                        (control as DateTimePicker).Checked = false;
+                    }
+                    else if (control is GroupBox)
+                    {
+                        foreach (Control groupBoxControl in control.Controls)
+                        {
+                            if (groupBoxControl is TextBox)
+                                groupBoxControl.Text = string.Empty;
+                            else if (groupBoxControl is ComboBox)
+                                (groupBoxControl as ComboBox).SelectedIndex = -1;
+                            else if (groupBoxControl is CheckBox)
+                                (groupBoxControl as CheckBox).Checked = false;
+                            else if (groupBoxControl is DateTimePicker)
+                            {
+                                (groupBoxControl as DateTimePicker).Value = DateTime.Today;
+                                (groupBoxControl as DateTimePicker).Checked = false;
+                            }
+                        }
+                    }
+                }
+            }         
         }
 
         #endregion

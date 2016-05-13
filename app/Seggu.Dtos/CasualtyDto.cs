@@ -20,7 +20,7 @@ namespace Seggu.Dtos
         public string Notes { get; set; }
 
         public string Producer { get; set; }
-        public IEnumerable<VehicleDto> Vehicles { get; set; }
+        //public IEnumerable<VehicleDto> Vehicles { get; set; }
         //public ClientFullDto Client { get; set; }//por que trae esto?
     }
 
