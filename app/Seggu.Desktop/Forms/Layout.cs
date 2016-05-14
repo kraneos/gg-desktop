@@ -237,34 +237,28 @@ namespace Seggu.Desktop.Forms
             SetPanelControl(clientUC);
             clientUC.FindClientByDNI(str);
         }
-        private void SearchByPolicyNumber(string str)
-        {
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            grdPolicies.DataSource = policyService.GetByPolicyNumber(str.Substring(2)).ToList();
-            FormatPoliciesGrid();
-
-            SetPanelControl(policyUc);
-            SetButtonsPolicies();
-            SetButtonsPoliciesPlateSearch();
-        }
-        private void SearchByVehiclePlate(string str)
-        {
-            grdPolicies.Visible = true;
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
-
-            FormatPoliciesGrid();
-            //SetButtonsClients();
-            SetButtonsPolicies();
-            SetButtonsPoliciesPlateSearch();
-            SetPanelControl(policyUc);
-        }
         private void SearchByLastName(string str)
         {
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             //SetButtonsClients();
             clientUC.FindClientByName(str);
+        }
+        private void SearchByPolicyNumber(string str)
+        {
+            grdPolicies.DataSource = policyService.GetByPolicyNumber(str.Substring(2)).ToList();
+
+            FormatPoliciesGrid();
+            SetButtonsPolicies();
+            SetButtonsPoliciesSearch();
+        }
+        private void SearchByVehiclePlate(string str)
+        {
+            grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
+
+            FormatPoliciesGrid();
+            SetButtonsPolicies();
+            SetButtonsPoliciesSearch();
         }
         #endregion
 
@@ -307,11 +301,15 @@ namespace Seggu.Desktop.Forms
         #endregion
 
         #region Polizas
+        public void MostrarCantPolizas(int cant)
+        {
+            if (cant > 0)
+                btnPolizas.Text = "Pólizas (" + cant + ")";
+            else
+                btnPolizas.Text = "Pólizas";
+        }
         private void btnPolizas_Click(object sender, EventArgs e)
         {
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            SetPanelControl(policyUc);
-
             if (currentClient != null)
             {
                 LoadPoliciesGrids();
@@ -323,14 +321,6 @@ namespace Seggu.Desktop.Forms
                 this.btnLimpiar_Click(sender, e);
             }
         }
-        public void MostrarCantPolizas(int cant)
-        {
-            if (cant > 0)
-                btnPolizas.Text = "Pólizas (" + cant + ")";
-            else
-                btnPolizas.Text = "Pólizas";
-        }
-
         private void LoadPoliciesGrids()
         {
             grdValids.DataSource = policyService.GetValidsByClient(currentClient.Id).ToList();
@@ -363,49 +353,45 @@ namespace Seggu.Desktop.Forms
         {
             foreach (DataGridViewColumn c in grdPolicies.Columns)
                 c.Visible = false;
-            grdPolicies.Columns["Número"].Visible = true;
-            grdPolicies.Columns["Vence"].Visible = true;
+            grdPolicies.Columns["Name"].Visible = true;
+            grdPolicies.Columns["Name"].HeaderText = "Nro Poliza";
+            grdPolicies.Columns["EndDate"].Visible = true;
+            grdPolicies.Columns["EndDate"].HeaderText = "Vence";
+            grdPolicies.ClearSelection();
         }
         private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
-            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
-            SetPanelControl(policyUc);
-            currentEndorse = null;
-            policyUc.btnRenovar.Enabled = true;
-            policyUc.PopulateDetails();
-            if (this.currentPolicy.Endorses.Count() > 0)
-                LoadEndorseGrid();
+            ShowDetails((DataGridView)sender);
+
             btnEndosos.Enabled = true;
             btnCobranzas.Enabled = true;
-        }
-        private void grdPolicies_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentPolicy = (PolicyFullDto)grdPolicies.CurrentRow.DataBoundItem;
-            currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
-            currentEndorse = null;
-            LoadClientSideBar(currentClient);
-            //            policyUc = (PolizasUserControl)DependencyContainer.Instance.Resolve(typeof(PolizasUserControl));
-            policyUc.btnRenovar.Enabled = true;
-            policyUc.PopulateDetails();
-            if (currentPolicy.Endorses.Count() > 0)
-                LoadEndorseGrid();
-            btnEndosos.Enabled = true;
-            btnCobranzas.Enabled = true;
-            SetPanelControl(policyUc);
         }
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var currentPolicy = (PolicyGridItemDto)grdExpired.CurrentRow.DataBoundItem;
-            this.currentPolicy = this.policyService.GetById(currentPolicy.Id);
-            currentEndorse = null;
-            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
+            ShowDetails((DataGridView)sender);
+        }
+        private void grdPolicies_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowDetails((DataGridView)sender);
 
+            btnEndosos.Enabled = true;
+            btnCobranzas.Enabled = true;
+
+            currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
+            LoadClientSideBar(currentClient);
+            SetPanelControl(policyUc);
+        }
+
+        private void ShowDetails(DataGridView grid)
+        {
+            currentEndorse = null;
+            var currentItemPolicy = (PolicyGridItemDto)grid.CurrentRow.DataBoundItem;
+            this.currentPolicy = this.policyService.GetById(currentItemPolicy.Id);
+            policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
-            if (this.currentPolicy.Endorses.Count() > 0)
+            if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
         }
         private void SetButtonsPolicies()
@@ -421,7 +407,7 @@ namespace Seggu.Desktop.Forms
             //}
             grdEndorses.Visible = false;
         }
-        private void SetButtonsPoliciesPlateSearch()
+        private void SetButtonsPoliciesSearch()
         {
             grdPolicies.Visible = true;
             tabCtrlPolicies.Visible = false;

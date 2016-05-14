@@ -27,6 +27,13 @@ namespace Seggu.Services
             this.feeDao = feeDao;
             this.addressDao = addressDao;
         }
+        public PolicyFullDto GetById(long policyId)
+        {
+            var id = policyId;
+            var policy = policyDao.Get(id);
+            return PolicyDtoMapper.GetFullDto(policy);
+        }
+
         public IEnumerable<PolicyGridItemDto> GetValidsByClient(long clientId)
         {
             var id = clientId;
@@ -37,22 +44,20 @@ namespace Seggu.Services
         {
             var id = clientId;
             var policies = this.policyDao.GetNotValidsByClient(id).OrderByDescending(x => x.EndDate);
-            return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
+            return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });//dto mapper???
         }
-        public PolicyFullDto GetById(long policyId)
+        public IEnumerable<PolicyGridItemDto> GetByPlate(string plate)
         {
-            var id = policyId;
-            var policy = policyDao.Get(id);
-            return PolicyDtoMapper.GetFullDto(policy);
+            return policyDao.GetByVehiclePlate(plate).OrderByDescending(x => x.EndDate)
+                .Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
         }
-        public IEnumerable<PolicyFullDto> GetByPlate(string plate)
+        public IEnumerable<PolicyGridItemDto> GetByPolicyNumber(string polNum)
         {
-            return policyDao.GetByVehiclePlate(plate).OrderByDescending(x => x.EndDate).Select(x => PolicyDtoMapper.GetFullDto(x));
+            return policyDao.GetByPolicyNumber(polNum).OrderByDescending(x => x.EndDate)
+                .Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
+                //.Select(x => PolicyDtoMapper.GetFullDto(x));
         }
-        public IEnumerable<PolicyFullDto> GetByPolicyNumber(string polNum)
-        {
-            return policyDao.GetByPolicyNumber(polNum).OrderByDescending(x => x.EndDate).Select(x => PolicyDtoMapper.GetFullDto(x));
-        }
+
         public void SavePolicy(PolicyFullDto pol)
         {
             if (pol.Fees != null)

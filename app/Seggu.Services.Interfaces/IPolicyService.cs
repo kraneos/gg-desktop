@@ -9,10 +9,10 @@ namespace Seggu.Services.Interfaces
     {
         IEnumerable<PolicyGridItemDto> GetValidsByClient(long clientId);
         IEnumerable<PolicyGridItemDto> GetNotValidsByClient(long clientId);
+        IEnumerable<PolicyGridItemDto> GetByPolicyNumber(string polNum);
+        IEnumerable<PolicyGridItemDto> GetByPlate(string plate);
         void SavePolicy(PolicyFullDto policy);
         PolicyFullDto GetById(long policyId);
-        IEnumerable<PolicyFullDto> GetByPlate(string plate);
-        IEnumerable<PolicyFullDto> GetByPolicyNumber(string polNum);
         IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to);
     }
 }
