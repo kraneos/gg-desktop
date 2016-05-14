@@ -359,6 +359,13 @@ namespace Seggu.Desktop.Forms
             grdExpired.Columns["EndDate"].HeaderText = "Vence";
             grdExpired.ClearSelection();
         }
+        private void FormatPoliciesGrid()
+        {
+            foreach (DataGridViewColumn c in grdPolicies.Columns)
+                c.Visible = false;
+            grdPolicies.Columns["Número"].Visible = true;
+            grdPolicies.Columns["Vence"].Visible = true;
+        }
         private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var currentPolicy = (PolicyGridItemDto)grdValids.CurrentRow.DataBoundItem;
@@ -366,34 +373,12 @@ namespace Seggu.Desktop.Forms
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             currentEndorse = null;
-            //SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
             if (this.currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
             btnEndosos.Enabled = true;
             btnCobranzas.Enabled = true;
-        }
-        private void tabCtrlPolicies_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabCtrlPolicies.SelectedIndex == 0)
-            {
-                //btnEndosos.Enabled = true;
-                grdEndorses.Visible = false;
-                btnCobranzas.Enabled = true;
-            }
-            else
-            {
-                btnEndosos.Enabled = false;
-                btnCobranzas.Enabled = false;
-            }
-        }
-        private void FormatPoliciesGrid()
-        {
-            foreach (DataGridViewColumn c in grdPolicies.Columns)
-                c.Visible = false;
-            grdPolicies.Columns["Número"].Visible = true;
-            grdPolicies.Columns["Vence"].Visible = true;
         }
         private void grdPolicies_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -410,7 +395,6 @@ namespace Seggu.Desktop.Forms
             btnCobranzas.Enabled = true;
             SetPanelControl(policyUc);
         }
-
         private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var currentPolicy = (PolicyGridItemDto)grdExpired.CurrentRow.DataBoundItem;
@@ -441,6 +425,19 @@ namespace Seggu.Desktop.Forms
         {
             grdPolicies.Visible = true;
             tabCtrlPolicies.Visible = false;
+        }
+        private void tabCtrlPolicies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabCtrlPolicies.SelectedIndex == 0)
+            {
+                grdEndorses.Visible = false;
+                btnCobranzas.Enabled = true;
+            }
+            else
+            {
+                btnEndosos.Enabled = false;
+                btnCobranzas.Enabled = false;
+            }
         }
         #endregion
 

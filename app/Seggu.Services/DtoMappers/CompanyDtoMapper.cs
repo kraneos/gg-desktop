@@ -12,15 +12,15 @@ namespace Seggu.Services.DtoMappers
             var dto = new CompanyDto();
             dto.Id = (int)c.Id;
             dto.Name = c.Name;
-            dto.Phone = c.Phone;
-            dto.Notes = c.Notes;
-            dto.Mail = c.EMail;
-            dto.CUIT = c.CUIT;
-            dto.LiqDay1 = c.LiqDay1.ToString();
-            dto.LiqDay2 = c.LiqDay2.ToString();
-            dto.Convenio1 = c.PaymentDay1.ToString();
-            dto.Convenio2 = c.PaymentDay2.ToString();
-            dto.Active = c.Active;
+            //dto.Phone = c.Phone;
+            //dto.Notes = c.Notes;
+            //dto.Mail = c.EMail;
+            //dto.CUIT = c.CUIT;
+            //dto.LiqDay1 = c.LiqDay1.ToString();
+            //dto.LiqDay2 = c.LiqDay2.ToString();
+            //dto.Convenio1 = c.PaymentDay1.ToString();
+            //dto.Convenio2 = c.PaymentDay2.ToString();
+            //dto.Active = c.Active;
             return dto;
         }
 
