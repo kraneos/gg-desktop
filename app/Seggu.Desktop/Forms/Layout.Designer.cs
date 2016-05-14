@@ -232,7 +232,8 @@
             this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdPolicies.Size = new System.Drawing.Size(238, 259);
             this.grdPolicies.TabIndex = 39;
-            this.grdPolicies.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellContentClick);
+            this.grdPolicies.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellClick);
+            this.grdPolicies.SelectionChanged += new System.EventHandler(this.grdPolicies_SelectionChanged);
             // 
             // grdEndorses
             // 
@@ -330,16 +331,17 @@
             this.grdValids.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdValids.Size = new System.Drawing.Size(241, 263);
             this.grdValids.TabIndex = 0;
-            this.grdValids.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdValids_CellMouseDoubleClick);
+            this.grdValids.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdValids_CellClick);
+            this.grdValids.SelectionChanged += new System.EventHandler(this.grdValids_SelectionChanged);
             // 
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 22);
+            this.tabExpired.Location = new System.Drawing.Point(4, 26);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 271);
+            this.tabExpired.Size = new System.Drawing.Size(247, 267);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -356,9 +358,10 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 267);
+            this.grdExpired.Size = new System.Drawing.Size(241, 263);
             this.grdExpired.TabIndex = 1;
-            this.grdExpired.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellContentClick);
+            this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
+            this.grdExpired.SelectionChanged += new System.EventHandler(this.grdExpired_SelectionChanged);
             // 
             // pictureBox1
             // 

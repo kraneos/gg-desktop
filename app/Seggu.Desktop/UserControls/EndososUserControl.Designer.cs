@@ -274,6 +274,7 @@
             this.txtSumaAsegurado.Name = "txtSumaAsegurado";
             this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
             this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
             // 
             // label13
             // 

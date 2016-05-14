@@ -359,18 +359,30 @@ namespace Seggu.Desktop.Forms
             grdPolicies.Columns["EndDate"].HeaderText = "Vence";
             grdPolicies.ClearSelection();
         }
-        private void grdValids_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+
+        private void grdExpired_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            ShowDetails((DataGridView)sender);
+        }
+        private void grdExpired_SelectionChanged(object sender, EventArgs e)
+        {
+            if (grdExpired.CurrentRow == null) return;
+            ShowDetails((DataGridView)sender);
+        }
+
+        private void grdPolicies_SelectionChanged(object sender, EventArgs e)
+        {
+            if (grdPolicies.CurrentRow == null) return;
             ShowDetails((DataGridView)sender);
 
             btnEndosos.Enabled = true;
             btnCobranzas.Enabled = true;
+
+            currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
+            LoadClientSideBar(currentClient);
+            SetPanelControl(policyUc);
         }
-        private void grdExpired_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ShowDetails((DataGridView)sender);
-        }
-        private void grdPolicies_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void grdPolicies_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ShowDetails((DataGridView)sender);
 
@@ -380,6 +392,22 @@ namespace Seggu.Desktop.Forms
             currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
             LoadClientSideBar(currentClient);
             SetPanelControl(policyUc);
+        }
+
+        private void grdValids_SelectionChanged(object sender, EventArgs e)
+        {
+            if (grdPolicies.CurrentRow == null) return;
+            ShowDetails((DataGridView)sender);
+
+            btnEndosos.Enabled = true;
+            btnCobranzas.Enabled = true;
+        }
+        private void grdValids_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowDetails((DataGridView)sender);
+
+            btnEndosos.Enabled = true;
+            btnCobranzas.Enabled = true;
         }
 
         private void ShowDetails(DataGridView grid)
@@ -393,6 +421,8 @@ namespace Seggu.Desktop.Forms
             policyUc.PopulateDetails();
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
+            else
+                grdEndorses.Visible = false;
         }
         private void SetButtonsPolicies()
         {
@@ -421,6 +451,7 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
+                grdEndorses.Visible = false;
                 btnEndosos.Enabled = false;
                 btnCobranzas.Enabled = false;
             }
@@ -454,9 +485,6 @@ namespace Seggu.Desktop.Forms
             var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             SetPanelControl(uc);
             uc.PopulateDetails();
-            grdValids.ClearSelection();
-            grdExpired.ClearSelection();
-            grdPolicies.ClearSelection();
         }
         private void SetButtonsEndorses()
         {
@@ -629,5 +657,6 @@ namespace Seggu.Desktop.Forms
             paquetes.Show();
         }
         #endregion
+
     }
 }

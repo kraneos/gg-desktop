@@ -8,6 +8,7 @@ using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -70,7 +71,6 @@ namespace Seggu.Desktop.UserControls
                 return (Layout)this.FindForm();
             }
         }
-
 
         public void NewEndorse()
         {
@@ -208,7 +208,6 @@ namespace Seggu.Desktop.UserControls
             dtpEmision.Checked = false;
         }
 
-
         public void PopulateDetails()
         {
             cmbRiesgo.ValueMember = "Id";
@@ -259,7 +258,6 @@ namespace Seggu.Desktop.UserControls
             txtTotalPagar.Text = totpagar.ToString();
         }
 
-
         private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbRiesgo.SelectedIndex == -1) return;
@@ -272,7 +270,6 @@ namespace Seggu.Desktop.UserControls
             vida_uc = null;
 
             var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
-
             var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
@@ -315,7 +312,6 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo.DisplayMember = "Name";
             cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
         }
-
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
@@ -417,13 +413,12 @@ namespace Seggu.Desktop.UserControls
 
             endorse.StartDate = dtpInicio.Value.ToShortDateString();
             endorse.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            endorse.TipoRiesgo = ((RiskCompanyDto)cmbRiesgo.SelectedItem).RiskType;
+            //endorse.TipoRiesgo = ((RiskItemDto)cmbRiesgo.SelectedItem).RiskType;
 
             endorse.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
 
             return endorse;
         }
-
 
         private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
@@ -441,7 +436,6 @@ namespace Seggu.Desktop.UserControls
             txtNetoPagar.Text = netoPagar.ToString();
         }
 
-
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
             calcularNetoCobrar();
@@ -458,8 +452,6 @@ namespace Seggu.Desktop.UserControls
             decimal netoCobrar = premioConIva - bonificacionPagar + recargoPropio;
             txtNetoCobrar.Text = netoCobrar.ToString();
         }
-
-
 
         private void cmbPlanes_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -516,50 +508,31 @@ namespace Seggu.Desktop.UserControls
             return fees;
         }
 
-
         private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPuntuacion(e);
+            ValidarNumeros((TextBox)sender, e);
         }
-        public void ValidarNumeroYPuntuacion(KeyPressEventArgs e)
+        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (char.IsDigit(e.KeyChar) == true)
-            {
-            }
-            //Codigo Ascii para el punto
-            else if (e.KeyChar == 46)
-            {
-            }
-            //Codigo Ascii para el porcentaje
-            else if (e.KeyChar == 37)
-            {
-            }
-            //codigo Ascii para la coma
-            else if (e.KeyChar == 44)
-            {
-            }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
+            ValidarNumeros((TextBox)sender, e);
+        }
+        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
             {
                 e.Handled = true;
             }
-        }
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
+            {		              
+                e.Handled = true;		             
+            }		              
+        }		          
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
             printService.EndorsePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
         }
-
     }
 }
