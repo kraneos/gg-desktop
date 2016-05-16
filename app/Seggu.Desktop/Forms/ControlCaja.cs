@@ -34,6 +34,7 @@ namespace Seggu.Desktop.Forms
         {
             InitializeComboboxes();
             InitializeIndex();
+            InitializeTextCtrls();
         }
         private void InitializeComboboxes()
         {
@@ -76,6 +77,11 @@ namespace Seggu.Desktop.Forms
                 table.Rows.Add(row);
             }
             grdControlCaja.DataSource = table;
+            grdControlCaja.Columns["Cuenta"].Width = 90;
+            grdControlCaja.Columns["Fecha"].Width = 120;
+            grdControlCaja.Columns["Descripción"].Width = 250;
+            grdControlCaja.Columns["Valor"].Width = 90;
+            grdControlCaja.Columns["Balance"].Width = 90;
             grdControlCaja.Columns["Id"].Visible = false;
             grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
             grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
@@ -84,9 +90,8 @@ namespace Seggu.Desktop.Forms
             //txtValor.DataBindings.Add("text", index, "Valor");
             //cmbActivos.DataBindings.Add("text", index, "Activo");
             grdControlCaja.Select();
-            CleanTxts();
         }
-        private void CleanTxts()
+        private void InitializeTextCtrls()
         {
             txtValor.Text = "Valor";
             txtDescripcion.Text = "Descripción";
@@ -100,39 +105,48 @@ namespace Seggu.Desktop.Forms
             cmbAccion.Text = "Acción";
         }
 
-
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (txtActivos.Visible)
             {
-                txtCuentas.Visible = false;
-                txtActivos.Visible = false;
-                btnActivos.Visible = false;
-                btnCuentas.Visible = false;
-                cmbActivos.Visible = true;
-                cmbCuentasContables.Visible = true;
-                btnGuardar.Visible = true;
-                dtpFechaTransaccion.Visible = true;
-                cmbCobrador.Visible = true;
-                txtDescripcion.Visible = true;
-                cmbAccion.Visible = true;
-                txtValor.Visible = true;
+                ToggleEditModeOff();
             }
             else
             {
-                btnCuentas.Visible = true;
-                txtCuentas.Visible = true;
-                txtActivos.Visible = true;
-                btnActivos.Visible = true;
-                cmbActivos.Visible = false;
-                cmbCuentasContables.Visible = false;
-                btnGuardar.Visible = false;
-                dtpFechaTransaccion.Visible = false;
-                cmbCobrador.Visible = false;
-                txtDescripcion.Visible = false;
-                cmbAccion.Visible = false;
-                txtValor.Visible = false;
+                ToggleEditModeOn();
             }
+        }
+        private void ToggleEditModeOff()
+        {
+            ShowAssetBalance();
+            txtCuentas.Visible = false;
+            txtActivos.Visible = false;
+            btnActivos.Visible = false;
+            btnCuentas.Visible = false;
+            cmbActivos.Visible = true;
+            cmbCuentasContables.Visible = true;
+            btnGuardar.Visible = true;
+            dtpFechaTransaccion.Visible = true;
+            cmbCobrador.Visible = true;
+            txtDescripcion.Visible = true;
+            cmbAccion.Visible = true;
+            txtValor.Visible = true;
+        }
+        private void ToggleEditModeOn()
+        {
+            lblBalance.Text = "";
+            btnCuentas.Visible = true;
+            txtCuentas.Visible = true;
+            txtActivos.Visible = true;
+            btnActivos.Visible = true;
+            cmbActivos.Visible = false;
+            cmbCuentasContables.Visible = false;
+            btnGuardar.Visible = false;
+            dtpFechaTransaccion.Visible = false;
+            cmbCobrador.Visible = false;
+            txtDescripcion.Visible = false;
+            cmbAccion.Visible = false;
+            txtValor.Visible = false;
         }
 
         private void txtDescripcion_Click(object sender, EventArgs e)
@@ -140,7 +154,6 @@ namespace Seggu.Desktop.Forms
             txtDescripcion.SelectionStart = 0;
             txtDescripcion.SelectionLength = txtDescripcion.Text.Length;
         }
-
         private void txtActivos_Click(object sender, EventArgs e)
         {
             txtActivos.SelectionStart = 0;
@@ -150,7 +163,6 @@ namespace Seggu.Desktop.Forms
             txtCuentas.Visible = false;
             btnCuentas.Visible = false;
         }
-
         private void txtCuentas_Click(object sender, EventArgs e)
         {
             txtCuentas.SelectionStart = 0;
@@ -159,13 +171,11 @@ namespace Seggu.Desktop.Forms
             btnActivos.Visible = false;
             txtValor.Visible = false;
         }
-
         private void txtValor_Click(object sender, EventArgs e)
         {
             txtValor.SelectionStart = 0;
             txtValor.SelectionLength = txtValor.Text.Length;
         }
-
         private void btnActivos_Click(object sender, EventArgs e)
         {
             string str = txtValor.Text;
@@ -191,7 +201,6 @@ namespace Seggu.Desktop.Forms
                     errorProvider1.SetError(txtValor, "ingrese un número solamente");
             }
         }
-
         private void btnCuentas_Click(object sender, EventArgs e)
         {
             if (txtCuentas.Text != "Nueva Cuenta Contable")
@@ -207,7 +216,6 @@ namespace Seggu.Desktop.Forms
                 InitializeComboboxes();
             }
         }
-
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -279,32 +287,54 @@ namespace Seggu.Desktop.Forms
             cashAccountService.Save(cashAcc1);
         }
 
-
         private void cmbAccion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbAccion.Text == "Ajuste")
+            switch (cmbAccion.Text)
             {
-                txtDescripcion.Text = "Ajuste";
-                txtDescripcion.Enabled = false;
-                cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Ajuste");
-                cmbCuentasContables.Enabled = false;
+                case "Pago":
+                    InitializeTextCtrls();
+                    break;
+                case "Depósito":
+                    InitializeTextCtrls();
+                    break;
+                case "Ajuste":
+                    SetAdjustCtrls();
+                    break;
+                case "Transferencia":
+                    SetTransferCtrls();
+                    break;
             }
-            else if (cmbAccion.Text == "Transferencia")
-            {
-                firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
-                txtDescripcion.Text = "Transferencia";
-                txtDescripcion.Enabled = false;
-                dtpFechaTransaccion.Enabled = false;
-                cmbCobrador.Enabled = false;
-                cmbCuentasContables.Enabled = false;
-                btnGuardar.Enabled = false;
-            }
+        }
+        private void SetAdjustCtrls()
+        {
+            txtDescripcion.Text = "Ajuste";
+            txtDescripcion.Enabled = false;
+            cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Ajuste");
+            cmbCuentasContables.Text = "Ajuste";
+            cmbCuentasContables.Enabled = false;
+        }
+        private void SetTransferCtrls()
+        {
+            firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
+            txtDescripcion.Text = "Transferencia";
+            txtDescripcion.Enabled = false;
+            dtpFechaTransaccion.Enabled = false;
+            cmbCobrador.Enabled = false;
+            cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Transferencia");
+            cmbCuentasContables.Enabled = false;
+            btnGuardar.Enabled = false;
         }
 
         private void cmbActivos_SelectionChangeCommitted(object sender, EventArgs e)
         {
             btnGuardar.Enabled = true;
+            ShowAssetBalance();
         }
 
+        private void ShowAssetBalance()
+        {
+            var currentAsset = (AssetDto)cmbActivos.SelectedItem;
+            lblBalance.Text = currentAsset.Amount.ToString();
+        }
     }
 }
