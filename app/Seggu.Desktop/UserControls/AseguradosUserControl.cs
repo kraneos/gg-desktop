@@ -200,6 +200,7 @@ namespace Seggu.Desktop.UserControls
 
         private void tctrlAseguradosControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (clientGrid.CurrentRow == null) return;
             if (this.tctrlAseguradosControl.SelectedIndex == 1)
             {
                 ShowClientDetails();
