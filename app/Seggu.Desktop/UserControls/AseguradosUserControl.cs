@@ -55,19 +55,25 @@ namespace Seggu.Desktop.UserControls
         public void InitializeIndex()
         {
             clientGrid.DataSource = clientService.GetAll().ToList();
-            clientGrid.Columns["Id"].Visible = false;
+            FormatGrid();
             clientGrid.Select();
         }
+        private void FormatGrid()
+        {
+            clientGrid.Columns["Id"].Visible = false;
+            clientGrid.Columns["PolicyCount"].Visible = false;
+        }
+
         public void ListClientsWithValidsPolicies()
         {
             clientGrid.DataSource = clientService.GetValids().ToList();
-            clientGrid.Columns["Id"].Visible = false;
+            FormatGrid();
         }
 
         public void FindClientByDNI(string txtBuscar)
         {
             clientGrid.DataSource = clientService.GetByDNI(txtBuscar).ToList();
-            clientGrid.Columns["Id"].Visible = false;
+            FormatGrid();
             if (clientGrid.RowCount == 1)
             {
                 clientGrid.CurrentCell = clientGrid.Rows[0].Cells[0];
@@ -82,7 +88,7 @@ namespace Seggu.Desktop.UserControls
             {
                 clientGrid.Focus();
                 clientGrid.DataSource = clientService.GetByName(txtBuscar).ToList();
-                clientGrid.Columns["Id"].Visible = false;
+                FormatGrid();
                 if (clientGrid.RowCount == 1)
                 {
                     clientGrid.CurrentCell = clientGrid.Rows[0].Cells[0];
