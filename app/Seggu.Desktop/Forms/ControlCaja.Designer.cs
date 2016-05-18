@@ -54,15 +54,17 @@
             // 
             // grdControlCaja
             // 
+            this.grdControlCaja.AllowUserToAddRows = false;
+            this.grdControlCaja.AllowUserToDeleteRows = false;
+            this.grdControlCaja.AllowUserToResizeRows = false;
             this.grdControlCaja.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdControlCaja.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdControlCaja.Location = new System.Drawing.Point(12, 51);
             this.grdControlCaja.Margin = new System.Windows.Forms.Padding(15);
             this.grdControlCaja.MultiSelect = false;
             this.grdControlCaja.Name = "grdControlCaja";
-            this.grdControlCaja.ReadOnly = true;
             this.grdControlCaja.RowHeadersVisible = false;
-            this.grdControlCaja.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grdControlCaja.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.grdControlCaja.Size = new System.Drawing.Size(1174, 569);
             this.grdControlCaja.TabIndex = 18;
             // 

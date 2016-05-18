@@ -37,7 +37,7 @@
             this.btnNotifications = new System.Windows.Forms.Button();
             this.btnPolizas = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnEndosos = new System.Windows.Forms.Button();
+            this.btnNevoEndoso = new System.Windows.Forms.Button();
             this.grdPolicies = new System.Windows.Forms.DataGridView();
             this.grdEndorses = new System.Windows.Forms.DataGridView();
             this.LblApellido = new System.Windows.Forms.Label();
@@ -186,7 +186,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.btnEndosos);
+            this.splitContainer1.Panel1.Controls.Add(this.btnNevoEndoso);
             this.splitContainer1.Panel1.Controls.Add(this.grdPolicies);
             this.splitContainer1.Panel1.Controls.Add(this.grdEndorses);
             this.splitContainer1.Panel1.Controls.Add(this.LblApellido);
@@ -203,21 +203,21 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 37;
             // 
-            // btnEndosos
+            // btnNevoEndoso
             // 
-            this.btnEndosos.AutoSize = true;
-            this.btnEndosos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnEndosos.BackColor = System.Drawing.SystemColors.Control;
-            this.btnEndosos.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnEndosos.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnEndosos.Location = new System.Drawing.Point(7, 436);
-            this.btnEndosos.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
-            this.btnEndosos.Name = "btnEndosos";
-            this.btnEndosos.Size = new System.Drawing.Size(112, 28);
-            this.btnEndosos.TabIndex = 41;
-            this.btnEndosos.Text = "Nuevo Endoso";
-            this.btnEndosos.UseVisualStyleBackColor = false;
-            this.btnEndosos.Click += new System.EventHandler(this.btnEndosos_Click);
+            this.btnNevoEndoso.AutoSize = true;
+            this.btnNevoEndoso.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnNevoEndoso.BackColor = System.Drawing.SystemColors.Control;
+            this.btnNevoEndoso.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnNevoEndoso.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnNevoEndoso.Location = new System.Drawing.Point(7, 436);
+            this.btnNevoEndoso.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
+            this.btnNevoEndoso.Name = "btnNevoEndoso";
+            this.btnNevoEndoso.Size = new System.Drawing.Size(112, 28);
+            this.btnNevoEndoso.TabIndex = 41;
+            this.btnNevoEndoso.Text = "Nuevo Endoso";
+            this.btnNevoEndoso.UseVisualStyleBackColor = false;
+            this.btnNevoEndoso.Click += new System.EventHandler(this.btnNuevoEndoso_Click);
             // 
             // grdPolicies
             // 
@@ -233,7 +233,6 @@
             this.grdPolicies.Size = new System.Drawing.Size(238, 259);
             this.grdPolicies.TabIndex = 39;
             this.grdPolicies.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellClick);
-            this.grdPolicies.SelectionChanged += new System.EventHandler(this.grdPolicies_SelectionChanged);
             // 
             // grdEndorses
             // 
@@ -332,16 +331,15 @@
             this.grdValids.Size = new System.Drawing.Size(241, 263);
             this.grdValids.TabIndex = 0;
             this.grdValids.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdValids_CellClick);
-            this.grdValids.SelectionChanged += new System.EventHandler(this.grdValids_SelectionChanged);
             // 
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 26);
+            this.tabExpired.Location = new System.Drawing.Point(4, 22);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 267);
+            this.tabExpired.Size = new System.Drawing.Size(247, 271);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -358,10 +356,9 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 263);
+            this.grdExpired.Size = new System.Drawing.Size(241, 267);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
-            this.grdExpired.SelectionChanged += new System.EventHandler(this.grdExpired_SelectionChanged);
             // 
             // pictureBox1
             // 
@@ -685,7 +682,7 @@
         private System.Windows.Forms.ToolStripMenuItem pólizasARenovarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem utilidadesToolStripMenuItem;
         private System.Windows.Forms.DataGridView grdPolicies;
-        private System.Windows.Forms.Button btnEndosos;
+        private System.Windows.Forms.Button btnNevoEndoso;
         private System.Windows.Forms.ToolStripMenuItem liquidacionesToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem reportesToolStripMenuItem;

@@ -36,15 +36,20 @@ namespace Seggu.Desktop.Forms
             this.feeService = feeService;
             this.companyService = companyService;
 
-            try
-            {
-                LaunchSplash();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //try
+            //{
+            //    LaunchSplash();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
+        //private void LaunchSplash()
+        //{
+        //    var splashForm = (Splash)DependencyResolver.Instance.Resolve(typeof(Splash));
+        //    splashForm.ShowDialog();
+        //}
 
         #region Security
         private static bool ValidateRegistry()
@@ -89,12 +94,6 @@ namespace Seggu.Desktop.Forms
         }
         #endregion
 
-        private void LaunchSplash()
-        {
-            var splashForm = (Splash)DependencyResolver.Instance.Resolve(typeof(Splash));
-            splashForm.ShowDialog();
-        }
-
         private void Layout_Load(object sender, EventArgs e)
         {
             btnLimpiar_Click(sender, e);
@@ -130,7 +129,6 @@ namespace Seggu.Desktop.Forms
             //    this.Close();
             //}
         }
-
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             LblApellido.Text = "Apellido";
@@ -155,25 +153,24 @@ namespace Seggu.Desktop.Forms
             btnPolizas.Text = "Pólizas";
             CleanLeftPanel();
         }
-
         public void CleanLeftPanel()
         {
             grdEndorses.Visible = false;
             grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
-            btnEndosos.Visible = false;
-        }
-
-        private void SetPanelControl(UserControl uc)
-        {
-            this.splitContainer1.Panel2.Controls.Clear();
-            this.splitContainer1.Panel2.Controls.Add(uc);
+            btnNevoEndoso.Visible = false;
         }
 
         private void CollapsePanel1()
         {
             if (!splitContainer1.Panel1Collapsed)
                 splitContainer1.Panel1Collapsed = true;
+        }
+
+        private void SetPanelControl(UserControl uc)
+        {
+            this.splitContainer1.Panel2.Controls.Clear();
+            this.splitContainer1.Panel2.Controls.Add(uc);
         }
 
         private void SetButtonsLiquidations()
@@ -195,7 +192,6 @@ namespace Seggu.Desktop.Forms
                 Cobranzas.Show();
             }
         }
-
         private void btnNotifications_Click(object sender, EventArgs e)
         {
             var uc = (CuotasVencidasUserControl)DependencyResolver.Instance.Resolve(typeof(CuotasVencidasUserControl));
@@ -214,18 +210,23 @@ namespace Seggu.Desktop.Forms
             if (str == "DNI, Apellido, Patente, Póliza") return;
             double num;
             bool isNume = double.TryParse(str, out num);
+
             //por DNI
             if (str.Length > 3 && isNume)
                 SearchByClientDNI(str);
+
             //por Nro Poliza
-            else if (str.Length > 1 && str.Substring(0, 2) == "p-")
-                SearchByPolicyNumber(str);
+            else if (str.Length > 1 && str.Substring(0, 1) == "#")
+                SearchByPolicyNumber(str.Substring(1));
+
             //por Patente
             else if ((str.Length > 3 && str.Length < 8) && (str[3] == '-') && (str.Substring(0, 3).AreAllLetters() || str.Substring(0, 3).AreAllNumbers()))
                 SearchByVehiclePlate(str);
+
             //por apellido
             else if (str.Length > 3)
                 SearchByLastName(str);
+
             //nada
             else if (str.Length > 4)
                 MessageBox.Show("No existen registros");
@@ -246,19 +247,17 @@ namespace Seggu.Desktop.Forms
         }
         private void SearchByPolicyNumber(string str)
         {
-            grdPolicies.DataSource = policyService.GetByPolicyNumber(str.Substring(2)).ToList();
+            grdPolicies.DataSource = policyService.GetByPolicyNumber(str).ToList();
 
             FormatPoliciesGrid();
-            SetButtonsPolicies();
-            SetButtonsPoliciesSearch();
+            SetPoliciesSearchResultCtrls();
         }
         private void SearchByVehiclePlate(string str)
         {
             grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
 
             FormatPoliciesGrid();
-            SetButtonsPolicies();
-            SetButtonsPoliciesSearch();
+            SetPoliciesSearchResultCtrls();
         }
         #endregion
 
@@ -313,7 +312,7 @@ namespace Seggu.Desktop.Forms
             if (currentClient != null)
             {
                 LoadPoliciesGrids();
-                SetButtonsPolicies();
+                tabCtrlPolicies_SelectedIndexChanged(sender, e);
             }
             else
             {
@@ -323,11 +322,22 @@ namespace Seggu.Desktop.Forms
         }
         private void LoadPoliciesGrids()
         {
+            grdExpired.DataSource = policyService.GetNotValidsByClient(currentClient.Id).ToList();
+            FormatExpiredGrid();
+
             grdValids.DataSource = policyService.GetValidsByClient(currentClient.Id).ToList();
             FormatValidGrid();
 
-            grdExpired.DataSource = policyService.GetNotValidsByClient(currentClient.Id).ToList();
-            FormatExpiredGrid();
+            this.splitContainer1.Panel2.Controls.Clear();
+
+            tabCtrlPolicies.Visible = true;
+            btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Bold);
+            btnCobranzas.Enabled = true;
+
+            grdPolicies.Visible = false;
+            grdEndorses.Visible = false;
+            btnNevoEndoso.Visible = false;
+
         }
         private void FormatValidGrid()
         {
@@ -347,7 +357,6 @@ namespace Seggu.Desktop.Forms
             grdExpired.Columns["Name"].HeaderText = "Nro Poliza";
             grdExpired.Columns["EndDate"].Visible = true;
             grdExpired.Columns["EndDate"].HeaderText = "Vence";
-            grdExpired.ClearSelection();
         }
         private void FormatPoliciesGrid()
         {
@@ -360,54 +369,20 @@ namespace Seggu.Desktop.Forms
             grdPolicies.ClearSelection();
         }
 
+        private void grdValids_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowDetails((DataGridView)sender);
+        }
         private void grdExpired_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ShowDetails((DataGridView)sender);
         }
-        private void grdExpired_SelectionChanged(object sender, EventArgs e)
-        {
-            if (grdExpired.CurrentRow == null) return;
-            ShowDetails((DataGridView)sender);
-        }
-
-        private void grdPolicies_SelectionChanged(object sender, EventArgs e)
-        {
-            if (grdPolicies.CurrentRow == null) return;
-            ShowDetails((DataGridView)sender);
-
-            btnEndosos.Enabled = true;
-            btnCobranzas.Enabled = true;
-
-            currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
-            LoadClientSideBar(currentClient);
-            SetPanelControl(policyUc);
-        }
         private void grdPolicies_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ShowDetails((DataGridView)sender);
-
-            btnEndosos.Enabled = true;
-            btnCobranzas.Enabled = true;
-
+            SetPoliciesSearchResultCtrls();
             currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
             LoadClientSideBar(currentClient);
-            SetPanelControl(policyUc);
-        }
-
-        private void grdValids_SelectionChanged(object sender, EventArgs e)
-        {
-            if (grdPolicies.CurrentRow == null) return;
-            ShowDetails((DataGridView)sender);
-
-            btnEndosos.Enabled = true;
-            btnCobranzas.Enabled = true;
-        }
-        private void grdValids_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ShowDetails((DataGridView)sender);
-
-            btnEndosos.Enabled = true;
-            btnCobranzas.Enabled = true;
         }
 
         private void ShowDetails(DataGridView grid)
@@ -419,52 +394,74 @@ namespace Seggu.Desktop.Forms
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
             policyUc.PopulateDetails();
+
+            SetPoliciesVisualContext();
+        }
+        private void SetPoliciesVisualContext()
+        {
+            tabCtrlPolicies.Visible = true;
+
+            btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Bold);
+
+            if (currentPolicy.IsAnnulled || currentPolicy.IsRemoved || currentPolicy.Vence.ToDateTime() < DateTime.Today)
+            {
+                btnNevoEndoso.Visible = false;
+                btnCobranzas.Enabled = false;
+            }
+
             if (currentPolicy.Endorses.Count() > 0)
                 LoadEndorseGrid();
             else
                 grdEndorses.Visible = false;
         }
-        private void SetButtonsPolicies()
+        private void SetPoliciesSearchResultCtrls()
         {
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Bold);
-            btnCobranzas.Enabled = false;
-            tabCtrlPolicies.Visible = true;
-            grdPolicies.Visible = false;
-            //if (SegguExecutionContext.Instance.CurrentUser.Role == Role.Cajero)
-            //{
-            btnEndosos.Visible = true;
-            btnEndosos.Enabled = false;
-            //}
-            grdEndorses.Visible = false;
-        }
-        private void SetButtonsPoliciesSearch()
-        {
+
             grdPolicies.Visible = true;
             tabCtrlPolicies.Visible = false;
         }
         private void tabCtrlPolicies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabCtrlPolicies.SelectedIndex == 0)
+            this.splitContainer1.Panel2.Controls.Clear();
+
+            if (tabCtrlPolicies.SelectedIndex == 0)//pestaña de pol vigentes
             {
+                if (grdValids.RowCount == 1)
+                {
+                    grdValids.CurrentCell = grdValids.Rows[0].Cells[0];
+                    ShowDetails(grdValids);
+                    grdValids.CurrentCell = grdValids.Rows[0].Cells[0];
+                }
+                else
+                    grdValids.ClearSelection();
+
                 grdEndorses.Visible = false;
-                btnCobranzas.Enabled = true;
+                      
             }
-            else
+            else//pestaña de pol vencidas
             {
+                if (grdExpired.RowCount == 1)
+                {
+                    ShowDetails(grdExpired);
+
+                }
+                else
+                    grdExpired.ClearSelection();
+
                 grdEndorses.Visible = false;
-                btnEndosos.Enabled = false;
+                btnNevoEndoso.Visible = false;
                 btnCobranzas.Enabled = false;
             }
         }
         #endregion
 
         #region Endosos
-        private void btnEndosos_Click(object sender, EventArgs e)
+        private void btnNuevoEndoso_Click(object sender, EventArgs e)
         {
             var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             SetPanelControl(uc);
             uc.NewEndorse();
-            SetButtonsEndorses();
         }
         private void LoadEndorseGrid()
         {
@@ -485,10 +482,6 @@ namespace Seggu.Desktop.Forms
             var uc = (EndososUserControl)DependencyResolver.Instance.Resolve(typeof(EndososUserControl));
             SetPanelControl(uc);
             uc.PopulateDetails();
-        }
-        private void SetButtonsEndorses()
-        {
-
         }
         #endregion
 
