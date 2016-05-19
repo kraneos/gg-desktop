@@ -282,12 +282,8 @@ namespace Seggu.Desktop.Forms
         }
         public void SetButtonsClients()
         {
-            //SetButtonsPrincipal();
-            //btnLiquidaciones.Font = new Font(btnLiquidaciones.Font, FontStyle.Regular);
-
+            SetButtonsPrincipal();
             btnPolizas.Enabled = true;
-            btnPolizas.Text = "Pólizas";
-            btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Regular);
         }
         private void LblNombre_MouseHover(object sender, EventArgs e)
         {
@@ -311,8 +307,16 @@ namespace Seggu.Desktop.Forms
         {
             if (currentClient != null)
             {
-                LoadPoliciesGrids();
-                tabCtrlPolicies_SelectedIndexChanged(sender, e);
+                if (currentClient.PolicyCount == 0)//para crear nueva pol
+                {
+                    policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
+                    SetPanelControl(policyUc);
+                }
+                else
+                {
+                    LoadPoliciesGrids();
+                    tabCtrlPolicies_SelectedIndexChanged(sender, e);
+                }
             }
             else
             {

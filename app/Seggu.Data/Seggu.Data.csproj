@@ -108,6 +108,8 @@
     <None Include="Resources\Plantilla_Solicitud_Endoso.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Póliza.pdf" />
     <None Include="Resources\plantilla_recibo_seggu.pdf" />
+    <None Include="Resources\Solicitud-Inscripcion-Seguro-Colectivo-2.pdf" />
+    <None Include="Resources\Solicitud-Inscripcion-Seguro-Colectivo.pdf" />
     <None Include="Scripts\sqlite\001.SegguDataModel.edmx.sqlite" />
     <Content Include="Scripts\sqlite\002.FeeSelectionAssigmentTableType.sql" />
     <Content Include="Scripts\sqlite\003.SampleData.sql" />

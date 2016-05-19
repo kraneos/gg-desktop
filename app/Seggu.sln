@@ -23,6 +23,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{48BC48E8-1CF0-4203-B074-B0F41F0C7362}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{CA4A5F1D-BC28-47D2-B3F5-50428524984B}"
+	ProjectSection(SolutionItems) = preProject
+		Seggu.Data\Resources\Solicitud-Inscripcion-Seguro-Colectivo.pdf = Seggu.Data\Resources\Solicitud-Inscripcion-Seguro-Colectivo.pdf
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLogic", "{7BDDB0B4-4935-4BF8-BA6D-49808DC36DD5}"
 EndProject

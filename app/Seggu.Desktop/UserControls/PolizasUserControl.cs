@@ -327,7 +327,8 @@ namespace Seggu.Desktop.UserControls
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            printService.PolicyPDF(LayoutForm.currentClient, LayoutForm.currentPolicy, vehicle_uc.GetSelectedPlate());
+            //printService.PolicyPDF(LayoutForm.currentClient, LayoutForm.currentPolicy, vehicle_uc.GetSelectedPlate());
+            //printService.GetNames();
         }
 
         #region Datos grales Tab
