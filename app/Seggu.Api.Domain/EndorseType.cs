@@ -1,7 +1,5 @@
 namespace Seggu.Api.Domain
 {
-    using System;
-    
     public enum EndorseType : int
     {
         Cambio_Asegurado = 1,

@@ -158,7 +158,7 @@ namespace Seggu.Desktop.Forms
             grdEndorses.Visible = false;
             grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
-            btnNevoEndoso.Visible = false;
+            btnNuevoEndoso.Visible = false;
         }
 
         private void CollapsePanel1()
@@ -340,7 +340,7 @@ namespace Seggu.Desktop.Forms
 
             grdPolicies.Visible = false;
             grdEndorses.Visible = false;
-            btnNevoEndoso.Visible = false;
+            btnNuevoEndoso.Visible = false;
 
         }
         private void FormatValidGrid()
@@ -404,12 +404,12 @@ namespace Seggu.Desktop.Forms
         private void SetPoliciesVisualContext()
         {
             tabCtrlPolicies.Visible = true;
-
+            btnNuevoEndoso.Visible = true;
             btnPolizas.Font = new Font(btnPolizas.Font, FontStyle.Bold);
 
             if (currentPolicy.IsAnnulled || currentPolicy.IsRemoved || currentPolicy.Vence.ToDateTime() < DateTime.Today)
             {
-                btnNevoEndoso.Visible = false;
+                btnNuevoEndoso.Visible = false;
                 btnCobranzas.Enabled = false;
             }
 
@@ -417,6 +417,7 @@ namespace Seggu.Desktop.Forms
                 LoadEndorseGrid();
             else
                 grdEndorses.Visible = false;
+
         }
         private void SetPoliciesSearchResultCtrls()
         {
@@ -447,14 +448,15 @@ namespace Seggu.Desktop.Forms
             {
                 if (grdExpired.RowCount == 1)
                 {
+                    grdExpired.CurrentCell = grdExpired.Rows[0].Cells[0];
                     ShowDetails(grdExpired);
-
+                    grdExpired.CurrentCell = grdExpired.Rows[0].Cells[0];
                 }
                 else
                     grdExpired.ClearSelection();
 
                 grdEndorses.Visible = false;
-                btnNevoEndoso.Visible = false;
+                btnNuevoEndoso.Visible = false;
                 btnCobranzas.Enabled = false;
             }
         }

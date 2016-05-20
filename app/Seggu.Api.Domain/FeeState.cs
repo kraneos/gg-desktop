@@ -1,7 +1,5 @@
 namespace Seggu.Api.Domain
 {
-    using System;
-    
     public enum FeeState : int
     {
         Debe = 0,

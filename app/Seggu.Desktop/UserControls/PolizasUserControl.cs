@@ -1,7 +1,4 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Seggu.Data;
-using Seggu.Desktop.Forms;
+﻿using Seggu.Desktop.Forms;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
@@ -327,7 +324,31 @@ namespace Seggu.Desktop.UserControls
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            //printService.PolicyPDF(LayoutForm.currentClient, LayoutForm.currentPolicy, vehicle_uc.GetSelectedPlate());
+            var riskTypes = masterDataService.GetRiskTypes();
+            var pol = LayoutForm.currentPolicy;
+
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
+            var riesgo = risk.RiskType;
+
+            switch (riesgo)
+            {
+                case RiskType.Automotores:
+                    if (pol.Vehicles.Count() > 1)
+                    {
+                        //print flota
+                    }
+                    else
+                    {
+                        //print seleccionado
+                        printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
+                    }
+                    break;
+                case RiskType.Vida_colectivo_Otros:
+                    //print vida
+                    break;
+                    
+            }
+
             //printService.GetNames();
         }
 
