@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using iTextSharp.text;
+﻿using System.Collections.Generic;
 using Seggu.Dtos;
 
 namespace Seggu.Services.Interfaces
@@ -11,8 +7,10 @@ namespace Seggu.Services.Interfaces
     {
         void CreateFeesPdf(List<FeeDto> feeDto);
         void PrintReceipt(FeeChargeDto printFee);
+        void PolicyVehiclePDF(PolicyFullDto policy, string selectedPlate);
+        void PolicyIntegralPDF(PolicyFullDto policy);
+        void PolicyLifePDF(PolicyFullDto policy);
         void EndorsePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy);
-        void PolicyPDF(ClientIndexDto client, PolicyFullDto policy, string selectedPlate);
-        void GetNames();
+        //void GetNames();
     }
 }

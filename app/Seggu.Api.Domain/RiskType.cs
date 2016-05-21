@@ -1,7 +1,5 @@
 namespace Seggu.Api.Domain
 {
-    using System;
-    
     public enum RiskType : int
     {
         Automotores = 1,

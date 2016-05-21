@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Seggu.Desktop.Forms;
+using Seggu.Dtos;
+using Seggu.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Seggu.Services.Interfaces;
-using Seggu.Dtos;
-using Seggu.Desktop.Forms;
 using System.Globalization;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Seggu.Desktop.UserControls
 {
@@ -32,7 +29,6 @@ namespace Seggu.Desktop.UserControls
         private List<IntegralDto> integralList = new List<IntegralDto>();
         private IntegralDto currentIntegral = new IntegralDto();
         private List<CoverageDto> coverages = new List<CoverageDto>();
-        //private PolicyFullDto currentPolicy;
 
         public Layout MainForm
         {
@@ -187,35 +183,6 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.DataSource = filteredLocalities;
         }
 
-        public bool ValidateControls()
-        {
-            bool ok = true;
-            errorProvider1.Clear();
-            foreach (Control c in this.Controls)
-            {
-                if (c is TextBox)
-                {
-                    if (c == txtHomeNumber || c == txtHomeStreet)
-                        if (c.Text == string.Empty)
-                        {
-                            errorProvider1.SetError(c, "Campo vacío");
-                            ok = false;
-                        }
-                }
-
-                if (c is ComboBox)
-                {
-                    if (c == cmbLocality || c == cmbDistrict || c == cmbProvince)
-                        if ((c as ComboBox).SelectedIndex == -1 || (c as ComboBox).SelectedIndex == 0)
-                        {
-                            errorProvider1.SetError(c, "Debe seleccionar un elemento");
-                            ok = false;
-                        }
-                }
-
-            }
-            return ok;
-        }
 
         private void btnAddCoverage_Click(object sender, EventArgs e)
         {
@@ -245,6 +212,36 @@ namespace Seggu.Desktop.UserControls
             FormatCoveragesGrid();
         }
 
+        #region validaciones
+        public bool ValidateControls()
+        {
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    if (c == txtHomeNumber || c == txtHomeStreet)
+                        if (c.Text == string.Empty)
+                        {
+                            errorProvider1.SetError(c, "Campo vacío");
+                            ok = false;
+                        }
+                }
+
+                if (c is ComboBox)
+                {
+                    if (c == cmbLocality || c == cmbDistrict || c == cmbProvince)
+                        if ((c as ComboBox).SelectedIndex == -1 || (c as ComboBox).SelectedIndex == 0)
+                        {
+                            errorProvider1.SetError(c, "Debe seleccionar un elemento");
+                            ok = false;
+                        }
+                }
+
+            }
+            return ok;
+        }
         public void ValidarNumeros(object sender, KeyPressEventArgs e)
         {
             var c = e.KeyChar;
@@ -258,7 +255,6 @@ namespace Seggu.Desktop.UserControls
                 e.Handled = true;
             }
         }
-
         private void txtHomePostal_Validating(object sender, CancelEventArgs e)
         {
             //var regex = @"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$";
@@ -274,7 +270,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
             }
         }
-
         private void txtHomeStreet_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeStreet.Text))
@@ -284,7 +279,6 @@ namespace Seggu.Desktop.UserControls
 
             }
         }
-
         private void txtHomeNumber_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeNumber.Text))
@@ -293,7 +287,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.txtHomeNumber, "Este campo es obligatorio.");
             }
         }
-
         private void cmbProvince_Validating(object sender, CancelEventArgs e)
         {
             if (this.cmbProvince.SelectedIndex < 0)
@@ -302,7 +295,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.cmbProvince, "Este campo es obligatorio.");
             }
         }
-
         private void cmbDistrict_Validating(object sender, CancelEventArgs e)
         {
             if (this.cmbDistrict.SelectedIndex < 0)
@@ -311,7 +303,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.cmbDistrict, "Este campo es obligatorio.");
             }
         }
-
         private void cmbLocality_Validating(object sender, CancelEventArgs e)
         {
             if (this.cmbLocality.SelectedIndex < 0)
@@ -320,7 +311,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.cmbLocality, "Este campo es obligatorio.");
             }
         }
-
         private void grdCoverages_Validating(object sender, CancelEventArgs e)
         {
             if (this.coverages.Count == 0)
@@ -329,5 +319,6 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
             }
         }
+        #endregion
     }
 }
