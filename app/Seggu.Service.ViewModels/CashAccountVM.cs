@@ -7,14 +7,14 @@ namespace Seggu.Service.ViewModels
 {
     public class CashAccountVM : ViewModel
     {
-        public Guid AssetId { get; set; }
-        public Guid LedgerAccountId { get; set; }
+        public string AssetId { get; set; }
+        public string LedgerAccountId { get; set; }
         public System.DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
-        public Nullable<Guid> ProducerId { get; set; }
-        public Nullable<long> FeeId { get; set; }
+        public string ProducerId { get; set; }
+        public string FeeId { get; set; }
         public string ReceiptNumber { get; set; }
     }
 }

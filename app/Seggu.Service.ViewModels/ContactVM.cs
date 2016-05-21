@@ -12,7 +12,7 @@ public    class ContactVM : ViewModel
         public string Phone { get; set; }
         public string Mail { get; set; }
         public string Notes { get; set; }
-        public Nullable<Guid> CompanyId { get; set; }
+        public string CompanyId { get; set; }
         public string Bussiness { get; set; }
 
     }

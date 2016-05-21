@@ -7,6 +7,6 @@ namespace Seggu.Service.ViewModels
 {
     public class LocalityVM : KeyValueViewModel
     {
-        public Guid DistrictId { get; set; }
+        public string DistrictId { get; set; }
     }
 }

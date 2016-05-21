@@ -1,8 +1,10 @@
-﻿namespace Seggu.Service.Services
+﻿using Seggu.Service.ViewModels;
+
+namespace Seggu.Service.Services
 {
-    public class BatchResponse<T>
+    public class BatchResponse
     {
-        public T Success { get; set; }
+        public BatchElementResponseVM Success { get; set; }
         public ErrorMessage Error { get; set; }
     }
 

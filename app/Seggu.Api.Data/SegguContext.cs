@@ -12,7 +12,7 @@ namespace Seggu.Api.Data
     public partial class SegguContext : IdentityDbContext<ApplicationUser>
     {
         public SegguContext()
-            : base("name=DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 

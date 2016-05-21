@@ -9,8 +9,8 @@ namespace Seggu.Service.ViewModels
     {
         public string Stamp { get; set; }
         public System.DateTime ExpirationDate { get; set; }
-        public Guid AccessoryTypeId { get; set; }
+        public string AccessoryTypeId { get; set; }
         public decimal Value { get; set; }
-        public Guid VehicleId { get; set; }
+        public string VehicleId { get; set; }
     }
 }

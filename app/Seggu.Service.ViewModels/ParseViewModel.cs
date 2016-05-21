@@ -13,7 +13,7 @@ namespace Seggu.Service.ViewModels
 
     public abstract class ViewModel : ViewModelBase
     {
-        public Guid Id { get; set; }
+        public string ObjectId { get; set; }
     }
 
     public abstract class KeyValueViewModel : ViewModel

@@ -35,13 +35,13 @@ namespace Seggu.Service.Services
 
         private RestRequest GetRequest(string resource, Method method)
         {
-            var token = this.GetToken();
+            //var token = this.GetToken();
 
             var req = new RestRequest(resource, method);
             req.AddHeader("Content-Type", "application/json");
-            req.AddHeader("Authorization", "Bearer " + token);
-            //req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
-            //req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
+            //req.AddHeader("Authorization", "Bearer " + token);
+            req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
+            req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
             req.RequestFormat = DataFormat.Json;
             return req;
         }
@@ -102,14 +102,14 @@ namespace Seggu.Service.Services
 
             IEnumerable<TParseEntity> entities = null;
 
-            while (GetEntities<TParseEntity, TViewModel>(parseEntityName, page, 50, lastSync.LastSync, entities))
+            while (GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync.LastSync, entities))
             {
                 MergeEntities<TParseEntity>(entities);
                 page++;
             }
 
             lastSync.LastSync = thisSync;
-            
+
             this.context.SaveChanges();
         }
 
@@ -139,15 +139,15 @@ namespace Seggu.Service.Services
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var path = "/api/" + parseEntityName;
+            var path = "/classes/" + parseEntityName;
 
             var req = GetRequest(path, Method.GET);
 
-            req.AddQueryParameter("page", page.ToString());
-            req.AddQueryParameter("count", count.ToString());
+            req.AddParameter("skip", page.ToString());
+            req.AddParameter("limit", count.ToString());
             if (from != null)
             {
-                req.AddQueryParameter("from", from.Value.ToString());
+                req.AddParameter("where", "{\"updatedAt\":{\"$gt\":" + JsonConvert.SerializeObject(new DateVM(from.Value)) + "}}");
             }
 
             this.eventLog.WriteEntry("About to execute query for " + parseEntityName);
@@ -156,7 +156,8 @@ namespace Seggu.Service.Services
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 this.eventLog.WriteEntry(parseEntityName + " everything ok.");
-                entities = JsonConvert.DeserializeObject<List<TViewModel>>(res.Content)
+                entities = JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
+                    .Results
                     .Select(Mapper.Map<TViewModel, TParseEntity>)
                     .ToList();
                 return entities.Any();
@@ -172,7 +173,7 @@ namespace Seggu.Service.Services
             IEnumerable<TParseEntity> entities,
             string parseEntityName,
             string statusCode,
-            Action<TParseEntity, TViewModel> callback,
+            Action<TParseEntity, BatchElementResponseVM> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
@@ -211,19 +212,18 @@ namespace Seggu.Service.Services
             IEnumerable<TParseEntity> entities,
             string parseEntityName,
             string statusCode,
-            Action<TParseEntity, TViewModel> callback,
+            Action<TParseEntity, BatchElementResponseVM> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var reqPath = "api/" + parseEntityName;
-            var req = GetRequest("/batch/" + parseEntityName, Method.POST);
+            var req = GetRequest("/batch", Method.POST);
 
             var batch = new BatchRequest<TViewModel>();
             batch.Requests = entities.Select(e => new BatchElement<TViewModel>
             {
                 Method = statusCode,
-                Id = e.ObjectId,
+                Path = $"/classes/{parseEntityName}" + statusCode == "PUT" ? ($"/{e.ObjectId}") : string.Empty,
                 Body = Mapper.Map<TParseEntity, TViewModel>(e)
             });
 
@@ -233,7 +233,7 @@ namespace Seggu.Service.Services
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 this.eventLog.WriteEntry(parseEntityName + " everything ok.");
-                var data = JsonConvert.DeserializeObject<List<BatchResponse<TViewModel>>>(res.Content);
+                var data = JsonConvert.DeserializeObject<List<BatchResponse>>(res.Content);
                 var count = entities.Count();
                 for (int i = 0; i < count; i++)
                 {
@@ -255,19 +255,19 @@ namespace Seggu.Service.Services
         }
 
         #region MethodMappers
-        private void CreateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
+        private void CreateMapper<TParseEntity>(TParseEntity e, BatchElementResponseVM vm)
             where TParseEntity : IdParseEntity
-            where TParseViewModel : ViewModel
+            //where TParseViewModel : ViewModel
         {
-            e.ObjectId = vm.Id.ToString();
+            e.ObjectId = vm.ObjectId;//.ToString();
             e.CreatedAt = vm.CreatedAt;
             e.UpdatedAt = vm.CreatedAt;
             e.LocallyUpdatedAt = vm.CreatedAt;
         }
 
-        private void UpdateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
+        private void UpdateMapper<TParseEntity>(TParseEntity e, BatchElementResponseVM vm)
             where TParseEntity : IdParseEntity
-            where TParseViewModel : ViewModel
+            //where TParseViewModel : ViewModel
         {
             e.UpdatedAt = vm.UpdatedAt;
             e.LocallyUpdatedAt = vm.UpdatedAt;
