@@ -9,5 +9,6 @@ namespace Seggu.Dtos
         public string Tel_Móvil { get; set; }
         public string Mail { get; set; }
         public string Dni { get; set; }
+        public int PolicyCount { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace Seggu.Services.Interfaces
         void PrintReceipt(FeeChargeDto printFee);
         void EndorsePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy);
         void PolicyPDF(ClientIndexDto client, PolicyFullDto policy, string selectedPlate);
+        void GetNames();
     }
 }

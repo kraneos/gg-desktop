@@ -7,9 +7,9 @@ namespace Seggu.Services.Interfaces
     {
         void Save(ClientFullDto clientInformation);
 
-        IEnumerable<ClientFullDto> GetByDNI(string str);
+        IEnumerable<ClientIndexDto> GetByDNI(string str);
 
-        IEnumerable<ClientFullDto> GetByName(string str);
+        IEnumerable<ClientIndexDto> GetByName(string str);
 
         IEnumerable<ClientIndexDto> GetAll();
 

@@ -94,6 +94,7 @@
             this.grdCuotas.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdCuotas.Location = new System.Drawing.Point(12, 74);
             this.grdCuotas.Margin = new System.Windows.Forms.Padding(15);
+            this.grdCuotas.MultiSelect = false;
             this.grdCuotas.Name = "grdCuotas";
             this.grdCuotas.ReadOnly = true;
             this.grdCuotas.RowHeadersVisible = false;

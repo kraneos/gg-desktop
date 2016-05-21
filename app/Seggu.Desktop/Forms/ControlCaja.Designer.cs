@@ -46,22 +46,26 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.cmbCobrador = new System.Windows.Forms.ComboBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblBalance = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grdControlCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // grdControlCaja
             // 
+            this.grdControlCaja.AllowUserToAddRows = false;
+            this.grdControlCaja.AllowUserToDeleteRows = false;
+            this.grdControlCaja.AllowUserToResizeRows = false;
             this.grdControlCaja.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdControlCaja.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdControlCaja.Location = new System.Drawing.Point(12, 51);
             this.grdControlCaja.Margin = new System.Windows.Forms.Padding(15);
             this.grdControlCaja.MultiSelect = false;
             this.grdControlCaja.Name = "grdControlCaja";
-            this.grdControlCaja.ReadOnly = true;
             this.grdControlCaja.RowHeadersVisible = false;
-            this.grdControlCaja.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdControlCaja.Size = new System.Drawing.Size(700, 569);
+            this.grdControlCaja.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.grdControlCaja.Size = new System.Drawing.Size(1174, 569);
             this.grdControlCaja.TabIndex = 18;
             // 
             // label1
@@ -78,7 +82,7 @@
             // 
             this.btnGuardar.AutoSize = true;
             this.btnGuardar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuardar.Location = new System.Drawing.Point(943, 334);
+            this.btnGuardar.Location = new System.Drawing.Point(1416, 342);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(10);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(66, 27);
@@ -89,7 +93,7 @@
             // 
             // txtValor
             // 
-            this.txtValor.Location = new System.Drawing.Point(738, 336);
+            this.txtValor.Location = new System.Drawing.Point(1211, 344);
             this.txtValor.Margin = new System.Windows.Forms.Padding(10);
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(135, 25);
@@ -99,7 +103,7 @@
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(738, 242);
+            this.txtDescripcion.Location = new System.Drawing.Point(1211, 250);
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(10);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(271, 25);
@@ -110,7 +114,7 @@
             // cmbCuentasContables
             // 
             this.cmbCuentasContables.FormattingEnabled = true;
-            this.cmbCuentasContables.Location = new System.Drawing.Point(738, 192);
+            this.cmbCuentasContables.Location = new System.Drawing.Point(1211, 200);
             this.cmbCuentasContables.Margin = new System.Windows.Forms.Padding(10);
             this.cmbCuentasContables.Name = "cmbCuentasContables";
             this.cmbCuentasContables.Size = new System.Drawing.Size(271, 25);
@@ -125,7 +129,7 @@
             "Depósito",
             "Ajuste",
             "Transferencia"});
-            this.cmbAccion.Location = new System.Drawing.Point(738, 289);
+            this.cmbAccion.Location = new System.Drawing.Point(1211, 297);
             this.cmbAccion.Margin = new System.Windows.Forms.Padding(10);
             this.cmbAccion.Name = "cmbAccion";
             this.cmbAccion.Size = new System.Drawing.Size(271, 25);
@@ -135,7 +139,7 @@
             // 
             // dtpFechaTransaccion
             // 
-            this.dtpFechaTransaccion.Location = new System.Drawing.Point(738, 101);
+            this.dtpFechaTransaccion.Location = new System.Drawing.Point(1211, 93);
             this.dtpFechaTransaccion.Margin = new System.Windows.Forms.Padding(10);
             this.dtpFechaTransaccion.Name = "dtpFechaTransaccion";
             this.dtpFechaTransaccion.Size = new System.Drawing.Size(271, 25);
@@ -144,7 +148,7 @@
             // cmbActivos
             // 
             this.cmbActivos.FormattingEnabled = true;
-            this.cmbActivos.Location = new System.Drawing.Point(738, 146);
+            this.cmbActivos.Location = new System.Drawing.Point(1211, 138);
             this.cmbActivos.Margin = new System.Windows.Forms.Padding(10);
             this.cmbActivos.Name = "cmbActivos";
             this.cmbActivos.Size = new System.Drawing.Size(271, 25);
@@ -154,7 +158,7 @@
             // 
             // txtCuentas
             // 
-            this.txtCuentas.Location = new System.Drawing.Point(738, 192);
+            this.txtCuentas.Location = new System.Drawing.Point(1211, 200);
             this.txtCuentas.Margin = new System.Windows.Forms.Padding(10);
             this.txtCuentas.Name = "txtCuentas";
             this.txtCuentas.Size = new System.Drawing.Size(238, 25);
@@ -167,7 +171,7 @@
             // 
             this.btnCuentas.AutoSize = true;
             this.btnCuentas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnCuentas.Location = new System.Drawing.Point(982, 191);
+            this.btnCuentas.Location = new System.Drawing.Point(1455, 199);
             this.btnCuentas.Margin = new System.Windows.Forms.Padding(10);
             this.btnCuentas.Name = "btnCuentas";
             this.btnCuentas.Size = new System.Drawing.Size(27, 27);
@@ -181,7 +185,7 @@
             // 
             this.btnActivos.AutoSize = true;
             this.btnActivos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnActivos.Location = new System.Drawing.Point(982, 145);
+            this.btnActivos.Location = new System.Drawing.Point(1455, 137);
             this.btnActivos.Margin = new System.Windows.Forms.Padding(10);
             this.btnActivos.Name = "btnActivos";
             this.btnActivos.Size = new System.Drawing.Size(27, 27);
@@ -193,7 +197,7 @@
             // 
             // txtActivos
             // 
-            this.txtActivos.Location = new System.Drawing.Point(738, 146);
+            this.txtActivos.Location = new System.Drawing.Point(1211, 138);
             this.txtActivos.Margin = new System.Windows.Forms.Padding(10);
             this.txtActivos.Name = "txtActivos";
             this.txtActivos.Size = new System.Drawing.Size(238, 25);
@@ -206,7 +210,7 @@
             // 
             this.btnEditar.AutoSize = true;
             this.btnEditar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnEditar.Location = new System.Drawing.Point(957, 19);
+            this.btnEditar.Location = new System.Drawing.Point(1430, 11);
             this.btnEditar.Margin = new System.Windows.Forms.Padding(10);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(52, 27);
@@ -218,7 +222,7 @@
             // cmbCobrador
             // 
             this.cmbCobrador.FormattingEnabled = true;
-            this.cmbCobrador.Location = new System.Drawing.Point(738, 59);
+            this.cmbCobrador.Location = new System.Drawing.Point(1211, 51);
             this.cmbCobrador.Name = "cmbCobrador";
             this.cmbCobrador.Size = new System.Drawing.Size(271, 25);
             this.cmbCobrador.TabIndex = 25;
@@ -228,13 +232,32 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1220, 173);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 17);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Saldo:  $";
+            // 
+            // lblBalance
+            // 
+            this.lblBalance.AutoSize = true;
+            this.lblBalance.Location = new System.Drawing.Point(1276, 173);
+            this.lblBalance.Name = "lblBalance";
+            this.lblBalance.Size = new System.Drawing.Size(0, 17);
+            this.lblBalance.TabIndex = 27;
+            // 
             // ControlCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1021, 633);
+            this.ClientSize = new System.Drawing.Size(1503, 633);
+            this.Controls.Add(this.lblBalance);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbCobrador);
             this.Controls.Add(this.dtpFechaTransaccion);
             this.Controls.Add(this.btnEditar);
@@ -281,5 +304,7 @@
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.ComboBox cmbCobrador;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label lblBalance;
+        private System.Windows.Forms.Label label2;
     }
 }

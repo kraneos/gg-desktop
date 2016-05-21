@@ -8,6 +8,7 @@ using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -26,7 +27,6 @@ namespace Seggu.Desktop.UserControls
         private IFeeService feeService;
         private IPrintService printService;
 
-        private CompanyFullDto selectedCompany;
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
         private IntegralPolicyUserControl integral_uc = null;
@@ -72,15 +72,14 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-
         public void NewEndorse()
         {
-            selectedCompany = companyService.GetFullById(MainForm.currentPolicy.CompanyId);
-            cmbCompania.SelectedValue = selectedCompany.Id;
+            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
 
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
             if (MainForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
@@ -103,10 +102,10 @@ namespace Seggu.Desktop.UserControls
             ce.ProducerId = cp.ProducerId;
             ce.RiskId = cp.RiskId;
 
-            ce.AnnulationDate = cp.AnnulationDate;
-            ce.EmissionDate = cp.EmissionDate;
+            ce.AnnulationDate = DateTime.Today.ToShortDateString();
+            ce.EmissionDate = DateTime.Today.ToShortDateString();
             ce.EndDate = cp.Vence;
-            ce.ReceptionDate = cp.ReceptionDate;
+            ce.ReceptionDate = DateTime.Today.ToShortDateString();
             ce.RequestDate = DateTime.Today.ToShortDateString();
             ce.StartDate = DateTime.Today.ToShortDateString();
 
@@ -202,19 +201,18 @@ namespace Seggu.Desktop.UserControls
 
             dtpSolicitud.Value = DateTime.Parse(endorse.RequestDate);
             dtpRecibido.Value = DateTime.Parse(endorse.ReceptionDate);
+            dtpRecibido.Checked = false;
             dtpInicio.Value = DateTime.Parse(endorse.StartDate);
             dtpFin.Value = DateTime.Parse(endorse.EndDate);
             dtpEmision.Value = DateTime.Parse(endorse.EmissionDate);
+            dtpEmision.Checked = false;
         }
-
 
         public void PopulateDetails()
         {
-            selectedCompany = companyService.GetFullById(MainForm.currentEndorse.CompanyId);
-
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
 
             populateTextBoxesAndCombos(MainForm.currentEndorse);
             LoadFeeGrid();
@@ -260,7 +258,6 @@ namespace Seggu.Desktop.UserControls
             txtTotalPagar.Text = totpagar.ToString();
         }
 
-
         private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbRiesgo.SelectedIndex == -1) return;
@@ -272,8 +269,8 @@ namespace Seggu.Desktop.UserControls
             vehicle_uc = null;
             vida_uc = null;
 
-            var risk = (RiskCompanyDto)cmbRiesgo.SelectedItem;
-            var riesgo = RiskTypeDtoMapper.ToEnum(risk.RiskType);
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
+            var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
@@ -311,12 +308,10 @@ namespace Seggu.Desktop.UserControls
         private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var CompanyId = (int)cmbCompania.SelectedValue;
-            selectedCompany = companyService.GetFullById(CompanyId);
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = selectedCompany.Risks;
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
         }
-
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
@@ -418,13 +413,12 @@ namespace Seggu.Desktop.UserControls
 
             endorse.StartDate = dtpInicio.Value.ToShortDateString();
             endorse.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            endorse.TipoRiesgo = ((RiskCompanyDto)cmbRiesgo.SelectedItem).RiskType;
+            //endorse.TipoRiesgo = ((RiskItemDto)cmbRiesgo.SelectedItem).RiskType;
 
             endorse.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
 
             return endorse;
         }
-
 
         private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
@@ -442,7 +436,6 @@ namespace Seggu.Desktop.UserControls
             txtNetoPagar.Text = netoPagar.ToString();
         }
 
-
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
             calcularNetoCobrar();
@@ -459,8 +452,6 @@ namespace Seggu.Desktop.UserControls
             decimal netoCobrar = premioConIva - bonificacionPagar + recargoPropio;
             txtNetoCobrar.Text = netoCobrar.ToString();
         }
-
-
 
         private void cmbPlanes_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -517,50 +508,31 @@ namespace Seggu.Desktop.UserControls
             return fees;
         }
 
-
         private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeroYPuntuacion(e);
+            ValidarNumeros((TextBox)sender, e);
         }
-        public void ValidarNumeroYPuntuacion(KeyPressEventArgs e)
+        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (char.IsDigit(e.KeyChar) == true)
-            {
-            }
-            //Codigo Ascii para el punto
-            else if (e.KeyChar == 46)
-            {
-            }
-            //Codigo Ascii para el porcentaje
-            else if (e.KeyChar == 37)
-            {
-            }
-            //codigo Ascii para la coma
-            else if (e.KeyChar == 44)
-            {
-            }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
+            ValidarNumeros((TextBox)sender, e);
+        }
+        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
             {
                 e.Handled = true;
             }
-        }
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
+            {		              
+                e.Handled = true;		             
+            }		              
+        }		          
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
             printService.EndorsePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
         }
-
     }
 }

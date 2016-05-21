@@ -37,8 +37,8 @@ namespace Seggu.Services
         {
             var receipt = new Rectangle(300, 400);
             var document = new Document(receipt);
-            //string path = AppDomain.CurrentDomain.BaseDirectory + "/ReceiptTemplate.pdf";
-            string path = "C:/Users/Ezequiel G.Montes/Desktop/pdfsSeggu/CuotasLiquidación.pdf";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/ReceiptTemplate.pdf";
+            //string path = "C:/Users/Ezequiel G.Montes/Desktop/pdfsSeggu/CuotasLiquidación.pdf";
             PdfWriter.GetInstance(document, new FileStream(path, FileMode.OpenOrCreate));
             document.Open();
 
@@ -229,7 +229,19 @@ namespace Seggu.Services
             return pathDateFolder;
         }
 
+        public void GetNames()
+        {
+            string pathDateFolder = ValidatePaths("Pólizas");
 
+            string PDFPath = System.IO.Path.Combine(pathDateFolder, "algo.pdf");
+            PdfReader reader = new PdfReader(Resources.Solicitud_Inscripcion_Seguro_Colectivo_2);
+            PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create)) ;
+            AcroFields form1 = stamp1.AcroFields;
+
+            var list = form1.Fields;
+            stamp1.Close();
+            reader.Close();
+        }
         //public Document CreatePdfReceiptTemplate(FeeChargeDto feeChargeDto)
         //{
         //    var header = new Paragraph();

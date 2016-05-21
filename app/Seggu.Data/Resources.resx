@@ -127,4 +127,7 @@
   <data name="Plantilla_Solicitud_Póliza" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\plantilla_solicitud_póliza.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Solicitud_Inscripcion_Seguro_Colectivo_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Solicitud-Inscripcion-Seguro-Colectivo-2.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
