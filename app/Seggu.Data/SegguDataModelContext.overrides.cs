@@ -34,7 +34,7 @@ namespace Seggu.Data
                         var parseEntity = (ParseEntity)entry.Entity;
                         if (parseEntity.ObjectId != null)
                         {
-                            parseEntity.LocallyUpdatedAt = DateTime.Now;
+                            parseEntity.LocallyUpdatedAt = DateTime.Now.ToUniversalTime();
                         }
                     }
                 }

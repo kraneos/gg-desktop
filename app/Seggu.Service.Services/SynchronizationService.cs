@@ -41,46 +41,46 @@ namespace Seggu.Service.Services
             Mapper.CreateMap<Guid?, string>().ConvertUsing(x => (Guid?)x.SourceValue == null ? null : ((Guid?)x.SourceValue).Value.ToString());
 
             Mapper.CreateMap<Domain.AccessoryType, AccessoryTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<AccessoryTypeVM, Domain.AccessoryType>();
+            Mapper.CreateMap<AccessoryTypeVM, Domain.AccessoryType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x=>x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Asset, AssetVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<AssetVM, Domain.Asset>();
+            Mapper.CreateMap<AssetVM, Domain.Asset>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Bank, BankVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BankVM, Domain.Bank>();
+            Mapper.CreateMap<BankVM, Domain.Bank>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Bodywork, BodyworkVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BodyworkVM, Domain.Bodywork>();
+            Mapper.CreateMap<BodyworkVM, Domain.Bodywork>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Brand, BrandVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BrandVM, Domain.Brand>();
+            Mapper.CreateMap<BrandVM, Domain.Brand>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.CasualtyType, CasualtyTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CasualtyTypeVM, Domain.CasualtyType>();
+            Mapper.CreateMap<CasualtyTypeVM, Domain.CasualtyType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Client, ClientVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ClientVM, Domain.Client>();
+            Mapper.CreateMap<ClientVM, Domain.Client>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Company, CompanyVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CompanyVM, Domain.Company>();
+            Mapper.CreateMap<CompanyVM, Domain.Company>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.CreditCard, CreditCardVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CreditCardVM, Domain.CreditCard>();
+            Mapper.CreateMap<CreditCardVM, Domain.CreditCard>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.LedgerAccount, LedgerAccountVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<LedgerAccountVM, Domain.LedgerAccount>();
+            Mapper.CreateMap<LedgerAccountVM, Domain.LedgerAccount>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Producer, ProducerVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ProducerVM, Domain.Producer>();
+            Mapper.CreateMap<ProducerVM, Domain.Producer>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Province, ProvinceVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ProvinceVM, Domain.Province>();
+            Mapper.CreateMap<ProvinceVM, Domain.Province>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.Use, UseVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<UseVM, Domain.Use>();
+            Mapper.CreateMap<UseVM, Domain.Use>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             Mapper.CreateMap<Domain.VehicleType, VehicleTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<VehicleTypeVM, Domain.VehicleType>();
+            Mapper.CreateMap<VehicleTypeVM, Domain.VehicleType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
 
             //Mapper.CreateMap<Domain.Cheque, ChequeVM>()
             //    .ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore())
@@ -248,8 +248,8 @@ namespace Seggu.Service.Services
         public void SynchronizeParseEntities()
         {
             SendEntitiesToParse<Domain.AccessoryType, AccessoryTypeVM>("AccessoryType");
-            //SendEntitiesToParse<Asset, AssetVM>("Asset");
-            //SendEntitiesToParse<Bank, BankVM>("Bank");
+            SendEntitiesToParse<Asset, AssetVM>("Asset");
+            SendEntitiesToParse<Bank, BankVM>("Bank");
             //SendEntitiesToParse<Bodywork, BodyworkVM>("Bodywork");
             //SendEntitiesToParse<Brand, BrandVM>("Brand");
             //SendEntitiesToParse<CasualtyType, CasualtyTypeVM>("CasualtyType");
@@ -305,8 +305,17 @@ namespace Seggu.Service.Services
         {
             var className = typeof(TParseEntity).FullName;
             var lastSync = this.context.Synchronizations.FirstOrDefault(x => x.ClassName == className);
-
+            var isNew = lastSync == null;
+            if (isNew)
+            {
+                lastSync = new Synchronization { ClassName = className };
+            }
             this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync);
+            if (isNew)
+            {
+                context.Synchronizations.Add(lastSync);
+            }
+            context.SaveChanges();
         }
 
         private void EntitiesToApi<TParseEntity, TViewModel>(string parseEntityName)

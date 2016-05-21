@@ -73,16 +73,6 @@
     <Compile Include="SegguContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seggu.Api.Data\Seggu.Api.Data.csproj">
-      <Project>{8b9edbe2-1566-4f6f-affa-b617b0f3a78a}</Project>
-      <Name>Seggu.Api.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seggu.Api.Domain\Seggu.Api.Domain.csproj">
-      <Project>{08d13148-ee4c-45eb-a5bb-f9353feb23fc}</Project>
-      <Name>Seggu.Api.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

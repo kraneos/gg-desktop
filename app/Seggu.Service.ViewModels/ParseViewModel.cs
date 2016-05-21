@@ -7,8 +7,8 @@ namespace Seggu.Service.ViewModels
 {
     public abstract class ViewModelBase
     {
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateVM CreatedAt { get; set; }
+        public DateVM UpdatedAt { get; set; }
     }
 
     public abstract class ViewModel : ViewModelBase

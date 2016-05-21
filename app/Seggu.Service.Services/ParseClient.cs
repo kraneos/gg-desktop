@@ -98,28 +98,27 @@ namespace Seggu.Service.Services
             where TViewModel : ViewModel
         {
             var page = 0;
-            var thisSync = DateTime.Now;
+            var thisSync = DateTime.Now.ToUniversalTime();
 
-            IEnumerable<TParseEntity> entities = null;
+            IEnumerable<TParseEntity> entities = new List<TParseEntity>();
 
-            while (GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync.LastSync, entities))
+            while (page == 0 || entities.Any())
             {
+                entities = GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync == null ? null : (DateTime?)lastSync.LastSync);
                 MergeEntities<TParseEntity>(entities);
                 page++;
             }
 
             lastSync.LastSync = thisSync;
-
-            this.context.SaveChanges();
         }
 
         private void MergeEntities<TParseEntity>(IEnumerable<TParseEntity> entities) where TParseEntity : IdParseEntity
         {
             var objectIds = entities.Select(x => x.ObjectId);
             var existingEntities = this.context.Set<TParseEntity>()
-                .Where(x => objectIds.Any(y => y == x.ObjectId));
+                .Where(x => objectIds.Any(y => y == x.ObjectId)).ToList();
             var newEntities = entities
-                .Where(x => existingEntities.Any(y => y.ObjectId != x.ObjectId));
+                .Where(x => !existingEntities.Any(y => y.ObjectId == x.ObjectId));
 
             this.context.Set<TParseEntity>().AddRange(newEntities);
 
@@ -127,15 +126,14 @@ namespace Seggu.Service.Services
             {
                 var apiEntity = entities.First(x => x.ObjectId == entity.ObjectId);
                 var entry = this.context.Entry<TParseEntity>(entity);
+                apiEntity.Id = entity.Id;
                 entry.CurrentValues.SetValues(apiEntity);
             }
-
-
 
             this.context.SaveChanges();
         }
 
-        private bool GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from, IEnumerable<TParseEntity> entities)
+        private IEnumerable<TParseEntity> GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
@@ -145,7 +143,7 @@ namespace Seggu.Service.Services
 
             req.AddParameter("skip", page.ToString());
             req.AddParameter("limit", count.ToString());
-            if (from != null)
+            if (from != null && from > DateTime.MinValue)
             {
                 req.AddParameter("where", "{\"updatedAt\":{\"$gt\":" + JsonConvert.SerializeObject(new DateVM(from.Value)) + "}}");
             }
@@ -156,16 +154,15 @@ namespace Seggu.Service.Services
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 this.eventLog.WriteEntry(parseEntityName + " everything ok.");
-                entities = JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
+                return JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
                     .Results
                     .Select(Mapper.Map<TViewModel, TParseEntity>)
                     .ToList();
-                return entities.Any();
             }
             else
             {
                 this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
-                return false;
+                return new List<TParseEntity>();
             }
         }
 
@@ -223,7 +220,7 @@ namespace Seggu.Service.Services
             batch.Requests = entities.Select(e => new BatchElement<TViewModel>
             {
                 Method = statusCode,
-                Path = $"/classes/{parseEntityName}" + statusCode == "PUT" ? ($"/{e.ObjectId}") : string.Empty,
+                Path = $"/parse/classes/{parseEntityName}" + (statusCode == "PUT" ? ($"/{e.ObjectId}") : string.Empty),
                 Body = Mapper.Map<TParseEntity, TViewModel>(e)
             });
 
