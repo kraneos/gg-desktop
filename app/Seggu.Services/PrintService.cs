@@ -189,11 +189,69 @@ namespace Seggu.Services
 
         public void PolicyLifePDF(PolicyFullDto policy)
         {
+            string pathDateFolder = ValidatePaths("Pólizas");
 
+            string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Objeto +
+                " " + policy.Asegurado + ".pdf");
+
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
+
+            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
+            //VehicleDto vehicle = policy.Vehicles.First();
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
+
+            PopulatePolicy(policy, form);
+            PopulateClient(clientFull, form);
+            //PopulatePolicyVehicle(vehicle, form);
+            PolpulateProducer(producer, form);
+
+            stamp.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
         }
         public void PolicyIntegralPDF(PolicyFullDto policy)
         {
+            string pathDateFolder = ValidatePaths("Pólizas");
 
+            string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Objeto +
+                " " + policy.Asegurado + ".pdf");
+
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Integral);
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
+
+            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
+            IntegralDto integral = policy.Integrals.First();
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
+
+            PopulatePolicy(policy, form);
+            PopulateClient(clientFull, form);
+
+            
+            form.SetField("Calle", integral.Address.Street);
+            form.SetField("Número", integral.Address.Number);
+            form.SetField("Piso", integral.Address.Floor);
+            form.SetField("Dpto", integral.Address.Appartment);
+            form.SetField("Provincia", integral.province);
+            form.SetField("Distrito", integral.district);
+            form.SetField("Localidad", integral.locality);
+            form.SetField("codPostalInmueble", integral.Address.PostalCode);
+           // form.SetField("Cubre", integral);
+            var coberturas = string.Empty;
+
+            if (integral.Coverages.Any())
+            {
+                coberturas = string.Join("\n", integral.Coverages.Select(x => x.Name));
+            }
+            form.SetField("Coberturas", coberturas);
+
+            PolpulateProducer(producer, form);
+
+            stamp.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
         }
         #endregion
 

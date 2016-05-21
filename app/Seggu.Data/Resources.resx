@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Comercial_e_Industria_Solicitud_de_Cobertura" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Comercial+e+Industria-Solicitud+de+Cobertura.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Plantilla_Recibo_SeGGu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\plantilla_recibo_seggu.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -126,6 +129,9 @@
   </data>
   <data name="Plantilla_Solicitud_Póliza" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\plantilla_solicitud_póliza.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Plantilla_Solicitud_Póliza_Integral" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Plantilla_Solicitud_Póliza_Integral.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Solicitud_Inscripcion_Seguro_Colectivo_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Solicitud-Inscripcion-Seguro-Colectivo-2.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

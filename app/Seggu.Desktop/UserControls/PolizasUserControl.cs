@@ -217,7 +217,7 @@ namespace Seggu.Desktop.UserControls
                 dtpEmision.Checked = false;
                 chkOtherClient.Visible = true;
                 PopulateDetails();
-                CalcularNetoCobrar();
+                CalculateNetoCobrar();
                 foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)
                 {
                     c.Visible = false;
@@ -324,7 +324,6 @@ namespace Seggu.Desktop.UserControls
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            var riskTypes = masterDataService.GetRiskTypes();
             var pol = LayoutForm.currentPolicy;
 
             var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
@@ -338,38 +337,40 @@ namespace Seggu.Desktop.UserControls
                         //print flota
                     }
                     else
-                    {
-                        //print seleccionado
                         printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
-                    }
                     break;
+
                 case RiskType.Vida_colectivo_Otros:
-                    //print vida
+                    printService.PolicyLifePDF(pol);
                     break;
-                    
+
+                case RiskType.Vida_individual:
+                    printService.PolicyLifePDF(pol);
+                    break;
+
+                case RiskType.Combinados_Integrales:
+                    printService.PolicyIntegralPDF(pol);
+                    break;                   
             }
-
-            //printService.GetNames();
         }
-
         #region Datos grales Tab
 
         private void dtpInicio_ValueChanged(object sender, EventArgs e)
         {
             dtpSolicitud.Value = dtpInicio.Value;
             if (cmbPeriodo.SelectedIndex != -1)
-                CalcularFinPoliza();
+                CalculatePolicyEnd();
         }
         private void cmbPeriodo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbPeriodo.SelectedIndex == -1) return;
-            CalcularFinPoliza();
+            CalculatePolicyEnd();
         }
         private void cmbPeriodo_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            CalcularFinPoliza();
+            CalculatePolicyEnd();
         }
-        private void CalcularFinPoliza()
+        private void CalculatePolicyEnd()
         {
             switch (cmbPeriodo.SelectedIndex)
             {
@@ -425,7 +426,6 @@ namespace Seggu.Desktop.UserControls
             vida_uc = null;
 
             var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
-
             var riesgo = risk.RiskType;
             if (riesgo == RiskType.Automotores)
             {
@@ -598,7 +598,7 @@ namespace Seggu.Desktop.UserControls
         private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtPremioIva.Text)) return;
-            CalcularNetoCobrar();
+            CalculateNetoCobrar();
             CalcularNetoPagar();
             txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString();
             txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString();
@@ -618,19 +618,19 @@ namespace Seggu.Desktop.UserControls
         }
         private void txtBonificacionPropia_TextChanged(object sender, EventArgs e)
         {
-            CalcularNetoCobrar();
+            CalculateNetoCobrar();
         }
         private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
-            CalcularNetoCobrar();
+            CalculateNetoCobrar();
             CalcularNetoPagar();
 
         }
         private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
-            CalcularNetoCobrar();
+            CalculateNetoCobrar();
         }
-        private void CalcularNetoCobrar()
+        private void CalculateNetoCobrar()
         {
             var d = 0M;
             if (
