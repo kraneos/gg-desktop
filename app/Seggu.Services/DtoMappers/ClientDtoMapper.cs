@@ -38,7 +38,7 @@ namespace Seggu.Services.DtoMappers
         public static ClientIndexDto GetIndexDto(Client obj)
         {
             var dto = new ClientIndexDto();
-            dto.FullName = obj.LastName + ", " + obj.FirstName;
+            dto.Nombre_Completo = obj.LastName + ", " + obj.FirstName;
             dto.Nombre = obj.FirstName;
             dto.Id = (int)obj.Id;
             dto.Apellido = obj.LastName;

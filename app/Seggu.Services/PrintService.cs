@@ -100,7 +100,7 @@ namespace Seggu.Services
             var producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
             string pathDateFolder = ValidatePaths("Pólizas");
             string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Vehicles.First().Plate +
-                " " + client.FullName + ".pdf");
+                " " + client.Nombre_Completo + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
@@ -166,7 +166,7 @@ namespace Seggu.Services
             var clientFull = clientService.GetById(policy.ClientId);
             string pathDateFolder = ValidatePaths("Endosos");
             string PDFPath = System.IO.Path.Combine(pathDateFolder, endorse.Vehicles.First().Plate +
-                " " + client.FullName + ".pdf");
+                " " + client.Nombre_Completo + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
