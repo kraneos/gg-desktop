@@ -340,15 +340,15 @@ namespace Seggu.Desktop.UserControls
                         printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
                     break;
 
-                case RiskType.Vida_colectivo_Otros:
+                case RiskType.Vida:
                     printService.PolicyLifePDF(pol);
                     break;
 
-                case RiskType.Vida_individual:
+                case RiskType.Otros:
                     printService.PolicyLifePDF(pol);
                     break;
 
-                case RiskType.Combinados_Integrales:
+                case RiskType.IntegralComercio:
                     printService.PolicyIntegralPDF(pol);
                     break;                   
             }
@@ -435,7 +435,7 @@ namespace Seggu.Desktop.UserControls
                 if (LayoutForm.currentPolicy != null)
                     vehicle_uc.PopulatePolicyVehicle();
             }
-            else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
+            else if (riesgo == RiskType.Vida || riesgo == RiskType.Otros || riesgo == RiskType.Otros)
             {
                 vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);

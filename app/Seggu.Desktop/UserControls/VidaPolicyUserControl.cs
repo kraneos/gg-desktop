@@ -18,7 +18,6 @@ namespace Seggu.Desktop.UserControls
         private IEmployeeService employeeService;
         private PolicyFullDto currentPolicy;
         private EndorseFullDto currentEndorse;
-        private ICoveragesPackService coveragePackService;
         public Layout MainForm
         {
             get
@@ -27,13 +26,11 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        public VidaPolicyUserControl(ICoverageService _covergeService, IEmployeeService _employeeService,
-            ICoveragesPackService _coveragePackService)
+        public VidaPolicyUserControl(ICoverageService _covergeService, IEmployeeService _employeeService)
         {
             InitializeComponent();
             coverageService = _covergeService;
             employeeService = _employeeService;
-            coveragePackService = _coveragePackService;
         }
 
         public void InitializeIndex(int riskId)
@@ -44,15 +41,15 @@ namespace Seggu.Desktop.UserControls
             var table = BuildEmployeeTable();
             grdEmployees.DataSource = table;
             grdEmployees.Columns["Id"].Visible = false;
-            var coberturas = this.coveragePackService.GetAllByRiskId(riskGuid).ToList();
-            cmbCoberturas.DataSource = coberturas;
+            //var coberturas = this.coveragePackService.GetAllByRiskId(riskGuid).ToList();
+            //cmbCoberturas.DataSource = coberturas;
             cmbCoberturas.DisplayMember = "Name";
             cmbCoberturas.ValueMember = "Id";
                 if (currentPolicy != null && currentPolicy.Employees != null && currentPolicy.Employees.Any())
                 {
                     var coverages = currentPolicy.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
-                    if (coverages.Any())
-                        cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
+                    //if (coverages.Any())
+                        //cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
                 }
                 else
                 {
@@ -60,8 +57,8 @@ namespace Seggu.Desktop.UserControls
                     if (currentEndorse != null && currentEndorse.Employees != null && currentEndorse.Employees.Any())
                     {
                         var coverages = currentEndorse.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
-                        if (coverages.Any())
-                            cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
+                        //if (coverages.Any())
+                            //cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
                     }
 
                 }
@@ -115,7 +112,7 @@ namespace Seggu.Desktop.UserControls
         {
             var employees = new List<EmployeeDto>();
             var table = (DataTable)grdEmployees.DataSource;
-            var coverages = coverageService.GetByPackId(((int)cmbCoberturas.SelectedValue));
+            //var coverages = coverageService.GetByPackId(((int)cmbCoberturas.SelectedValue));
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 var row = table.Rows[i];
@@ -127,7 +124,7 @@ namespace Seggu.Desktop.UserControls
                 employee.CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string)row["CUIT"];
                 employee.Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime)row["Nacimiento"];
                 employee.Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal)row["Suma Asegurada"];
-                employee.Coverages = coverages;
+                //employee.Coverages = coverages;
                 employees.Add(employee);
             }
             return employees;

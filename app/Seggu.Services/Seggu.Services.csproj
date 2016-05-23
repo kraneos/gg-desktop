@@ -84,7 +84,6 @@
     <Compile Include="CompanyService.cs" />
     <Compile Include="ContactService.cs" />
     <Compile Include="CoverageService.cs" />
-    <Compile Include="CoveragesPackService.cs" />
     <Compile Include="DistrictService.cs" />
     <Compile Include="DtoMappers\AccessoryDtoMapper.cs" />
     <Compile Include="DtoMappers\AccessoryTypeDtoMapper.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="DtoMappers\CompanyDtoMapper.cs" />
     <Compile Include="DtoMappers\ContactDtoMapper.cs" />
     <Compile Include="DtoMappers\CoverageDtoMapper.cs" />
-    <Compile Include="DtoMappers\CoveragesPackDtoMapper.cs" />
     <Compile Include="DtoMappers\DistrictDtoMapper.cs" />
     <Compile Include="DtoMappers\EmployeeDtoMapper.cs" />
     <Compile Include="DtoMappers\EndorseDtoMapper.cs" />

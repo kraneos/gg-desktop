@@ -7,7 +7,6 @@ namespace Seggu.Domain
     {
         public Risk()
         {
-            this.CoveragesPacks = new HashSet<CoveragesPack>();
             this.Policy = new HashSet<Policy>();
             this.Coverages = new HashSet<Coverage>();
         }
@@ -16,7 +15,6 @@ namespace Seggu.Domain
         public long CompanyId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual ICollection<CoveragesPack> CoveragesPacks { get; set; }
         public virtual ICollection<Policy> Policy { get; set; }
         public virtual ICollection<Coverage> Coverages { get; set; }
     }

@@ -116,7 +116,7 @@ namespace Seggu.Services.DtoMappers
             var address = obj.Client.Addresses.First();
             dto.ClientAddressPostalCode = address.PostalCode;
             dto.ClientAddressLine = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
-            dto.RiskType = obj.Risk.RiskType == RiskType.Automotores ? "Automovil" : (obj.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
+            dto.RiskType = obj.Risk.RiskType == RiskType.Automotores ? "Automovil" : (obj.Risk.RiskType == RiskType.IntegralComercio ? "Integral De Comercio" : "Seguro de Vida");
             dto.Value = obj.Value;
             dto.StartDate = obj.StartDate.ToString("yyyy-MM-dd");
             dto.EndDate = obj.EndDate.ToString("yyyy-MM-dd");

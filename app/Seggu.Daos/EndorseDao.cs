@@ -111,22 +111,22 @@ namespace Seggu.Daos
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
                     context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
-                    foreach (var dbCoverage in dbVehicle.Coverages)
-                        if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
-                        {
-                            var newCoverage = newVehicle.Coverages.First(x => x.Id == dbCoverage.Id);
-                            coveragesNotToAdd.Add(newCoverage);
-                        }
-                        else
-                            coveragesToRemove.Add(dbCoverage);
-                    foreach (var newCoverage in newVehicle.Coverages)
-                        if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
-                        {
-                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
-                            dbVehicle.Coverages.Add(dbCoverage);
-                        }
-                    foreach (var coverageToRemove in coveragesToRemove)
-                        dbVehicle.Coverages.Remove(coverageToRemove);
+                    //foreach (var dbCoverage in dbVehicle.Coverages)
+                    //    if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
+                    //    {
+                    //        var newCoverage = newVehicle.Coverages.First(x => x.Id == dbCoverage.Id);
+                    //        coveragesNotToAdd.Add(newCoverage);
+                    //    }
+                    //    else
+                    //        coveragesToRemove.Add(dbCoverage);
+                    //foreach (var newCoverage in newVehicle.Coverages)
+                    //    if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
+                    //    {
+                    //        var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
+                    //        dbVehicle.Coverages.Add(dbCoverage);
+                    //    }
+                    //foreach (var coverageToRemove in coveragesToRemove)
+                    //    dbVehicle.Coverages.Remove(coverageToRemove);
                 }
                 else
                     this.vehicleDao.SaveVehicle(newVehicle);
@@ -149,23 +149,23 @@ namespace Seggu.Daos
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
                     context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
-                    foreach (var dbCoverage in dbEmployee.Coverages)
-                        if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
-                        {
-                            var newCoverage = newEmployee.Coverages.First(x => x.Id == dbCoverage.Id);
-                            coveragesNotToAdd.Add(newCoverage);
-                        }
-                        else
-                            coveragesToRemove.Add(dbCoverage);
+                    //foreach (var dbCoverage in dbEmployee.Coverages)
+                    //    if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
+                    //    {
+                    //        var newCoverage = newEmployee.Coverages.First(x => x.Id == dbCoverage.Id);
+                    //        coveragesNotToAdd.Add(newCoverage);
+                    //    }
+                    //    else
+                    //        coveragesToRemove.Add(dbCoverage);
 
-                    foreach (var newCoverage in newEmployee.Coverages)
-                        if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
-                        {
-                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
-                            dbEmployee.Coverages.Add(dbCoverage);
-                        }
-                    foreach (var coverageToRemove in coveragesToRemove)
-                        dbEmployee.Coverages.Remove(coverageToRemove);
+                    //foreach (var newCoverage in newEmployee.Coverages)
+                    //    if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
+                    //    {
+                    //        var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
+                    //        dbEmployee.Coverages.Add(dbCoverage);
+                    //    }
+                    //foreach (var coverageToRemove in coveragesToRemove)
+                    //    dbEmployee.Coverages.Remove(coverageToRemove);
                 }
                 else
                     this.employeeDao.SaveEmployee(newEmployee);

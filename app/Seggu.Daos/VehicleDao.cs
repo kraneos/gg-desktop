@@ -26,27 +26,27 @@ namespace Seggu.Daos
         }
         public void SaveVehicle(Vehicle newVehicle)
         {
-            var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
+            //var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
             var dbVehicle = context.Vehicles
-                                    .Include("Coverages")
+                                    //.Include("Coverages")
                                     .FirstOrDefault(c => c.Id == newVehicle.Id) ?? newVehicle;
 
-            dbVehicle.Coverages.Clear();
+            //dbVehicle.Coverages.Clear();
             context.Entry(dbVehicle).State = EntityState.Added;
 
             newVehicle.Id = dbVehicle.Id;
             context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
 
-            foreach (var dbCover in context.Coverages)
-            {
-                if (coverages.Any(cov => cov.Id == dbCover.Id))
-                {
-                    context.Coverages.Attach(dbCover);
-                    dbVehicle.Coverages.Add(dbCover);
-                }
-                //else
-                    //dbVehicle.Coverages.Remove(dbCover);
-            }
+            //foreach (var dbCover in context.Coverages)
+            //{
+            //    if (coverages.Any(cov => cov.Id == dbCover.Id))
+            //    {
+            //        context.Coverages.Attach(dbCover);
+            //        dbVehicle.Coverages.Add(dbCover);
+            //    }
+            //    //else
+            //        //dbVehicle.Coverages.Remove(dbCover);
+            //}
             context.SaveChanges();
         }
     }

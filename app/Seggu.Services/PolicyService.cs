@@ -91,12 +91,12 @@ namespace Seggu.Services
             var isNew = pol.Id == default(int);
             if (isNew)
             {
-                if (policy.Vehicles != null)
-                    AddCoveragesToVehicles(policy);
-                else if (policy.Employees != null)
-                    AddCoveragesToEmployees(policy);
-                else if (policy.Integrals != null)
-                    this.AddCoveragesToIntegral(policy);
+                //if (policy.Vehicles != null)
+                //    AddCoveragesToVehicles(policy);
+                //else if (policy.Employees != null)
+                //    AddCoveragesToEmployees(policy);
+                //else if (policy.Integrals != null)
+                //    this.AddCoveragesToIntegral(policy);
                 policyDao.Save(policy);
             }
             else
@@ -115,36 +115,6 @@ namespace Seggu.Services
                     }
                 }
                 policyDao.Edit(policy);
-            }
-        }
-        private void AddCoveragesToIntegral(Policy policy)
-        {
-            foreach (var integral in policy.Integrals)
-            {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in integral.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                integral.Coverages = coverages;
-            }
-        }
-        private void AddCoveragesToVehicles(Policy policy)
-        {
-            foreach (var vehicle in policy.Vehicles)
-            {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in vehicle.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                vehicle.Coverages = coverages;
-            }
-        }
-        private void AddCoveragesToEmployees(Policy policy)
-        {
-            foreach (var employee in policy.Employees)
-            {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in employee.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                employee.Coverages = coverages;
             }
         }
         public IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to)

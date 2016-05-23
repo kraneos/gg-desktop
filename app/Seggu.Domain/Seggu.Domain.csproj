@@ -69,7 +69,6 @@
     <Compile Include="Company.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Coverage.cs" />
-    <Compile Include="CoveragesPack.cs" />
     <Compile Include="CreditCard.cs" />
     <Compile Include="District.cs" />
     <Compile Include="Employee.cs" />

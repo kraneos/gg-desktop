@@ -7,19 +7,15 @@ namespace Seggu.Domain
     {
         public Coverage()
         {
-            this.Integrals = new HashSet<Integral>();
-            this.Employees = new HashSet<Employee>();
-            this.Vehicles = new HashSet<Vehicle>();
-            this.CoveragesPacks = new HashSet<CoveragesPack>();
+            this.Policies = new HashSet<Policy>();
+            this.Endorses = new HashSet<Endorse>();
+            this.Risks = new HashSet<Risk>();
         }
     
         public string Description { get; set; }
-        public long RiskId { get; set; }
     
-        public virtual ICollection<Integral> Integrals { get; set; }
-        public virtual ICollection<Employee> Employees { get; set; }
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
-        public virtual Risk Risk { get; set; }
-        public virtual ICollection<CoveragesPack> CoveragesPacks { get; set; }
+        public virtual ICollection<Risk> Risks { get; set; }
+        public virtual ICollection<Policy> Policies { get; set; }
+        public virtual ICollection<Endorse> Endorses { get; set; }
     }
 }

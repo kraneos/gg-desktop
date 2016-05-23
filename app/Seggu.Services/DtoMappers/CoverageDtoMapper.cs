@@ -13,7 +13,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)c.Id;
             dto.Name = c.Name;
             dto.Description = c.Description;
-            dto.RiskId = (int)c.RiskId;
+            dto.Risks = c.Risks.Select(RiskDtoMapper.GetRiskCompanyDto);
             return dto;
         }
         public static Coverage GetObject(CoverageDto coverage)
@@ -22,7 +22,7 @@ namespace Seggu.Services.DtoMappers
             c.Id = coverage.Id;
             c.Name = string.IsNullOrEmpty(coverage.Name) ? "sin nombre" : coverage.Name;
             c.Description = coverage.Description;
-            c.RiskId = coverage.RiskId;
+            //c.Risks = coverage.Risks.Select(RiskDtoMapper.GetObject);
             return c;
         }
 
@@ -32,8 +32,8 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)c.Id;
             dto.Name = c.Name;
             dto.Description = c.Description;
-            dto.RiskId = (int)c.RiskId;
-            dto.CoveragesPacks = c.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp)).ToList();
+            dto.Risks = c.Risks.Select(RiskDtoMapper.GetRiskCompanyDto);
+            //dto.CoveragesPacks = c.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp)).ToList();
             return dto;
         }
     }

@@ -80,7 +80,6 @@
     <Compile Include="ICompanyDao.cs" />
     <Compile Include="IContactDao.cs" />
     <Compile Include="ICoverageDao.cs" />
-    <Compile Include="ICoveragesPackDao.cs" />
     <Compile Include="IIdEntityDao.cs" />
     <Compile Include="IDistrictDao.cs" />
     <Compile Include="IEmployeeDao.cs" />

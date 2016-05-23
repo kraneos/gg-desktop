@@ -14,6 +14,7 @@ namespace Seggu.Domain
             this.Endorses = new HashSet<Endorse>();
             this.AttachedFiles = new HashSet<AttachedFile>();
             this.Integrals = new HashSet<Integral>();
+            this.Coverages = new HashSet<Coverage>();
         }
 
         public string PreviousNumber { get; set; }
@@ -52,5 +53,6 @@ namespace Seggu.Domain
         public int? PaymentDay { get; set; }
         public decimal? PaymentBonus { get; set; }
         public decimal? NetCharge { get; set; }
+        public virtual ICollection<Coverage> Coverages { get; set; }
     }
 }

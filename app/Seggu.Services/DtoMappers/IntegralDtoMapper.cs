@@ -14,7 +14,7 @@ namespace Seggu.Services.DtoMappers
             var dto = new IntegralDto();
             dto.Address = obj.Address == null ? null : AddressDtoMapper.GetDto(obj.Address);
             dto.Id = (int)obj.Id;
-            dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
+            //dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             dto.PolicyId = ((int?)obj.PolicyId) ?? default(int);
             dto.EndorseId = ((int?)obj.EndorseId) ?? default(int);
             dto.locality = obj.Address.Locality.Name;
@@ -25,7 +25,7 @@ namespace Seggu.Services.DtoMappers
         {
             var obj = new Integral();
             obj.Address = AddressDtoMapper.GetIntegralObjectAddress(dto.Address);
-            obj.Coverages = dto.Coverages.Select(x => CoverageDtoMapper.GetObject(x)).ToList();
+            //obj.Coverages = dto.Coverages.Select(x => CoverageDtoMapper.GetObject(x)).ToList();
             obj.EndorseId = dto.EndorseId;
             obj.PolicyId = dto.PolicyId;
             obj.Id = dto.Id;

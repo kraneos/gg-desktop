@@ -21,20 +21,20 @@ namespace Seggu.Services
         {
             var coverage = this.coverageDao.GetAll();
             return coverage
-                .Where(c => c.RiskId == Id)
+                .Where(c => c.Risks.Any(r => r.Id == Id))
                 .Select(c => CoverageDtoMapper.GetDto(c))
                 .OrderBy(x => x.Name);
         }
-        public IEnumerable<CoverageDto> GetByPackId(int Id)
-        {
-            var id = Id;
-            var coverage = this.coverageDao.GetContainer().CoveragesPacks.Single(x => x.Id == id).Coverages.ToList();
-            //.Where(c => c.CoveragesPacks.Any(cp => cp.Id == new Guid(Id)))
-            //.Select(c => CoverageDtoMapper.GetDto(c))
-            //.OrderBy(x => x.Name)
-            //.ToList();
-            return coverage.Select(c => CoverageDtoMapper.GetDto(c));
-        }
+        //public IEnumerable<CoverageDto> GetByPackId(int Id)
+        //{
+        //    var id = Id;
+        //    var coverage = this.coverageDao.GetContainer().CoveragesPacks.Single(x => x.Id == id).Coverages.ToList();
+        //    //.Where(c => c.CoveragesPacks.Any(cp => cp.Id == new Guid(Id)))
+        //    //.Select(c => CoverageDtoMapper.GetDto(c))
+        //    //.OrderBy(x => x.Name)
+        //    //.ToList();
+        //    return coverage.Select(c => CoverageDtoMapper.GetDto(c));
+        //}
 
         public void Delete(int id)
         {
@@ -86,7 +86,7 @@ namespace Seggu.Services
 
             var coverageId = id;
             var riskIds = riskId;
-            return coverageDao.BetByNameId(name, coverageId, riskIds);
+            return coverageDao.GetByNameId(name, coverageId, riskIds);
         }
 
 
@@ -98,7 +98,7 @@ namespace Seggu.Services
                 return true;
             }
             var id = idRisk;
-            return coverageDao.BetByNameRisk(name, id);
+            return coverageDao.GetByNameRisk(name, id);
         }
     }
 }

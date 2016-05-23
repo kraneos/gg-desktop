@@ -13,7 +13,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)r.Id;
             dto.Name = r.Name;
             dto.RiskType = RiskTypeDtoMapper.ToString(r.RiskType);
-            dto.CoveragesPacks = r.CoveragesPacks.Select(c => CoveragesPackDtoMapper.GetDto(c)).ToList();
+            dto.Coverages = r.Coverages.Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             return dto;
         }
 

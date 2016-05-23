@@ -18,7 +18,6 @@ namespace Seggu.Dtos
         public List<ContactDto> Contacts { get; set; }
         public List<ProducerCompanyDto> Producers { get; set; }
         public List<RiskCompanyDto> Risks { get; set; }
-        public List<CoveragesPackDto> CoveragesPacks { get; set; }
         public List<CoverageDto> Coverages { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace Seggu.Daos.Interfaces
     public interface ICoverageDao: IParseIdEntityDao<Coverage>
     {
         bool GetByName(string name);
-        bool BetByNameId(string name, long id, long riskId);
+        bool GetByNameId(string name, long id, long riskId);
         bool RiskHasCoverage(long riskId);
-        bool BetByNameRisk(string name, long idRisk);
+        bool GetByNameRisk(string name, long idRisk);
         
     }
 }

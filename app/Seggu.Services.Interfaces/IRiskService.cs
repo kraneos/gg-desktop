@@ -15,7 +15,6 @@ namespace Seggu.Services.Interfaces
         bool ExistName(string name);
         bool ExistNameId(string name, int id);
         bool HasCoverages(int id);
-        bool HasPackages(int id);
         IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId);
     }
 }

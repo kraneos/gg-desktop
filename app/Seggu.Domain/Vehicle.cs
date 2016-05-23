@@ -8,7 +8,6 @@ namespace Seggu.Domain
         public Vehicle()
         {
             this.Accessories = new HashSet<Accessory>();
-            this.Coverages = new HashSet<Coverage>();
         }
     
         public string Plate { get; set; }
@@ -28,6 +27,5 @@ namespace Seggu.Domain
         public virtual VehicleModel VehicleModel { get; set; }
         public virtual Use Use { get; set; }
         public virtual Bodywork Bodywork { get; set; }
-        public virtual ICollection<Coverage> Coverages { get; set; }
     }
 }

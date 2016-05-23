@@ -14,7 +14,6 @@ namespace Seggu.Desktop.UserControls
     public partial class IntegralPolicyUserControl : UserControl
     {
         private ICoverageService coverageService;
-        private ICoveragesPackService coveragesPackService;
         private IProvinceService provinceService;
         private IDistrictService districtService;
         private ILocalityService localityService;
@@ -38,12 +37,11 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        public IntegralPolicyUserControl(ICoveragesPackService coveragesPackService, ICoverageService coverageService, IProvinceService provinceService, IDistrictService districtService,
+        public IntegralPolicyUserControl(ICoverageService coverageService, IProvinceService provinceService, IDistrictService districtService,
             ILocalityService localityService)
         {
             InitializeComponent();
             this.coverageService = coverageService;
-            this.coveragesPackService = coveragesPackService;
             this.provinceService = provinceService;
             this.districtService = districtService;
             this.localityService = localityService;
@@ -74,9 +72,9 @@ namespace Seggu.Desktop.UserControls
         }
         private void FillCmbCubre(int riskId)
         {
-            cmbCubre.DataSource = coveragesPackService.GetAllByRiskId(riskId).ToList();
-            cmbCubre.DisplayMember = "Name";
-            cmbCubre.ValueMember = "Id";
+            //cmbCubre.DataSource = coveragesPackService.GetAllByRiskId(riskId).ToList();
+            //cmbCubre.DisplayMember = "Name";
+            //cmbCubre.ValueMember = "Id";
         }
         private void FillCmbCoverages(int riskId)
         {

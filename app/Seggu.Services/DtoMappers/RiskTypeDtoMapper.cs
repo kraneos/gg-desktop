@@ -13,10 +13,9 @@ namespace Seggu.Services.DtoMappers
             switch (r)
             {
                 case "Automotores": return RiskType.Automotores;
-                case "Combinados_Integrales": return RiskType.Combinados_Integrales;
+                case "Integral de Comercio": return RiskType.IntegralComercio;
                 case "Otros": return RiskType.Otros;
-                case "Vida_colectivo_Otros": return RiskType.Vida_colectivo_Otros;
-                case "Vida_individual": return RiskType.Vida_individual;
+                case "Vida": return RiskType.Vida;
                 default: return RiskType.Automotores;
             }
         }
@@ -27,14 +26,12 @@ namespace Seggu.Services.DtoMappers
             {
                 case RiskType.Automotores:
                     return "Automotores";
-                case RiskType.Combinados_Integrales:
-                    return "Combinados_Integrales";
+                case RiskType.IntegralComercio:
+                    return "Integral de Comercio";
                 case RiskType.Otros:
                     return "Otros";
-                case RiskType.Vida_colectivo_Otros:
-                    return "Vida_colectivo_Otros";
-                case RiskType.Vida_individual:
-                    return "Vida_individual";
+                case RiskType.Vida:
+                    return "Vida";
                 default:
                     return "Automotores";
             }

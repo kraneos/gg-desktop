@@ -58,7 +58,7 @@ namespace Seggu.Services.DtoMappers
             dto.Contacts = c.Contacts.Select(con => ContactDtoMapper.GetDto(con)).ToList();
             dto.Producers = c.ProducerCodes.Select(pc => ProducerDtoMapper.GetProducerCompanyDto(pc)).ToList();
             dto.Risks = c.Risks.OrderBy(x => x.Name).Select(r => RiskDtoMapper.GetRiskCompanyDto(r)).ToList();
-            dto.CoveragesPacks = c.Risks.SelectMany(x => x.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp))).ToList();
+            //dto.CoveragesPacks = c.Risks.SelectMany(x => x.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp))).ToList();
             return dto;
         }
 

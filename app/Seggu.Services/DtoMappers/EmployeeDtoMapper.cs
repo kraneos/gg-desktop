@@ -23,7 +23,7 @@ namespace Seggu.Services.DtoMappers
             dto.PolicyId = (int)obj.PolicyId;
             dto.IsRemoved = (bool)obj.IsRemoved;
             dto.Suma = obj.InsuranceAmount;
-            dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
+            //dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             return dto;
         }
          
@@ -57,7 +57,6 @@ namespace Seggu.Services.DtoMappers
             obj.LastName = dto.Apellido ?? string.Empty;
             obj.PolicyId = dto.PolicyId;
             obj.IsRemoved = dto.IsRemoved;
-            obj.Coverages = dto.Coverages.Select(x => CoverageDtoMapper.GetObject(x)).ToList();
             obj.InsuranceAmount = dto.Suma;
 
             return obj;

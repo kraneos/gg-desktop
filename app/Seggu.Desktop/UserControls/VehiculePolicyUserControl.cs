@@ -24,7 +24,6 @@ namespace Seggu.Desktop.UserControls
         private IMasterDataService masterDataService;
         private IAccessoryTypeService accessoryTypeService;
         private IAccessoryService accessoryService;
-        private ICoveragesPackService coveragesPackService;
         private VehicleModelDto currentModel;
         private VehicleDto currentVehicle;
         public List<VehicleDto> vehicleList = new List<VehicleDto>();
@@ -34,8 +33,7 @@ namespace Seggu.Desktop.UserControls
         public VehiculePolicyUserControl(IVehicleService vehicleService, ICoverageService coverageService
             , IBrandService brandService, IBodyworkService bodyworkService, IVehicleModelService vehicleModelService
             , IUseService useService, IVehicleTypeService vehicleTypeService, IMasterDataService masterDataService
-            , IAccessoryTypeService accessoryTypeService, IAccessoryService accessoryService
-            , ICoveragesPackService coveragesPackService)
+            , IAccessoryTypeService accessoryTypeService, IAccessoryService accessoryService)
         {
             InitializeComponent();
             this.vehicleService = vehicleService;
@@ -48,7 +46,6 @@ namespace Seggu.Desktop.UserControls
             this.masterDataService = masterDataService;
             this.accessoryTypeService = accessoryTypeService;
             this.accessoryService = accessoryService;
-            this.coveragesPackService = coveragesPackService;
         }
 
         public Layout LayoutForm
@@ -64,7 +61,7 @@ namespace Seggu.Desktop.UserControls
         {
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
-            cmbCoberturas.DataSource = this.coveragesPackService.GetAllByRiskIdCombobox(riskId).ToList();// selectedCompany.Risks
+            //cmbCoberturas.DataSource = this.coveragesPackService.GetAllByRiskIdCombobox(riskId).ToList();// selectedCompany.Risks
                 //.Single(r => r.Id == riskId)
                 //.CoveragesPacks
                 //.OrderBy(cp => cp.Name)
@@ -143,9 +140,9 @@ namespace Seggu.Desktop.UserControls
             this.cmbModelos.SelectedValue = currentVehicle.ModelId;
             this.cmbBodyworks.SelectedValue = currentVehicle.BodyworkId;
             this.cmbUses.SelectedValue = currentVehicle.UseId;
-            if (currentVehicle.Coverages.Count() != 0)
-                cmbCoberturas.SelectedValue = coveragesPackService.GetPackIdByCoverageId(currentVehicle.Coverages.FirstOrDefault().Id,
-                    currentVehicle.Coverages.FirstOrDefault().RiskId);
+            //if (currentVehicle.Coverages.Count() != 0)
+            //    cmbCoberturas.SelectedValue = coveragesPackService.GetPackIdByCoverageId(currentVehicle.Coverages.FirstOrDefault().Id,
+            //        currentVehicle.Coverages.FirstOrDefault().Risks);
             //if (currentVehicle.Accessories != null)
             //    FillAccessoriesGrid();
         }
@@ -212,8 +209,8 @@ namespace Seggu.Desktop.UserControls
             dto.Year = txtAnio.Text;
             dto.EndorseId = currentVehicle == null ? null : currentVehicle.EndorseId;
             dto.PolicyId = LayoutForm.currentPolicy.Id;
-            dto.Coverages = coveragesPackService.GetById((int)cmbCoberturas.SelectedValue)
-                .FirstOrDefault().Coverages;
+            //dto.Coverages = coveragesPackService.GetById((int)cmbCoberturas.SelectedValue)
+            //    .FirstOrDefault().Coverages;
             if (accessoriesBindingSource.DataSource != null)
                 dto.Accessories = (List<AccessoryDto>)accessoriesBindingSource.List;
             return dto;

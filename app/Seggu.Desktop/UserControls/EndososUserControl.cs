@@ -279,7 +279,7 @@ namespace Seggu.Desktop.UserControls
                 if (MainForm.currentEndorse != null)
                     vehicle_uc.PopulateEndorseVehicle();
             }
-            else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
+            else if (riesgo == RiskType.Vida || riesgo == RiskType.Otros || riesgo == RiskType.Otros)
             {
                 vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);

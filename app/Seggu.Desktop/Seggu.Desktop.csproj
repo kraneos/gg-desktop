@@ -216,35 +216,17 @@
     <Compile Include="Forms\FormCobranzasVencidas.Designer.cs">
       <DependentUpon>FormCobranzasVencidas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PackagesOnly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PackagesOnly.Designer.cs">
-      <DependentUpon>PackagesOnly.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Cobranza.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Cobranza.Designer.cs">
       <DependentUpon>Cobranza.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CoberturasOnly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CoberturasOnly.Designer.cs">
-      <DependentUpon>CoberturasOnly.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\PolizasPorFecha.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PolizasPorFecha.Designer.cs">
       <DependentUpon>PolizasPorFecha.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\RisksOnly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\RisksOnly.Designer.cs">
-      <DependentUpon>RisksOnly.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\CompañíasOnly.cs">
       <SubType>Form</SubType>
@@ -419,21 +401,12 @@
     <EmbeddedResource Include="Forms\FormCobranzasVencidas.resx">
       <DependentUpon>FormCobranzasVencidas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PackagesOnly.resx">
-      <DependentUpon>PackagesOnly.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Cobranza.resx">
       <DependentUpon>Cobranza.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CoberturasOnly.resx">
-      <DependentUpon>CoberturasOnly.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PolizasPorFecha.resx">
       <DependentUpon>PolizasPorFecha.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RisksOnly.resx">
-      <DependentUpon>RisksOnly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CompañíasOnly.resx">
       <DependentUpon>CompañíasOnly.cs</DependentUpon>

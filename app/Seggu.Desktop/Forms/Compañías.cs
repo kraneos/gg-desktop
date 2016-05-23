@@ -15,22 +15,19 @@ namespace Seggu.Desktop.Forms
         private ICompanyService companyService;
         private IProducerService producerService;
         private IRiskService riskService;
-        private ICoveragesPackService coveragesPackService;
         private ICoverageService coverageService;
         private IMasterDataService masterDataService;
         private CompanyFullDto selectedFullCompany;
         private CompanyDto currentCompany;
         private bool isNew;
 
-        public Compañías(ICompanyService companyService, ICoverageService coverageService,
-            ICoveragesPackService coveragesPackService, IProducerService producerService,
+        public Compañías(ICompanyService companyService, ICoverageService coverageService,IProducerService producerService,
             IRiskService riskService, IMasterDataService masterDataService)
         {
             InitializeComponent();
             this.companyService = companyService;
             this.producerService = producerService;
             this.riskService = riskService;
-            this.coveragesPackService = coveragesPackService;
             this.coverageService = coverageService;
             this.masterDataService = masterDataService;
             this.InitializeIndex();
@@ -157,8 +154,8 @@ namespace Seggu.Desktop.Forms
         private void FillgrdCoveragesPack()
         {
             if (lsbRiesgos.SelectedValue == null) return;
-            grdCoveragesPack.DataSource = coveragesPackService
-                .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
+            //grdCoveragesPack.DataSource = coveragesPackService
+            //    .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             FormatCoveragesPacksGrid();
             grdCoveragesPack.ClearSelection();
         }
@@ -528,7 +525,7 @@ namespace Seggu.Desktop.Forms
                     int index;
                     coverage.Description = txtCoberturas.Text;
                     //coverage.Name = ? hardcode en dto mapper
-                    coverage.RiskId = (int)lsbRiesgos.SelectedValue;
+                    //coverage.Risks = (int)lsbRiesgos.SelectedValue;
                     index = lsbCoberturas.SelectedIndex;
                     coverageService.Save(coverage);
                     selectedFullCompany = companyService.GetFullById(currentCompany.Id);
@@ -600,24 +597,24 @@ namespace Seggu.Desktop.Forms
             else
             {
 
-                if (!coveragesPackService.ExistName(txtCoveragesPack.Text))
-                {
-                    var coveragesPack = new CoveragesPackDto();
-                    coveragesPack.Name = txtCoveragesPack.Text;
-                    coveragesPack.RiskId = (int)lsbRiesgos.SelectedValue;
-                    coveragesPack.Coverages = new List<CoverageDto>();
-                    coveragesPackService.Create(coveragesPack);
-                    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-                    InitializeCoveragePacks();
-                    FillgrdCoveragesPack();
+                //if (!coveragesPackService.ExistName(txtCoveragesPack.Text))
+                //{
+                //    var coveragesPack = new CoveragesPackDto();
+                //    coveragesPack.Name = txtCoveragesPack.Text;
+                //    coveragesPack.RiskId = (int)lsbRiesgos.SelectedValue;
+                //    coveragesPack.Coverages = new List<CoverageDto>();
+                //    coveragesPackService.Create(coveragesPack);
+                //    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                //    InitializeCoveragePacks();
+                //    FillgrdCoveragesPack();
 
-                    //InitializeIndex();
-                }
-                else
-                {
-                    MessageBox.Show("Ya existe un paquete de coberturas con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                //    //InitializeIndex();
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Ya existe un paquete de coberturas con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
 
                
             }
@@ -630,7 +627,7 @@ namespace Seggu.Desktop.Forms
             }
 
             var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
-            coveragesPackService.Delete(coveragesPack.Id);
+            //coveragesPackService.Delete(coveragesPack.Id);
             selectedFullCompany = companyService.GetFullById(currentCompany.Id);
             InitializeCoveragePacks();
             FillgrdCoveragesPack();
@@ -649,7 +646,7 @@ namespace Seggu.Desktop.Forms
             var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
             foreach (CoverageDto coverage in lsbCoberturas.SelectedItems)
                 coveragesPack.Coverages.Add(coverage);
-            coveragesPackService.Update(coveragesPack);
+            //coveragesPackService.Update(coveragesPack);
             MessageBox.Show("Cobertura agregada al paquete.", "Cobertura Agregada", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void btnDeleteFromPack_Click(object sender, EventArgs e)
@@ -660,7 +657,7 @@ namespace Seggu.Desktop.Forms
             var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
             foreach (CoverageDto coverage in lsbCoberturas.SelectedItems)
                 coveragesPack.Coverages.Remove(coverage);
-            coveragesPackService.Update(coveragesPack);
+            //coveragesPackService.Update(coveragesPack);
             MessageBox.Show("Cobertura removida del paquete.", "Cobertura Removida", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

@@ -21,29 +21,29 @@ namespace Seggu.Daos
             return this.Set.Where(x => x.PolicyId == policyId);
         }
 
-        public void SaveEmployee(Employee newVehicle)
+        public void SaveEmployee(Employee newEmployee)
         {
-            var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
+            //var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
             var dbVehicle = context.Employees
-                                    .Include("Coverages")
-                                    .FirstOrDefault(c => c.Id == newVehicle.Id) ?? newVehicle;
+                                    //.Include("Coverages")
+                                    .FirstOrDefault(c => c.Id == newEmployee.Id) ?? newEmployee;
 
-            dbVehicle.Coverages.Clear();
+            //dbVehicle.Coverages.Clear();
             context.Entry(dbVehicle).State = EntityState.Added;
 
-            newVehicle.Id = dbVehicle.Id;
-            context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+            newEmployee.Id = dbVehicle.Id;
+            context.Entry(dbVehicle).CurrentValues.SetValues(newEmployee);
 
-            foreach (var dbCover in context.Coverages)
-            {
-                if (coverages.Any(cov => cov.Id == dbCover.Id))
-                {
-                    context.Coverages.Attach(dbCover);
-                    dbVehicle.Coverages.Add(dbCover);
-                }
-                //else
-                //dbVehicle.Coverages.Remove(dbCover);
-            }
+            //foreach (var dbCover in context.Coverages)
+            //{
+            //    if (coverages.Any(cov => cov.Id == dbCover.Id))
+            //    {
+            //        context.Coverages.Attach(dbCover);
+            //        dbVehicle.Coverages.Add(dbCover);
+            //    }
+            //    //else
+            //    //dbVehicle.Coverages.Remove(dbCover);
+            //}
             context.SaveChanges();
         }
     }

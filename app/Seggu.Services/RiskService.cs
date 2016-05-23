@@ -12,13 +12,11 @@ namespace Seggu.Services
     {
         private IRiskDao riskDao;
         private ICoverageDao coverageDao;
-        private ICoveragesPackDao coveragePackDao;
 
-        public RiskService(IRiskDao riskDao, ICoverageDao coverageDao, ICoveragesPackDao coveragePackDao)
+        public RiskService(IRiskDao riskDao, ICoverageDao coverageDao)
         {
             this.riskDao = riskDao;
             this.coverageDao = coverageDao;
-            this.coveragePackDao = coveragePackDao;
         }
 
         public IEnumerable<RiskCompanyDto> GetByCompany(int id)
@@ -69,17 +67,6 @@ namespace Seggu.Services
 
             var riskId = id;
             return coverageDao.RiskHasCoverage(riskId);
-        }
-
-        public bool HasPackages(int id)
-        {
-            if (id == default(int))
-            {
-                return true;
-            }
-
-            var riskId = id;
-            return coveragePackDao.HasRiskPackege(riskId);
         }
 
         public IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId)

@@ -7,7 +7,6 @@ namespace Seggu.Domain
     {
         public Employee()
         {
-            this.Coverages = new HashSet<Coverage>();
         }
     
         public long PolicyId { get; set; }
@@ -22,6 +21,5 @@ namespace Seggu.Domain
     
         public virtual Policy Policy { get; set; }
         public virtual Endorse Endorse { get; set; }
-        public virtual ICollection<Coverage> Coverages { get; set; }
     }
 }

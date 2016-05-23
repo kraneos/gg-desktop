@@ -84,7 +84,6 @@
     <Compile Include="ICompanyService.cs" />
     <Compile Include="IContactService.cs" />
     <Compile Include="ICoverageService.cs" />
-    <Compile Include="ICoveragesPackService.cs" />
     <Compile Include="IDistrictService.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="IEndorseService.cs" />

@@ -2,7 +2,7 @@ namespace Seggu.Domain
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Endorse : IdParseEntity
     {
         public Endorse()
@@ -12,8 +12,9 @@ namespace Seggu.Domain
             this.Fees = new HashSet<Fee>();
             this.AttachedFiles = new HashSet<AttachedFile>();
             this.Integrals = new HashSet<Integral>();
+            this.Coverages = new HashSet<Coverage>();
         }
-    
+
         public EndorseType EndorseType { get; set; }
         public string Number { get; set; }
         public string Cause { get; set; }
@@ -42,5 +43,6 @@ namespace Seggu.Domain
         public virtual ICollection<Fee> Fees { get; set; }
         public virtual ICollection<AttachedFile> AttachedFiles { get; set; }
         public virtual ICollection<Integral> Integrals { get; set; }
+        public virtual ICollection<Coverage> Coverages { get; set; }
     }
 }

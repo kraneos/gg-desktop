@@ -24,12 +24,12 @@ namespace Seggu.Daos
 
         public bool RiskHasCoverage(long riskId)
         {
-            return this.Set.Any(c => c.RiskId == riskId);
+            return this.Set.Any(c => c.Risks.Any(r=>r.Id == riskId));
         }
 
-        public bool BetByNameId(string name, long id, long riskId)
+        public bool GetByNameId(string name, long id, long riskId)
         {
-            var prod = this.Set.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
+            var prod = this.Set.FirstOrDefault(p => p.Name == name && p.Risks.Any(r => r.Id == riskId));
             if (prod == null)
             {
                 return false;
@@ -41,9 +41,9 @@ namespace Seggu.Daos
             return true;
         }
 
-        public bool BetByNameRisk(string name, long idRisk)
+        public bool GetByNameRisk(string name, long idRisk)
         {
-            return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
+            return this.Set.Any(p => p.Name == name && p.Risks.Any(r => r.Id == idRisk));
         }
     }
 }

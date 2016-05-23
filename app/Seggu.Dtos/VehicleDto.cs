@@ -25,7 +25,7 @@ namespace Seggu.Dtos
         public string Origin { get; set; }
         public bool IsRemoved { get; set; }
         public IEnumerable<AccessoryDto> Accessories { get; set; }
-        public IEnumerable<CoverageDto> Coverages { get; set; }
+        //public IEnumerable<CoverageDto> Coverages { get; set; }
 
     }
 }

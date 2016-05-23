@@ -85,9 +85,9 @@ namespace Seggu.Services
             foreach (var vehicle in endorse.Vehicles)
             {
                 var coverages = new List<Coverage>();
-                foreach (var coverage in vehicle.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                vehicle.Coverages = coverages;
+                //foreach (var coverage in vehicle.Coverages)
+                //    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                //vehicle.Coverages = coverages;
             }
         }
         private void AddCoveragesToEmployees(Endorse endorse)
@@ -95,9 +95,9 @@ namespace Seggu.Services
             foreach (var employee in endorse.Employees)
             {
                 var coverages = new List<Coverage>();
-                foreach (var coverage in employee.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                employee.Coverages = coverages;
+                //foreach (var coverage in employee.Coverages)
+                //    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                //employee.Coverages = coverages;
             }
         }
         private void AnnulateEndorseChilds(Endorse endorse)

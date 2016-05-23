@@ -173,10 +173,10 @@ namespace Seggu.Services
             form.SetField("Modelo", vehicle.Model);
             form.SetField("Año", vehicle.Year);
             var cobertura = string.Empty;
-            if (vehicle.Coverages.Any() && vehicle.Coverages.First().CoveragesPacks.Any())
-            {
-                cobertura = vehicle.Coverages.First().CoveragesPacks.First().Name;
-            }
+            //if (vehicle.Coverages.Any() && vehicle.Coverages.First().CoveragesPacks.Any())
+            //{
+            //    cobertura = vehicle.Coverages.First().CoveragesPacks.First().Name;
+            //}
             form.SetField("Cobertura", cobertura);
             form.SetField("Motor", vehicle.Engine);
             form.SetField("Chasis", vehicle.Chassis);
@@ -261,7 +261,7 @@ namespace Seggu.Services
             var clientFull = clientService.GetById(policy.ClientId);
             string pathDateFolder = ValidatePaths("Endosos");
             string PDFPath = System.IO.Path.Combine(pathDateFolder, endorse.Vehicles.First().Plate +
-                " " + client.FullName + ".pdf");
+                " " + client.Nombre_Completo + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));

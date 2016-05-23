@@ -82,7 +82,6 @@
     <Compile Include="CompanyDao.cs" />
     <Compile Include="ContactDao.cs" />
     <Compile Include="CoverageDao.cs" />
-    <Compile Include="CoveragesPackDao.cs" />
     <Compile Include="DistrictDao.cs" />
     <Compile Include="EmployeeDao.cs" />
     <Compile Include="EndorseDao.cs" />

@@ -1,5 +1,6 @@
 ﻿using Seggu.Domain;
 using System.Data.Entity;
+using System;
 
 namespace Seggu.Data
 {
@@ -12,53 +13,43 @@ namespace Seggu.Data
             ConfigurePolicyEntity(modelBuilder);
             ConfigureBodyworkVehicleTypeEntity(modelBuilder);
             ConfigureVehicleTypeUse(modelBuilder);
-            ConfigureVehicleCoverages(modelBuilder);
-            ConfigureIntegralCoverages(modelBuilder);
-            ConfigureEmployeeCoverages(modelBuilder);            
+            ConfigureCoverages(modelBuilder);
         }
 
-        private void ConfigureVehicleCoverages(DbModelBuilder modelBuilder)
+        private void ConfigureCoverages(DbModelBuilder modelBuilder)
         {
             modelBuilder
-                .Entity<Vehicle>()
-                .HasMany(v => v.Coverages)
-                .WithMany(c => c.Vehicles)
+                .Entity<Coverage>()
+                .HasMany(c => c.Policies)
+                .WithMany(p => p.Coverages)
                 .Map(configurationAction =>
                 {
                     configurationAction
-                        .MapLeftKey("Vehicles_Id")
-                        .MapRightKey("Coverages_Id")
-                        .ToTable("VehicleCoverage");
+                        .MapLeftKey("CoverageId")
+                        .MapRightKey("PolicyId")
+                        .ToTable("CoveragePolicy");
                 });
-        }
-
-        private void ConfigureIntegralCoverages(DbModelBuilder modelBuilder)
-        {
             modelBuilder
-                .Entity<Integral>()
-                .HasMany(v => v.Coverages)
-                .WithMany(c => c.Integrals)
+                .Entity<Coverage>()
+                .HasMany(c => c.Endorses)
+                .WithMany(p => p.Coverages)
                 .Map(configurationAction =>
                 {
                     configurationAction
-                        .MapLeftKey("Integrals_Id")
-                        .MapRightKey("Coverages_Id")
-                        .ToTable("IntegralCoverage");
+                        .MapLeftKey("CoverageId")
+                        .MapRightKey("EndorseId")
+                        .ToTable("CoverageEndorse");
                 });
-        }
-
-        private void ConfigureEmployeeCoverages(DbModelBuilder modelBuilder)
-        {
             modelBuilder
-                .Entity<Employee>()
-                .HasMany(v => v.Coverages)
-                .WithMany(c => c.Employees)
+                .Entity<Coverage>()
+                .HasMany(c => c.Risks)
+                .WithMany(p => p.Coverages)
                 .Map(configurationAction =>
                 {
                     configurationAction
-                        .MapLeftKey("Employees_Id")
-                        .MapRightKey("Coverages_Id")
-                        .ToTable("EmployeeCoverage");
+                        .MapLeftKey("CoverageId")
+                        .MapRightKey("RiskId")
+                        .ToTable("RiskCoverage");
                 });
         }
 

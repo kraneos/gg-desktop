@@ -21,17 +21,17 @@ namespace Seggu.Daos
                                     .Include("Addresses")
                                     .Single(c => c.Id == newIntegral.Id) ?? newIntegral;
 
-            var coverages = new List<Coverage>(newIntegral.Coverages).ToList();
-            dbIntegral.Coverages.Clear();
+            //var coverages = new List<Coverage>(newIntegral.Coverages).ToList();
+            //dbIntegral.Coverages.Clear();
             newIntegral.Id = dbIntegral.Id;
-            foreach (var dbCover in context.Coverages)
-            {
-                if (coverages.Any(cov => cov.Id == dbCover.Id))
-                {
-                    context.Coverages.Attach(dbCover);
-                    dbIntegral.Coverages.Add(dbCover);
-                }
-            }
+            //foreach (var dbCover in context.Coverages)
+            //{
+            //    if (coverages.Any(cov => cov.Id == dbCover.Id))
+            //    {
+            //        context.Coverages.Attach(dbCover);
+            //        dbIntegral.Coverages.Add(dbCover);
+            //    }
+            //}
 
             context.Entry(dbIntegral).State = EntityState.Added;
             context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
