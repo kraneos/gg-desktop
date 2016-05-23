@@ -8,8 +8,8 @@ namespace Seggu.Service.ViewModels
     public class VehicleModelVM : KeyValueViewModel
     {
         public int Origin { get; set; }
-        public Guid BrandId { get; set; }
-        public Guid VehicleTypeId { get; set; }
+        public string BrandId { get; set; }
+        public string VehicleTypeId { get; set; }
 
     }
 }

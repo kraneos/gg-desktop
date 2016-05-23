@@ -93,10 +93,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SegguContainer.cs" />
-    <Compile Include="SegguDataModelContainer.cs" />
-    <Compile Include="SegguDataModelContainer.fluentapi.cs" />
-    <Compile Include="SegguDataModelContainer.overrides.cs" />
+    <Compile Include="SegguDataModelContext.cs" />
+    <Compile Include="SegguDataModelContext.fluentapi.cs" />
+    <Compile Include="SegguDataModelContext.overrides.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

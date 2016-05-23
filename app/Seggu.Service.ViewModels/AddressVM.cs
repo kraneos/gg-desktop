@@ -9,9 +9,9 @@ namespace Seggu.Service.ViewModels
         public string Number { get; set; }
         public string Floor { get; set; }
         public string Appartment { get; set; }
-        public Nullable<Guid> LocalityId { get; set; }
+        public string LocalityId { get; set; }
         public string PostalCode { get; set; }
         public int AddressType { get; set; }
-        public Nullable<Guid> ClientId { get; set; }
+        public string ClientId { get; set; }
     }
 }

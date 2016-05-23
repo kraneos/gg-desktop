@@ -5,7 +5,7 @@ namespace Seggu.Service.ViewModels
     public class PolicyVM : ViewModel
     {
         public string PreviousNumber { get; set; }
-        public Guid ClientId { get; set; }
+        public string ClientId { get; set; }
         public int Period { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
@@ -23,8 +23,8 @@ namespace Seggu.Service.ViewModels
         public bool IsAnnulled { get; set; }
         public Nullable<System.DateTime> AnnulationDate { get; set; }
         public bool IsRemoved { get; set; }
-        public Guid ProducerId { get; set; }
-        public Nullable<Guid> CollectorId { get; set; }
-        public Guid RiskId { get; set; }
+        public string ProducerId { get; set; }
+        public string CollectorId { get; set; }
+        public string RiskId { get; set; }
     }
 }

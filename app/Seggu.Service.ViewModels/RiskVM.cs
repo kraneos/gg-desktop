@@ -8,6 +8,6 @@ namespace Seggu.Service.ViewModels
     public class RiskVM : KeyValueViewModel
     {
         public int RiskType { get; set; }
-        public Guid CompanyId { get; set; }
+        public string CompanyId { get; set; }
     }
 }

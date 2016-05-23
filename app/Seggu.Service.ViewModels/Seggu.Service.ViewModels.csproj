@@ -54,6 +54,7 @@
     <Compile Include="AddressVM.cs" />
     <Compile Include="AssetVM.cs" />
     <Compile Include="BankVM.cs" />
+    <Compile Include="BatchElementResponseVM.cs" />
     <Compile Include="BodyworkVM.cs" />
     <Compile Include="BrandVM.cs" />
     <Compile Include="CashAccountVM.cs" />
@@ -74,7 +75,10 @@
     <Compile Include="LedgerAccountVM.cs" />
     <Compile Include="LiquidationVM.cs" />
     <Compile Include="LocalityVM.cs" />
+    <Compile Include="ParseConstraintVM.cs" />
+    <Compile Include="ParseQueryResponseVM.cs" />
     <Compile Include="ParseViewModel.cs" />
+    <Compile Include="ParseWhereClauseVM.cs" />
     <Compile Include="PolicyVM.cs" />
     <Compile Include="ProducerCodeVM.cs" />
     <Compile Include="ProducerVM.cs" />

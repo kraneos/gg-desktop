@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Seggu.Service.ViewModels
 {
-    public class LocalityVM : KeyValueViewModel
+    public class ParseConstraintVM
     {
-        public string DistrictId { get; set; }
+
     }
 }
