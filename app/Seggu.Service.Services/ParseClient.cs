@@ -116,7 +116,7 @@ namespace Seggu.Service.Services
         {
             var objectIds = entities.Select(x => x.ObjectId);
             var existingEntities = this.context.Set<TParseEntity>()
-                .Where(x => objectIds.Any(y => y == x.ObjectId)).ToList();
+                .Where(x => objectIds.Contains(x.ObjectId)).ToList();
             var newEntities = entities
                 .Where(x => !existingEntities.Any(y => y.ObjectId == x.ObjectId));
 
