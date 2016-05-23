@@ -1,7 +1,5 @@
 namespace Seggu.Domain
 {
-    using System;
-    
     public enum IdType : int
     {
         DNI = 1,

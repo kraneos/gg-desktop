@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnImprimir = new System.Windows.Forms.Button();
             this.cmbTipoEndosos = new System.Windows.Forms.ComboBox();
             this.txtNroEndoso = new System.Windows.Forms.TextBox();
@@ -130,7 +130,7 @@
             this.cmbTipoEndosos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoEndosos.Name = "cmbTipoEndosos";
             this.cmbTipoEndosos.Size = new System.Drawing.Size(244, 25);
-            this.cmbTipoEndosos.TabIndex = 163;
+            this.cmbTipoEndosos.TabIndex = 1;
             // 
             // txtNroEndoso
             // 
@@ -138,7 +138,7 @@
             this.txtNroEndoso.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtNroEndoso.Name = "txtNroEndoso";
             this.txtNroEndoso.Size = new System.Drawing.Size(244, 25);
-            this.txtNroEndoso.TabIndex = 162;
+            this.txtNroEndoso.TabIndex = 3;
             // 
             // txtMotivo
             // 
@@ -147,7 +147,7 @@
             this.txtMotivo.Multiline = true;
             this.txtMotivo.Name = "txtMotivo";
             this.txtMotivo.Size = new System.Drawing.Size(410, 55);
-            this.txtMotivo.TabIndex = 161;
+            this.txtMotivo.TabIndex = 2;
             // 
             // label30
             // 
@@ -194,7 +194,7 @@
             this.txtBonificacionPago.Location = new System.Drawing.Point(654, 76);
             this.txtBonificacionPago.Name = "txtBonificacionPago";
             this.txtBonificacionPago.Size = new System.Drawing.Size(100, 25);
-            this.txtBonificacionPago.TabIndex = 1;
+            this.txtBonificacionPago.TabIndex = 5;
             this.txtBonificacionPago.TextChanged += new System.EventHandler(this.txtBonificacionPago_TextChanged);
             // 
             // label15
@@ -220,7 +220,7 @@
             this.txtRecargoPropio.Location = new System.Drawing.Point(387, 74);
             this.txtRecargoPropio.Name = "txtRecargoPropio";
             this.txtRecargoPropio.Size = new System.Drawing.Size(100, 25);
-            this.txtRecargoPropio.TabIndex = 5;
+            this.txtRecargoPropio.TabIndex = 4;
             this.txtRecargoPropio.TextChanged += new System.EventHandler(this.txtRecargoPropio_TextChanged);
             // 
             // txtNetoCobrar
@@ -273,7 +273,7 @@
             this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
             this.txtSumaAsegurado.Name = "txtSumaAsegurado";
             this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
-            this.txtSumaAsegurado.TabIndex = 0;
+            this.txtSumaAsegurado.TabIndex = 1;
             this.txtSumaAsegurado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSumaAsegurado_KeyPress);
             // 
             // label13
@@ -328,7 +328,7 @@
             this.btnDarDeBaja.Location = new System.Drawing.Point(795, 354);
             this.btnDarDeBaja.Name = "btnDarDeBaja";
             this.btnDarDeBaja.Size = new System.Drawing.Size(87, 27);
-            this.btnDarDeBaja.TabIndex = 169;
+            this.btnDarDeBaja.TabIndex = 11;
             this.btnDarDeBaja.Text = "Eliminar";
             this.btnDarDeBaja.UseVisualStyleBackColor = true;
             // 
@@ -348,7 +348,7 @@
             this.PanelCoverage.Location = new System.Drawing.Point(3, 447);
             this.PanelCoverage.Name = "PanelCoverage";
             this.PanelCoverage.Size = new System.Drawing.Size(250, 225);
-            this.PanelCoverage.TabIndex = 165;
+            this.PanelCoverage.TabIndex = 14;
             // 
             // btnGrabar
             // 
@@ -358,7 +358,7 @@
             this.btnGrabar.Location = new System.Drawing.Point(897, 354);
             this.btnGrabar.Name = "btnGrabar";
             this.btnGrabar.Size = new System.Drawing.Size(75, 27);
-            this.btnGrabar.TabIndex = 166;
+            this.btnGrabar.TabIndex = 10;
             this.btnGrabar.Text = "Grabar";
             this.btnGrabar.UseVisualStyleBackColor = true;
             this.btnGrabar.Click += new System.EventHandler(this.btnGrabar_Click);
@@ -382,7 +382,7 @@
             this.cmbPlanAsegurado.Location = new System.Drawing.Point(864, 30);
             this.cmbPlanAsegurado.Name = "cmbPlanAsegurado";
             this.cmbPlanAsegurado.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanAsegurado.TabIndex = 16;
+            this.cmbPlanAsegurado.TabIndex = 8;
             this.cmbPlanAsegurado.Visible = false;
             // 
             // rdbDistintos
@@ -436,7 +436,7 @@
             this.cmbPlanCia.Location = new System.Drawing.Point(786, 30);
             this.cmbPlanCia.Name = "cmbPlanCia";
             this.cmbPlanCia.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanCia.TabIndex = 14;
+            this.cmbPlanCia.TabIndex = 7;
             this.cmbPlanCia.Visible = false;
             // 
             // lblPlanCia
@@ -478,7 +478,7 @@
             this.cmbPlanes.Location = new System.Drawing.Point(786, 105);
             this.cmbPlanes.Name = "cmbPlanes";
             this.cmbPlanes.Size = new System.Drawing.Size(158, 25);
-            this.cmbPlanes.TabIndex = 0;
+            this.cmbPlanes.TabIndex = 9;
             this.cmbPlanes.SelectionChangeCommitted += new System.EventHandler(this.cmbPlanes_SelectionChangeCommitted);
             // 
             // grdFees
@@ -489,8 +489,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -511,7 +511,7 @@
             this.groupBox4.Location = new System.Drawing.Point(566, 8);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(151, 47);
-            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Plan Cía / Aseg";
             // 
@@ -541,7 +541,7 @@
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtNotas.Size = new System.Drawing.Size(729, 73);
-            this.txtNotas.TabIndex = 98;
+            this.txtNotas.TabIndex = 13;
             // 
             // txtAsegurado
             // 
@@ -565,7 +565,7 @@
             this.txtNroPoliza.Location = new System.Drawing.Point(120, 115);
             this.txtNroPoliza.Name = "txtNroPoliza";
             this.txtNroPoliza.Size = new System.Drawing.Size(244, 25);
-            this.txtNroPoliza.TabIndex = 8;
+            this.txtNroPoliza.TabIndex = 5;
             // 
             // txtNroPolAnt
             // 
@@ -591,7 +591,7 @@
             this.dtpRecibido.Name = "dtpRecibido";
             this.dtpRecibido.ShowCheckBox = true;
             this.dtpRecibido.Size = new System.Drawing.Size(288, 25);
-            this.dtpRecibido.TabIndex = 7;
+            this.dtpRecibido.TabIndex = 12;
             // 
             // dtpEmision
             // 
@@ -600,7 +600,7 @@
             this.dtpEmision.Name = "dtpEmision";
             this.dtpEmision.ShowCheckBox = true;
             this.dtpEmision.Size = new System.Drawing.Size(288, 25);
-            this.dtpEmision.TabIndex = 18;
+            this.dtpEmision.TabIndex = 11;
             // 
             // dtpFin
             // 
@@ -608,7 +608,7 @@
             this.dtpFin.Location = new System.Drawing.Point(120, 271);
             this.dtpFin.Name = "dtpFin";
             this.dtpFin.Size = new System.Drawing.Size(244, 25);
-            this.dtpFin.TabIndex = 6;
+            this.dtpFin.TabIndex = 8;
             // 
             // label48
             // 
@@ -634,7 +634,7 @@
             this.dtpSolicitud.Location = new System.Drawing.Point(558, 198);
             this.dtpSolicitud.Name = "dtpSolicitud";
             this.dtpSolicitud.Size = new System.Drawing.Size(288, 25);
-            this.dtpSolicitud.TabIndex = 17;
+            this.dtpSolicitud.TabIndex = 10;
             // 
             // dtpInicio
             // 
@@ -642,7 +642,7 @@
             this.dtpInicio.Location = new System.Drawing.Point(120, 199);
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(244, 25);
-            this.dtpInicio.TabIndex = 4;
+            this.dtpInicio.TabIndex = 7;
             // 
             // tabPageDatos
             // 
@@ -709,7 +709,7 @@
             this.cmbRiesgo.Location = new System.Drawing.Point(120, 146);
             this.cmbRiesgo.Name = "cmbRiesgo";
             this.cmbRiesgo.Size = new System.Drawing.Size(244, 25);
-            this.cmbRiesgo.TabIndex = 3;
+            this.cmbRiesgo.TabIndex = 6;
             this.cmbRiesgo.SelectedIndexChanged += new System.EventHandler(this.cmbRiesgo_SelectedIndexChanged);
             // 
             // cmbCompania
@@ -719,7 +719,7 @@
             this.cmbCompania.Location = new System.Drawing.Point(120, 84);
             this.cmbCompania.Name = "cmbCompania";
             this.cmbCompania.Size = new System.Drawing.Size(244, 25);
-            this.cmbCompania.TabIndex = 1;
+            this.cmbCompania.TabIndex = 4;
             this.cmbCompania.SelectionChangeCommitted += new System.EventHandler(this.cmbCompania_SelectionChangeCommitted);
             // 
             // cmbProductor
@@ -728,7 +728,7 @@
             this.cmbProductor.Location = new System.Drawing.Point(558, 146);
             this.cmbProductor.Name = "cmbProductor";
             this.cmbProductor.Size = new System.Drawing.Size(288, 25);
-            this.cmbProductor.TabIndex = 14;
+            this.cmbProductor.TabIndex = 9;
             // 
             // label43
             // 
@@ -831,7 +831,7 @@
             this.txtPremioIva.Location = new System.Drawing.Point(115, 109);
             this.txtPremioIva.Name = "txtPremioIva";
             this.txtPremioIva.Size = new System.Drawing.Size(115, 25);
-            this.txtPremioIva.TabIndex = 170;
+            this.txtPremioIva.TabIndex = 2;
             this.txtPremioIva.TextChanged += new System.EventHandler(this.txtPremioIva_TextChanged);
             this.txtPremioIva.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPremioIva_KeyPress);
             // 
@@ -859,7 +859,7 @@
             this.cmbCobrador.Location = new System.Drawing.Point(352, 10);
             this.cmbCobrador.Name = "cmbCobrador";
             this.cmbCobrador.Size = new System.Drawing.Size(171, 25);
-            this.cmbCobrador.TabIndex = 47;
+            this.cmbCobrador.TabIndex = 3;
             // 
             // lblPlanes
             // 
