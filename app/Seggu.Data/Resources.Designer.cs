@@ -113,9 +113,9 @@ namespace Seggu.Data {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] Solicitud_Inscripcion_Seguro_Colectivo_2 {
+        public static byte[] Solicitud_Inscripcion_Seguro_Colectivo {
             get {
-                object obj = ResourceManager.GetObject("Solicitud_Inscripcion_Seguro_Colectivo_2", resourceCulture);
+                object obj = ResourceManager.GetObject("Solicitud_Inscripcion_Seguro_Colectivo", resourceCulture);
                 return ((byte[])(obj));
             }
         }
