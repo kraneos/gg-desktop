@@ -1,11 +1,9 @@
 ﻿using Seggu.Desktop.Forms;
 using Seggu.Dtos;
-using Seggu.Infrastructure;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -36,37 +34,47 @@ namespace Seggu.Desktop.UserControls
             coveragePackService = _coveragePackService;
         }
 
-        public void InitializeIndex(int riskId)
+        public void InitializeIndex(int riskTypeId)
         {
             currentPolicy = MainForm.currentPolicy;
-            var riskGuid = riskId;
-            
-            var table = BuildEmployeeTable();
-            grdEmployees.DataSource = table;
-            grdEmployees.Columns["Id"].Visible = false;
-            var coberturas = this.coveragePackService.GetAllByRiskId(riskGuid).ToList();
+
+            LoadEmployeeGrid();
+            LoadCmbCoverages(riskTypeId);
+        }
+
+        private void LoadCmbCoverages(int riskTypeId)
+        {
+            var coberturas = this.coveragePackService.GetAllByRiskId(riskTypeId).ToList();
             cmbCoberturas.DataSource = coberturas;
             cmbCoberturas.DisplayMember = "Name";
             cmbCoberturas.ValueMember = "Id";
-                if (currentPolicy != null && currentPolicy.Employees != null && currentPolicy.Employees.Any())
+            if (currentPolicy != null && currentPolicy.Employees != null && currentPolicy.Employees.Any())
+            {
+                var coverages = currentPolicy.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
+                if (coverages.Any())
+                    cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskTypeId);
+            }
+            else
+            {
+                currentEndorse = MainForm.currentEndorse;
+                if (currentEndorse != null && currentEndorse.Employees != null && currentEndorse.Employees.Any())
                 {
-                    var coverages = currentPolicy.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
+                    var coverages = currentEndorse.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
                     if (coverages.Any())
-                        cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
+                        cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskTypeId);
                 }
-                else
-                {
-                    currentEndorse = MainForm.currentEndorse;
-                    if (currentEndorse != null && currentEndorse.Employees != null && currentEndorse.Employees.Any())
-                    {
-                        var coverages = currentEndorse.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
-                        if (coverages.Any())
-                            cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskId);
-                    }
 
-                }
+            }
         }
-            private DataTable BuildEmployeeTable()
+
+        private void LoadEmployeeGrid()
+        {
+            var employeeTable = BuildEmployeeTable();
+            grdEmployees.DataSource = employeeTable;
+            grdEmployees.Columns["Id"].Visible = false;
+        }
+
+        private DataTable BuildEmployeeTable()
             {
                 var table = new DataTable();
                 table.Columns.Add("Id", typeof(string));
@@ -133,6 +141,7 @@ namespace Seggu.Desktop.UserControls
             return employees;
         }
 
+        #region validaciones
         private void grdEmployees_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             var ctrl = (DataGridView)sender;
@@ -177,14 +186,12 @@ namespace Seggu.Desktop.UserControls
                 }
             }
         }
-
         private void ResetCell(DataGridView sender, int rowIndex, int columnIndex)
         {
             //var cell = sender.Rows[rowIndex].Cells[columnIndex];
             //cell.Style.ForeColor = Color.Black;
             //cell.ToolTipText = string.Empty;
         }
-
         private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg)
         {
             //var cell = sender.Rows[rowIndex].Cells[columnIndex];
@@ -193,5 +200,6 @@ namespace Seggu.Desktop.UserControls
             //cell.ErrorText = errorMsg;
             MessageBox.Show(errorMsg);
         }
+        #endregion
     }
 }

@@ -38,8 +38,9 @@ namespace Seggu.Services
         public int GetPackIdByCoverageId(int id, int riskId)
         {
             var coveragesPacks = coveragesPackDao.GetByRiskId(riskId);
-            return (int)coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
-                && cp.Coverages.Any(x => x.Id == id)).Id;
+            var pack = coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
+                && cp.Coverages.Any(x => x.Id == id));
+            return (int)pack.Id;
         }
         public void Update(CoveragesPackDto coveragesPack)
         {

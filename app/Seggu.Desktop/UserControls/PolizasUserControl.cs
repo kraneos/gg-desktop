@@ -426,8 +426,8 @@ namespace Seggu.Desktop.UserControls
             vida_uc = null;
 
             var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
-            var riesgo = risk.RiskType;
-            if (riesgo == RiskType.Automotores)
+            var riskType = risk.RiskType;
+            if (riskType == RiskType.Automotores)
             {
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
@@ -435,7 +435,7 @@ namespace Seggu.Desktop.UserControls
                 if (LayoutForm.currentPolicy != null)
                     vehicle_uc.PopulatePolicyVehicle();
             }
-            else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
+            else if (riskType == RiskType.Vida_colectivo_Otros || riskType == RiskType.Vida_individual || riskType == RiskType.Otros)
             {
                 vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);
