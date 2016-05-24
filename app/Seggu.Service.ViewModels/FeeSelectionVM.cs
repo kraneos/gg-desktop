@@ -8,7 +8,7 @@ namespace Seggu.Service.ViewModels
     public class FeeSelectionVM : KeyValueViewModel
     {
         public decimal Total { get; set; }
-        public Guid LiquidationId { get; set; }
+        public string LiquidationId { get; set; }
         public string Notes { get; set; }
     }
 }

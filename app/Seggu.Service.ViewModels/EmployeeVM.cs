@@ -7,8 +7,8 @@ namespace Seggu.Service.ViewModels
 {
     public class EmployeeVM : ViewModel
     {
-        public Guid PolicyId { get; set; }
-        public Nullable<Guid> EndorseId { get; set; }
+        public string PolicyId { get; set; }
+        public string EndorseId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateTime BirthDate { get; set; }

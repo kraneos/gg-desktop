@@ -12,7 +12,7 @@ namespace Seggu.Service.ViewModels
         public Nullable<System.DateTime> ReceptionDate { get; set; }
         public bool Registered { get; set; }
         public string Notes { get; set; }
-        public Guid CompanyId { get; set; }
+        public string CompanyId { get; set; }
 
     }
 }

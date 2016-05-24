@@ -25,7 +25,7 @@ namespace Seggu.Service.Services.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("vzDi67WTpOZNP3vdjRrvOJUiHWCTPiAp5fvfc0ZN")]
+        [global::System.Configuration.DefaultSettingValueAttribute("seggu-api")]
         public string ParseAppId {
             get {
                 return ((string)(this["ParseAppId"]));
@@ -34,7 +34,7 @@ namespace Seggu.Service.Services.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Ft0Y2gCc081zjfWfvJvVX5UzXe9NPsTOTqAuGgOs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SegguMasterKey")]
         public string ParseSecretKey {
             get {
                 return ((string)(this["ParseSecretKey"]));
@@ -44,7 +44,7 @@ namespace Seggu.Service.Services.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://api.parse.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http:/localhost:1337/parse")]
         public string ParseBaseUrl {
             get {
                 return ((string)(this["ParseBaseUrl"]));

@@ -7,8 +7,8 @@ namespace Seggu.Service.ViewModels
 {
     public class ProducerCodeVM : ViewModelBase
     {
-        public Guid ProducerId { get; set; }
-        public Guid CompanyId { get; set; }
+        public string ProducerId { get; set; }
+        public string CompanyId { get; set; }
         public string Code { get; set; }
 
     }
