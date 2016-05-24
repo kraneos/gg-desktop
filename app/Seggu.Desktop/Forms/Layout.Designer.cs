@@ -110,7 +110,7 @@
             this.btnCobranzas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCobranzas.Name = "btnCobranzas";
             this.btnCobranzas.Size = new System.Drawing.Size(87, 28);
-            this.btnCobranzas.TabIndex = 42;
+            this.btnCobranzas.TabIndex = 4;
             this.btnCobranzas.Text = "Cobranzas";
             this.btnCobranzas.UseVisualStyleBackColor = false;
             this.btnCobranzas.Click += new System.EventHandler(this.btnCobranzas_Click);
@@ -126,7 +126,7 @@
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(66, 31);
-            this.btnLimpiar.TabIndex = 43;
+            this.btnLimpiar.TabIndex = 2;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
@@ -138,7 +138,7 @@
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(178, 25);
-            this.txtBuscar.TabIndex = 36;
+            this.txtBuscar.TabIndex = 1;
             this.txtBuscar.Text = "DNI, Apellido, Patente, Póliza";
             this.txtBuscar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
@@ -154,7 +154,7 @@
             this.btnNotifications.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNotifications.Name = "btnNotifications";
             this.btnNotifications.Size = new System.Drawing.Size(65, 28);
-            this.btnNotifications.TabIndex = 45;
+            this.btnNotifications.TabIndex = 5;
             this.btnNotifications.Text = "Alertas";
             this.btnNotifications.UseVisualStyleBackColor = false;
             this.btnNotifications.Click += new System.EventHandler(this.btnNotifications_Click);
@@ -171,7 +171,7 @@
             this.btnPolizas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPolizas.Name = "btnPolizas";
             this.btnPolizas.Size = new System.Drawing.Size(64, 28);
-            this.btnPolizas.TabIndex = 41;
+            this.btnPolizas.TabIndex = 3;
             this.btnPolizas.Text = "Pólizas";
             this.btnPolizas.UseVisualStyleBackColor = false;
             this.btnPolizas.Click += new System.EventHandler(this.btnPolizas_Click);
@@ -203,7 +203,7 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 37;
             // 
-            // btnNevoEndoso
+            // btnNuevoEndoso
             // 
             this.btnNuevoEndoso.AutoSize = true;
             this.btnNuevoEndoso.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -212,9 +212,10 @@
             this.btnNuevoEndoso.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnNuevoEndoso.Location = new System.Drawing.Point(7, 436);
             this.btnNuevoEndoso.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
-            this.btnNuevoEndoso.Name = "btnNevoEndoso";
+            this.btnNuevoEndoso.Name = "btnNuevoEndoso";
             this.btnNuevoEndoso.Size = new System.Drawing.Size(112, 28);
-            this.btnNuevoEndoso.TabIndex = 41;
+            this.btnNuevoEndoso.TabIndex = 6;
+            this.btnNuevoEndoso.TabStop = false;
             this.btnNuevoEndoso.Text = "Nuevo Endoso";
             this.btnNuevoEndoso.UseVisualStyleBackColor = false;
             this.btnNuevoEndoso.Click += new System.EventHandler(this.btnNuevoEndoso_Click);
@@ -232,6 +233,7 @@
             this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdPolicies.Size = new System.Drawing.Size(238, 259);
             this.grdPolicies.TabIndex = 39;
+            this.grdPolicies.TabStop = false;
             this.grdPolicies.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellClick);
             // 
             // grdEndorses
@@ -247,6 +249,7 @@
             this.grdEndorses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdEndorses.Size = new System.Drawing.Size(248, 164);
             this.grdEndorses.TabIndex = 37;
+            this.grdEndorses.TabStop = false;
             this.grdEndorses.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdEndorses_CellContentClick);
             // 
             // LblApellido
@@ -302,6 +305,7 @@
             this.tabCtrlPolicies.SelectedIndex = 0;
             this.tabCtrlPolicies.Size = new System.Drawing.Size(255, 297);
             this.tabCtrlPolicies.TabIndex = 36;
+            this.tabCtrlPolicies.TabStop = false;
             this.tabCtrlPolicies.SelectedIndexChanged += new System.EventHandler(this.tabCtrlPolicies_SelectedIndexChanged);
             // 
             // tabValids
@@ -335,11 +339,11 @@
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 22);
+            this.tabExpired.Location = new System.Drawing.Point(4, 26);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 271);
+            this.tabExpired.Size = new System.Drawing.Size(247, 267);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -356,7 +360,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 267);
+            this.grdExpired.Size = new System.Drawing.Size(241, 263);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
             // 

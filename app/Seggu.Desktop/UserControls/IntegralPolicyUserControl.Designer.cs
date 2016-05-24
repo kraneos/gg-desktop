@@ -167,7 +167,8 @@
             this.btnAddCoverage.Location = new System.Drawing.Point(420, 44);
             this.btnAddCoverage.Name = "btnAddCoverage";
             this.btnAddCoverage.Size = new System.Drawing.Size(24, 25);
-            this.btnAddCoverage.TabIndex = 130;
+            this.btnAddCoverage.TabIndex = 89;
+            this.btnAddCoverage.TabStop = false;
             this.btnAddCoverage.Text = "+";
             this.btnAddCoverage.UseVisualStyleBackColor = true;
             this.btnAddCoverage.Click += new System.EventHandler(this.btnAddCoverage_Click);
@@ -178,6 +179,7 @@
             this.btnRemoveCoverage.Name = "btnRemoveCoverage";
             this.btnRemoveCoverage.Size = new System.Drawing.Size(24, 25);
             this.btnRemoveCoverage.TabIndex = 131;
+            this.btnRemoveCoverage.TabStop = false;
             this.btnRemoveCoverage.Text = "-";
             this.btnRemoveCoverage.UseVisualStyleBackColor = true;
             this.btnRemoveCoverage.Click += new System.EventHandler(this.btnRemoveCoverage_Click);

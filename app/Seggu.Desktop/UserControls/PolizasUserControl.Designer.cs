@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlPolizasDatos = new System.Windows.Forms.TabControl();
             this.tabPageDatos = new System.Windows.Forms.TabPage();
             this.chkOtherClient = new System.Windows.Forms.CheckBox();
@@ -105,6 +105,7 @@
             this.tabPageSiniestros = new System.Windows.Forms.TabPage();
             this.tctrlSiniestrosDatos = new System.Windows.Forms.TabControl();
             this.TabPage_Datos = new System.Windows.Forms.TabPage();
+            this.lblNumber = new System.Windows.Forms.Label();
             this.btnDeleteCasualty = new System.Windows.Forms.Button();
             this.btnNuevoSiniestro = new System.Windows.Forms.Button();
             this.txtLiquidator = new System.Windows.Forms.TextBox();
@@ -203,7 +204,6 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.lblNumber = new System.Windows.Forms.Label();
             this.tctrlPolizasDatos.SuspendLayout();
             this.tabPageDatos.SuspendLayout();
             this.tabPagePlanes.SuspendLayout();
@@ -284,7 +284,7 @@
             this.chkOtherClient.Location = new System.Drawing.Point(861, 19);
             this.chkOtherClient.Name = "chkOtherClient";
             this.chkOtherClient.Size = new System.Drawing.Size(97, 21);
-            this.chkOtherClient.TabIndex = 104;
+            this.chkOtherClient.TabIndex = 8;
             this.chkOtherClient.Text = "Otro Cliente";
             this.chkOtherClient.UseVisualStyleBackColor = true;
             this.chkOtherClient.CheckedChanged += new System.EventHandler(this.chkOtherClient_CheckedChanged);
@@ -296,7 +296,8 @@
             this.cmbClient.Location = new System.Drawing.Point(580, 14);
             this.cmbClient.Name = "cmbClient";
             this.cmbClient.Size = new System.Drawing.Size(266, 25);
-            this.cmbClient.TabIndex = 103;
+            this.cmbClient.TabIndex = 7;
+            this.cmbClient.TabStop = false;
             this.cmbClient.Visible = false;
             this.cmbClient.SelectionChangeCommitted += new System.EventHandler(this.cmbClient_SelectionChangeCommitted);
             // 
@@ -326,7 +327,7 @@
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtNotas.Size = new System.Drawing.Size(758, 127);
-            this.txtNotas.TabIndex = 98;
+            this.txtNotas.TabIndex = 13;
             // 
             // txtAsegurado
             // 
@@ -351,7 +352,7 @@
             this.txtNroPoliza.Location = new System.Drawing.Point(120, 50);
             this.txtNroPoliza.Name = "txtNroPoliza";
             this.txtNroPoliza.Size = new System.Drawing.Size(244, 25);
-            this.txtNroPoliza.TabIndex = 8;
+            this.txtNroPoliza.TabIndex = 2;
             // 
             // txtNroPolAnt
             // 
@@ -360,6 +361,7 @@
             this.txtNroPolAnt.ReadOnly = true;
             this.txtNroPolAnt.Size = new System.Drawing.Size(266, 25);
             this.txtNroPolAnt.TabIndex = 9;
+            this.txtNroPolAnt.TabStop = false;
             // 
             // label1
             // 
@@ -377,7 +379,7 @@
             this.dtpRecibido.Name = "dtpRecibido";
             this.dtpRecibido.ShowCheckBox = true;
             this.dtpRecibido.Size = new System.Drawing.Size(266, 25);
-            this.dtpRecibido.TabIndex = 7;
+            this.dtpRecibido.TabIndex = 12;
             // 
             // dtpEmision
             // 
@@ -386,7 +388,7 @@
             this.dtpEmision.Name = "dtpEmision";
             this.dtpEmision.ShowCheckBox = true;
             this.dtpEmision.Size = new System.Drawing.Size(266, 25);
-            this.dtpEmision.TabIndex = 18;
+            this.dtpEmision.TabIndex = 11;
             // 
             // dtpFin
             // 
@@ -420,7 +422,7 @@
             this.dtpSolicitud.Location = new System.Drawing.Point(580, 142);
             this.dtpSolicitud.Name = "dtpSolicitud";
             this.dtpSolicitud.Size = new System.Drawing.Size(266, 25);
-            this.dtpSolicitud.TabIndex = 17;
+            this.dtpSolicitud.TabIndex = 10;
             // 
             // dtpInicio
             // 
@@ -497,7 +499,7 @@
             this.cmbProductor.Location = new System.Drawing.Point(580, 88);
             this.cmbProductor.Name = "cmbProductor";
             this.cmbProductor.Size = new System.Drawing.Size(266, 25);
-            this.cmbProductor.TabIndex = 14;
+            this.cmbProductor.TabIndex = 9;
             // 
             // label43
             // 
@@ -597,6 +599,7 @@
             this.txtNetoPagar.ReadOnly = true;
             this.txtNetoPagar.Size = new System.Drawing.Size(77, 25);
             this.txtNetoPagar.TabIndex = 2;
+            this.txtNetoPagar.TabStop = false;
             // 
             // txtTotalSaldo
             // 
@@ -606,13 +609,14 @@
             this.txtTotalSaldo.ReadOnly = true;
             this.txtTotalSaldo.Size = new System.Drawing.Size(54, 25);
             this.txtTotalSaldo.TabIndex = 55;
+            this.txtTotalSaldo.TabStop = false;
             // 
             // txtBonificacionPago
             // 
             this.txtBonificacionPago.Location = new System.Drawing.Point(686, 76);
             this.txtBonificacionPago.Name = "txtBonificacionPago";
             this.txtBonificacionPago.Size = new System.Drawing.Size(77, 25);
-            this.txtBonificacionPago.TabIndex = 1;
+            this.txtBonificacionPago.TabIndex = 6;
             this.txtBonificacionPago.TextChanged += new System.EventHandler(this.txtBonificacionPago_TextChanged);
             this.txtBonificacionPago.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBonificacionPago_KeyPress);
             // 
@@ -642,6 +646,7 @@
             this.btnDarDeBaja.Name = "btnDarDeBaja";
             this.btnDarDeBaja.Size = new System.Drawing.Size(87, 27);
             this.btnDarDeBaja.TabIndex = 102;
+            this.btnDarDeBaja.TabStop = false;
             this.btnDarDeBaja.Text = "Dar de Baja";
             this.btnDarDeBaja.UseVisualStyleBackColor = true;
             // 
@@ -662,6 +667,7 @@
             this.txtTotalPagar.ReadOnly = true;
             this.txtTotalPagar.Size = new System.Drawing.Size(54, 25);
             this.txtTotalPagar.TabIndex = 50;
+            this.txtTotalPagar.TabStop = false;
             // 
             // btnGrabar
             // 
@@ -672,7 +678,7 @@
             this.btnGrabar.Location = new System.Drawing.Point(893, 353);
             this.btnGrabar.Name = "btnGrabar";
             this.btnGrabar.Size = new System.Drawing.Size(75, 27);
-            this.btnGrabar.TabIndex = 21;
+            this.btnGrabar.TabIndex = 12;
             this.btnGrabar.Text = "Grabar";
             this.btnGrabar.UseVisualStyleBackColor = true;
             this.btnGrabar.Click += new System.EventHandler(this.btnGrabar_Click);
@@ -693,7 +699,7 @@
             this.cmbCobrador.Location = new System.Drawing.Point(338, 9);
             this.cmbCobrador.Name = "cmbCobrador";
             this.cmbCobrador.Size = new System.Drawing.Size(171, 25);
-            this.cmbCobrador.TabIndex = 47;
+            this.cmbCobrador.TabIndex = 3;
             // 
             // label51
             // 
@@ -721,6 +727,7 @@
             this.txtNetoCobrar.ReadOnly = true;
             this.txtNetoCobrar.Size = new System.Drawing.Size(110, 25);
             this.txtNetoCobrar.TabIndex = 6;
+            this.txtNetoCobrar.TabStop = false;
             this.txtNetoCobrar.Validating += new System.ComponentModel.CancelEventHandler(this.txtNetoCobrar_Validating);
             // 
             // txtBonificacionPropia
@@ -740,6 +747,7 @@
             this.txtIva.Name = "txtIva";
             this.txtIva.Size = new System.Drawing.Size(115, 25);
             this.txtIva.TabIndex = 2;
+            this.txtIva.TabStop = false;
             // 
             // label7
             // 
@@ -755,7 +763,7 @@
             this.txtPremioIva.Location = new System.Drawing.Point(115, 109);
             this.txtPremioIva.Name = "txtPremioIva";
             this.txtPremioIva.Size = new System.Drawing.Size(115, 25);
-            this.txtPremioIva.TabIndex = 3;
+            this.txtPremioIva.TabIndex = 2;
             this.txtPremioIva.TextChanged += new System.EventHandler(this.txtPremioIva_TextChanged);
             this.txtPremioIva.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPremioIva_KeyPress);
             // 
@@ -776,6 +784,7 @@
             this.txtPrima.Name = "txtPrima";
             this.txtPrima.Size = new System.Drawing.Size(115, 25);
             this.txtPrima.TabIndex = 1;
+            this.txtPrima.TabStop = false;
             // 
             // label8
             // 
@@ -838,6 +847,7 @@
             this.txtTotalCobrar.ReadOnly = true;
             this.txtTotalCobrar.Size = new System.Drawing.Size(54, 25);
             this.txtTotalCobrar.TabIndex = 11;
+            this.txtTotalCobrar.TabStop = false;
             // 
             // label20
             // 
@@ -868,7 +878,7 @@
             this.cmbPlanes.Location = new System.Drawing.Point(798, 110);
             this.cmbPlanes.Name = "cmbPlanes";
             this.cmbPlanes.Size = new System.Drawing.Size(145, 25);
-            this.cmbPlanes.TabIndex = 0;
+            this.cmbPlanes.TabIndex = 11;
             this.cmbPlanes.SelectedIndexChanged += new System.EventHandler(this.cmbPlanes_SelectedIndexChanged);
             // 
             // grdFees
@@ -879,8 +889,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -901,7 +911,7 @@
             this.groupBox4.Location = new System.Drawing.Point(612, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(151, 50);
-            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Plan Cía / Aseg";
             this.groupBox4.Visible = false;
@@ -947,7 +957,7 @@
             this.txtPaymentDay.MaxLength = 2;
             this.txtPaymentDay.Name = "txtPaymentDay";
             this.txtPaymentDay.Size = new System.Drawing.Size(31, 25);
-            this.txtPaymentDay.TabIndex = 53;
+            this.txtPaymentDay.TabIndex = 10;
             this.txtPaymentDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaymentDay_KeyPress);
             this.txtPaymentDay.Validating += new System.ComponentModel.CancelEventHandler(this.txtPaymentDay_Validating);
             this.txtPaymentDay.Validated += new System.EventHandler(this.txtPaymentDay_Validated);
@@ -1001,7 +1011,7 @@
             this.cmbPlanAsegurado.Location = new System.Drawing.Point(889, 26);
             this.cmbPlanAsegurado.Name = "cmbPlanAsegurado";
             this.cmbPlanAsegurado.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanAsegurado.TabIndex = 16;
+            this.cmbPlanAsegurado.TabIndex = 9;
             this.cmbPlanAsegurado.Visible = false;
             // 
             // cmbPlanCia
@@ -1024,16 +1034,16 @@
             this.cmbPlanCia.Location = new System.Drawing.Point(798, 26);
             this.cmbPlanCia.Name = "cmbPlanCia";
             this.cmbPlanCia.Size = new System.Drawing.Size(54, 25);
-            this.cmbPlanCia.TabIndex = 14;
+            this.cmbPlanCia.TabIndex = 8;
             this.cmbPlanCia.Visible = false;
             // 
             // tabPageSiniestros
             // 
             this.tabPageSiniestros.Controls.Add(this.tctrlSiniestrosDatos);
-            this.tabPageSiniestros.Location = new System.Drawing.Point(4, 26);
+            this.tabPageSiniestros.Location = new System.Drawing.Point(4, 22);
             this.tabPageSiniestros.Name = "tabPageSiniestros";
             this.tabPageSiniestros.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSiniestros.Size = new System.Drawing.Size(987, 389);
+            this.tabPageSiniestros.Size = new System.Drawing.Size(987, 393);
             this.tabPageSiniestros.TabIndex = 4;
             this.tabPageSiniestros.Text = "Siniestros";
             this.tabPageSiniestros.UseVisualStyleBackColor = true;
@@ -1077,6 +1087,14 @@
             this.TabPage_Datos.TabIndex = 0;
             this.TabPage_Datos.Text = "Datos";
             this.TabPage_Datos.UseVisualStyleBackColor = true;
+            // 
+            // lblNumber
+            // 
+            this.lblNumber.AutoSize = true;
+            this.lblNumber.Location = new System.Drawing.Point(113, 14);
+            this.lblNumber.Name = "lblNumber";
+            this.lblNumber.Size = new System.Drawing.Size(0, 17);
+            this.lblNumber.TabIndex = 36;
             // 
             // btnDeleteCasualty
             // 
@@ -2015,6 +2033,7 @@
             this.btnNuevaPoliza.Name = "btnNuevaPoliza";
             this.btnNuevaPoliza.Size = new System.Drawing.Size(75, 24);
             this.btnNuevaPoliza.TabIndex = 104;
+            this.btnNuevaPoliza.TabStop = false;
             this.btnNuevaPoliza.Text = "Nueva";
             this.btnNuevaPoliza.UseVisualStyleBackColor = true;
             this.btnNuevaPoliza.Click += new System.EventHandler(this.btnNuevaPoliza_Click);
@@ -2027,6 +2046,7 @@
             this.btnRenovar.Name = "btnRenovar";
             this.btnRenovar.Size = new System.Drawing.Size(75, 24);
             this.btnRenovar.TabIndex = 103;
+            this.btnRenovar.TabStop = false;
             this.btnRenovar.Text = "Renovar";
             this.btnRenovar.UseVisualStyleBackColor = true;
             this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
@@ -2038,6 +2058,7 @@
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 24);
             this.btnPrint.TabIndex = 105;
+            this.btnPrint.TabStop = false;
             this.btnPrint.Text = "Imprimir";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
@@ -2051,14 +2072,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // lblNumber
-            // 
-            this.lblNumber.AutoSize = true;
-            this.lblNumber.Location = new System.Drawing.Point(113, 14);
-            this.lblNumber.Name = "lblNumber";
-            this.lblNumber.Size = new System.Drawing.Size(0, 17);
-            this.lblNumber.TabIndex = 36;
             // 
             // PolizasUserControl
             // 

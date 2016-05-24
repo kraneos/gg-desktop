@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnImprimir = new System.Windows.Forms.Button();
             this.cmbTipoEndosos = new System.Windows.Forms.ComboBox();
             this.txtNroEndoso = new System.Windows.Forms.TextBox();
@@ -117,7 +117,8 @@
             this.btnImprimir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnImprimir.Name = "btnImprimir";
             this.btnImprimir.Size = new System.Drawing.Size(67, 27);
-            this.btnImprimir.TabIndex = 5;
+            this.btnImprimir.TabIndex = 90;
+            this.btnImprimir.TabStop = false;
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.UseVisualStyleBackColor = true;
             this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
@@ -188,6 +189,7 @@
             this.txtNetoPagar.ReadOnly = true;
             this.txtNetoPagar.Size = new System.Drawing.Size(100, 25);
             this.txtNetoPagar.TabIndex = 2;
+            this.txtNetoPagar.TabStop = false;
             // 
             // txtBonificacionPago
             // 
@@ -231,6 +233,7 @@
             this.txtNetoCobrar.ReadOnly = true;
             this.txtNetoCobrar.Size = new System.Drawing.Size(100, 25);
             this.txtNetoCobrar.TabIndex = 6;
+            this.txtNetoCobrar.TabStop = false;
             // 
             // txtIva
             // 
@@ -240,6 +243,7 @@
             this.txtIva.Name = "txtIva";
             this.txtIva.Size = new System.Drawing.Size(115, 25);
             this.txtIva.TabIndex = 2;
+            this.txtIva.TabStop = false;
             // 
             // label7
             // 
@@ -258,6 +262,7 @@
             this.txtPrima.Name = "txtPrima";
             this.txtPrima.Size = new System.Drawing.Size(115, 25);
             this.txtPrima.TabIndex = 1;
+            this.txtPrima.TabStop = false;
             // 
             // label8
             // 
@@ -270,7 +275,7 @@
             // 
             // txtSumaAsegurado
             // 
-            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 10);
+            this.txtSumaAsegurado.Location = new System.Drawing.Point(115, 11);
             this.txtSumaAsegurado.Name = "txtSumaAsegurado";
             this.txtSumaAsegurado.Size = new System.Drawing.Size(115, 25);
             this.txtSumaAsegurado.TabIndex = 1;
@@ -489,8 +494,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -550,6 +555,7 @@
             this.txtAsegurado.ReadOnly = true;
             this.txtAsegurado.Size = new System.Drawing.Size(288, 25);
             this.txtAsegurado.TabIndex = 96;
+            this.txtAsegurado.TabStop = false;
             // 
             // label23
             // 
@@ -573,7 +579,8 @@
             this.txtNroPolAnt.Name = "txtNroPolAnt";
             this.txtNroPolAnt.ReadOnly = true;
             this.txtNroPolAnt.Size = new System.Drawing.Size(288, 25);
-            this.txtNroPolAnt.TabIndex = 9;
+            this.txtNroPolAnt.TabIndex = 91;
+            this.txtNroPolAnt.TabStop = false;
             // 
             // label1
             // 
