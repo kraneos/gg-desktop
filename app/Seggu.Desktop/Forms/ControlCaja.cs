@@ -77,6 +77,16 @@ namespace Seggu.Desktop.Forms
                 table.Rows.Add(row);
             }
             grdControlCaja.DataSource = table;
+            FomatGrid();
+
+            //txtDescripcion.DataBindings.Add("text", index, "Descripción");
+            //txtValor.DataBindings.Add("text", index, "Valor");
+            //cmbActivos.DataBindings.Add("text", index, "Activo");
+            grdControlCaja.Select();
+        }
+
+        private void FomatGrid()
+        {
             grdControlCaja.Columns["Cuenta"].Width = 55;
             grdControlCaja.Columns["Fecha"].Width = 100;
             grdControlCaja.Columns["Descripción"].Width = 120;
@@ -85,12 +95,8 @@ namespace Seggu.Desktop.Forms
             grdControlCaja.Columns["Id"].Visible = false;
             grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
             grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
-
-            //txtDescripcion.DataBindings.Add("text", index, "Descripción");
-            //txtValor.DataBindings.Add("text", index, "Valor");
-            //cmbActivos.DataBindings.Add("text", index, "Activo");
-            grdControlCaja.Select();
         }
+
         private void InitializeTextCtrls()
         {
             txtValor.Text = "Valor";
