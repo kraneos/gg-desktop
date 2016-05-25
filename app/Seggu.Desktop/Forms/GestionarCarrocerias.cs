@@ -2,10 +2,7 @@
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Seggu.Desktop.Forms
@@ -24,7 +21,7 @@ namespace Seggu.Desktop.Forms
         public void Initialize(VehicleTypeDto vehicleType)
         {
             this.vehicleType = vehicleType;
-            this.UseLabel.Text += vehicleType.Name;
+            UseLabel.Text += vehicleType.Name;
             var vehicleTypeBodyworks = this.bodyworkService.GetByVehicleType(vehicleType.Id).ToList();
             this.UsoDeTipoVehiculo.DataSource = vehicleTypeBodyworks;
             this.UsoDeTipoVehiculo.DisplayMember = "Name";

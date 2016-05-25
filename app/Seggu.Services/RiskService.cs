@@ -55,7 +55,7 @@ namespace Seggu.Services
             }
 
             var riskId = id;
-            return riskDao.BetByNameId(name, riskId);
+            return riskDao.GetByNameId(name, riskId);
         }
 
         public bool HasCoverages(int id)

@@ -1,14 +1,9 @@
-﻿using Seggu.Data;
-using Seggu.Dtos;
+﻿using Seggu.Dtos;
 using Seggu.Services.Interfaces;
 //using Seggu.Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Seggu.Desktop.Forms
@@ -27,23 +22,21 @@ namespace Seggu.Desktop.Forms
         public void Initialize(VehicleTypeDto vehicleType)
         {
             this.vehicleType = vehicleType;
-            this.UseLabel.Text += vehicleType.Name;
-            //this.UsoDeTipoVehiculo.DataSource = vehicleType.Uses.ToList();
-            var vehicleTypeUses = this.useService.GetByVehicleType(vehicleType.Id).ToList();
-            this.UsoDeTipoVehiculo.DataSource = vehicleTypeUses;
-            this.UsoDeTipoVehiculo.DisplayMember = "Name";
-            var uses = this.useService.GetAll();
-            var allUses = uses;
-            this.UsosExistentes.DataSource = allUses.Except(vehicleTypeUses).ToList();
-            this.UsosExistentes.DisplayMember = "Name";
+            UseLabel.Text += vehicleType.Name;
+            var vehicleTypeUses = useService.GetByVehicleType(vehicleType.Id).ToList();
+            UsoDeTipoVehiculo.DataSource = vehicleTypeUses;
+            UsoDeTipoVehiculo.DisplayMember = "Name";
+            var allUses = useService.GetAll();
+            UsosExistentes.DataSource = allUses.Except(vehicleTypeUses).ToList();
+            UsosExistentes.DisplayMember = "Name";
         }
 
         private void PonerButton_Click(object sender, EventArgs e)
         {
-            var selectedItem = (UseDto)this.UsosExistentes.SelectedItem;
-            var existing = (List<UseDto>)this.UsoDeTipoVehiculo.DataSource;
+            var selectedItem = (UseDto)UsosExistentes.SelectedItem;
+            var existing = (List<UseDto>)UsoDeTipoVehiculo.DataSource;
             existing.Add(selectedItem);
-            var all = (List<UseDto>)this.UsosExistentes.DataSource;
+            var all = (List<UseDto>)UsosExistentes.DataSource;
             all.Remove(selectedItem);
             this.UsoDeTipoVehiculo.DataSource = null;
             this.UsosExistentes.DataSource = null;
@@ -78,8 +71,6 @@ namespace Seggu.Desktop.Forms
             var existing = (List<UseDto>)this.UsoDeTipoVehiculo.DataSource;
             this.useService.SaveChanges(this.vehicleType, existing);
             this.Close();
-        }
-
-        
+        }     
     }
 }

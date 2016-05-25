@@ -37,7 +37,6 @@ namespace Seggu.Desktop.Forms
         private void InitializeIndex()
         {
             lsbRiesgos.DataSource = null;
-            grdCoveragesPack.DataSource = null;
             lsbCoberturas.DataSource = null;
             grdProductores.DataSource = null;
 
@@ -62,9 +61,7 @@ namespace Seggu.Desktop.Forms
             cmbCompañias.SelectedItem = cmbCompañias.Items.Count -1;
             currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
             cmbCompañias.SelectedIndex = -1;
-            //PopulateForm();
         }
-
         private void cmbCompañias_SelectionChangeCommitted(object sender, EventArgs e)
         {
             currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
@@ -74,7 +71,6 @@ namespace Seggu.Desktop.Forms
         private void PopulateForm()
         {
             lsbCoberturas.DataSource = null;
-            grdCoveragesPack.DataSource = null;
 
             BindCompaniesTextBoxes(currentCompany);
 
@@ -141,46 +137,20 @@ namespace Seggu.Desktop.Forms
         private void cmbTipoRiesgos_SelectionChangeCommitted(object sender, EventArgs e)
         {
             lsbCoberturas.DataSource = null;
-            grdCoveragesPack.DataSource = null;
             FillLsbRiesgos();
         }
 
         private void lsbRiesgos_SelectedValueChanged(object sender, EventArgs e)
         {
             if (lsbRiesgos.DataSource == null) return;
-            FillgrdCoveragesPack();
-            FillLsbCoberturas(true);
+            FillLsbCoberturas();
         }
-        private void FillgrdCoveragesPack()
-        {
-            if (lsbRiesgos.SelectedValue == null) return;
-            //grdCoveragesPack.DataSource = coveragesPackService
-            //    .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
-            FormatCoveragesPacksGrid();
-            grdCoveragesPack.ClearSelection();
-        }
-        private void FormatCoveragesPacksGrid()
-        {
-            foreach (DataGridViewColumn c in grdCoveragesPack.Columns)
-                c.Visible = false;
-            grdCoveragesPack.Columns["Name"].Visible = true;
-            grdCoveragesPack.Columns["Name"].HeaderText = "Nombre";
-        }
-        private void grdCoveragesPack_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (((CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem).Coverages == null) return;
-            FillLsbCoberturas(false);
-        }
-        private void FillLsbCoberturas(bool fromRisk)
+
+        private void FillLsbCoberturas()
         {
             lsbCoberturas.ValueMember = "Id";
             lsbCoberturas.DisplayMember = "Description";
-            if (fromRisk)
-                lsbCoberturas.DataSource = coverageService
-                    .GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
-            else
-                lsbCoberturas.DataSource = ((CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem)
-                    .Coverages.ToList();
+            lsbCoberturas.DataSource = coverageService.GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
             lsbCoberturas.ClearSelected();
         }
 
@@ -253,6 +223,9 @@ namespace Seggu.Desktop.Forms
         {
             if (!btnGuardar.Visible)
             {
+                grbRiesgos.Width += 300;
+                LoadAllCoverages();
+
                 btnEditar.Text = "Cancelar";
                 btnGuardar.Visible = true;
                 btnNuevoProductor.Visible = true;
@@ -264,15 +237,9 @@ namespace Seggu.Desktop.Forms
                 btnAgregarCobertura.Visible = true;
                 btnAgregarProd.Visible = true;
                 btnAgregarRiesgos.Visible = true;
-                btnAgregarPaquete.Visible = true;
-                btnQuitarPaquete.Visible = true;
-                btnInsertInPack.Visible = true;
-                btnDeleteFromPack.Visible = true;
-                txtCoveragesPack.Visible = true;
                 cmbProductores.Visible = true;
                 txtCode.Visible = true;
                 lblCodigo.Visible = true;
-                //btnRecuperar.Visible = true;
                 txtRiesgo.Visible = true;
                 txtCoberturas.Visible = true;
                 txtNombre.ReadOnly = false;
@@ -289,6 +256,7 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
+                grbRiesgos.Width -= 300;
                 btnEditar.Text = "Editar";
                 btnGuardar.Visible = false;
                 btnNuevoProductor.Visible = false;
@@ -300,15 +268,9 @@ namespace Seggu.Desktop.Forms
                 btnAgregarCobertura.Visible = false;
                 btnAgregarProd.Visible = false;
                 btnAgregarRiesgos.Visible = false;
-                btnAgregarPaquete.Visible = false;
-                btnQuitarPaquete.Visible = false;
-                btnInsertInPack.Visible = false;
-                btnDeleteFromPack.Visible = false;
-                txtCoveragesPack.Visible = false;
                 cmbProductores.Visible = false;
                 txtCode.Visible = false;
                 lblCodigo.Visible = false;
-                //btnRecuperar.Visible = false;
                 txtRiesgo.Visible = false;
                 txtCoberturas.Visible = false;
                 txtNombre.ReadOnly = true;
@@ -328,6 +290,13 @@ namespace Seggu.Desktop.Forms
                     InitializeIndex();
                 }
             }
+        }
+
+        private void LoadAllCoverages()
+        {
+            lstCoveragesMaster.ValueMember = "Id";
+            lstCoveragesMaster.DisplayMember = "Name";
+            lstCoveragesMaster.DataSource = coverageService.GetAll().ToList();
         }
 
         private void btnAgregarCompañia_Click(object sender, EventArgs e)
@@ -357,7 +326,6 @@ namespace Seggu.Desktop.Forms
         }
         private void btnQuitarCompañia_Click(object sender, EventArgs e)
         {
-
             DialogResult dialogResult = MessageBox.Show(
             "Si existen pólizas creadas para esta compañía, la misma no podrá eliminarse. ¿Desea continuar?", "Borrar Compañía", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -372,11 +340,6 @@ namespace Seggu.Desktop.Forms
                 catch (Exception)
                 {
                     MessageBox.Show("Error al intentar eliminar la Compañía, existen pólizas asociadas.", "Error al Eliminar Compañía", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //MessageBox.Show(
-                    //"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
-                    //ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
-                    //ex.InnerException.Message + "\nStackTrace: " +
-                    //ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -400,7 +363,6 @@ namespace Seggu.Desktop.Forms
                 InitializeProducers();
                 if (selectedFullCompany.Producers != null)
                     FillGrdProductores();
-
             }
             else
                 errorProvider1.SetError(txtCode, "Campo vacío");
@@ -419,8 +381,6 @@ namespace Seggu.Desktop.Forms
             InitializeProducers();
             if (selectedFullCompany.Producers != null)
                 FillGrdProductores();
-            //  grdProductores.DataSource = producerService.GetByCompanyId(companyId);
-            //InitializeIndex();
         }
         private void InitializeProducers()
         {
@@ -441,27 +401,15 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
-
-                if (!riskService.ExistName(txtRiesgo.Text))
-                {
-                    var risk = new RiskCompanyDto();
-                    risk.CompanyId = currentCompany.Id;
-                    risk.Name = txtRiesgo.Text;
-                    risk.RiskType = cmbTipoRiesgos.SelectedItem.ToString();
-                    riskService.Create(risk);
-                    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-                    InitializeRisks();
-                    if (selectedFullCompany.Risks != null)
-                        FillLsbRiesgos();
-                    //txtRiesgo.Text = "";
-                    //InitializeIndex();
-                }
-                else
-                {
-                    MessageBox.Show("Ya existe un riesgo con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                
+                var risk = new RiskCompanyDto();
+                risk.CompanyId = currentCompany.Id;
+                risk.Name = txtRiesgo.Text;
+                risk.RiskType = cmbTipoRiesgos.SelectedItem.ToString();
+                riskService.Create(risk);
+                selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                InitializeRisks();
+                if (selectedFullCompany.Risks != null)
+                    FillLsbRiesgos();
             }
         }
         private void btnQuitarRiesgo_Click(object sender, EventArgs e)
@@ -476,25 +424,14 @@ namespace Seggu.Desktop.Forms
                     {
                         var riskId = (int)lsbRiesgos.SelectedValue;
                         riskService.Delete(riskId);
-                        //var riesgos = (List<RiskCompanyDto>)this.lsbRiesgos.DataSource;
-                        // var risk = riesgos.FirstOrDefault(x => x.Id == riskId);
-                        // if (risk != null)
-                        //     riesgos.Remove(risk);
                         selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                         InitializeRisks();
                         if (selectedFullCompany.Risks != null)
                             FillLsbRiesgos();
-                        //InitializeIndex();
                     }
                     catch (Exception)
                     {
                         MessageBox.Show("Error al intentar eliminar el Riesgo, existen coberturas o paquetes asociados.", "Error al Eliminar Riesgo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        // MessageBox.Show(
-                        //"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
-                        //  ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
-                        //  ex.InnerException.Message + "\nStackTrace: " +
-                        // ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                 }
             }
@@ -518,30 +455,26 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
-
                 if (!coverageService.ExistName(txtCoberturas.Text))
                 {
                     var coverage = new CoverageDto();
-                    int index;
                     coverage.Description = txtCoberturas.Text;
-                    //coverage.Name = ? hardcode en dto mapper
-                    //coverage.Risks = (int)lsbRiesgos.SelectedValue;
-                    index = lsbCoberturas.SelectedIndex;
+                    //coverage.Name
+                    //coverage.Risks
                     coverageService.Save(coverage);
+
+                    // también agregar al riesgo seleccionado
+                    //riskService.Update()
+
                     selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-                    InitializeCoberturas();
-                    FillgrdCoveragesPack();
-                    FillLsbCoberturas(true);
-                    //txtCoberturas.Text = "";
-                    //InitializeIndex();
+                    CleanCoveragesCtrls();
+                    FillLsbCoberturas();
                 }
                 else
                 {
                     MessageBox.Show("Ya existe una cobertura con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                }
-
-                
+                }             
             }
         }
         private void btnQuitarCobertura_Click(object sender, EventArgs e)
@@ -552,115 +485,26 @@ namespace Seggu.Desktop.Forms
                 DialogResult dialogResult = MessageBox.Show("¿Desea borrar la Cobertura? Tenga en cuenta que será removida de aquellos Paquetes de Coberturas que contengan esta cobertura. Si la cobertura se encuentra en alguna Póliza, no podrá ser eliminada.", "Borrar Cobertura", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-
                     try
                     {
                         coverageService.DeleteMany(coverages.Cast<CoverageDto>());
                         selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-                        InitializeCoberturas();
-                        FillgrdCoveragesPack();
-                        FillLsbCoberturas(true);
-                        //lsbCoberturas.DataSource = null;
-                        //InitializeIndex();
+                        CleanCoveragesCtrls();
+                        FillLsbCoberturas();
                     }
                     catch (Exception)
                     {
                         MessageBox.Show("Error al intentar eliminarla Cobertura, existen pólizas asociadas.", "Error al Eliminar Cobertura", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        // MessageBox.Show(
-                        //"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
-                        //  ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
-                        //  ex.InnerException.Message + "\nStackTrace: " +
-                        // ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                 }
 
             }
         }
-        private void InitializeCoberturas()
+        private void CleanCoveragesCtrls()
         {
             lsbCoberturas.DataSource = null;
             txtCoberturas.Text = string.Empty;
         }
-
-        private void btnAgregarPaquete_Click(object sender, EventArgs e)
-        {
-            if (currentCompany == null)
-            {
-                MessageBox.Show("Primero debe crear o seleccionar la compañía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (txtCoveragesPack.Text == string.Empty)
-            {
-                MessageBox.Show("Ingrese un nuevo Paquete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-
-                //if (!coveragesPackService.ExistName(txtCoveragesPack.Text))
-                //{
-                //    var coveragesPack = new CoveragesPackDto();
-                //    coveragesPack.Name = txtCoveragesPack.Text;
-                //    coveragesPack.RiskId = (int)lsbRiesgos.SelectedValue;
-                //    coveragesPack.Coverages = new List<CoverageDto>();
-                //    coveragesPackService.Create(coveragesPack);
-                //    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-                //    InitializeCoveragePacks();
-                //    FillgrdCoveragesPack();
-
-                //    //InitializeIndex();
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Ya existe un paquete de coberturas con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return;
-                //}
-
-               
-            }
-        }
-        private void btnQuitarPaquete_Click(object sender, EventArgs e)
-        {
-            if (grdCoveragesPack.CurrentRow == null)
-            {
-                return;
-            }
-
-            var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
-            //coveragesPackService.Delete(coveragesPack.Id);
-            selectedFullCompany = companyService.GetFullById(currentCompany.Id);
-            InitializeCoveragePacks();
-            FillgrdCoveragesPack();
-        }
-        private void InitializeCoveragePacks()
-        {
-            grdCoveragesPack.DataSource = null;
-            txtCoveragesPack.Text = string.Empty;
-        }
-
-        private void btnInsertInPack_Click(object sender, EventArgs e)
-        {
-            if (grdCoveragesPack.CurrentRow == null || lsbCoberturas.SelectedIndex == -1)
-                return;
-
-            var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
-            foreach (CoverageDto coverage in lsbCoberturas.SelectedItems)
-                coveragesPack.Coverages.Add(coverage);
-            //coveragesPackService.Update(coveragesPack);
-            MessageBox.Show("Cobertura agregada al paquete.", "Cobertura Agregada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        private void btnDeleteFromPack_Click(object sender, EventArgs e)
-        {
-            if (grdCoveragesPack.CurrentRow == null || lsbCoberturas.SelectedIndex == -1)
-                return;
-
-            var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
-            foreach (CoverageDto coverage in lsbCoberturas.SelectedItems)
-                coveragesPack.Coverages.Remove(coverage);
-            //coveragesPackService.Update(coveragesPack);
-            MessageBox.Show("Cobertura removida del paquete.", "Cobertura Removida", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void btnNuevoProductor_Click(object sender, EventArgs e)
         {
             Forms.Productores form = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));

@@ -109,7 +109,7 @@
             this.btnCobranzas.Location = new System.Drawing.Point(405, 23);
             this.btnCobranzas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCobranzas.Name = "btnCobranzas";
-            this.btnCobranzas.Size = new System.Drawing.Size(87, 28);
+            this.btnCobranzas.Size = new System.Drawing.Size(76, 24);
             this.btnCobranzas.TabIndex = 4;
             this.btnCobranzas.Text = "Cobranzas";
             this.btnCobranzas.UseVisualStyleBackColor = false;
@@ -125,7 +125,7 @@
             this.btnLimpiar.Location = new System.Drawing.Point(192, 22);
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(66, 31);
+            this.btnLimpiar.Size = new System.Drawing.Size(59, 27);
             this.btnLimpiar.TabIndex = 2;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
@@ -137,7 +137,7 @@
             this.txtBuscar.Location = new System.Drawing.Point(3, 25);
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(178, 25);
+            this.txtBuscar.Size = new System.Drawing.Size(178, 23);
             this.txtBuscar.TabIndex = 1;
             this.txtBuscar.Text = "DNI, Apellido, Patente, Póliza";
             this.txtBuscar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -153,7 +153,7 @@
             this.btnNotifications.Location = new System.Drawing.Point(512, 23);
             this.btnNotifications.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNotifications.Name = "btnNotifications";
-            this.btnNotifications.Size = new System.Drawing.Size(65, 28);
+            this.btnNotifications.Size = new System.Drawing.Size(57, 24);
             this.btnNotifications.TabIndex = 5;
             this.btnNotifications.Text = "Alertas";
             this.btnNotifications.UseVisualStyleBackColor = false;
@@ -170,7 +170,7 @@
             this.btnPolizas.Location = new System.Drawing.Point(299, 23);
             this.btnPolizas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPolizas.Name = "btnPolizas";
-            this.btnPolizas.Size = new System.Drawing.Size(64, 28);
+            this.btnPolizas.Size = new System.Drawing.Size(57, 24);
             this.btnPolizas.TabIndex = 3;
             this.btnPolizas.Text = "Pólizas";
             this.btnPolizas.UseVisualStyleBackColor = false;
@@ -180,7 +180,7 @@
             // 
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 53);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 53);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -198,8 +198,8 @@
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1280, 675);
-            this.splitContainer1.SplitterDistance = 260;
+            this.splitContainer1.Size = new System.Drawing.Size(1005, 675);
+            this.splitContainer1.SplitterDistance = 228;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 37;
             // 
@@ -213,7 +213,7 @@
             this.btnNuevoEndoso.Location = new System.Drawing.Point(7, 436);
             this.btnNuevoEndoso.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             this.btnNuevoEndoso.Name = "btnNuevoEndoso";
-            this.btnNuevoEndoso.Size = new System.Drawing.Size(112, 28);
+            this.btnNuevoEndoso.Size = new System.Drawing.Size(98, 24);
             this.btnNuevoEndoso.TabIndex = 6;
             this.btnNuevoEndoso.TabStop = false;
             this.btnNuevoEndoso.Text = "Nuevo Endoso";
@@ -231,7 +231,7 @@
             this.grdPolicies.ReadOnly = true;
             this.grdPolicies.RowHeadersVisible = false;
             this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdPolicies.Size = new System.Drawing.Size(238, 259);
+            this.grdPolicies.Size = new System.Drawing.Size(209, 259);
             this.grdPolicies.TabIndex = 39;
             this.grdPolicies.TabStop = false;
             this.grdPolicies.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellClick);
@@ -240,14 +240,14 @@
             // 
             this.grdEndorses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdEndorses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdEndorses.Location = new System.Drawing.Point(7, 464);
+            this.grdEndorses.Location = new System.Drawing.Point(3, 464);
             this.grdEndorses.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grdEndorses.MultiSelect = false;
             this.grdEndorses.Name = "grdEndorses";
             this.grdEndorses.ReadOnly = true;
             this.grdEndorses.RowHeadersVisible = false;
             this.grdEndorses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdEndorses.Size = new System.Drawing.Size(248, 164);
+            this.grdEndorses.Size = new System.Drawing.Size(220, 164);
             this.grdEndorses.TabIndex = 37;
             this.grdEndorses.TabStop = false;
             this.grdEndorses.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdEndorses_CellContentClick);
@@ -260,7 +260,7 @@
             this.LblApellido.Location = new System.Drawing.Point(5, 50);
             this.LblApellido.Name = "LblApellido";
             this.LblApellido.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
-            this.LblApellido.Size = new System.Drawing.Size(250, 37);
+            this.LblApellido.Size = new System.Drawing.Size(218, 37);
             this.LblApellido.TabIndex = 33;
             this.LblApellido.Text = "Apellido";
             this.LblApellido.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -273,7 +273,7 @@
             this.lblDNI.Location = new System.Drawing.Point(5, 92);
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
-            this.lblDNI.Size = new System.Drawing.Size(250, 37);
+            this.lblDNI.Size = new System.Drawing.Size(218, 37);
             this.lblDNI.TabIndex = 2;
             this.lblDNI.Text = "DNI";
             this.lblDNI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -286,7 +286,7 @@
             this.LblNombre.Location = new System.Drawing.Point(5, 6);
             this.LblNombre.Name = "LblNombre";
             this.LblNombre.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
-            this.LblNombre.Size = new System.Drawing.Size(250, 37);
+            this.LblNombre.Size = new System.Drawing.Size(218, 37);
             this.LblNombre.TabIndex = 0;
             this.LblNombre.Text = "Nombre";
             this.LblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -299,11 +299,12 @@
             // 
             this.tabCtrlPolicies.Controls.Add(this.tabValids);
             this.tabCtrlPolicies.Controls.Add(this.tabExpired);
+            this.tabCtrlPolicies.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabCtrlPolicies.Location = new System.Drawing.Point(3, 137);
             this.tabCtrlPolicies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabCtrlPolicies.Name = "tabCtrlPolicies";
             this.tabCtrlPolicies.SelectedIndex = 0;
-            this.tabCtrlPolicies.Size = new System.Drawing.Size(255, 297);
+            this.tabCtrlPolicies.Size = new System.Drawing.Size(224, 297);
             this.tabCtrlPolicies.TabIndex = 36;
             this.tabCtrlPolicies.TabStop = false;
             this.tabCtrlPolicies.SelectedIndexChanged += new System.EventHandler(this.tabCtrlPolicies_SelectedIndexChanged);
@@ -311,11 +312,11 @@
             // tabValids
             // 
             this.tabValids.Controls.Add(this.grdValids);
-            this.tabValids.Location = new System.Drawing.Point(4, 26);
+            this.tabValids.Location = new System.Drawing.Point(4, 24);
             this.tabValids.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabValids.Name = "tabValids";
             this.tabValids.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabValids.Size = new System.Drawing.Size(247, 267);
+            this.tabValids.Size = new System.Drawing.Size(216, 269);
             this.tabValids.TabIndex = 0;
             this.tabValids.Text = "Vigentes";
             this.tabValids.UseVisualStyleBackColor = true;
@@ -332,18 +333,18 @@
             this.grdValids.ReadOnly = true;
             this.grdValids.RowHeadersVisible = false;
             this.grdValids.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdValids.Size = new System.Drawing.Size(241, 263);
+            this.grdValids.Size = new System.Drawing.Size(210, 265);
             this.grdValids.TabIndex = 0;
             this.grdValids.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdValids_CellClick);
             // 
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 26);
+            this.tabExpired.Location = new System.Drawing.Point(4, 22);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 267);
+            this.tabExpired.Size = new System.Drawing.Size(247, 271);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -360,7 +361,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 263);
+            this.grdExpired.Size = new System.Drawing.Size(241, 267);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
             // 
@@ -385,7 +386,7 @@
             this.archivoToolStripMenuItem});
             this.mainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.mainMenuBar.Name = "mainMenuBar";
-            this.mainMenuBar.Size = new System.Drawing.Size(1268, 24);
+            this.mainMenuBar.Size = new System.Drawing.Size(1008, 24);
             this.mainMenuBar.TabIndex = 46;
             this.mainMenuBar.Text = "menuStrip1";
             // 
@@ -612,7 +613,7 @@
             // Layout
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1268, 729);
+            this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.mainMenuBar);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnCobranzas);
@@ -620,7 +621,7 @@
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnNotifications);
             this.Controls.Add(this.btnPolizas);
-            this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Layout";

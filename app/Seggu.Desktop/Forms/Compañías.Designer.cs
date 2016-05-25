@@ -36,13 +36,6 @@
             this.lsbCoberturas = new System.Windows.Forms.ListBox();
             this.lsbRiesgos = new System.Windows.Forms.ListBox();
             this.grbRiesgos = new System.Windows.Forms.GroupBox();
-            this.btnDeleteFromPack = new System.Windows.Forms.Button();
-            this.btnInsertInPack = new System.Windows.Forms.Button();
-            this.grdCoveragesPack = new System.Windows.Forms.DataGridView();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtCoveragesPack = new System.Windows.Forms.TextBox();
-            this.btnQuitarPaquete = new System.Windows.Forms.Button();
-            this.btnAgregarPaquete = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.txtCoberturas = new System.Windows.Forms.TextBox();
@@ -90,8 +83,9 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.cmbCompañias = new System.Windows.Forms.ComboBox();
+            this.lstCoveragesMaster = new System.Windows.Forms.ListBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.grbRiesgos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdCoveragesPack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdProductores)).BeginInit();
             this.grpLiquida.SuspendLayout();
             this.grpbDatos.SuspendLayout();
@@ -118,7 +112,7 @@
             // btnAgregarCobertura
             // 
             this.btnAgregarCobertura.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAgregarCobertura.Location = new System.Drawing.Point(362, 49);
+            this.btnAgregarCobertura.Location = new System.Drawing.Point(236, 344);
             this.btnAgregarCobertura.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAgregarCobertura.Name = "btnAgregarCobertura";
             this.btnAgregarCobertura.Size = new System.Drawing.Size(65, 27);
@@ -131,7 +125,7 @@
             // btnAgregarRiesgos
             // 
             this.btnAgregarRiesgos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAgregarRiesgos.Location = new System.Drawing.Point(68, 49);
+            this.btnAgregarRiesgos.Location = new System.Drawing.Point(236, 100);
             this.btnAgregarRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAgregarRiesgos.Name = "btnAgregarRiesgos";
             this.btnAgregarRiesgos.Size = new System.Drawing.Size(65, 27);
@@ -146,148 +140,53 @@
             this.lsbCoberturas.FormattingEnabled = true;
             this.lsbCoberturas.HorizontalScrollbar = true;
             this.lsbCoberturas.ItemHeight = 17;
-            this.lsbCoberturas.Location = new System.Drawing.Point(208, 78);
+            this.lsbCoberturas.Location = new System.Drawing.Point(3, 373);
             this.lsbCoberturas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lsbCoberturas.Name = "lsbCoberturas";
             this.lsbCoberturas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lsbCoberturas.Size = new System.Drawing.Size(288, 412);
+            this.lsbCoberturas.Size = new System.Drawing.Size(367, 259);
             this.lsbCoberturas.TabIndex = 1;
             // 
             // lsbRiesgos
             // 
             this.lsbRiesgos.FormattingEnabled = true;
             this.lsbRiesgos.ItemHeight = 17;
-            this.lsbRiesgos.Location = new System.Drawing.Point(6, 78);
+            this.lsbRiesgos.Location = new System.Drawing.Point(3, 130);
             this.lsbRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lsbRiesgos.Name = "lsbRiesgos";
-            this.lsbRiesgos.Size = new System.Drawing.Size(196, 174);
+            this.lsbRiesgos.Size = new System.Drawing.Size(367, 174);
             this.lsbRiesgos.TabIndex = 0;
             this.lsbRiesgos.SelectedValueChanged += new System.EventHandler(this.lsbRiesgos_SelectedValueChanged);
             // 
             // grbRiesgos
             // 
-            this.grbRiesgos.Controls.Add(this.btnDeleteFromPack);
-            this.grbRiesgos.Controls.Add(this.btnInsertInPack);
-            this.grbRiesgos.Controls.Add(this.grdCoveragesPack);
-            this.grbRiesgos.Controls.Add(this.label15);
-            this.grbRiesgos.Controls.Add(this.txtCoveragesPack);
-            this.grbRiesgos.Controls.Add(this.btnQuitarPaquete);
-            this.grbRiesgos.Controls.Add(this.btnAgregarPaquete);
+            this.grbRiesgos.Controls.Add(this.label8);
+            this.grbRiesgos.Controls.Add(this.lstCoveragesMaster);
+            this.grbRiesgos.Controls.Add(this.label10);
             this.grbRiesgos.Controls.Add(this.label14);
-            this.grbRiesgos.Controls.Add(this.label13);
-            this.grbRiesgos.Controls.Add(this.txtCoberturas);
-            this.grbRiesgos.Controls.Add(this.txtRiesgo);
+            this.grbRiesgos.Controls.Add(this.btnAgregarCobertura);
             this.grbRiesgos.Controls.Add(this.btnQuitarCobertura);
+            this.grbRiesgos.Controls.Add(this.label13);
+            this.grbRiesgos.Controls.Add(this.txtRiesgo);
+            this.grbRiesgos.Controls.Add(this.btnAgregarRiesgos);
             this.grbRiesgos.Controls.Add(this.btnQuitarRiesgo);
+            this.grbRiesgos.Controls.Add(this.cmbTipoRiesgos);
             this.grbRiesgos.Controls.Add(this.lsbCoberturas);
             this.grbRiesgos.Controls.Add(this.lsbRiesgos);
-            this.grbRiesgos.Controls.Add(this.btnAgregarRiesgos);
-            this.grbRiesgos.Controls.Add(this.btnAgregarCobertura);
-            this.grbRiesgos.Location = new System.Drawing.Point(656, 94);
+            this.grbRiesgos.Controls.Add(this.txtCoberturas);
+            this.grbRiesgos.Location = new System.Drawing.Point(626, 13);
             this.grbRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grbRiesgos.Name = "grbRiesgos";
             this.grbRiesgos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grbRiesgos.Size = new System.Drawing.Size(514, 554);
+            this.grbRiesgos.Size = new System.Drawing.Size(840, 635);
             this.grbRiesgos.TabIndex = 13;
             this.grbRiesgos.TabStop = false;
             this.grbRiesgos.Text = "Riesgos y Coberturas";
             // 
-            // btnDeleteFromPack
-            // 
-            this.btnDeleteFromPack.AutoSize = true;
-            this.btnDeleteFromPack.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnDeleteFromPack.Location = new System.Drawing.Point(369, 498);
-            this.btnDeleteFromPack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnDeleteFromPack.Name = "btnDeleteFromPack";
-            this.btnDeleteFromPack.Size = new System.Drawing.Size(127, 27);
-            this.btnDeleteFromPack.TabIndex = 33;
-            this.btnDeleteFromPack.Text = "Quitar del Paquete";
-            this.btnDeleteFromPack.UseVisualStyleBackColor = true;
-            this.btnDeleteFromPack.Visible = false;
-            this.btnDeleteFromPack.Click += new System.EventHandler(this.btnDeleteFromPack_Click);
-            // 
-            // btnInsertInPack
-            // 
-            this.btnInsertInPack.AutoSize = true;
-            this.btnInsertInPack.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnInsertInPack.Location = new System.Drawing.Point(208, 498);
-            this.btnInsertInPack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnInsertInPack.Name = "btnInsertInPack";
-            this.btnInsertInPack.Size = new System.Drawing.Size(131, 27);
-            this.btnInsertInPack.TabIndex = 32;
-            this.btnInsertInPack.Text = "Agregar al Paquete";
-            this.toolTip.SetToolTip(this.btnInsertInPack, "Seleccione Cobertura y luego Cubre antes de apretar");
-            this.btnInsertInPack.UseVisualStyleBackColor = true;
-            this.btnInsertInPack.Visible = false;
-            this.btnInsertInPack.Click += new System.EventHandler(this.btnInsertInPack_Click);
-            // 
-            // grdCoveragesPack
-            // 
-            this.grdCoveragesPack.AllowUserToAddRows = false;
-            this.grdCoveragesPack.AllowUserToDeleteRows = false;
-            this.grdCoveragesPack.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdCoveragesPack.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdCoveragesPack.ColumnHeadersVisible = false;
-            this.grdCoveragesPack.Location = new System.Drawing.Point(6, 314);
-            this.grdCoveragesPack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grdCoveragesPack.MultiSelect = false;
-            this.grdCoveragesPack.Name = "grdCoveragesPack";
-            this.grdCoveragesPack.ReadOnly = true;
-            this.grdCoveragesPack.RowHeadersVisible = false;
-            this.grdCoveragesPack.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.grdCoveragesPack.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdCoveragesPack.ShowCellToolTips = false;
-            this.grdCoveragesPack.Size = new System.Drawing.Size(196, 232);
-            this.grdCoveragesPack.TabIndex = 25;
-            this.toolTip.SetToolTip(this.grdCoveragesPack, "Doble Click para filtrar");
-            this.grdCoveragesPack.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCoveragesPack_CellDoubleClick);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 290);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(55, 17);
-            this.label15.TabIndex = 31;
-            this.label15.Text = "Paquete";
-            // 
-            // txtCoveragesPack
-            // 
-            this.txtCoveragesPack.Location = new System.Drawing.Point(6, 259);
-            this.txtCoveragesPack.Name = "txtCoveragesPack";
-            this.txtCoveragesPack.Size = new System.Drawing.Size(196, 25);
-            this.txtCoveragesPack.TabIndex = 30;
-            this.txtCoveragesPack.Visible = false;
-            // 
-            // btnQuitarPaquete
-            // 
-            this.btnQuitarPaquete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnQuitarPaquete.Location = new System.Drawing.Point(137, 285);
-            this.btnQuitarPaquete.Name = "btnQuitarPaquete";
-            this.btnQuitarPaquete.Size = new System.Drawing.Size(65, 27);
-            this.btnQuitarPaquete.TabIndex = 29;
-            this.btnQuitarPaquete.Text = "Quitar";
-            this.btnQuitarPaquete.UseVisualStyleBackColor = true;
-            this.btnQuitarPaquete.Visible = false;
-            this.btnQuitarPaquete.Click += new System.EventHandler(this.btnQuitarPaquete_Click);
-            // 
-            // btnAgregarPaquete
-            // 
-            this.btnAgregarPaquete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAgregarPaquete.Location = new System.Drawing.Point(68, 285);
-            this.btnAgregarPaquete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnAgregarPaquete.Name = "btnAgregarPaquete";
-            this.btnAgregarPaquete.Size = new System.Drawing.Size(65, 27);
-            this.btnAgregarPaquete.TabIndex = 28;
-            this.btnAgregarPaquete.Text = "Agregar";
-            this.btnAgregarPaquete.UseVisualStyleBackColor = true;
-            this.btnAgregarPaquete.Visible = false;
-            this.btnAgregarPaquete.Click += new System.EventHandler(this.btnAgregarPaquete_Click);
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(217, 54);
+            this.label14.Location = new System.Drawing.Point(6, 349);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(73, 17);
             this.label14.TabIndex = 26;
@@ -296,7 +195,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 54);
+            this.label13.Location = new System.Drawing.Point(6, 106);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 17);
             this.label13.TabIndex = 25;
@@ -304,24 +203,24 @@
             // 
             // txtCoberturas
             // 
-            this.txtCoberturas.Location = new System.Drawing.Point(208, 21);
+            this.txtCoberturas.Location = new System.Drawing.Point(3, 311);
             this.txtCoberturas.Name = "txtCoberturas";
-            this.txtCoberturas.Size = new System.Drawing.Size(288, 25);
+            this.txtCoberturas.Size = new System.Drawing.Size(367, 25);
             this.txtCoberturas.TabIndex = 25;
             this.txtCoberturas.Visible = false;
             // 
             // txtRiesgo
             // 
-            this.txtRiesgo.Location = new System.Drawing.Point(6, 21);
+            this.txtRiesgo.Location = new System.Drawing.Point(3, 73);
             this.txtRiesgo.Name = "txtRiesgo";
-            this.txtRiesgo.Size = new System.Drawing.Size(196, 25);
+            this.txtRiesgo.Size = new System.Drawing.Size(367, 25);
             this.txtRiesgo.TabIndex = 23;
             this.txtRiesgo.Visible = false;
             // 
             // btnQuitarCobertura
             // 
             this.btnQuitarCobertura.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnQuitarCobertura.Location = new System.Drawing.Point(431, 49);
+            this.btnQuitarCobertura.Location = new System.Drawing.Point(305, 344);
             this.btnQuitarCobertura.Name = "btnQuitarCobertura";
             this.btnQuitarCobertura.Size = new System.Drawing.Size(65, 27);
             this.btnQuitarCobertura.TabIndex = 19;
@@ -333,7 +232,7 @@
             // btnQuitarRiesgo
             // 
             this.btnQuitarRiesgo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnQuitarRiesgo.Location = new System.Drawing.Point(137, 49);
+            this.btnQuitarRiesgo.Location = new System.Drawing.Point(305, 100);
             this.btnQuitarRiesgo.Name = "btnQuitarRiesgo";
             this.btnQuitarRiesgo.Size = new System.Drawing.Size(65, 27);
             this.btnQuitarRiesgo.TabIndex = 18;
@@ -482,7 +381,7 @@
             // 
             // txtCUIT
             // 
-            this.txtCUIT.Location = new System.Drawing.Point(341, 54);
+            this.txtCUIT.Location = new System.Drawing.Point(395, 55);
             this.txtCUIT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCUIT.Name = "txtCUIT";
             this.txtCUIT.ReadOnly = true;
@@ -519,7 +418,7 @@
             this.txtNotas.Multiline = true;
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.ReadOnly = true;
-            this.txtNotas.Size = new System.Drawing.Size(463, 63);
+            this.txtNotas.Size = new System.Drawing.Size(518, 63);
             this.txtNotas.TabIndex = 9;
             // 
             // grpbContactos
@@ -529,7 +428,7 @@
             this.grpbContactos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbContactos.Name = "grpbContactos";
             this.grpbContactos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.grpbContactos.Size = new System.Drawing.Size(566, 130);
+            this.grpbContactos.Size = new System.Drawing.Size(587, 130);
             this.grpbContactos.TabIndex = 10;
             this.grpbContactos.TabStop = false;
             this.grpbContactos.Text = "Contactos";
@@ -545,7 +444,7 @@
             this.grdContactos.RowHeadersVisible = false;
             this.grdContactos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.grdContactos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdContactos.Size = new System.Drawing.Size(554, 96);
+            this.grdContactos.Size = new System.Drawing.Size(572, 96);
             this.grdContactos.TabIndex = 0;
             // 
             // txtTelefono
@@ -554,12 +453,12 @@
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.ReadOnly = true;
-            this.txtTelefono.Size = new System.Drawing.Size(193, 25);
+            this.txtTelefono.Size = new System.Drawing.Size(261, 25);
             this.txtTelefono.TabIndex = 7;
             // 
             // txtMail
             // 
-            this.txtMail.Location = new System.Drawing.Point(342, 25);
+            this.txtMail.Location = new System.Drawing.Point(396, 26);
             this.txtMail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMail.Name = "txtMail";
             this.txtMail.ReadOnly = true;
@@ -572,7 +471,7 @@
             this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
-            this.txtNombre.Size = new System.Drawing.Size(193, 25);
+            this.txtNombre.Size = new System.Drawing.Size(261, 25);
             this.txtNombre.TabIndex = 5;
             // 
             // label5
@@ -596,7 +495,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(278, 57);
+            this.label3.Location = new System.Drawing.Point(355, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 17);
             this.label3.TabIndex = 2;
@@ -605,7 +504,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(292, 29);
+            this.label4.Location = new System.Drawing.Point(357, 29);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 17);
             this.label4.TabIndex = 3;
@@ -732,17 +631,17 @@
             // cmbTipoRiesgos
             // 
             this.cmbTipoRiesgos.FormattingEnabled = true;
-            this.cmbTipoRiesgos.Location = new System.Drawing.Point(784, 68);
+            this.cmbTipoRiesgos.Location = new System.Drawing.Point(3, 41);
             this.cmbTipoRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoRiesgos.Name = "cmbTipoRiesgos";
-            this.cmbTipoRiesgos.Size = new System.Drawing.Size(198, 25);
+            this.cmbTipoRiesgos.Size = new System.Drawing.Size(367, 25);
             this.cmbTipoRiesgos.TabIndex = 24;
             this.cmbTipoRiesgos.SelectionChangeCommitted += new System.EventHandler(this.cmbTipoRiesgos_SelectionChangeCommitted);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(665, 71);
+            this.label10.Location = new System.Drawing.Point(6, 20);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(103, 17);
             this.label10.TabIndex = 23;
@@ -755,9 +654,9 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(532, 14);
+            this.progressBar1.Location = new System.Drawing.Point(524, 14);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(297, 23);
+            this.progressBar1.Size = new System.Drawing.Size(90, 29);
             this.progressBar1.TabIndex = 25;
             this.progressBar1.Visible = false;
             // 
@@ -771,18 +670,37 @@
             this.cmbCompañias.TabIndex = 26;
             this.cmbCompañias.SelectionChangeCommitted += new System.EventHandler(this.cmbCompañias_SelectionChangeCommitted);
             // 
+            // lstCoveragesMaster
+            // 
+            this.lstCoveragesMaster.FormattingEnabled = true;
+            this.lstCoveragesMaster.HorizontalScrollbar = true;
+            this.lstCoveragesMaster.ItemHeight = 17;
+            this.lstCoveragesMaster.Location = new System.Drawing.Point(391, 50);
+            this.lstCoveragesMaster.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lstCoveragesMaster.Name = "lstCoveragesMaster";
+            this.lstCoveragesMaster.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstCoveragesMaster.Size = new System.Drawing.Size(428, 582);
+            this.lstCoveragesMaster.TabIndex = 27;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(388, 22);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(133, 17);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Todas las Coberturas";
+            // 
             // Compañías
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1177, 658);
+            this.ClientSize = new System.Drawing.Size(1475, 658);
             this.Controls.Add(this.cmbCompañias);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.cmbTipoRiesgos);
             this.Controls.Add(this.lblNuevaCompañia);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.btnQuitarCompañia);
             this.Controls.Add(this.btnAgregarCompañia);
             this.Controls.Add(this.btnEditar);
@@ -799,7 +717,6 @@
             this.Text = "Compañías";
             this.grbRiesgos.ResumeLayout(false);
             this.grbRiesgos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdCoveragesPack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdProductores)).EndInit();
             this.grpLiquida.ResumeLayout(false);
             this.grpLiquida.PerformLayout();
@@ -866,16 +783,11 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtCoveragesPack;
-        private System.Windows.Forms.Button btnQuitarPaquete;
-        private System.Windows.Forms.Button btnAgregarPaquete;
-        private System.Windows.Forms.DataGridView grdCoveragesPack;
-        private System.Windows.Forms.Button btnDeleteFromPack;
-        private System.Windows.Forms.Button btnInsertInPack;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblCodigo;
         private System.Windows.Forms.ComboBox cmbCompañias;
+        private System.Windows.Forms.ListBox lstCoveragesMaster;
+        private System.Windows.Forms.Label label8;
     }
 }

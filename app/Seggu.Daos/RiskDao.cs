@@ -19,7 +19,6 @@ namespace Seggu.Daos
         {
             return this.Set.Any(c => c.Name == name);
         }
-
         public IEnumerable<Risk> GetByCompany(long idCompany)
         {
             return
@@ -28,7 +27,6 @@ namespace Seggu.Daos
                 orderby r.Name
                 select r;
         }
-
         public IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany)
         {
             return
@@ -37,8 +35,7 @@ namespace Seggu.Daos
                 orderby r.Name
                 select r;
         }
-
-        public bool BetByNameId(string name, long id)
+        public bool GetByNameId(string name, long id)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name);
             if (prod == null)
@@ -50,6 +47,26 @@ namespace Seggu.Daos
                 return false;
             }
             return true;
+        }
+        public void SaveChanges(Coverage coverage, IEnumerable<Risk> existing)
+        {
+            coverage = this.context.Coverages.Find(coverage.Id);
+
+            foreach (var obj in existing)
+            {
+                if (!coverage.Risks.Any(x => x.Id == obj.Id))
+                {
+                    coverage.Risks.Add(obj);
+                }
+            }
+
+            var nonExisting = coverage.Risks.Where(b => !existing.Any(x => x.Id == b.Id));
+            while (nonExisting.Any())
+            {
+                coverage.Risks.Remove(nonExisting.First());
+            }
+
+            this.context.SaveChanges();
         }
     }
 }

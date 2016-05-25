@@ -6,6 +6,7 @@ namespace Seggu.Services.Interfaces
     public interface ICoverageService
     {
         IEnumerable<CoverageDto> GetAllByRiskId(int Id);
+        IEnumerable<CoverageDto> GetAll();
         void Delete(int id);
         void DeleteMany(IEnumerable<CoverageDto> coverages);
         void Update(CoverageDto coverage);
