@@ -58,8 +58,6 @@ namespace Seggu.Desktop.Forms
             cmbCompañias.ValueMember = "Id";
             cmbCompañias.DisplayMember = "Name";
             cmbCompañias.DataSource = companyService.GetAll().ToList();
-            cmbCompañias.SelectedItem = cmbCompañias.Items.Count -1;
-            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
             cmbCompañias.SelectedIndex = -1;
         }
         private void cmbCompañias_SelectionChangeCommitted(object sender, EventArgs e)
@@ -468,7 +466,8 @@ namespace Seggu.Desktop.Forms
                     coverageService.Save(coverage);
 
                     // también agregar al riesgo seleccionado
-                    //riskService.Update()
+
+                    riskService.Update((RiskCompanyDto)lsbRiesgos.SelectedItem);
 
                     selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                     CleanCoveragesCtrls();

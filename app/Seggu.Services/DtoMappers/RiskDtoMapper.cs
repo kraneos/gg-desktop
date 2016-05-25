@@ -13,7 +13,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)r.Id;
             dto.Name = r.Name;
             dto.RiskType = RiskTypeDtoMapper.ToString(r.RiskType);
-            dto.Coverages = r.Coverages.Select(c => CoverageDtoMapper.GetDto(c)).ToList();
+            //dto.Coverages = r.Coverages.Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             return dto;
         }
 
@@ -24,7 +24,7 @@ namespace Seggu.Services.DtoMappers
             obj.Name = dto.Name;
             obj.CompanyId = dto.CompanyId;
             obj.RiskType = RiskTypeDtoMapper.ToEnum(dto.RiskType);
-           // obj.Coverages.Add(dto.)
+            //obj.Coverages.Add(dto.Coverages);
             return obj;
         }
     }
