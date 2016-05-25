@@ -68,7 +68,7 @@ namespace Seggu.Desktop.UserControls
 
             cmbCompania.ValueMember = "Id";
             cmbCompania.DisplayMember = "Name";
-            cmbCompania.DataSource = companyService.GetAllCombobox().ToList();
+            cmbCompania.DataSource = companyService.GetAll().ToList();
 
             cmbProductor.ValueMember = "Id";
             cmbProductor.DisplayMember = "Name";

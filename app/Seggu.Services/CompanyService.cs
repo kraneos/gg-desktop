@@ -81,11 +81,6 @@ namespace Seggu.Services
             return companies.Select(c => CompanyDtoMapper.GetDto(c));
         }
 
-        public IEnumerable<CompanyFormDto> GetAllFull()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<KeyValueDto> GetAllCombobox()
         {
             return this.companyDao.GetAll().OrderBy(x => x.Name).Select(x => new KeyValueDto { Id = (int)x.Id, Name = x.Name });

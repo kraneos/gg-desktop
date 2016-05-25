@@ -62,7 +62,8 @@ namespace Seggu.Desktop.Forms
         }
         private void cmbCompañias_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
+            //selectedFullCompany = companyService.GetFullById(((CompanyDto)cmbCompañias.SelectedItem).Id);
+            //currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
             PopulateForm();
         }
 
@@ -70,9 +71,9 @@ namespace Seggu.Desktop.Forms
         {
             lsbCoberturas.DataSource = null;
 
-            BindCompaniesTextBoxes(currentCompany);
+            selectedFullCompany = companyService.GetFullById(((CompanyDto)cmbCompañias.SelectedItem).Id);//acá cuelga bocha la primer vez
+            BindCompaniesTextBoxes(selectedFullCompany);
 
-            selectedFullCompany = companyService.GetFullById(currentCompany.Id);//acá cuelga bocha la primer vez
             if (selectedFullCompany.Contacts != null)
                 FillGrdContactos();
             if (selectedFullCompany.Producers != null)
@@ -80,10 +81,11 @@ namespace Seggu.Desktop.Forms
             if (selectedFullCompany.Risks != null)
                 FillLsbRiesgos();
         }
-        private void BindCompaniesTextBoxes(CompanyDto company)
+        private void BindCompaniesTextBoxes(CompanyFullDto company)
         {
             ClearBindings();
 
+            chkActive.DataBindings.Add("checked", company, "Active");
             txtNombre.DataBindings.Add("text", company, "Name");
             txtLiq1.DataBindings.Add("text", company, "LiqDay1");
             txtLiq2.DataBindings.Add("text", company, "LiqDay2");
@@ -96,6 +98,7 @@ namespace Seggu.Desktop.Forms
         }
         private void ClearBindings()
         {
+            chkActive.DataBindings.Clear();
             txtNombre.DataBindings.Clear();
             txtLiq1.DataBindings.Clear();
             txtLiq2.DataBindings.Clear();
@@ -227,6 +230,7 @@ namespace Seggu.Desktop.Forms
                 LoadAllCoverages();
 
                 btnEditar.Text = "Cancelar";
+                chkActive.Visible = true;
                 btnGuardar.Visible = true;
                 btnNuevoProductor.Visible = true;
                 btnQuitarCobertura.Visible = true;
@@ -260,6 +264,7 @@ namespace Seggu.Desktop.Forms
                 grbRiesgos.Height -= 58;
 
                 btnEditar.Text = "Editar";
+                chkActive.Visible = false;
                 btnGuardar.Visible = false;
                 btnNuevoProductor.Visible = false;
                 btnQuitarCobertura.Visible = false;

@@ -70,13 +70,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnNuevoProductor = new System.Windows.Forms.Button();
             this.grpbOperatoria = new System.Windows.Forms.GroupBox();
             this.lblCodigo = new System.Windows.Forms.Label();
             this.txtCode = new System.Windows.Forms.TextBox();
             this.btnQuitarProductor = new System.Windows.Forms.Button();
+            this.btnNuevoProductor = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnAgregarCompañia = new System.Windows.Forms.Button();
             this.btnQuitarCompañia = new System.Windows.Forms.Button();
@@ -85,6 +85,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.cmbCompañias = new System.Windows.Forms.ComboBox();
+            this.chkActive = new System.Windows.Forms.CheckBox();
             this.grbRiesgos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdProductores)).BeginInit();
             this.grpLiquida.SuspendLayout();
@@ -542,37 +543,6 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "CUIT";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(262, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Mail";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Teléfono";
-            // 
-            // btnNuevoProductor
-            // 
-            this.btnNuevoProductor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnNuevoProductor.Location = new System.Drawing.Point(410, 22);
-            this.btnNuevoProductor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnNuevoProductor.Name = "btnNuevoProductor";
-            this.btnNuevoProductor.Size = new System.Drawing.Size(67, 24);
-            this.btnNuevoProductor.TabIndex = 9;
-            this.btnNuevoProductor.Text = "Nuevo";
-            this.btnNuevoProductor.UseVisualStyleBackColor = true;
-            this.btnNuevoProductor.Visible = false;
-            this.btnNuevoProductor.Click += new System.EventHandler(this.btnNuevoProductor_Click);
-            // 
             // grpbOperatoria
             // 
             this.grpbOperatoria.Controls.Add(this.lblCodigo);
@@ -620,6 +590,37 @@
             this.btnQuitarProductor.UseVisualStyleBackColor = true;
             this.btnQuitarProductor.Visible = false;
             this.btnQuitarProductor.Click += new System.EventHandler(this.btnQuitarProductor_Click);
+            // 
+            // btnNuevoProductor
+            // 
+            this.btnNuevoProductor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnNuevoProductor.Location = new System.Drawing.Point(410, 22);
+            this.btnNuevoProductor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnNuevoProductor.Name = "btnNuevoProductor";
+            this.btnNuevoProductor.Size = new System.Drawing.Size(67, 24);
+            this.btnNuevoProductor.TabIndex = 9;
+            this.btnNuevoProductor.Text = "Nuevo";
+            this.btnNuevoProductor.UseVisualStyleBackColor = true;
+            this.btnNuevoProductor.Visible = false;
+            this.btnNuevoProductor.Click += new System.EventHandler(this.btnNuevoProductor_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(262, 27);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 15);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Mail";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 50);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Teléfono";
             // 
             // btnEditar
             // 
@@ -692,6 +693,17 @@
             this.cmbCompañias.TabIndex = 26;
             this.cmbCompañias.SelectionChangeCommitted += new System.EventHandler(this.cmbCompañias_SelectionChangeCommitted);
             // 
+            // chkActive
+            // 
+            this.chkActive.AutoSize = true;
+            this.chkActive.Location = new System.Drawing.Point(386, 48);
+            this.chkActive.Name = "chkActive";
+            this.chkActive.Size = new System.Drawing.Size(59, 19);
+            this.chkActive.TabIndex = 27;
+            this.chkActive.Text = "Activa";
+            this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.Visible = false;
+            // 
             // Compañías
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -699,6 +711,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(994, 586);
+            this.Controls.Add(this.chkActive);
             this.Controls.Add(this.cmbCompañias);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lblNuevaCompañia);
@@ -788,5 +801,6 @@
         private System.Windows.Forms.ComboBox cmbCompañias;
         private System.Windows.Forms.ListBox lstCoveragesMaster;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkActive;
     }
 }
