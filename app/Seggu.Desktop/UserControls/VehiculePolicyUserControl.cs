@@ -126,7 +126,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void PopulateVehicleFields()
         {
-            tabPage1.BackColor = Color.Transparent;
+            //tabPage1.BackColor = Color.Transparent;
             btnAgregar.Text = "Guardar Cambios";
 
             this.txtAnio.Text = currentVehicle.Year;
@@ -260,7 +260,7 @@ namespace Seggu.Desktop.UserControls
                             return;
                     }
             }
-            tabPage1.BackColor = Color.Transparent;
+            //tabPage1.BackColor = Color.Transparent;
             AddToVehicleList();
             btnAgregar.Text = "Guardar cambios";
         }
@@ -268,50 +268,50 @@ namespace Seggu.Desktop.UserControls
         {
             bool ok = true;
             errorProvider1.Clear();
-            foreach (TabPage tabPage in this.tabControl1.TabPages)
-            {
-                foreach (Control c in tabPage.Controls)
-                {
-                    if (c is TextBox)
-                    {
-                        if (c == txtAnio || c == txtChasis || c == txtMotor || c == txtPatente)
-                        {
-                            if (string.IsNullOrWhiteSpace(c.Text))
-                            {
-                                errorProvider1.SetError(c, "Campo vacio");
-                                ok = false;
-                            }
-                            else if (c == txtPatente)
-                            {
-                                if (!txtPatente.Text.IsPlateNumber())
-                                {
-                                    errorProvider1.SetError(c, "Formato de patente inválido.");
-                                    ok = false;
-                                }
-                            }
-                            else if (c == txtChasis)
-                            {
-                                if (!txtChasis.Text.IsVIN())
-                                {
-                                    errorProvider1.SetError(c, "Formato de chasis inválido.");
-                                    ok = false;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (c is ComboBox)
-                            if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
-                                || c == cmbOrigen || c == cmbTipoVehiculo)
-                                if ((c as ComboBox).SelectedIndex == -1)
-                                {
-                                    errorProvider1.SetError(c, "Debe seleccionar un elemento");
-                                    ok = false;
-                                }
-                    }
-                }
-            }
+            //foreach (TabPage tabPage in this.tabControl1.TabPages)
+            //{
+                //foreach (Control c in tabPage.Controls)
+                //{
+                    //if (c is TextBox)
+                    //{
+                    //    if (c == txtAnio || c == txtChasis || c == txtMotor || c == txtPatente)
+                    //    {
+                    //        if (string.IsNullOrWhiteSpace(c.Text))
+                    //        {
+                    //            errorProvider1.SetError(c, "Campo vacio");
+                    //            ok = false;
+                    //        }
+                    //        else if (c == txtPatente)
+                    //        {
+                    //            if (!txtPatente.Text.IsPlateNumber())
+                    //            {
+                    //                errorProvider1.SetError(c, "Formato de patente inválido.");
+                    //                ok = false;
+                    //            }
+                    //        }
+                    //        else if (c == txtChasis)
+                    //        {
+                    //            if (!txtChasis.Text.IsVIN())
+                    //            {
+                    //                errorProvider1.SetError(c, "Formato de chasis inválido.");
+                    //                ok = false;
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (c is ComboBox)
+                    //        if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
+                    //            || c == cmbOrigen || c == cmbTipoVehiculo)
+                    //            if ((c as ComboBox).SelectedIndex == -1)
+                    //            {
+                    //                errorProvider1.SetError(c, "Debe seleccionar un elemento");
+                    //                ok = false;
+                    //            }
+                    //}
+                //}
+            //}
             return ok;
         }
         public void AddToVehicleList()
@@ -435,7 +435,8 @@ namespace Seggu.Desktop.UserControls
         }
         private void SetChangesDetected()
         {
-            tabPage1.BackColor = Color.Coral;
+            //tabPage1.BackColor = Color.Coral;
+            this.BackColor = Color.Coral;
             btnAgregar.Text = btnAgregar.Text == "Agregar" ? "Agregar" : "Guardar cambios";
             changesDetected = true;
         }
@@ -536,5 +537,6 @@ namespace Seggu.Desktop.UserControls
             }
         }
         #endregion
+
     }
 }

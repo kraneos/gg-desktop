@@ -106,7 +106,7 @@
             this.btnCobranzas.Enabled = false;
             this.btnCobranzas.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnCobranzas.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnCobranzas.Location = new System.Drawing.Point(405, 23);
+            this.btnCobranzas.Location = new System.Drawing.Point(857, 26);
             this.btnCobranzas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCobranzas.Name = "btnCobranzas";
             this.btnCobranzas.Size = new System.Drawing.Size(76, 24);
@@ -122,7 +122,7 @@
             this.btnLimpiar.BackColor = System.Drawing.Color.Olive;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.ForeColor = System.Drawing.Color.Transparent;
-            this.btnLimpiar.Location = new System.Drawing.Point(192, 22);
+            this.btnLimpiar.Location = new System.Drawing.Point(229, 24);
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(59, 27);
@@ -134,13 +134,13 @@
             // txtBuscar
             // 
             this.txtBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscar.Location = new System.Drawing.Point(3, 25);
+            this.txtBuscar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBuscar.Location = new System.Drawing.Point(5, 25);
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(178, 23);
+            this.txtBuscar.Size = new System.Drawing.Size(218, 25);
             this.txtBuscar.TabIndex = 1;
             this.txtBuscar.Text = "DNI, Apellido, Patente, Póliza";
-            this.txtBuscar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
             // 
             // btnNotifications
@@ -150,7 +150,7 @@
             this.btnNotifications.BackColor = System.Drawing.SystemColors.Control;
             this.btnNotifications.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnNotifications.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnNotifications.Location = new System.Drawing.Point(512, 23);
+            this.btnNotifications.Location = new System.Drawing.Point(939, 25);
             this.btnNotifications.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNotifications.Name = "btnNotifications";
             this.btnNotifications.Size = new System.Drawing.Size(57, 24);
@@ -167,7 +167,7 @@
             this.btnPolizas.Enabled = false;
             this.btnPolizas.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnPolizas.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnPolizas.Location = new System.Drawing.Point(299, 23);
+            this.btnPolizas.Location = new System.Drawing.Point(295, 25);
             this.btnPolizas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPolizas.Name = "btnPolizas";
             this.btnPolizas.Size = new System.Drawing.Size(57, 24);
@@ -210,7 +210,7 @@
             this.btnNuevoEndoso.BackColor = System.Drawing.SystemColors.Control;
             this.btnNuevoEndoso.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnNuevoEndoso.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnNuevoEndoso.Location = new System.Drawing.Point(7, 436);
+            this.btnNuevoEndoso.Location = new System.Drawing.Point(7, 450);
             this.btnNuevoEndoso.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             this.btnNuevoEndoso.Name = "btnNuevoEndoso";
             this.btnNuevoEndoso.Size = new System.Drawing.Size(98, 24);
@@ -231,7 +231,7 @@
             this.grdPolicies.ReadOnly = true;
             this.grdPolicies.RowHeadersVisible = false;
             this.grdPolicies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdPolicies.Size = new System.Drawing.Size(209, 259);
+            this.grdPolicies.Size = new System.Drawing.Size(211, 267);
             this.grdPolicies.TabIndex = 39;
             this.grdPolicies.TabStop = false;
             this.grdPolicies.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdPolicies_CellClick);
@@ -240,14 +240,14 @@
             // 
             this.grdEndorses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdEndorses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdEndorses.Location = new System.Drawing.Point(3, 464);
+            this.grdEndorses.Location = new System.Drawing.Point(3, 478);
             this.grdEndorses.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grdEndorses.MultiSelect = false;
             this.grdEndorses.Name = "grdEndorses";
             this.grdEndorses.ReadOnly = true;
             this.grdEndorses.RowHeadersVisible = false;
             this.grdEndorses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdEndorses.Size = new System.Drawing.Size(220, 164);
+            this.grdEndorses.Size = new System.Drawing.Size(220, 195);
             this.grdEndorses.TabIndex = 37;
             this.grdEndorses.TabStop = false;
             this.grdEndorses.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdEndorses_CellContentClick);
@@ -257,6 +257,7 @@
             this.LblApellido.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.LblApellido.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.LblApellido.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LblApellido.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblApellido.Location = new System.Drawing.Point(5, 50);
             this.LblApellido.Name = "LblApellido";
             this.LblApellido.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
@@ -270,6 +271,7 @@
             this.lblDNI.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.lblDNI.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblDNI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblDNI.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDNI.Location = new System.Drawing.Point(5, 92);
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
@@ -283,6 +285,7 @@
             this.LblNombre.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.LblNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.LblNombre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LblNombre.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNombre.Location = new System.Drawing.Point(5, 6);
             this.LblNombre.Name = "LblNombre";
             this.LblNombre.Padding = new System.Windows.Forms.Padding(0, 0, 117, 0);
@@ -340,11 +343,11 @@
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 22);
+            this.tabExpired.Location = new System.Drawing.Point(4, 24);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 271);
+            this.tabExpired.Size = new System.Drawing.Size(216, 269);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -361,7 +364,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 267);
+            this.grdExpired.Size = new System.Drawing.Size(210, 265);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
             // 
