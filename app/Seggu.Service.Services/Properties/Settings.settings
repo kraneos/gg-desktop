@@ -5,9 +5,6 @@
     <Setting Name="ParseAppId" Type="System.String" Scope="Application">
       <Value Profile="(Default)">seggu-api</Value>
     </Setting>
-    <Setting Name="ParseSecretKey" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">SegguMasterKey</Value>
-    </Setting>
     <Setting Name="ParseBaseUrl" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http:/localhost:1337/parse</Value>
     </Setting>
