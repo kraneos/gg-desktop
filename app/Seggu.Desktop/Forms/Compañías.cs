@@ -223,7 +223,9 @@ namespace Seggu.Desktop.Forms
         {
             if (!btnGuardar.Visible)
             {
-                grbRiesgos.Width += 300;
+                grbRiesgos.Width += 371;
+                grbRiesgos.Height += 58;
+
                 LoadAllCoverages();
 
                 btnEditar.Text = "Cancelar";
@@ -256,7 +258,9 @@ namespace Seggu.Desktop.Forms
             }
             else
             {
-                grbRiesgos.Width -= 300;
+                grbRiesgos.Width -= 371;
+                grbRiesgos.Height -= 58;
+
                 btnEditar.Text = "Editar";
                 btnGuardar.Visible = false;
                 btnNuevoProductor.Visible = false;
