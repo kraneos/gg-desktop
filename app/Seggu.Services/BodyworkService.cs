@@ -2,7 +2,6 @@
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +17,6 @@ namespace Seggu.Services
         }
         public void Save(BodyworkDto bodywork)
         {
-            //bodywork.Id = Guid.Empty.ToString();
             var b = BodyworkDtoMapper.GetObject(bodywork);
             this.bodyworkDao.Save(b);
         }

@@ -1,7 +1,5 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
-using System;
-using System.Linq;
 
 namespace Seggu.Services.DtoMappers
 {
@@ -13,7 +11,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)c.Id;
             dto.Name = c.Name;
             dto.Description = c.Description;
-            dto.Risks = c.Risks.Select(RiskDtoMapper.GetRiskCompanyDto);
+            //dto.Risks = c.Risks.Select(RiskDtoMapper.GetRiskCompanyDto);
             return dto;
         }
         public static Coverage GetObject(CoverageDto coverage)
@@ -24,17 +22,6 @@ namespace Seggu.Services.DtoMappers
             c.Description = coverage.Description;
             //c.Risks = coverage.Risks.Select(RiskDtoMapper.GetObject);
             return c;
-        }
-
-        public static CoverageDto GetDtoWithPacks(Coverage c)
-        {
-            var dto = new CoverageDto();
-            dto.Id = (int)c.Id;
-            dto.Name = c.Name;
-            dto.Description = c.Description;
-            dto.Risks = c.Risks.Select(RiskDtoMapper.GetRiskCompanyDto);
-            //dto.CoveragesPacks = c.CoveragesPacks.Select(cp => CoveragesPackDtoMapper.GetDto(cp)).ToList();
-            return dto;
         }
     }
 }

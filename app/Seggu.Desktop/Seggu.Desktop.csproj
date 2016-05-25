@@ -228,12 +228,6 @@
     <Compile Include="Forms\PolizasPorFecha.Designer.cs">
       <DependentUpon>PolizasPorFecha.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CompañíasOnly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CompañíasOnly.Designer.cs">
-      <DependentUpon>CompañíasOnly.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Compañías.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -320,12 +314,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="UserControls\CompanyUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\CompanyUserControl.Designer.cs">
-      <DependentUpon>CompanyUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\CuotasVencidasUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -368,12 +356,6 @@
     <Compile Include="UserControls\PolizasUserControl.Designer.cs">
       <DependentUpon>PolizasUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SiniestrosUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\SiniestrosUserControl.Designer.cs">
-      <DependentUpon>SiniestrosUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\VehiculePolicyUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -407,9 +389,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PolizasPorFecha.resx">
       <DependentUpon>PolizasPorFecha.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CompañíasOnly.resx">
-      <DependentUpon>CompañíasOnly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Compañías.resx">
       <DependentUpon>Compañías.cs</DependentUpon>
@@ -455,9 +434,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CompanyUserControl.resx">
-      <DependentUpon>CompanyUserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CuotasVencidasUserControl.resx">
       <DependentUpon>CuotasVencidasUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -466,9 +442,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\EndososUserControl.resx">
       <DependentUpon>EndososUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\SiniestrosUserControl.resx">
-      <DependentUpon>SiniestrosUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\VidaPolicyUserControl.resx">
       <DependentUpon>VidaPolicyUserControl.cs</DependentUpon>

@@ -24,6 +24,7 @@ namespace Seggu.Services.DtoMappers
             obj.Name = dto.Name;
             obj.CompanyId = dto.CompanyId;
             obj.RiskType = RiskTypeDtoMapper.ToEnum(dto.RiskType);
+           // obj.Coverages.Add(dto.)
             return obj;
         }
     }
