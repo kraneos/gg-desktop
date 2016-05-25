@@ -51,23 +51,23 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(447, 76);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(15);
+            this.txtNombre.Location = new System.Drawing.Point(447, 67);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(15, 13, 15, 13);
             this.txtNombre.MaxLength = 40;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
-            this.txtNombre.Size = new System.Drawing.Size(264, 25);
+            this.txtNombre.Size = new System.Drawing.Size(264, 23);
             this.txtNombre.TabIndex = 0;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtMatricula
             // 
-            this.txtMatricula.Location = new System.Drawing.Point(447, 138);
+            this.txtMatricula.Location = new System.Drawing.Point(447, 122);
             this.txtMatricula.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMatricula.MaxLength = 9;
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.ReadOnly = true;
-            this.txtMatricula.Size = new System.Drawing.Size(264, 25);
+            this.txtMatricula.Size = new System.Drawing.Size(264, 23);
             this.txtMatricula.TabIndex = 1;
             this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress_1);
             // 
@@ -75,10 +75,10 @@
             // 
             this.chkCobrador.AutoSize = true;
             this.chkCobrador.Enabled = false;
-            this.chkCobrador.Location = new System.Drawing.Point(450, 182);
+            this.chkCobrador.Location = new System.Drawing.Point(450, 161);
             this.chkCobrador.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chkCobrador.Name = "chkCobrador";
-            this.chkCobrador.Size = new System.Drawing.Size(84, 21);
+            this.chkCobrador.Size = new System.Drawing.Size(76, 19);
             this.chkCobrador.TabIndex = 2;
             this.chkCobrador.Text = "Cobrador";
             this.chkCobrador.UseVisualStyleBackColor = true;
@@ -86,9 +86,9 @@
             // btnGuardar
             // 
             this.btnGuardar.AutoSize = true;
-            this.btnGuardar.Location = new System.Drawing.Point(636, 221);
+            this.btnGuardar.Location = new System.Drawing.Point(636, 195);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 27);
+            this.btnGuardar.Size = new System.Drawing.Size(75, 25);
             this.btnGuardar.TabIndex = 4;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -103,24 +103,24 @@
             this.grdProductores.AllowUserToResizeRows = false;
             this.grdProductores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdProductores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdProductores.Location = new System.Drawing.Point(17, 54);
-            this.grdProductores.Margin = new System.Windows.Forms.Padding(15);
+            this.grdProductores.Location = new System.Drawing.Point(17, 48);
+            this.grdProductores.Margin = new System.Windows.Forms.Padding(15, 13, 15, 13);
             this.grdProductores.MultiSelect = false;
             this.grdProductores.Name = "grdProductores";
             this.grdProductores.ReadOnly = true;
             this.grdProductores.RowHeadersVisible = false;
             this.grdProductores.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.grdProductores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdProductores.Size = new System.Drawing.Size(386, 428);
+            this.grdProductores.Size = new System.Drawing.Size(386, 378);
             this.grdProductores.TabIndex = 8;
             this.grdProductores.SelectionChanged += new System.EventHandler(this.grdProductores_SelectionChanged);
             // 
             // btnEditar
             // 
             this.btnEditar.AutoSize = true;
-            this.btnEditar.Location = new System.Drawing.Point(328, 14);
+            this.btnEditar.Location = new System.Drawing.Point(328, 12);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 27);
+            this.btnEditar.Size = new System.Drawing.Size(75, 25);
             this.btnEditar.TabIndex = 26;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 30);
             this.label1.TabIndex = 25;
@@ -140,10 +140,10 @@
             // btnQuitar
             // 
             this.btnQuitar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnQuitar.Location = new System.Drawing.Point(542, 221);
+            this.btnQuitar.Location = new System.Drawing.Point(542, 195);
             this.btnQuitar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnQuitar.Name = "btnQuitar";
-            this.btnQuitar.Size = new System.Drawing.Size(75, 27);
+            this.btnQuitar.Size = new System.Drawing.Size(75, 24);
             this.btnQuitar.TabIndex = 4;
             this.btnQuitar.Text = "Eliminar";
             this.btnQuitar.UseVisualStyleBackColor = true;
@@ -152,10 +152,10 @@
             // btnNuevo
             // 
             this.btnNuevo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnNuevo.Location = new System.Drawing.Point(448, 221);
+            this.btnNuevo.Location = new System.Drawing.Point(448, 195);
             this.btnNuevo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(75, 27);
+            this.btnNuevo.Size = new System.Drawing.Size(75, 24);
             this.btnNuevo.TabIndex = 3;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
@@ -170,27 +170,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(447, 54);
+            this.label2.Location = new System.Drawing.Point(447, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 17);
+            this.label2.Size = new System.Drawing.Size(51, 15);
             this.label2.TabIndex = 30;
             this.label2.Text = "Nombre";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(447, 115);
+            this.label3.Location = new System.Drawing.Point(447, 101);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 17);
+            this.label3.Size = new System.Drawing.Size(57, 15);
             this.label3.TabIndex = 31;
             this.label3.Text = "Matrícula";
             // 
             // btnEditarProductor
             // 
             this.btnEditarProductor.AutoSize = true;
-            this.btnEditarProductor.Location = new System.Drawing.Point(636, 221);
+            this.btnEditarProductor.Location = new System.Drawing.Point(636, 195);
             this.btnEditarProductor.Name = "btnEditarProductor";
-            this.btnEditarProductor.Size = new System.Drawing.Size(75, 27);
+            this.btnEditarProductor.Size = new System.Drawing.Size(75, 25);
             this.btnEditarProductor.TabIndex = 5;
             this.btnEditarProductor.Text = "Editar";
             this.btnEditarProductor.UseVisualStyleBackColor = true;
@@ -199,9 +199,9 @@
             // btnCancelar
             // 
             this.btnCancelar.AutoSize = true;
-            this.btnCancelar.Location = new System.Drawing.Point(447, 221);
+            this.btnCancelar.Location = new System.Drawing.Point(447, 195);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 27);
+            this.btnCancelar.Size = new System.Drawing.Size(75, 25);
             this.btnCancelar.TabIndex = 6;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -211,9 +211,9 @@
             // btnSalir
             // 
             this.btnSalir.AutoSize = true;
-            this.btnSalir.Location = new System.Drawing.Point(636, 455);
+            this.btnSalir.Location = new System.Drawing.Point(636, 401);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(75, 27);
+            this.btnSalir.Size = new System.Drawing.Size(75, 25);
             this.btnSalir.TabIndex = 7;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
@@ -221,10 +221,10 @@
             // 
             // Productores
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(730, 506);
+            this.ClientSize = new System.Drawing.Size(730, 446);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEditarProductor);
@@ -239,7 +239,7 @@
             this.Controls.Add(this.chkCobrador);
             this.Controls.Add(this.txtMatricula);
             this.Controls.Add(this.txtNombre);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(100, 100);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

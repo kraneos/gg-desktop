@@ -44,9 +44,9 @@
             // btnEliminar
             // 
             this.btnEliminar.AutoSize = true;
-            this.btnEliminar.Location = new System.Drawing.Point(358, 12);
+            this.btnEliminar.Location = new System.Drawing.Point(356, 70);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 27);
+            this.btnEliminar.Size = new System.Drawing.Size(87, 31);
             this.btnEliminar.TabIndex = 89;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             // btnAgregar
             // 
             this.btnAgregar.AutoSize = true;
-            this.btnAgregar.Location = new System.Drawing.Point(673, 79);
+            this.btnAgregar.Location = new System.Drawing.Point(449, 70);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 27);
+            this.btnAgregar.Size = new System.Drawing.Size(87, 31);
             this.btnAgregar.TabIndex = 88;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
@@ -67,9 +67,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 9);
+            this.label2.Location = new System.Drawing.Point(14, 10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(231, 30);
+            this.label2.Size = new System.Drawing.Size(232, 30);
             this.label2.TabIndex = 87;
             this.label2.Text = "TIPOS DE VEHICULOS:";
             // 
@@ -85,15 +85,15 @@
             this.useGrid.RowHeadersVisible = false;
             this.useGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.useGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.useGrid.Size = new System.Drawing.Size(421, 449);
+            this.useGrid.Size = new System.Drawing.Size(250, 530);
             this.useGrid.TabIndex = 86;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(439, 56);
+            this.label1.Location = new System.Drawing.Point(268, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(52, 15);
             this.label1.TabIndex = 84;
             this.label1.Text = "Nombre";
             // 
@@ -102,7 +102,7 @@
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.ForeColor = System.Drawing.Color.Red;
-            this.label46.Location = new System.Drawing.Point(522, 51);
+            this.label46.Location = new System.Drawing.Point(329, 37);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(15, 20);
             this.label46.TabIndex = 85;
@@ -110,18 +110,18 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(543, 53);
+            this.txtNombre.Location = new System.Drawing.Point(347, 40);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(205, 20);
+            this.txtNombre.Size = new System.Drawing.Size(188, 21);
             this.txtNombre.TabIndex = 83;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // button1
             // 
             this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(673, 465);
+            this.button1.Location = new System.Drawing.Point(448, 542);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 27);
+            this.button1.Size = new System.Drawing.Size(87, 31);
             this.button1.TabIndex = 90;
             this.button1.Text = "Salir";
             this.button1.UseVisualStyleBackColor = true;
@@ -129,9 +129,9 @@
             // 
             // AdministrarUsosButton
             // 
-            this.AdministrarUsosButton.Location = new System.Drawing.Point(442, 141);
+            this.AdministrarUsosButton.Location = new System.Drawing.Point(412, 144);
             this.AdministrarUsosButton.Name = "AdministrarUsosButton";
-            this.AdministrarUsosButton.Size = new System.Drawing.Size(139, 43);
+            this.AdministrarUsosButton.Size = new System.Drawing.Size(124, 33);
             this.AdministrarUsosButton.TabIndex = 91;
             this.AdministrarUsosButton.Text = "Administrar Usos";
             this.AdministrarUsosButton.UseVisualStyleBackColor = true;
@@ -139,9 +139,9 @@
             // 
             // AdministrarCarroceriasButton
             // 
-            this.AdministrarCarroceriasButton.Location = new System.Drawing.Point(610, 141);
+            this.AdministrarCarroceriasButton.Location = new System.Drawing.Point(390, 192);
             this.AdministrarCarroceriasButton.Name = "AdministrarCarroceriasButton";
-            this.AdministrarCarroceriasButton.Size = new System.Drawing.Size(138, 43);
+            this.AdministrarCarroceriasButton.Size = new System.Drawing.Size(146, 33);
             this.AdministrarCarroceriasButton.TabIndex = 92;
             this.AdministrarCarroceriasButton.Text = "Administrar Carrocerias";
             this.AdministrarCarroceriasButton.UseVisualStyleBackColor = true;
@@ -149,9 +149,9 @@
             // 
             // TiposVehiculos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 504);
+            this.ClientSize = new System.Drawing.Size(551, 586);
             this.Controls.Add(this.AdministrarCarroceriasButton);
             this.Controls.Add(this.AdministrarUsosButton);
             this.Controls.Add(this.button1);
@@ -162,6 +162,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label46);
             this.Controls.Add(this.txtNombre);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "TiposVehiculos";
             this.Text = "Tipos de Vehiculos";
             ((System.ComponentModel.ISupportInitialize)(this.useGrid)).EndInit();
