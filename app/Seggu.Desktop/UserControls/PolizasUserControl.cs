@@ -29,6 +29,7 @@ namespace Seggu.Desktop.UserControls
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
         private IntegralPolicyUserControl integral_uc = null;
+        private bool isNew;
 
         #region Siniestros Vars
         private ICasualtyService casualtyService;
@@ -101,6 +102,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void NewPolicy()
         {
+            isNew = true;
             currentClient = LayoutForm.currentClient;
             EmptyControlsDetalleTab();
             PanelCoverage.Controls.Clear();
@@ -109,7 +111,6 @@ namespace Seggu.Desktop.UserControls
             ClearDataBindings();
             LayoutForm.currentPolicy = new PolicyFullDto();
             cmbCompania_SelectionChangeCommitted(null, null);
-            cmbRiesgo_SelectionChangeCommitted(null, null);
             grdFees.Rows.Clear();
             cmbPlanes.Enabled = true;
             foreach(Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
@@ -167,52 +168,53 @@ namespace Seggu.Desktop.UserControls
         }
         public void RenovatePolicy()
         {
-            var cp = LayoutForm.currentPolicy;
-            if (!string.IsNullOrWhiteSpace(cp.Número))
+            isNew = true;
+            var currentPol = LayoutForm.currentPolicy;
+            if (!string.IsNullOrWhiteSpace(currentPol.Número))
             {
                 //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
-                cp.Id = default(int);
-                cp.PreviousNumber = cp.Número;
-                cp.Número = "";
-                cp.StartDate = DateTime.Today.ToShortDateString();
-                cp.Vence = DateTime.Today.ToShortDateString();
-                cp.Period = PeriodDtoMapper.ToString(Period.Anual);
-                if (cp.Vehicles != null)
+                currentPol.Id = default(int);
+                currentPol.PreviousNumber = currentPol.Número;
+                currentPol.Número = "";
+                currentPol.StartDate = DateTime.Today.ToShortDateString();
+                currentPol.Vence = DateTime.Today.ToShortDateString();
+                currentPol.Period = PeriodDtoMapper.ToString(Period.Anual);
+                if (currentPol.Vehicles != null)
                 {
-                    var vehicles = cp.Vehicles.ToList();
+                    var vehicles = currentPol.Vehicles.ToList();
                     foreach (var vehicle in vehicles)
                     {
                         //vehicle.Id = null;
                         //vehicle.PolicyId = null;
                     }
-                    cp.Vehicles = vehicles;
+                    currentPol.Vehicles = vehicles;
                 }
-                else if (cp.Employees != null)
+                else if (currentPol.Employees != null)
                 {
-                    var employees = cp.Employees.ToList();
+                    var employees = currentPol.Employees.ToList();
                     foreach (var employee in employees)
                     {
                         //employee.Id = null;
                         //employee.PolicyId = null;
                     }
-                    cp.Employees = employees;
+                    currentPol.Employees = employees;
                 }
-                else if (cp.Integrals != null)
+                else if (currentPol.Integrals != null)
                 {
-                    var integrals = cp.Integrals.ToList();
+                    var integrals = currentPol.Integrals.ToList();
                     foreach (var integral in integrals)
                     {
                         //integral.Id = null;
                         //integral.PolicyId = null;
                     }
-                    cp.Integrals = integrals;
+                    currentPol.Integrals = integrals;
                 }
-                cp.IsRenovated = true;
-                cp.IsRemoved = false;
-                cp.IsAnnulled = false;
-                cp.Notes = "";
+                currentPol.IsRenovated = true;
+                currentPol.IsRemoved = false;
+                currentPol.IsAnnulled = false;
+                currentPol.Notes = "";
                 //cp.Premium = 0;
-                cp.RequestDate = DateTime.Today.ToShortDateString();
+                currentPol.RequestDate = DateTime.Today.ToShortDateString();
                 dtpRecibido.Checked = false;
                 dtpEmision.Checked = false;
                 chkOtherClient.Visible = true;
@@ -231,6 +233,7 @@ namespace Seggu.Desktop.UserControls
 
         public void PopulateDetails()
         {
+            isNew = false;
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
@@ -413,11 +416,10 @@ namespace Seggu.Desktop.UserControls
         }
         private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (LayoutForm.currentPolicy != null)
-            {
-                if (LayoutForm.currentPolicy.RiskId != (int)cmbRiesgo.SelectedValue) return;
-                FillInsuredObjectUserControl();
-            }
+            if (isNew) return;
+            if (LayoutForm.currentPolicy.RiskId != (int)cmbRiesgo.SelectedValue) return;
+
+            FillInsuredObjectUserControl();
         }
         private void FillInsuredObjectUserControl()
         {
@@ -432,23 +434,20 @@ namespace Seggu.Desktop.UserControls
                 vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
                 SetCoberturasTab(vehicle_uc);
                 vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
-                if (LayoutForm.currentPolicy != null)
-                    vehicle_uc.PopulatePolicyVehicle();
+                vehicle_uc.PopulatePolicyVehicle();
             }
             else if (riesgo == RiskType.Vida || riesgo == RiskType.Otros || riesgo == RiskType.Otros)
             {
                 vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);
-                if (LayoutForm.currentPolicy != null)
-                    vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
+                vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
             }
             else
             {
                 integral_uc = (IntegralPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(IntegralPolicyUserControl));
                 SetCoberturasTab(integral_uc);
                 integral_uc.InitializeComboboxes((int)this.cmbRiesgo.SelectedValue);
-                if (LayoutForm.currentPolicy != null)
-                    integral_uc.PopulatePolicyIntegral();
+                integral_uc.PopulatePolicyIntegral();
             }
         }
         private void SetCoberturasTab(UserControl uc)
@@ -739,7 +738,7 @@ namespace Seggu.Desktop.UserControls
         private PolicyFullDto GetFormInfo()
         {
             PolicyFullDto policy = new PolicyFullDto();
-            policy.Id = LayoutForm.currentPolicy == null ? default(int) : LayoutForm.currentPolicy.Id;
+            policy.Id = isNew ? default(int) : LayoutForm.currentPolicy.Id;
             policy.AnnulationDate = null;
             policy.Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text);
             policy.ClientId = chkOtherClient.Checked ? ((ClientIndexDto)this.cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id;

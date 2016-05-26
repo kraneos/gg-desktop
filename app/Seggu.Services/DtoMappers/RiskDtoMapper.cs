@@ -11,6 +11,7 @@ namespace Seggu.Services.DtoMappers
         {
             var dto = new RiskCompanyDto();
             dto.Id = (int)r.Id;
+            dto.CompanyId = (int)r.CompanyId;
             dto.Name = r.Name;
             dto.RiskType = RiskTypeDtoMapper.ToString(r.RiskType);
             //dto.Coverages = r.Coverages.Select(c => CoverageDtoMapper.GetDto(c)).ToList();

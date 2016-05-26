@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlAseguradosControl = new System.Windows.Forms.TabControl();
             this.tabPageListado = new System.Windows.Forms.TabPage();
             this.clientGrid = new System.Windows.Forms.DataGridView();
@@ -139,7 +139,7 @@
             this.tabPageListado.Location = new System.Drawing.Point(4, 24);
             this.tabPageListado.Name = "tabPageListado";
             this.tabPageListado.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageListado.Size = new System.Drawing.Size(972, 592);
+            this.tabPageListado.Size = new System.Drawing.Size(767, 592);
             this.tabPageListado.TabIndex = 0;
             this.tabPageListado.Text = "Listado";
             // 
@@ -151,8 +151,8 @@
             this.clientGrid.AllowUserToOrderColumns = true;
             this.clientGrid.AllowUserToResizeColumns = false;
             this.clientGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.SkyBlue;
-            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
+            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.clientGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.clientGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.clientGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,11 +162,11 @@
             this.clientGrid.RowHeadersVisible = false;
             this.clientGrid.RowHeadersWidth = 13;
             this.clientGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.AliceBlue;
-            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
+            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.clientGrid.RowTemplate.Height = 21;
             this.clientGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.clientGrid.Size = new System.Drawing.Size(966, 586);
+            this.clientGrid.Size = new System.Drawing.Size(761, 586);
             this.clientGrid.TabIndex = 1;
             this.clientGrid.TabStop = false;
             this.clientGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientGrid_CellClick);
@@ -856,7 +856,7 @@
             // txtDNI
             // 
             this.txtDNI.Location = new System.Drawing.Point(630, 20);
-            this.txtDNI.MaxLength = 4;
+            this.txtDNI.MaxLength = 8;
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(104, 23);
             this.txtDNI.TabIndex = 4;

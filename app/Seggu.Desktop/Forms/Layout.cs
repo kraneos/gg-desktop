@@ -397,6 +397,7 @@ namespace Seggu.Desktop.Forms
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
+            policyUc.btnPrint.Enabled = true;
             policyUc.PopulateDetails();
 
             SetPoliciesVisualContext();
