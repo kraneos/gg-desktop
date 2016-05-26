@@ -41,7 +41,6 @@ namespace Seggu.Service.Services
             req.AddHeader("Content-Type", "application/json");
             //req.AddHeader("Authorization", "Bearer " + token);
             req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
-            req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
             req.RequestFormat = DataFormat.Json;
             return req;
         }
