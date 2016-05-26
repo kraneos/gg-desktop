@@ -1,5 +1,6 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
+using System.Linq;
 
 namespace Seggu.Services.DtoMappers
 {

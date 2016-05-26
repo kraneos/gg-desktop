@@ -44,7 +44,7 @@ namespace Seggu.Services
 
         public void Update(RiskCompanyDto risk)
         {
-            riskDao.Update(RiskDtoMapper.GetObject(risk));
+            riskDao.Update(RiskDtoMapper.GetObjectWithCoverages(risk));
         }
 
         public bool ExistNameId(string name, int id)

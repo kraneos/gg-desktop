@@ -27,5 +27,15 @@ namespace Seggu.Services.DtoMappers
             //obj.Coverages.Add(dto.Coverages);
             return obj;
         }
+        public static Risk GetObjectWithCoverages(RiskCompanyDto dto)
+        {
+            var obj = new Risk();
+            obj.Id = dto.Id;
+            obj.Name = dto.Name;
+            obj.CompanyId = dto.CompanyId;
+            obj.RiskType = RiskTypeDtoMapper.ToEnum(dto.RiskType);
+            obj.Coverages = dto.Coverages.Select(c => CoverageDtoMapper.GetObject(c)).ToList();
+            return obj;
+        }
     }
 }

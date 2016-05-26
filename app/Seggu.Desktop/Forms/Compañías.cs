@@ -62,8 +62,7 @@ namespace Seggu.Desktop.Forms
         }
         private void cmbCompañias_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            //selectedFullCompany = companyService.GetFullById(((CompanyDto)cmbCompañias.SelectedItem).Id);
-            //currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
+            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
             PopulateForm();
         }
 
@@ -151,7 +150,7 @@ namespace Seggu.Desktop.Forms
         {
             lsbCoberturas.ValueMember = "Id";
             lsbCoberturas.DisplayMember = "Description";
-            lsbCoberturas.DataSource = coverageService.GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();
+            lsbCoberturas.DataSource = coverageService.GetAllByRiskId((int)lsbRiesgos.SelectedValue).ToList();//aca la cuelga el wacho
             lsbCoberturas.ClearSelected();
         }
 
@@ -458,7 +457,27 @@ namespace Seggu.Desktop.Forms
             }
             if (txtCoberturas.Text == string.Empty)
             {
-                MessageBox.Show("Ingrese una nueva Cobertura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (lstCoveragesMaster.SelectedItem == null)
+                    MessageBox.Show("Ingrese una nueva Cobertura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    //toma la cobertura de la lista y debería agregarle el riskId que está seleccionado
+
+                    //asi no va porque risk queda como icollection y no i
+                    //var coverage = (CoverageDto)lstCoveragesMaster.SelectedItem;
+                    //var risks = coverage.Risks.ToList();
+                    //risks.Add((RiskCompanyDto)lsbRiesgos.SelectedItem);
+
+                    //coverageService.Save(coverage);
+
+                    //o tomar el riesgo y agregarle la cobertura seleccionada
+                    var risk = (RiskCompanyDto)lsbRiesgos.SelectedItem;
+                    List<CoverageDto>coverages = (List<CoverageDto>)lsbCoberturas.DataSource;
+                    coverages.Add((CoverageDto)lstCoveragesMaster.SelectedItem);
+                    lsbCoberturas.DataSource = coverages; 
+                    risk.Coverages = (List<CoverageDto>)lsbCoberturas.DataSource;
+                    riskService.Update(risk);
+                }
             }
             else
             {
