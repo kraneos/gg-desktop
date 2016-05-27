@@ -70,8 +70,9 @@ namespace Seggu.Desktop.Forms
         {
             lsbCoberturas.DataSource = null;
 
-            selectedFullCompany = companyService.GetFullById(((CompanyDto)cmbCompañias.SelectedItem).Id);//acá cuelga bocha la primer vez
-            BindCompaniesTextBoxes(selectedFullCompany);
+            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
+            selectedFullCompany = companyService.GetFullById(currentCompany.Id);//acá cuelga bocha la primer vez
+            BindCompaniesTextBoxes(currentCompany);
 
             if (selectedFullCompany.Contacts != null)
                 FillGrdContactos();
@@ -80,7 +81,22 @@ namespace Seggu.Desktop.Forms
             if (selectedFullCompany.Risks != null)
                 FillLsbRiesgos();
         }
-        private void BindCompaniesTextBoxes(CompanyFullDto company)
+        private void BindCompaniesTextBoxesFull(CompanyFullDto company)
+        {
+            ClearBindings();
+
+            chkActive.DataBindings.Add("checked", company, "Active");
+            txtNombre.DataBindings.Add("text", company, "Name");
+            txtLiq1.DataBindings.Add("text", company, "LiqDay1");
+            txtLiq2.DataBindings.Add("text", company, "LiqDay2");
+            txtConvenio1.DataBindings.Add("text", company, "Convenio1");
+            txtConvenio2.DataBindings.Add("text", company, "Convenio2");
+            txtMail.DataBindings.Add("text", company, "Mail");
+            txtNotas.DataBindings.Add("text", company, "Notes");
+            txtTelefono.DataBindings.Add("text", company, "Phone");
+            txtCUIT.DataBindings.Add("text", company, "CUIT");
+        }
+        private void BindCompaniesTextBoxes(CompanyDto company)
         {
             ClearBindings();
 
@@ -130,8 +146,10 @@ namespace Seggu.Desktop.Forms
             if (selectedFullCompany == null) return;
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
-            lsbRiesgos.DataSource = selectedFullCompany.Risks
-                .Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
+            var riskType = (string)cmbTipoRiesgos.SelectedValue;
+            var risks = selectedFullCompany.Risks
+                .Where(r => r.RiskType == riskType);
+            lsbRiesgos.DataSource = risks.ToList();
         }
 
         private void cmbTipoRiesgos_SelectionChangeCommitted(object sender, EventArgs e)
@@ -178,7 +196,8 @@ namespace Seggu.Desktop.Forms
                 }
                 else
                 {
-                    company = (CompanyDto)cmbCompañias.SelectedItem;
+                    //company = (CompanyDto)cmbCompañias.SelectedItem;
+                    company = currentCompany;
                     this.companyService.Update(company);
                 }
                 btnEditar_Click(sender, e);

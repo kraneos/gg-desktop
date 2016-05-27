@@ -13,5 +13,6 @@ namespace Seggu.Daos.Interfaces
         Company GetById(long guid);
 
         bool GetByName(string name);
+        Company GetByFullId(int id);
     }
 }

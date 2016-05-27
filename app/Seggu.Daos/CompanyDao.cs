@@ -19,6 +19,15 @@ namespace Seggu.Daos
             return this.context.Companies.Where(c => c.Active);
         }
 
+        public Company GetByFullId(int id)
+        {
+            return this.Set
+                .Include("Contacts")
+                .Include("ProducerCodes.Producer")
+                .Include("Risks")
+                .First(c => c.Id == id);
+        }
+
         public Company GetById(long guid)
         {
             return this.Set.First(c => c.Id == guid);

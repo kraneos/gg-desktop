@@ -25,7 +25,7 @@ namespace Seggu.Data
             // If Parse Entity
             if (Properties.Settings.Default.SetUpdatedDate)
             {
-                var entries = this.ChangeTracker.Entries().Where(x => parseEntities.Any(y => y == x.Entity.GetType()));
+                var entries = this.ChangeTracker.Entries().Where(x => parseEntities.Any(y => y == x.Entity.GetType() || (x.Entity.GetType().BaseType == y)));
 
                 foreach (var entry in entries)
                 {
