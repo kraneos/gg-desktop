@@ -21,49 +21,49 @@ namespace Seggu.Services
             this.producerCodeDao = producerCodeDao;
             this.producerDao = producerDao;
         }
-        
+
         public IEnumerable<CompanyDto> GetAll()
         {
             var companies = this.companyDao.GetOrderedActive();
             return companies.Select(c => CompanyDtoMapper.GetDto(c));
-        }        
-        
+        }
+
         public CompanyFullDto GetFullById(int id)
         {
-            var obj = this.companyDao.GetById(id);           
+            var obj = this.companyDao.GetByFullId(id);
             return CompanyDtoMapper.GetFormDto(obj);
         }
-        
+
         public CompanyDto GetById(int id)
         {
             return CompanyDtoMapper.GetDto(companyDao.GetById(id));
         }
-        
+
         public void DeleteProducerCode(int companyId, int producerId)
         {
             var idC = companyId;
             var idP = producerId;
             var obj = producerCodeDao.GetByCompanyProducer(idC, idP);
             producerCodeDao.Delete(obj);
-            
-        }        
-        
+
+        }
+
         public void AddProducer(ProducerCodeDto prodCode)
         {
             producerCodeDao.Save(ProducerCodeDtoMapper.GetObject(prodCode));
         }
-        
+
         public void DeleteCompany(CompanyDto company)
         {
             var c = CompanyDtoMapper.GetObject(company);
             //companyDao.Delete(c);
             companyDao.Delete(c.Id);
-        }        
-        
+        }
+
         public void Create(CompanyDto company)//debería guardar un CompanyFormDto (objeto con dependencias)
         {
             companyDao.Save(CompanyDtoMapper.GetObject(company));
-        }        
+        }
 
         public void Update(CompanyDto company)//debería guardar un CompanyFormDto (objeto con dependencias)
         {
