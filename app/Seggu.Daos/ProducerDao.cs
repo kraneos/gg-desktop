@@ -3,6 +3,7 @@ using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Seggu.Daos
 {
@@ -44,6 +45,14 @@ namespace Seggu.Daos
                 return false;
             }
             return true;
+        }
+
+        public IEnumerable<ProducerCode> GetByCompanyId(int id)
+        {
+            return context
+                .ProducerCodes
+                .Include("Producer")
+                .Where(pc => pc.CompanyId == id);
         }
     }
 }

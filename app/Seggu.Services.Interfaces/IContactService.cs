@@ -15,6 +15,6 @@ namespace Seggu.Services.Interfaces
         void Create(ContactFullDto contact);
 
         void Update(ContactFullDto contact);
-
+        IEnumerable<ContactDto> GetByCompanyId(int id);
     }
 }

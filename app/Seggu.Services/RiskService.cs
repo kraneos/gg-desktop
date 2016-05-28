@@ -89,5 +89,10 @@ namespace Seggu.Services
                 .OrderBy(x => x.Name)
                 .Select(x => new RiskItemDto { Id = (int)x.Id, Name = x.Name, RiskType = x.RiskType });
         }
+
+        public IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(int id, string riskType)
+        {
+            return riskDao.GetByCompanyAndRiskType(id, RiskTypeDtoMapper.ToEnum(riskType)).Select(RiskDtoMapper.GetRiskCompanyDto);
+        }
     }
 }

@@ -18,13 +18,14 @@ namespace Seggu.Desktop.Forms
         private ICoveragesPackService coveragesPackService;
         private ICoverageService coverageService;
         private IMasterDataService masterDataService;
-        private CompanyFullDto selectedFullCompany;
+        private IContactService contactsService;
+        //private CompanyFullDto selectedFullCompany;
         private CompanyDto currentCompany;
         private bool isNew;
 
         public Compañías(ICompanyService companyService, ICoverageService coverageService,
             ICoveragesPackService coveragesPackService, IProducerService producerService,
-            IRiskService riskService, IMasterDataService masterDataService)
+            IRiskService riskService, IMasterDataService masterDataService, IContactService contactsService)
         {
             InitializeComponent();
             this.companyService = companyService;
@@ -33,6 +34,7 @@ namespace Seggu.Desktop.Forms
             this.coveragesPackService = coveragesPackService;
             this.coverageService = coverageService;
             this.masterDataService = masterDataService;
+            this.contactsService = contactsService;
             this.InitializeIndex();
             this.isNew = false;
         }
@@ -47,7 +49,7 @@ namespace Seggu.Desktop.Forms
             PopulateComboboxes();
         }
         private void PopulateComboboxes()
-        {     
+        {
             cmbProductores.ValueMember = "Id";
             cmbProductores.DisplayMember = "Name";
             cmbProductores.DataSource = producerService.GetProducers().ToList();
@@ -55,16 +57,19 @@ namespace Seggu.Desktop.Forms
             cmbTipoRiesgos.ValueMember = "Id";
             cmbTipoRiesgos.DisplayMember = "Name";
             cmbTipoRiesgos.DataSource = masterDataService.GetRiskTypes().ToList();
-            
-            if (isNew) 
+
+            if (isNew)
                 return;
 
             cmbCompañias.ValueMember = "Id";
             cmbCompañias.DisplayMember = "Name";
             cmbCompañias.DataSource = companyService.GetAll().ToList();
-            cmbCompañias.SelectedItem = cmbCompañias.Items.Count -1;
-            currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
-            cmbCompañias.SelectedIndex = -1;
+            //if (cmbCompañias.Items.Count > 0)
+            //{
+            //    cmbCompañias.SelectedItem = cmbCompañias.Items[0];
+            //    currentCompany = (CompanyDto)cmbCompañias.SelectedItem;
+            //}
+            //cmbCompañias.SelectedIndex = -1;
             //PopulateForm();
         }
 
@@ -81,13 +86,13 @@ namespace Seggu.Desktop.Forms
 
             BindCompaniesTextBoxes(currentCompany);
 
-            selectedFullCompany = companyService.GetFullById(currentCompany.Id);//acá cuelga bocha la primer vez
-            if (selectedFullCompany.Contacts != null)
-                FillGrdContactos();
-            if (selectedFullCompany.Producers != null)
-                FillGrdProductores();
-            if (selectedFullCompany.Risks != null)
-                FillLsbRiesgos();
+            //selectedFullCompany = companyService.GetFullById(currentCompany.Id);//acá cuelga bocha la primer vez
+            //if (selectedFullCompany.Contacts != null)
+            FillGrdContactos();
+            //if (selectedFullCompany.Producers != null)
+            FillGrdProductores();
+            //if (selectedFullCompany.Risks != null)
+            FillLsbRiesgos();
         }
         private void BindCompaniesTextBoxes(CompanyDto company)
         {
@@ -117,14 +122,15 @@ namespace Seggu.Desktop.Forms
         }
         private void FillGrdContactos()
         {
-            this.grdContactos.DataSource = selectedFullCompany.Contacts;
+            this.grdContactos.DataSource = contactsService.GetByCompanyId(currentCompany.Id).ToList();
             this.grdContactos.Columns["Id"].Visible = false;
             this.grdContactos.Columns["CompanyId"].Visible = false;
             this.grdContactos.Columns["Bussiness"].Visible = false;
         }
         private void FillGrdProductores()
         {
-            this.grdProductores.DataSource = selectedFullCompany.Producers;
+            //this.grdProductores.DataSource = selectedFullCompany.Producers;
+            this.grdProductores.DataSource = producerService.GetForCompanyByCompanyId(currentCompany.Id).ToList();
             this.grdProductores.Columns["Id"].Visible = false;
             this.grdProductores.Columns["Code"].HeaderText = "Código";
             this.grdProductores.Columns["RegistrationNumber"].HeaderText = "Matrícula";
@@ -134,11 +140,16 @@ namespace Seggu.Desktop.Forms
         }
         private void FillLsbRiesgos()
         {
-            if (selectedFullCompany == null) return;
+            //if (selectedFullCompany == null) return;
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
-            lsbRiesgos.DataSource = selectedFullCompany.Risks
-                .Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
+            lsbRiesgos.DataSource = riskService.GetByCompanyAndRiskType(currentCompany.Id, (string)cmbTipoRiesgos.SelectedItem).ToList();
+            if (lsbRiesgos.Items.Count > 0)
+            {
+                lsbRiesgos.SelectedItem = lsbRiesgos.Items[0];
+            }
+            //selectedFullCompany.Risks
+            //.Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
         }
 
         private void cmbTipoRiesgos_SelectionChangeCommitted(object sender, EventArgs e)
@@ -395,14 +406,14 @@ namespace Seggu.Desktop.Forms
             {
                 var prodCode = new ProducerCodeDto();
                 prodCode.ProducerId = (int)cmbProductores.SelectedValue;
-                prodCode.CompanyId = selectedFullCompany.Id;
+                prodCode.CompanyId = currentCompany.Id;
                 prodCode.Code = txtCode.Text;
                 companyService.AddProducer(prodCode);
-                grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
-                selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                grdProductores.DataSource = producerService.GetProducerCodeByCompanyId(currentCompany.Id);
+                //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                 InitializeProducers();
-                if (selectedFullCompany.Producers != null)
-                    FillGrdProductores();
+                //if (selectedFullCompany.Producers != null)
+                FillGrdProductores();
 
             }
             else
@@ -416,12 +427,12 @@ namespace Seggu.Desktop.Forms
                 return;
             }
             var producerId = (int)grdProductores.Rows[grdProductores.SelectedRows[0].Index].Cells["Id"].Value;
-            var companyId = selectedFullCompany.Id;
+            var companyId = currentCompany.Id;
             companyService.DeleteProducerCode(companyId, producerId);
-            selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+            //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
             InitializeProducers();
-            if (selectedFullCompany.Producers != null)
-                FillGrdProductores();
+            //if (selectedFullCompany.Producers != null)
+            FillGrdProductores();
             //  grdProductores.DataSource = producerService.GetByCompanyId(companyId);
             //InitializeIndex();
         }
@@ -452,10 +463,10 @@ namespace Seggu.Desktop.Forms
                     risk.Name = txtRiesgo.Text;
                     risk.RiskType = cmbTipoRiesgos.SelectedItem.ToString();
                     riskService.Create(risk);
-                    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                    //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                     InitializeRisks();
-                    if (selectedFullCompany.Risks != null)
-                        FillLsbRiesgos();
+                    //if (selectedFullCompany.Risks != null)
+                    FillLsbRiesgos();
                     //txtRiesgo.Text = "";
                     //InitializeIndex();
                 }
@@ -464,7 +475,7 @@ namespace Seggu.Desktop.Forms
                     MessageBox.Show("Ya existe un riesgo con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                
+
             }
         }
         private void btnQuitarRiesgo_Click(object sender, EventArgs e)
@@ -483,10 +494,10 @@ namespace Seggu.Desktop.Forms
                         // var risk = riesgos.FirstOrDefault(x => x.Id == riskId);
                         // if (risk != null)
                         //     riesgos.Remove(risk);
-                        selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                        //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                         InitializeRisks();
-                        if (selectedFullCompany.Risks != null)
-                            FillLsbRiesgos();
+                        //if (selectedFullCompany.Risks != null)
+                        FillLsbRiesgos();
                         //InitializeIndex();
                     }
                     catch (Exception)
@@ -531,7 +542,7 @@ namespace Seggu.Desktop.Forms
                     coverage.RiskId = (int)lsbRiesgos.SelectedValue;
                     index = lsbCoberturas.SelectedIndex;
                     coverageService.Save(coverage);
-                    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                    //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                     InitializeCoberturas();
                     FillgrdCoveragesPack();
                     FillLsbCoberturas(true);
@@ -544,7 +555,7 @@ namespace Seggu.Desktop.Forms
                     return;
                 }
 
-                
+
             }
         }
         private void btnQuitarCobertura_Click(object sender, EventArgs e)
@@ -559,7 +570,7 @@ namespace Seggu.Desktop.Forms
                     try
                     {
                         coverageService.DeleteMany(coverages.Cast<CoverageDto>());
-                        selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                        //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                         InitializeCoberturas();
                         FillgrdCoveragesPack();
                         FillLsbCoberturas(true);
@@ -607,7 +618,7 @@ namespace Seggu.Desktop.Forms
                     coveragesPack.RiskId = (int)lsbRiesgos.SelectedValue;
                     coveragesPack.Coverages = new List<CoverageDto>();
                     coveragesPackService.Create(coveragesPack);
-                    selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+                    //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
                     InitializeCoveragePacks();
                     FillgrdCoveragesPack();
 
@@ -619,7 +630,7 @@ namespace Seggu.Desktop.Forms
                     return;
                 }
 
-               
+
             }
         }
         private void btnQuitarPaquete_Click(object sender, EventArgs e)
@@ -631,7 +642,7 @@ namespace Seggu.Desktop.Forms
 
             var coveragesPack = (CoveragesPackDto)grdCoveragesPack.CurrentRow.DataBoundItem;
             coveragesPackService.Delete(coveragesPack.Id);
-            selectedFullCompany = companyService.GetFullById(currentCompany.Id);
+            //selectedFullCompany = companyService.GetFullById(currentCompany.Id);
             InitializeCoveragePacks();
             FillgrdCoveragesPack();
         }
