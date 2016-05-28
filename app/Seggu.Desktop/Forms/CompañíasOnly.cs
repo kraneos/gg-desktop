@@ -504,7 +504,7 @@ namespace Seggu.Desktop.Forms
 
                     SelectCompany();
                     InitializeProducers();
-                    grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
+                    grdProductores.DataSource = producerService.GetProducerCodeByCompanyId(selectedFullCompany.Id);
                     if (selectedFullCompany.Producers != null)
                         FillGrdProductores();
                 }

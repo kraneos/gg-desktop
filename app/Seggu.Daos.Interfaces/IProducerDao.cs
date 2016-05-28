@@ -7,6 +7,7 @@ namespace Seggu.Daos.Interfaces
     {
         IEnumerable<Producer> GetCollectors();
         bool GetByRegistrationNumberId(string registrationNumber, long id);
-        bool GetByRegistrationNumber(string registrationNumber);  
+        bool GetByRegistrationNumber(string registrationNumber);
+        IEnumerable<ProducerCode> GetByCompanyId(int id);
     }
 }

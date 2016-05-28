@@ -85,7 +85,7 @@ namespace Seggu.Services
             return validation;
         }
 
-        public IEnumerable<ProducerCodeDto> GetByCompanyId(int companyId)
+        public IEnumerable<ProducerCodeDto> GetProducerCodeByCompanyId(int companyId)
         {
             var list = producerCodeDao.GetByCompany(companyId);
             return list.OrderBy(x => x.Code).Select(p => ProducerCodeDtoMapper.GetDto(p));
@@ -110,6 +110,11 @@ namespace Seggu.Services
                 .Where(x => x.ProducerCodes.Any(y => y.CompanyId == companyId))
                 .OrderBy(x => x.Name)
                 .Select(x => new KeyValueDto { Id = (int)x.Id, Name = x.Name });
+        }
+
+        public IEnumerable<ProducerCompanyDto> GetForCompanyByCompanyId(int id)
+        {
+            return producerDao.GetByCompanyId(id).Select(ProducerDtoMapper.GetProducerCompanyDto);
         }
     }
 }

@@ -43,5 +43,10 @@ namespace Seggu.Services
         {
             this.contactDao.Update(ContactDtoMapper.GetObject(contact));
         }
+
+        public IEnumerable<ContactDto> GetByCompanyId(int id)
+        {
+            return contactDao.GetByCompany(id).Select(ContactDtoMapper.GetDto);
+        }
     }
 }

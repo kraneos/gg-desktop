@@ -17,5 +17,6 @@ namespace Seggu.Services.Interfaces
         bool HasCoverages(int id);
         bool HasPackages(int id);
         IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId);
+        IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(int id, string riskType);
     }
 }
