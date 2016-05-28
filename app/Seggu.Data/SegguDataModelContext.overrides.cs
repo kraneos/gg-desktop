@@ -1,5 +1,7 @@
-﻿using Seggu.Domain;
+﻿using Parse;
+using Seggu.Domain;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -22,25 +24,53 @@ namespace Seggu.Data
 
         public override int SaveChanges()
         {
-            // If Parse Entity
-            if (Properties.Settings.Default.SetUpdatedDate)
-            {
-                var entries = this.ChangeTracker.Entries().Where(x => parseEntities.Any(y => y == x.Entity.GetType()));
+            var entries = this.ChangeTracker
+                .Entries()
+                .Where(x => parseEntities.Any(y => y == x.Entity.GetType() || (x.Entity.GetType().BaseType == y)))
+                .ToList();
 
-                foreach (var entry in entries)
+            // If Parse Entity
+            if (Properties.Settings.Default.SyncWithParse)
+            {
+                var modifiedEntries = entries.Where(e => e.State.HasFlag(EntityState.Added | EntityState.Modified));
+
+                var parseObjects = modifiedEntries.Select(GetParseObject);
+
+                try
                 {
-                    if (entry.State == EntityState.Modified)
+                    ParseObject.SaveAllAsync(parseObjects).Wait();
+                }
+                catch (Exception)
+                {
+                    foreach (var modified in modifiedEntries.Where(e=>e.State == EntityState.Modified))
                     {
-                        var parseEntity = (ParseEntity)entry.Entity;
-                        if (parseEntity.ObjectId != null)
-                        {
-                            parseEntity.LocallyUpdatedAt = DateTime.Now.ToUniversalTime();
-                        }
+                        modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
                     }
                 }
             }
 
             return base.SaveChanges();
+        }
+
+        private ParseObject GetParseObject(DbEntityEntry entry)
+        {
+            var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
+            var entityName = type.Name;
+            var parseObject = new ParseObject(entityName);
+            var properties = type.GetProperties().Where(p =>
+                (
+                    p.PropertyType == typeof(string) ||
+                    !typeof(IEnumerable).IsAssignableFrom(p.PropertyType)
+                ) && (
+                    p.Name != "Id"
+                ));
+
+            foreach (var prop in properties)
+            {
+                parseObject[prop.Name] = entry.CurrentValues[prop.Name];
+            }
+
+            return parseObject;
         }
     }
 }

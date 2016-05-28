@@ -96,6 +96,13 @@ namespace Seggu.Desktop.Forms
 
         private void Layout_Load(object sender, EventArgs e)
         {
+            var loginForm = DependencyResolver.Instance.Resolve<LoginForm>();
+            var result = loginForm.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                this.Close();
+            }
+
             btnLimpiar_Click(sender, e);
             //if (!ValidateRegistry())
             //{
@@ -637,23 +644,23 @@ namespace Seggu.Desktop.Forms
   
         private void riesgosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.RisksOnly risksOnly = (RisksOnly)DependencyResolver
-                .Instance.Resolve(typeof(RisksOnly));
-            risksOnly.Show();
+            //Forms.RisksOnly risksOnly = (RisksOnly)DependencyResolver
+            //    .Instance.Resolve(typeof(RisksOnly));
+            //risksOnly.Show();
         }
 
         private void coberturasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.CoberturasOnly coberturasOnly = (CoberturasOnly)DependencyResolver
-               .Instance.Resolve(typeof(CoberturasOnly));
-            coberturasOnly.Show();
+            //Forms.CoberturasOnly coberturasOnly = (CoberturasOnly)DependencyResolver
+            //   .Instance.Resolve(typeof(CoberturasOnly));
+            //coberturasOnly.Show();
         }
 
         private void paquetesToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Forms.PackagesOnly paquetes = (PackagesOnly)DependencyResolver
-                .Instance.Resolve(typeof(PackagesOnly));
-            paquetes.Show();
+            //Forms.PackagesOnly paquetes = (PackagesOnly)DependencyResolver
+            //    .Instance.Resolve(typeof(PackagesOnly));
+            //paquetes.Show();
         }
         #endregion
 
