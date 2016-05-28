@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Service.ViewModels", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Service.Tests", "Seggu.Service.Tests\Seggu.Service.Tests.csproj", "{DA590930-AA8A-45A8-82F8-3865F953D121}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Seggu.Setup", "Seggu.Setup\Seggu.Setup.vdproj", "{90371886-2EC0-4051-BA8A-F0BBC7804FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ConsoleTest|Any CPU = ConsoleTest|Any CPU
@@ -338,6 +340,24 @@ Global
 		{DA590930-AA8A-45A8-82F8-3865F953D121}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DA590930-AA8A-45A8-82F8-3865F953D121}.Release|x86.ActiveCfg = Release|Any CPU
 		{DA590930-AA8A-45A8-82F8-3865F953D121}.Release|x86.Build.0 = Release|Any CPU
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|Any CPU.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|Any CPU.Build.0 = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|Mixed Platforms.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|Mixed Platforms.Build.0 = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|x86.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.ConsoleTest|x86.Build.0 = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|Any CPU.ActiveCfg = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|Any CPU.Build.0 = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|Mixed Platforms.Build.0 = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|x86.ActiveCfg = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Debug|x86.Build.0 = Debug
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|Any CPU.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|Any CPU.Build.0 = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|Mixed Platforms.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|Mixed Platforms.Build.0 = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|x86.ActiveCfg = Release
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -363,6 +383,7 @@ Global
 		{BFAF01B1-0798-405D-BBB3-6280928AE802} = {7BDDB0B4-4935-4BF8-BA6D-49808DC36DD5}
 		{1BEC6BEE-D066-4A28-8EF7-E790FDF3CEF4} = {7BDDB0B4-4935-4BF8-BA6D-49808DC36DD5}
 		{DA590930-AA8A-45A8-82F8-3865F953D121} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
+		{90371886-2EC0-4051-BA8A-F0BBC7804FF1} = {E9529A91-EBDD-4DF5-AB87-27C2131E4B35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

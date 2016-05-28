@@ -24,57 +24,53 @@ namespace Seggu.Data
 
         public override int SaveChanges()
         {
-            var entries = this.ChangeTracker.Entries().Where(x => parseEntities.Any(y => y == x.Entity.GetType() || (x.Entity.GetType().BaseType == y))).ToList();
+            var entries = this.ChangeTracker
+                .Entries()
+                .Where(x => parseEntities.Any(y => y == x.Entity.GetType() || (x.Entity.GetType().BaseType == y)))
+                .ToList();
 
             // If Parse Entity
-            if (Properties.Settings.Default.SetUpdatedDate)
+            if (Properties.Settings.Default.SyncWithParse)
             {
-                foreach (var entry in entries)
+                var modifiedEntries = entries.Where(e => e.State.HasFlag(EntityState.Added | EntityState.Modified));
+
+                var parseObjects = modifiedEntries.Select(GetParseObject);
+
+                try
                 {
-                    if (entry.State == EntityState.Modified)
+                    ParseObject.SaveAllAsync(parseObjects).Wait();
+                }
+                catch (Exception)
+                {
+                    foreach (var modified in modifiedEntries.Where(e=>e.State == EntityState.Modified))
                     {
-                        var parseEntity = (ParseEntity)entry.Entity;
-                        if (parseEntity.ObjectId != null)
-                        {
-                            parseEntity.LocallyUpdatedAt = DateTime.Now.ToUniversalTime();
-                        }
+                        modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
                     }
                 }
             }
 
-            var records = base.SaveChanges();
-
-            try
-            {
-                // Handle Parse
-                foreach (var entry in entries.Where(x=>x.State != EntityState.Detached && x.State != EntityState.Unchanged))
-                {
-                    CreateParse(entry);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return records;
+            return base.SaveChanges();
         }
 
-        private void CreateParse(DbEntityEntry entry)
+        private ParseObject GetParseObject(DbEntityEntry entry)
         {
-            var entries = this.ChangeTracker.Entries().Where(x => parseEntities.Any(y => y == x.Entity.GetType() || (x.Entity.GetType().BaseType == y))).ToList();
-            var entityType = parseEntities.First(y => y == entry.Entity.GetType() || (entry.Entity.GetType().BaseType == y));
-            var entityName = entityType.Name;
+            var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
+            var entityName = type.Name;
             var parseObject = new ParseObject(entityName);
-            var properties = entityType.GetProperties().Where(p => p.PropertyType == typeof(string) ||
-                   !typeof(IEnumerable).IsAssignableFrom(p.PropertyType));
+            var properties = type.GetProperties().Where(p =>
+                (
+                    p.PropertyType == typeof(string) ||
+                    !typeof(IEnumerable).IsAssignableFrom(p.PropertyType)
+                ) && (
+                    p.Name != "Id"
+                ));
 
             foreach (var prop in properties)
             {
                 parseObject[prop.Name] = entry.CurrentValues[prop.Name];
             }
 
-            parseObject.SaveAsync();
+            return parseObject;
         }
     }
 }

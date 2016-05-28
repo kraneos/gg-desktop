@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.Linq;
+using System.ServiceProcess;
 
 namespace Seggu.Service
 {
@@ -13,6 +14,7 @@ namespace Seggu.Service
         public ProjectInstaller()
         {
             InitializeComponent();
+            serviceInstaller1.AfterInstall += (sender, args) => new ServiceController(serviceInstaller1.ServiceName).Start();
         }
     }
 }
