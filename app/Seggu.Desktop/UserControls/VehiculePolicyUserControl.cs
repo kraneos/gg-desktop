@@ -62,10 +62,11 @@ namespace Seggu.Desktop.UserControls
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
             //cmbCoberturas.DataSource = this.coveragesPackService.GetAllByRiskIdCombobox(riskId).ToList();// selectedCompany.Risks
-                //.Single(r => r.Id == riskId)
-                //.CoveragesPacks
-                //.OrderBy(cp => cp.Name)
-                //.ToList();
+            //.Single(r => r.Id == riskId)
+            //.CoveragesPacks
+            //.OrderBy(cp => cp.Name)
+            //.ToList();
+            cmbCoberturas.DataSource = coverageService.GetAllByRiskId(riskId).ToList();
 
             cmbMarcas.ValueMember = "Id";
             cmbMarcas.DisplayMember = "Name";
@@ -126,7 +127,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void PopulateVehicleFields()
         {
-            //tabPage1.BackColor = Color.Transparent;
+            this.BackColor = Color.Transparent;
             btnAgregar.Text = "Guardar Cambios";
 
             this.txtAnio.Text = currentVehicle.Year;
@@ -260,7 +261,7 @@ namespace Seggu.Desktop.UserControls
                             return;
                     }
             }
-            //tabPage1.BackColor = Color.Transparent;
+            this.BackColor = Color.Transparent;
             AddToVehicleList();
             btnAgregar.Text = "Guardar cambios";
         }

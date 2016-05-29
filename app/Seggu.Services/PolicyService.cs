@@ -65,27 +65,27 @@ namespace Seggu.Services
                     foreach (var fee in pol.Fees) { }
             //fee.Id = fee.Id== default(int) ? Guid.NewGuid().ToString() : fee.Id;
 
-            if (pol.Vehicles != null)
-                foreach (var vehicle in pol.Vehicles)
-                {
-                    //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
-                    if (vehicle.Accessories != null)
-                        foreach (var accessory in vehicle.Accessories)
-                        {
-                            //accessory.Id = string.IsNullOrEmpty(accessory.Id) ? Guid.NewGuid().ToString() : accessory.Id;
-                            accessory.VehicleId = vehicle.Id;
-                        }
-                }
-            else if (pol.Employees != null)
-                foreach (var employee in pol.Employees) { }
-            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-            else if (pol.Integrals != null)
-                foreach (var integral in pol.Integrals)
-                {
-                    //integral.Id = string.IsNullOrEmpty(integral.Id) ? Guid.NewGuid().ToString() : integral.Id;
-                    //integral.Address.Id = string.IsNullOrEmpty(integral.Address.Id) ?
-                    //Guid.NewGuid().ToString() : integral.Address.Id;
-                }
+            //if (pol.Vehicles != null)
+            //    foreach (var vehicle in pol.Vehicles)
+            //    {
+            //        //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
+            //        if (vehicle.Accessories != null)
+            //            foreach (var accessory in vehicle.Accessories)
+            //            {
+            //                //accessory.Id = string.IsNullOrEmpty(accessory.Id) ? Guid.NewGuid().ToString() : accessory.Id;
+            //                accessory.VehicleId = vehicle.Id;
+            //            }
+            //    }
+            //else if (pol.Employees != null)
+            //    foreach (var employee in pol.Employees) { }
+            ////employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
+            //else if (pol.Integrals != null)
+            //    foreach (var integral in pol.Integrals)
+            //    {
+            //        //integral.Id = string.IsNullOrEmpty(integral.Id) ? Guid.NewGuid().ToString() : integral.Id;
+            //        //integral.Address.Id = string.IsNullOrEmpty(integral.Address.Id) ?
+            //        //Guid.NewGuid().ToString() : integral.Address.Id;
+            //    }
 
             var policy = PolicyDtoMapper.GetObjectWithCover(pol);
             var isNew = pol.Id == default(int);
@@ -101,20 +101,22 @@ namespace Seggu.Services
             }
             else
             {
-                if (policy.Vehicles != null)
-                    foreach (var vehicle in policy.Vehicles)
-                        vehicle.PolicyId = policy.Id;
-                else if (policy.Employees != null)
-                    foreach (var employee in policy.Employees)
-                        employee.PolicyId = policy.Id;
-                else if (policy.Integrals != null)
-                {
-                    foreach (var integral in policy.Integrals)
-                    {
-                        integral.PolicyId = policy.Id;
-                    }
-                }
-                policyDao.Edit(policy);
+                //if (policy.Vehicles != null)
+                //    foreach (var vehicle in policy.Vehicles)
+                //        vehicle.PolicyId = policy.Id;
+                //else if (policy.Employees != null)
+                //    foreach (var employee in policy.Employees)
+                //        employee.PolicyId = policy.Id;
+                //else if (policy.Integrals != null)
+                //{
+                //    foreach (var integral in policy.Integrals)
+                //    {
+                //        integral.PolicyId = policy.Id;
+                //    }
+                //}
+
+                //policyDao.Edit(policy);
+                policyDao.Update(policy);
             }
         }
         public IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to)

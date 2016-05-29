@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -64,31 +63,31 @@ namespace Seggu.Daos
         public void Edit(Policy newPolicy)
         {
             Policy dbPolicy = new Policy();
-            if (newPolicy.Vehicles != null)
-            {
-                dbPolicy = context.Policies
-                                    .Include("Vehicles.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyVehicles(newPolicy, dbPolicy);
-            }
-            else if (newPolicy.Employees != null)
-            {
-                dbPolicy = context.Policies
-                                    .Include("Employees.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyEmployees(newPolicy, dbPolicy);
-            }
-            else if (newPolicy.Integrals != null)
-            {
-                dbPolicy = context.Policies
-                                    .Include("Integrals.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyIntegral(newPolicy, dbPolicy);
+            //if (newPolicy.Vehicles != null)
+            //{
+            //    dbPolicy = context.Policies
+            //                        //.Include("Vehicles.Coverages")
+            //                        .Include(x => x.Fees)
+            //                        .Single(c => c.Id == newPolicy.Id);
+            //    UpdatePolicyVehicles(newPolicy, dbPolicy);
+            //}
+            //else if (newPolicy.Employees != null)
+            //{
+            //    dbPolicy = context.Policies
+            //                        .Include("Employees.Coverages")
+            //                        .Include(x => x.Fees)
+            //                        .Single(c => c.Id == newPolicy.Id);
+            //    UpdatePolicyEmployees(newPolicy, dbPolicy);
+            //}
+            //else if (newPolicy.Integrals != null)
+            //{
+            //    dbPolicy = context.Policies
+            //                        .Include("Integrals.Coverages")
+            //                        .Include(x => x.Fees)
+            //                        .Single(c => c.Id == newPolicy.Id);
+            //    UpdatePolicyIntegral(newPolicy, dbPolicy);
 
-            }
+            //}
             UpdateFees(newPolicy);
             context.Entry(dbPolicy).State = EntityState.Modified;
             context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);

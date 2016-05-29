@@ -1,5 +1,4 @@
-﻿using iTextSharp.text;
-using Seggu.Dtos;
+﻿using Seggu.Dtos;
 using System;
 using System.Collections.Generic;
 
