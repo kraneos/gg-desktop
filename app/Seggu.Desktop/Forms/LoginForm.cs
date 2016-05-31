@@ -1,4 +1,5 @@
 ﻿using Parse;
+using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,8 +14,12 @@ namespace Seggu.Desktop.Forms
 {
     public partial class LoginForm : Form
     {
-        public LoginForm()
+        private ILoginService LoginService;
+         
+        public LoginForm(ILoginService LoginService )
         {
+            this.LoginService = LoginService;
+
             InitializeComponent();
             DialogResult = DialogResult.No;
         }
@@ -26,8 +31,8 @@ namespace Seggu.Desktop.Forms
 
             try
             {
-                await ParseUser.LogInAsync(username, password);
-
+                var parseUser = await ParseUser.LogInAsync(username, password);
+                LoginService.ManageLoginRegisters(parseUser, password);
                 DialogResult = DialogResult.OK;
                 Close();
             }
