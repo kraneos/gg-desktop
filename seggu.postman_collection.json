@@ -8,7 +8,8 @@
 		"311b4a97-d79d-e69f-4e01-b9a743ae2c15",
 		"1dc75c93-bd22-fe3b-a5ba-8244287ab0e6",
 		"9f144d42-b870-8eb2-931f-2daf26d2bde7",
-		"a259603b-e4eb-02fd-dcea-345391e5f9a9"
+		"a259603b-e4eb-02fd-dcea-345391e5f9a9",
+		"9b7de539-9e49-3a38-9d0a-fe46927026b4"
 	],
 	"folders": [],
 	"timestamp": 1464645497536,
@@ -50,6 +51,25 @@
 			"helperAttributes": {},
 			"time": 1464645590829,
 			"name": "get all roles",
+			"description": "",
+			"collectionId": "bbe7ffbb-1ff7-f7c2-ae93-97c28908363e",
+			"responses": []
+		},
+		{
+			"id": "9b7de539-9e49-3a38-9d0a-fe46927026b4",
+			"headers": "X-Parse-Application-Id: seggu-api\nContent-Type: application/json\nX-Parse-Master-Key: SegguMasterKey\n",
+			"url": "http://seggu-api-test.herokuapp.com/parse/classes/Company",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1464701089158,
+			"name": "get all companies",
 			"description": "",
 			"collectionId": "bbe7ffbb-1ff7-f7c2-ae93-97c28908363e",
 			"responses": []
