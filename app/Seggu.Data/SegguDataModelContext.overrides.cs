@@ -32,27 +32,35 @@ namespace Seggu.Data
             // If Parse Entity
             if (Properties.Settings.Default.SyncWithParse)
             {
-                var modifiedEntries = entries.Where(e => e.State.HasFlag(EntityState.Added | EntityState.Modified));
-
-                var parseObjects = modifiedEntries.Select(GetParseObject);
-
-                try
+                var modifiedEntries = entries.Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+                if (modifiedEntries.Any())
                 {
-                    ParseObject.SaveAllAsync(parseObjects).Wait();
-                }
-                catch (Exception)
-                {
-                    foreach (var modified in modifiedEntries.Where(e=>e.State == EntityState.Modified))
+                    var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
+                    if (setting != null)
                     {
-                        modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
+
+                        var parseObjects = modifiedEntries.Select(x => GetParseObject(x, setting));
+
+                        try
+                        {
+                            ParseObject.SaveAllAsync(parseObjects).Wait();
+                        }
+                        catch (Exception)
+                        {
+                            foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
+                            {
+                                modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
+                            }
+                        } 
                     }
+
                 }
             }
 
             return base.SaveChanges();
         }
 
-        private ParseObject GetParseObject(DbEntityEntry entry)
+        private ParseObject GetParseObject(DbEntityEntry entry, Setting setting)
         {
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
@@ -62,13 +70,22 @@ namespace Seggu.Data
                     p.PropertyType == typeof(string) ||
                     !typeof(IEnumerable).IsAssignableFrom(p.PropertyType)
                 ) && (
-                    p.Name != "Id"
+                    p.Name != "Id" && p.Name != "ObjectId" && p.Name != "CreatedAt" && p.Name != "UpdatedAt" && p.Name != "LocallyUpdatedAt"
                 ));
 
             foreach (var prop in properties)
             {
                 parseObject[prop.Name] = entry.CurrentValues[prop.Name];
             }
+            var ACL = new ParseACL(ParseUser.CurrentUser);
+            ACL.PublicReadAccess = false;
+            ACL.PublicWriteAccess = false;
+            ACL.SetRoleReadAccess(setting.UserRole, true);
+            ACL.SetRoleWriteAccess(setting.UserRole, true);
+
+            ACL.SetRoleReadAccess(setting.ClientsRole, true);
+            ACL.SetRoleWriteAccess(setting.ClientsRole, true);
+            parseObject.ACL = ACL;
 
             return parseObject;
         }
