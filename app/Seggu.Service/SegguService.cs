@@ -25,7 +25,7 @@ namespace Seggu.Service
         public SegguService()
         {
             InitializeComponent();
-            SynchronizationService.Initialize();
+            //SynchronizationService.Initialize();
         }
 
         protected override void OnStart(string[] args)

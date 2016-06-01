@@ -32,5 +32,23 @@ namespace Seggu.Desktop.Properties {
                 return ((string)(this["SegguConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("seggu-api")]
+        public string ParseAppId {
+            get {
+                return ((string)(this["ParseAppId"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://seggu-api-test.herokuapp.com/parse/")]
+        public string ParseBaseUrl {
+            get {
+                return ((string)(this["ParseBaseUrl"]));
+            }
+        }
     }
 }

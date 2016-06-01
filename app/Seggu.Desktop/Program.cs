@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Parse;
 using Seggu.Desktop.Forms;
+using Seggu.Desktop.Properties;
 using Seggu.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,8 @@ namespace Seggu.Desktop
 
                 ParseClient.Initialize(new ParseClient.Configuration
                 {
-                    ApplicationId = "seggu-api",
-                    Server = "http://seggu-api-test.herokuapp.com/parse/",
+                    ApplicationId = Settings.Default.ParseAppId,
+                    Server = Settings.Default.ParseBaseUrl,
                 });
                 var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
                 Application.Run(form);
