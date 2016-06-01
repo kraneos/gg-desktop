@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Seggu.Service.ViewModels
 {
+
     public class AccessoryTypeVM : KeyValueViewModel
     {
         
