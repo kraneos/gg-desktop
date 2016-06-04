@@ -19,6 +19,17 @@ namespace Seggu.Service.ViewModels
 
     public abstract class KeyValueViewModel : ViewModel
     {
-        public string Name { get; set; }
+        [ParseFieldName("name")]
+        public string Name
+        {
+            get
+            {
+                return GetProperty<string>();
+            }
+            set
+            {
+                SetProperty<string>(value);
+            }
+        }
     }
 }

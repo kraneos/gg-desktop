@@ -82,35 +82,35 @@ namespace Seggu.Service.Services
         //}
 
         public async Task<IEnumerable<TParseEntity>> CreateEntities<TParseEntity, TViewModel>(
-            IEnumerable<TParseEntity> newEntities,
-            string parseEntityName)
+            IEnumerable<TParseEntity> newEntities
+            //string parseEntityName
+            )
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
             return await ExecuteManyRequests<TParseEntity, TViewModel>(
                  newEntities,
-                 parseEntityName,
+                 //parseEntityName,
                  "POST",
-                 CreateMapper,
-                 MapToNewParseObject);
+                 CreateMapper);
         }
 
         public async Task<IEnumerable<TParseEntity>> UpdateEntities<TParseEntity, TViewModel>(
-            IEnumerable<TParseEntity> updatedEntities,
-            string parseEntityName)
+            IEnumerable<TParseEntity> updatedEntities
+            //string parseEntityName
+            )
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
             return await ExecuteManyRequests<TParseEntity, TViewModel>(
                 updatedEntities,
-                parseEntityName,
+                //parseEntityName,
                 "PUT",
                 UpdateMapper,
-                MapToParseObject,
                 (x, y) => x + y.ObjectId);
         }
 
-        public async Task GetManyEntities<TParseEntity, TViewModel>(string parseEntityName, Synchronization lastSync)
+        public async Task GetManyEntities<TParseEntity, TViewModel>(Synchronization lastSync)//string parseEntityName, Synchronization lastSync)
             where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
@@ -121,7 +121,9 @@ namespace Seggu.Service.Services
 
             while (page == 0 || entities.Any())
             {
-                entities = await GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync == null ? null : (DateTime?)lastSync.LastSync);
+                entities = await GetEntities<TParseEntity, TViewModel>(
+                    //parseEntityName, 
+                    page * 100, 100, lastSync == null ? null : (DateTime?)lastSync.LastSync);
                 MergeEntities<TParseEntity>(entities);
                 page++;
             }
@@ -142,19 +144,24 @@ namespace Seggu.Service.Services
             foreach (var entity in existingEntities)
             {
                 var apiEntity = entities.First(x => x.ObjectId == entity.ObjectId);
-                var entry = this.context.Entry<TParseEntity>(entity);
-                apiEntity.Id = entity.Id;
-                entry.CurrentValues.SetValues(apiEntity);
+                if (apiEntity.UpdatedAt > entity.LocallyUpdatedAt)
+                {
+                    var entry = this.context.Entry<TParseEntity>(entity);
+                    apiEntity.Id = entity.Id;
+                    entry.CurrentValues.SetValues(apiEntity);
+                }
             }
 
             this.context.SaveChanges();
         }
 
-        private async Task<IEnumerable<TParseEntity>> GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from)
+        private async Task<IEnumerable<TParseEntity>> GetEntities<TParseEntity, TViewModel>(
+            //string parseEntityName, 
+            int page, int count, DateTime? from)
             where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
-            var query = new ParseQuery<ParseObject>(parseEntityName)
+            var query = new ParseQuery<TViewModel>()
                 .Skip(page)
                 .Limit(count);
 
@@ -170,20 +177,21 @@ namespace Seggu.Service.Services
                 query = query.WhereGreaterThan("updatedAt", from.Value);
             }
 
-            this.eventLog.WriteEntry("About to execute query for " + parseEntityName);
+            //this.eventLog.WriteEntry("About to execute query for " + parseEntityName);
 
             //var res = this.restClient.Execute(req);
             //if (res.StatusCode == HttpStatusCode.OK)
             var res = await query.FindAsync();
             if (res != null)
             {
-                this.eventLog.WriteEntry(parseEntityName + " everything ok.");
+                //this.eventLog.WriteEntry(parseEntityName + " everything ok.");
                 //return JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
                 //    .Results
                 //    .Select(Mapper.Map<TViewModel, TParseEntity>)
                 //    .ToList();
                 return res
-                    .Select(MapToEntity<TParseEntity>)
+                    //.Select(MapToEntity<TParseEntity>)
+                    .Select(x => Mapper.Map<TViewModel, TParseEntity>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, string.Empty)))
                     .ToList();
             }
             else
@@ -195,10 +203,9 @@ namespace Seggu.Service.Services
 
         public async Task<IEnumerable<TParseEntity>> ExecuteManyRequests<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> entities,
-            string parseEntityName,
+            //string parseEntityName,
             string statusCode,
-            Action<TParseEntity, ParseObject> callback,
-            Func<TParseEntity, ParseObject> entityToViewModelMapper,
+            Action<TParseEntity, TViewModel> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
@@ -223,10 +230,9 @@ namespace Seggu.Service.Services
 
                 await ExecuteRequests<TParseEntity, TViewModel>(
                     entitiesToExecute,
-                    parseEntityName,
+                    //parseEntityName,
                     statusCode,
-                    CreateMapper,
-                    entityToViewModelMapper);
+                    callback);
 
                 context.SaveChanges();
             }
@@ -236,17 +242,16 @@ namespace Seggu.Service.Services
 
         public async Task<IEnumerable<TParseEntity>> ExecuteRequests<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> entities,
-            string parseEntityName,
+            //string parseEntityName,
             string statusCode,
-            Action<TParseEntity, ParseObject> callback,
-            Func<TParseEntity, ParseObject> entityToViewModelMapper,
+            Action<TParseEntity, TViewModel> callback,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var parseObjects = entities.Select(entityToViewModelMapper).ToList();
+            var parseObjects = entities.Select(x => Mapper.Map<TParseEntity, TViewModel>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode))).ToList();
 
-            await parseObjects.SaveAllAsync<ParseObject>();
+            await parseObjects.SaveAllAsync<TViewModel>();
 
             var count = entities.Count();
             for (int i = 0; i < count; i++)
@@ -366,9 +371,9 @@ namespace Seggu.Service.Services
         }
 
         #region MethodMappers
-        private void CreateMapper<TParseEntity>(TParseEntity e, ParseObject vm)
+        private void CreateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
             where TParseEntity : IdParseEntity
-            //where TParseViewModel : ViewModel
+            where TParseViewModel : ViewModel
         {
             e.ObjectId = vm.ObjectId;//.ToString();
             e.CreatedAt = vm.CreatedAt;
@@ -376,9 +381,9 @@ namespace Seggu.Service.Services
             e.LocallyUpdatedAt = vm.CreatedAt;
         }
 
-        private void UpdateMapper<TParseEntity>(TParseEntity e, ParseObject vm)
+        private void UpdateMapper<TParseEntity, TParseViewModel>(TParseEntity e, TParseViewModel vm)
             where TParseEntity : IdParseEntity
-            //where TParseViewModel : ViewModel
+            where TParseViewModel : ViewModel
         {
             e.UpdatedAt = vm.UpdatedAt;
             e.LocallyUpdatedAt = vm.UpdatedAt;
