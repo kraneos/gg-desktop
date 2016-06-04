@@ -1,9 +1,19 @@
 var Parse = require('parse/node');
 
 Parse.initialize('seggu-api', null, 'SegguMasterKey');
-//Parse.Cloud.useMasterKey();
+Parse.Cloud.useMasterKey();
 Parse.serverURL = 'http://seggu-api-test.herokuapp.com/parse/';
 
+module.exports = {
+    queryAndDestroyAllClasses: queryAndDestroyAllClasses,
+    createRole: createRole,
+    fetchUsers: fetchUsers,
+    createUser: createUser,
+    destroyUser: destroyUser,
+    createNewSegguClient: createNewSegguClient,
+    getRoleUsers: getRoleUsers,
+    getProvinceNullDistricts: getProvinceNullDistricts
+};
 //fetchUsers();
 // queryAndDestroyAllClasses();
 // createNewSegguClient('Seggurolandia', [
@@ -20,7 +30,7 @@ Parse.serverURL = 'http://seggu-api-test.herokuapp.com/parse/';
 //     username: 'apolo', password: 'seggu2016', email: 'poloagustin@gmail.com'
 // }]);
 
-getRoleUsers('PYcD7T2kW9');
+// getRoleUsers('PYcD7T2kW9');
 // Parse.User.logIn('apolo', 'seggu2016').then(function (user) {
 //     new Parse.Query(Parse.Role).get('PYcD7T2kW9').then(function (role) {
 //         role.getUsers().add(user);
@@ -63,8 +73,37 @@ function createUser(username, password, email) {
 
 function queryAndDestroyAllClasses() {
     [
-        'Company',
-        'SegguClient'
+            'AccessoryType',
+            'Asset',
+            'Bank',
+            'Bodywork',
+            'Brand',
+            'CasualtyType',
+            'Client',
+            'Company',
+            'CreditCard',
+            'LedgerAccount',
+            'Producer',
+            'Province',
+            'Use',
+            'VehicleType',
+            'Cheque',
+            'Contact',
+            'Liquidation',
+            'District',
+            'Locality',
+            'Risk',
+            'VehicleModel',
+            'Policy',
+            'Endorse',
+            'Employee',
+            'FeeSelection',
+            'Fee',
+            'Vehicle',
+            'Accessory',
+            'Integral',
+            'Address',
+            'CashAccount',
     ].forEach(function (value) {
         queryAndDestroy(value);
     });
@@ -128,3 +167,6 @@ function getRoleUsers(roleId) {
     }, console.log);
 }
 
+function getProvinceNullDistricts() {
+    new Parse.Query('District').doesNotExist('province').find().then(console.log,console.log);
+}
