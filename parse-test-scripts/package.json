@@ -6,7 +6,9 @@
   "dependencies": {
     "parse": "^1.8.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
