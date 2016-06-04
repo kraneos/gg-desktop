@@ -10,91 +10,108 @@ using System;
 using AutoMapper;
 using System.Diagnostics;
 using Seggu.Data;
+using Parse;
+using System.Threading.Tasks;
 
 namespace Seggu.Service.Services
 {
     public class ParseClient
     {
-        private RestSharp.RestClient restClient;
+        //private RestSharp.RestClient restClient;
         private EventLog eventLog;
         private SegguDataModelContext context;
-        private string token;
+        //private string token;
+        private readonly string[] parseProps = new string[] { "ObjectId", "CreatedAt", "UpdatedAt", "LocallyUpdatedAt" };
+        private readonly Type[] parseKnownTypes = new Type[] { typeof(string), typeof(bool), typeof(decimal), typeof(decimal?), typeof(DateTime), typeof(DateTime?), typeof(int), typeof(int?) };
+        private Setting setting;
 
         public ParseClient(SegguDataModelContext context, EventLog eventLog)
         {
             this.eventLog = eventLog;
             this.context = context;
-            this.restClient = new RestClient(Settings.Default.ParseBaseUrl);
-            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
-        }
-
-        private IEnumerable<T> SerializeCollectionResponse<T>(string content) where T : new()
-        {
-            return JsonConvert.DeserializeObject<ParseQueryResult<T>>(content).Results;
-        }
-
-        private RestRequest GetRequest(string resource, Method method)
-        {
-            //var token = this.GetToken();
-
-            var req = new RestRequest(resource, method);
-            req.AddHeader("Content-Type", "application/json");
-            //req.AddHeader("Authorization", "Bearer " + token);
-            req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
-            req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
-            req.RequestFormat = DataFormat.Json;
-            return req;
-        }
-
-        private string GetToken()
-        {
-            if (string.IsNullOrWhiteSpace(this.token))
+            //this.restClient = new RestClient(Settings.Default.ParseBaseUrl);
+            //SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+            this.setting = context.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
+            Parse.ParseClient.Initialize(new Parse.ParseClient.Configuration
             {
-                var req = new RestRequest("/token", Method.POST);
-                req.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-                req.AddHeader("Accept", "application/json");
-
-                var body = "grant_type=password&username=" + Properties.Settings.Default.Username + "&password=" + Properties.Settings.Default.Password;
-
-                req.AddBody(body);
-
-                var res = this.restClient.Execute(req);
-
-                this.token = JsonConvert.DeserializeObject<TokenResponseVM>(res.Content).AccessToken;
+                ApplicationId = Settings.Default.ParseAppId,
+                Server = Settings.Default.ParseBaseUrl,
+            });
+            if (setting != null)
+            {
+                ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
             }
-
-            return this.token;
         }
 
-        public IEnumerable<TParseEntity> CreateEntities<TParseEntity, TViewModel>(
+        //private IEnumerable<T> SerializeCollectionResponse<T>(string content) where T : new()
+        //{
+        //    return JsonConvert.DeserializeObject<ParseQueryResult<T>>(content).Results;
+        //}
+
+        //private RestRequest GetRequest(string resource, Method method)
+        //{
+        //    //var token = this.GetToken();
+
+        //    var req = new RestRequest(resource, method);
+        //    req.AddHeader("Content-Type", "application/json");
+        //    //req.AddHeader("Authorization", "Bearer " + token);
+        //    req.AddHeader("X-Parse-Application-Id", Properties.Settings.Default.ParseAppId);
+        //    req.AddHeader("X-Parse-REST-API-Key", Properties.Settings.Default.ParseSecretKey);
+        //    req.RequestFormat = DataFormat.Json;
+        //    return req;
+        //}
+
+        //private string GetToken()
+        //{
+        //    if (string.IsNullOrWhiteSpace(this.token))
+        //    {
+        //        var req = new RestRequest("/token", Method.POST);
+        //        req.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+        //        req.AddHeader("Accept", "application/json");
+
+        //        var body = "grant_type=password&username=" + Properties.Settings.Default.Username + "&password=" + Properties.Settings.Default.Password;
+
+        //        req.AddBody(body);
+
+        //        var res = this.restClient.Execute(req);
+
+        //        this.token = JsonConvert.DeserializeObject<TokenResponseVM>(res.Content).AccessToken;
+        //    }
+
+        //    return this.token;
+        //}
+
+        public async Task<IEnumerable<TParseEntity>> CreateEntities<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> newEntities,
             string parseEntityName)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            return ExecuteManyRequests<TParseEntity, TViewModel>(
+            return await ExecuteManyRequests<TParseEntity, TViewModel>(
                  newEntities,
                  parseEntityName,
                  "POST",
-                 CreateMapper);
+                 CreateMapper,
+                 MapToNewParseObject);
         }
 
-        public IEnumerable<TParseEntity> UpdateEntities<TParseEntity, TViewModel>(
+        public async Task<IEnumerable<TParseEntity>> UpdateEntities<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> updatedEntities,
             string parseEntityName)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            return ExecuteManyRequests<TParseEntity, TViewModel>(
+            return await ExecuteManyRequests<TParseEntity, TViewModel>(
                 updatedEntities,
                 parseEntityName,
                 "PUT",
                 UpdateMapper,
+                MapToParseObject,
                 (x, y) => x + y.ObjectId);
         }
 
-        internal void GetManyEntities<TParseEntity, TViewModel>(string parseEntityName, Synchronization lastSync)
-            where TParseEntity : IdParseEntity
+        public async Task GetManyEntities<TParseEntity, TViewModel>(string parseEntityName, Synchronization lastSync)
+            where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
             var page = 0;
@@ -104,7 +121,7 @@ namespace Seggu.Service.Services
 
             while (page == 0 || entities.Any())
             {
-                entities = GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync == null ? null : (DateTime?)lastSync.LastSync);
+                entities = await GetEntities<TParseEntity, TViewModel>(parseEntityName, page * 100, 100, lastSync == null ? null : (DateTime?)lastSync.LastSync);
                 MergeEntities<TParseEntity>(entities);
                 page++;
             }
@@ -133,44 +150,55 @@ namespace Seggu.Service.Services
             this.context.SaveChanges();
         }
 
-        private IEnumerable<TParseEntity> GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from)
-            where TParseEntity : IdParseEntity
+        private async Task<IEnumerable<TParseEntity>> GetEntities<TParseEntity, TViewModel>(string parseEntityName, int page, int count, DateTime? from)
+            where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
-            var path = "/classes/" + parseEntityName;
+            var query = new ParseQuery<ParseObject>(parseEntityName)
+                .Skip(page)
+                .Limit(count);
 
-            var req = GetRequest(path, Method.GET);
+            //var path = "/classes/" + parseEntityName;
 
-            req.AddParameter("skip", page.ToString());
-            req.AddParameter("limit", count.ToString());
+            //var req = GetRequest(path, Method.GET);
+
+            //req.AddParameter("skip", page.ToString());
+            //req.AddParameter("limit", count.ToString());
             if (from != null && from > DateTime.MinValue)
             {
-                req.AddParameter("where", "{\"updatedAt\":{\"$gt\":" + JsonConvert.SerializeObject(new DateVM(from.Value)) + "}}");
+                //req.AddParameter("where", "{\"updatedAt\":{\"$gt\":" + JsonConvert.SerializeObject(new DateVM(from.Value)) + "}}");
+                query = query.WhereGreaterThan("updatedAt", from.Value);
             }
 
             this.eventLog.WriteEntry("About to execute query for " + parseEntityName);
 
-            var res = this.restClient.Execute(req);
-            if (res.StatusCode == HttpStatusCode.OK)
+            //var res = this.restClient.Execute(req);
+            //if (res.StatusCode == HttpStatusCode.OK)
+            var res = await query.FindAsync();
+            if (res != null)
             {
                 this.eventLog.WriteEntry(parseEntityName + " everything ok.");
-                return JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
-                    .Results
-                    .Select(Mapper.Map<TViewModel, TParseEntity>)
+                //return JsonConvert.DeserializeObject<ParseQueryResponseVM<TViewModel>>(res.Content)
+                //    .Results
+                //    .Select(Mapper.Map<TViewModel, TParseEntity>)
+                //    .ToList();
+                return res
+                    .Select(MapToEntity<TParseEntity>)
                     .ToList();
             }
             else
             {
-                this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
+                //this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
                 return new List<TParseEntity>();
             }
         }
 
-        public IEnumerable<TParseEntity> ExecuteManyRequests<TParseEntity, TViewModel>(
+        public async Task<IEnumerable<TParseEntity>> ExecuteManyRequests<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> entities,
             string parseEntityName,
             string statusCode,
-            Action<TParseEntity, BatchElementResponseVM> callback,
+            Action<TParseEntity, ParseObject> callback,
+            Func<TParseEntity, ParseObject> entityToViewModelMapper,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
@@ -193,11 +221,12 @@ namespace Seggu.Service.Services
                     entitiesToExecute = entities.Skip(i * recordsPerPageInt).Take(totalRecords - (i * recordsPerPageInt));
                 }
 
-                ExecuteRequests<TParseEntity, TViewModel>(
+                await ExecuteRequests<TParseEntity, TViewModel>(
                     entitiesToExecute,
                     parseEntityName,
                     statusCode,
-                    CreateMapper);
+                    CreateMapper,
+                    entityToViewModelMapper);
 
                 context.SaveChanges();
             }
@@ -205,54 +234,139 @@ namespace Seggu.Service.Services
             return entities;
         }
 
-        public IEnumerable<TParseEntity> ExecuteRequests<TParseEntity, TViewModel>(
+        public async Task<IEnumerable<TParseEntity>> ExecuteRequests<TParseEntity, TViewModel>(
             IEnumerable<TParseEntity> entities,
             string parseEntityName,
             string statusCode,
-            Action<TParseEntity, BatchElementResponseVM> callback,
+            Action<TParseEntity, ParseObject> callback,
+            Func<TParseEntity, ParseObject> entityToViewModelMapper,
             Func<string, TParseEntity, string> resourceNameResolver = null)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var req = GetRequest("/batch", Method.POST);
+            var parseObjects = entities.Select(entityToViewModelMapper).ToList();
 
-            var batch = new BatchRequest<TViewModel>();
-            batch.Requests = entities.Select(e => new BatchElement<TViewModel>
-            {
-                Method = statusCode,
-                Path = $"/parse/classes/{parseEntityName}" + (statusCode == "PUT" ? ($"/{e.ObjectId}") : string.Empty),
-                Body = Mapper.Map<TParseEntity, TViewModel>(e)
-            });
+            await parseObjects.SaveAllAsync<ParseObject>();
 
-            this.eventLog.WriteEntry("About to execute batch for " + parseEntityName);
-            req.SetBody(batch);
-            var res = this.restClient.Execute(req);
-            if (res.StatusCode == HttpStatusCode.OK)
+            var count = entities.Count();
+            for (int i = 0; i < count; i++)
             {
-                this.eventLog.WriteEntry(parseEntityName + " everything ok.");
-                var data = JsonConvert.DeserializeObject<List<BatchResponse>>(res.Content);
-                var count = entities.Count();
-                for (int i = 0; i < count; i++)
+                var vm = parseObjects.ElementAt(i);
+                var e = entities.ElementAt(i);
+                callback.Invoke(e, vm);
+            }
+
+            return entities;
+            //var req = GetRequest("/batch", Method.POST);
+
+            //var batch = new BatchRequest<TViewModel>();
+            //batch.Requests = entities.Select(e => new BatchElement<TViewModel>
+            //{
+            //    Method = statusCode,
+            //    Path = $"/parse/classes/{parseEntityName}" + (statusCode == "PUT" ? ($"/{e.ObjectId}") : string.Empty),
+            //    Body = Mapper.Map<TParseEntity, TViewModel>(e)
+            //});
+
+            //this.eventLog.WriteEntry("About to execute batch for " + parseEntityName);
+            //req.SetBody(batch);
+            //var res = this.restClient.Execute(req);
+            //if (res.StatusCode == HttpStatusCode.OK)
+            //{
+            //    this.eventLog.WriteEntry(parseEntityName + " everything ok.");
+            //    var data = JsonConvert.DeserializeObject<List<BatchResponse>>(res.Content);
+            //    var count = entities.Count();
+            //    for (int i = 0; i < count; i++)
+            //    {
+            //        var vm = data.ElementAt(i);
+            //        var e = entities.ElementAt(i);
+            //        if (vm.Success != null)
+            //        {
+            //            callback.Invoke(e, vm.Success);
+            //        }
+            //    }
+
+            //    return entities;
+            //}
+            //else
+            //{
+            //    this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
+            //    return null;
+            //}
+        }
+
+        private ParseObject MapToParseObject<T>(T entity) where T : IdParseEntity
+        {
+            var type = typeof(T);
+            var parseObject = new ParseObject(type.Name);
+
+            foreach (var prop in type.GetProperties().Where(p => parseProps.Any(x => x != p.Name) && parseKnownTypes.Any(x => x == p.PropertyType)))
+            {
+                if (prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(decimal?))
                 {
-                    var vm = data.ElementAt(i);
-                    var e = entities.ElementAt(i);
-                    if (vm.Success != null)
+                    var dec = prop.GetValue(entity);
+                    if (dec == null)
                     {
-                        callback.Invoke(e, vm.Success);
+                        parseObject.Add(prop.Name, null);
+                    }
+                    else
+                    {
+                        parseObject.Add(prop.Name, Convert.ToDouble(dec));
                     }
                 }
+                else
+                {
+                    parseObject.Add(prop.Name, prop.GetValue(entity));
+                }
+            }
 
-                return entities;
-            }
-            else
+            return parseObject;
+        }
+
+        private ParseObject MapToNewParseObject<T>(T entity) where T : IdParseEntity
+        {
+            var parseObject = MapToParseObject(entity);
+            ParseACL acl = GetAcl();
+            parseObject.ACL = acl;
+            return parseObject;
+        }
+
+        private ParseACL GetAcl()
+        {
+            var acl = new ParseACL(ParseUser.CurrentUser);
+
+            if (setting != null)
             {
-                this.eventLog.WriteEntry("HTTPCODE: " + res.StatusDescription + "\n" + res.Content, EventLogEntryType.Error);
-                return null;
+                acl.SetRoleReadAccess(setting.UserRole, true);
+                acl.SetRoleReadAccess(setting.ClientsRole, true);
+                acl.SetRoleWriteAccess(setting.UserRole, true);
+                acl.SetRoleWriteAccess(setting.ClientsRole, true);
             }
+            acl.PublicReadAccess = false;
+            acl.PublicWriteAccess = false;
+
+            return acl;
+        }
+
+        private T MapToEntity<T>(ParseObject parseObject) where T : IdParseEntity, new()
+        {
+            var entity = new T();
+            var type = typeof(T);
+
+            foreach (var prop in type.GetProperties().Where(p => parseProps.Any(x => x != p.Name)))
+            {
+                prop.SetValue(entity, parseObject[prop.Name]);
+                //parseObject.Add(prop.Name, prop.GetValue(entity));
+            }
+
+            entity.ObjectId = parseObject.ObjectId;
+            entity.CreatedAt = parseObject.CreatedAt;
+            entity.UpdatedAt = parseObject.UpdatedAt;
+
+            return entity;
         }
 
         #region MethodMappers
-        private void CreateMapper<TParseEntity>(TParseEntity e, BatchElementResponseVM vm)
+        private void CreateMapper<TParseEntity>(TParseEntity e, ParseObject vm)
             where TParseEntity : IdParseEntity
             //where TParseViewModel : ViewModel
         {
@@ -262,7 +376,7 @@ namespace Seggu.Service.Services
             e.LocallyUpdatedAt = vm.CreatedAt;
         }
 
-        private void UpdateMapper<TParseEntity>(TParseEntity e, BatchElementResponseVM vm)
+        private void UpdateMapper<TParseEntity>(TParseEntity e, ParseObject vm)
             where TParseEntity : IdParseEntity
             //where TParseViewModel : ViewModel
         {
@@ -273,14 +387,14 @@ namespace Seggu.Service.Services
         #endregion
     }
 
-    public static class RestRequestExtensions
-    {
-        public static IRestRequest SetBody(this RestRequest req, object obj)
-        {
-            var json = JsonConvert.SerializeObject(obj);
-            req.AddParameter("application/json", json, ParameterType.RequestBody);
+    //public static class RestRequestExtensions
+    //{
+    //    public static IRestRequest SetBody(this RestRequest req, object obj)
+    //    {
+    //        var json = JsonConvert.SerializeObject(obj);
+    //        req.AddParameter("application/json", json, ParameterType.RequestBody);
 
-            return req;
-        }
-    }
+    //        return req;
+    //    }
+    //}
 }

@@ -38,7 +38,6 @@ namespace Seggu.Data
                     var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
                     if (setting != null)
                     {
-
                         var parseObjects = modifiedEntries.Select(x => GetParseObject(x, setting));
 
                         try
@@ -53,7 +52,6 @@ namespace Seggu.Data
                             }
                         } 
                     }
-
                 }
             }
 
@@ -75,17 +73,24 @@ namespace Seggu.Data
 
             foreach (var prop in properties)
             {
-                parseObject[prop.Name] = entry.CurrentValues[prop.Name];
+                parseObject.Add(prop.Name, entry.CurrentValues[prop.Name]);
             }
-            var ACL = new ParseACL(ParseUser.CurrentUser);
-            ACL.PublicReadAccess = false;
-            ACL.PublicWriteAccess = false;
-            ACL.SetRoleReadAccess(setting.UserRole, true);
-            ACL.SetRoleWriteAccess(setting.UserRole, true);
-
-            ACL.SetRoleReadAccess(setting.ClientsRole, true);
-            ACL.SetRoleWriteAccess(setting.ClientsRole, true);
-            parseObject.ACL = ACL;
+            var parseEntity = (ParseEntity)entry.Entity;
+            if (parseEntity.ObjectId != null)
+            {
+                parseObject.ObjectId = parseEntity.ObjectId;
+            }
+            else
+            {
+                var ACL = new ParseACL(ParseUser.CurrentUser);
+                ACL.PublicReadAccess = false;
+                ACL.PublicWriteAccess = false;
+                ACL.SetRoleReadAccess(setting.UserRole, true);
+                ACL.SetRoleWriteAccess(setting.UserRole, true);
+                ACL.SetRoleReadAccess(setting.ClientsRole, true);
+                ACL.SetRoleWriteAccess(setting.ClientsRole, true);
+                parseObject.ACL = ACL;
+            }
 
             return parseObject;
         }

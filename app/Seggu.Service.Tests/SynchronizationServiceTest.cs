@@ -65,9 +65,20 @@ namespace Seggu.Service.Tests
         public void SynchronizationServiceShouldExecuteWithoutErrors()
         {
             var eventLog = new EventLog();
-            using (var context = new SegguDataModelContext("Data Source=.\\seggu.sqlite;"))
+            eventLog = new System.Diagnostics.EventLog();
+            ((System.ComponentModel.ISupportInitialize)(eventLog)).BeginInit();
+            eventLog.Source = "test";
+            eventLog.Log = "test";
+
+            eventLog.WriteEntry("The service has started.");
+
+            var ServiceName = "SegguService";
+            ((System.ComponentModel.ISupportInitialize)(eventLog)).EndInit();
+
+            using (var context = new SegguDataModelContext(@"Data Source=C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\seggu.sqlite;"))
             {
                 var syncService = new SynchronizationService(context, eventLog);
+                
                 syncService.SynchronizeParseEntities();
             }
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Parse;
 using Seggu.Data;
 using Seggu.Domain;
 using Seggu.Service.Services.Interfaces;
@@ -8,6 +9,7 @@ using Seggu.Service.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Seggu.Service.Services
 {
@@ -26,61 +28,68 @@ namespace Seggu.Service.Services
             this.client = new ParseClient(context, eventLog);
 
             // JsonConvert Configuration
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //};
         }
 
         public static void Initialize()
         {
-            Mapper.CreateMap<string, Guid>().ConvertUsing(x => string.IsNullOrWhiteSpace((string)x.SourceValue) ? Guid.Empty : new Guid((string)x.SourceValue));
-            Mapper.CreateMap<string, Guid?>().ConvertUsing(x => string.IsNullOrWhiteSpace((string)x.SourceValue) ? null : (Guid?)new Guid((string)x.SourceValue));
+            //Mapper.CreateMap<string, Guid>().ConvertUsing(x => string.IsNullOrWhiteSpace((string)x.SourceValue) ? Guid.Empty : new Guid((string)x.SourceValue));
+            //Mapper.CreateMap<string, Guid?>().ConvertUsing(x => string.IsNullOrWhiteSpace((string)x.SourceValue) ? null : (Guid?)new Guid((string)x.SourceValue));
 
-            Mapper.CreateMap<Guid, string>().ConvertUsing(x => (Guid)x.SourceValue == Guid.Empty ? null : x.SourceValue.ToString());
-            Mapper.CreateMap<Guid?, string>().ConvertUsing(x => (Guid?)x.SourceValue == null ? null : ((Guid?)x.SourceValue).Value.ToString());
+            //Mapper.CreateMap<Guid, string>().ConvertUsing(x => (Guid)x.SourceValue == Guid.Empty ? null : x.SourceValue.ToString());
+            //Mapper.CreateMap<Guid?, string>().ConvertUsing(x => (Guid?)x.SourceValue == null ? null : ((Guid?)x.SourceValue).Value.ToString());
 
-            Mapper.CreateMap<Domain.AccessoryType, AccessoryTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<AccessoryTypeVM, Domain.AccessoryType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x=>x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.AccessoryType, AccessoryTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<AccessoryTypeVM, Domain.AccessoryType>();
 
-            Mapper.CreateMap<Domain.Asset, AssetVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<AssetVM, Domain.Asset>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Asset, AssetVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<AssetVM, Domain.Asset>();
+            //Mapper.CreateMap<Domain.Asset, ParseObject>()
+            //    .ForSourceMember(x=>x.CashAccounts, y=>y.Ignore())
+            //    .ForMember(x => x.CreatedAt, y => y.Ignore())
+            //    .ForMember(x => x.UpdatedAt, y => y.Ignore())
+            //    .ForMember(x => x.ObjectId, y => y.Ignore())
+            //    .ForAllMembers(x=>x.;
+            //Mapper.CreateMap<AssetVM, Domain.Asset>();
 
-            Mapper.CreateMap<Domain.Bank, BankVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BankVM, Domain.Bank>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Bank, BankVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<BankVM, Domain.Bank>();
 
-            Mapper.CreateMap<Domain.Bodywork, BodyworkVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BodyworkVM, Domain.Bodywork>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Bodywork, BodyworkVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<BodyworkVM, Domain.Bodywork>();
 
-            Mapper.CreateMap<Domain.Brand, BrandVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<BrandVM, Domain.Brand>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Brand, BrandVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<BrandVM, Domain.Brand>();
 
-            Mapper.CreateMap<Domain.CasualtyType, CasualtyTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CasualtyTypeVM, Domain.CasualtyType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.CasualtyType, CasualtyTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<CasualtyTypeVM, Domain.CasualtyType>();
 
-            Mapper.CreateMap<Domain.Client, ClientVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ClientVM, Domain.Client>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Client, ClientVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<ClientVM, Domain.Client>();
 
-            Mapper.CreateMap<Domain.Company, CompanyVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CompanyVM, Domain.Company>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Company, CompanyVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<CompanyVM, Domain.Company>();
 
-            Mapper.CreateMap<Domain.CreditCard, CreditCardVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<CreditCardVM, Domain.CreditCard>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.CreditCard, CreditCardVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<CreditCardVM, Domain.CreditCard>();
 
-            Mapper.CreateMap<Domain.LedgerAccount, LedgerAccountVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<LedgerAccountVM, Domain.LedgerAccount>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.LedgerAccount, LedgerAccountVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<LedgerAccountVM, Domain.LedgerAccount>();
 
-            Mapper.CreateMap<Domain.Producer, ProducerVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ProducerVM, Domain.Producer>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Producer, ProducerVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<ProducerVM, Domain.Producer>();
 
-            Mapper.CreateMap<Domain.Province, ProvinceVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<ProvinceVM, Domain.Province>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Province, ProvinceVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<ProvinceVM, Domain.Province>();
 
-            Mapper.CreateMap<Domain.Use, UseVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<UseVM, Domain.Use>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.Use, UseVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<UseVM, Domain.Use>();
 
-            Mapper.CreateMap<Domain.VehicleType, VehicleTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
-            Mapper.CreateMap<VehicleTypeVM, Domain.VehicleType>().ForMember(x => x.CreatedAt, y => y.MapFrom(x => x.CreatedAt.Iso)).ForMember(x => x.UpdatedAt, y => y.MapFrom(x => x.UpdatedAt.Iso));
+            //Mapper.CreateMap<Domain.VehicleType, VehicleTypeVM>().ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore());
+            //Mapper.CreateMap<VehicleTypeVM, Domain.VehicleType>();
 
             //Mapper.CreateMap<Domain.Cheque, ChequeVM>()
             //    .ForMember(x => x.CreatedAt, y => y.Ignore()).ForMember(x => x.UpdatedAt, y => y.Ignore()).ForMember(x => x.ObjectId, y => y.Ignore())
@@ -247,50 +256,54 @@ namespace Seggu.Service.Services
 
         public void SynchronizeParseEntities()
         {
-            SendEntitiesToParse<Domain.AccessoryType, AccessoryTypeVM>("AccessoryType");
-            SendEntitiesToParse<Asset, AssetVM>("Asset");
-            SendEntitiesToParse<Bank, BankVM>("Bank");
-            //SendEntitiesToParse<Bodywork, BodyworkVM>("Bodywork");
-            //SendEntitiesToParse<Brand, BrandVM>("Brand");
-            //SendEntitiesToParse<CasualtyType, CasualtyTypeVM>("CasualtyType");
-            //SendEntitiesToParse<Client, ClientVM>("Client");
-            //SendEntitiesToParse<Company, CompanyVM>("Company");
-            //SendEntitiesToParse<CreditCard, CreditCardVM>("CreditCard");
-            //SendEntitiesToParse<LedgerAccount, LedgerAccountVM>("LedgerAccount");
-            //SendEntitiesToParse<Producer, ProducerVM>("Producer");
-            //SendEntitiesToParse<Province, ProvinceVM>("Province");
-            //SendEntitiesToParse<Use, UseVM>("Use");
-            //SendEntitiesToParse<VehicleType, VehicleTypeVM>("VehicleType");
-            //SendEntitiesToParse<Cheque, ChequeVM>("Cheques");
-            //SendEntitiesToParse<Contact, ContactVM>("Contacts");
-            //SendEntitiesToParse<Liquidation, LiquidationVM>("Liquidations");
-            ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
-            //SendEntitiesToParse<District, DistrictVM>("Districts");
-            //SendEntitiesToParse<Locality, LocalityVM>("Localities");
-            //SendEntitiesToParse<Risk, RiskVM>("Risks");
-            //SendEntitiesToParse<VehicleModel, VehicleModelVM>("VehicleModels");
-            //SendEntitiesToParse<Policy, PolicyVM>("Policies");
-            //SendEntitiesToParse<Endorse, EndorseVM>("Endorses");
-            //SendEntitiesToParse<Employee, EmployeeVM>("Employees");
-            //SendEntitiesToParse<FeeSelection, FeeSelectionVM>("FeeSelections");
-            //SendEntitiesToParse<Fee, FeeVM>("Fees");
-            //SendEntitiesToParse<Vehicle, VehicleVM>("Vehicles");
-            //SendEntitiesToParse<Accessory, AccessoryVM>("Accessories");
-            ////SendEntitiesToParse<Integral, IntegralVM>("Integrals");
-            //SendEntitiesToParse<Address, AddressVM>("Addresses");
-            //SendEntitiesToParse<CashAccount, CashAccountVM>("CashAccounts");
-            // TODO: The rest...
+            if (ParseUser.CurrentUser != null)
+            {
+                SendEntitiesToParse<Domain.AccessoryType, AccessoryTypeVM>("AccessoryType");
+                SendEntitiesToParse<Asset, AssetVM>("Asset");
+                SendEntitiesToParse<Bank, BankVM>("Bank");
+                //SendEntitiesToParse<Bodywork, BodyworkVM>("Bodywork");
+                //SendEntitiesToParse<Brand, BrandVM>("Brand");
+                //SendEntitiesToParse<CasualtyType, CasualtyTypeVM>("CasualtyType");
+                //SendEntitiesToParse<Client, ClientVM>("Client");
+                //SendEntitiesToParse<Company, CompanyVM>("Company");
+                //SendEntitiesToParse<CreditCard, CreditCardVM>("CreditCard");
+                //SendEntitiesToParse<LedgerAccount, LedgerAccountVM>("LedgerAccount");
+                //SendEntitiesToParse<Producer, ProducerVM>("Producer");
+                //SendEntitiesToParse<Province, ProvinceVM>("Province");
+                //SendEntitiesToParse<Use, UseVM>("Use");
+                //SendEntitiesToParse<VehicleType, VehicleTypeVM>("VehicleType");
+                //SendEntitiesToParse<Cheque, ChequeVM>("Cheques");
+                //SendEntitiesToParse<Contact, ContactVM>("Contacts");
+                //SendEntitiesToParse<Liquidation, LiquidationVM>("Liquidations");
+                ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
+                //SendEntitiesToParse<District, DistrictVM>("Districts");
+                //SendEntitiesToParse<Locality, LocalityVM>("Localities");
+                //SendEntitiesToParse<Risk, RiskVM>("Risks");
+                //SendEntitiesToParse<VehicleModel, VehicleModelVM>("VehicleModels");
+                //SendEntitiesToParse<Policy, PolicyVM>("Policies");
+                //SendEntitiesToParse<Endorse, EndorseVM>("Endorses");
+                //SendEntitiesToParse<Employee, EmployeeVM>("Employees");
+                //SendEntitiesToParse<FeeSelection, FeeSelectionVM>("FeeSelections");
+                //SendEntitiesToParse<Fee, FeeVM>("Fees");
+                //SendEntitiesToParse<Vehicle, VehicleVM>("Vehicles");
+                //SendEntitiesToParse<Accessory, AccessoryVM>("Accessories");
+                ////SendEntitiesToParse<Integral, IntegralVM>("Integrals");
+                //SendEntitiesToParse<Address, AddressVM>("Addresses");
+                //SendEntitiesToParse<CashAccount, CashAccountVM>("CashAccounts");
+                // TODO: The rest...
+
+            }
         }
 
         public void SendEntitiesToParse<TParseEntity, TViewModel>(
             string parseEntityName)
-            where TParseEntity : IdParseEntity
+            where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
             try
             {
-                ApiToEntities<TParseEntity, TViewModel>(parseEntityName);
-                EntitiesToApi<TParseEntity, TViewModel>(parseEntityName);
+                ApiToEntities<TParseEntity, TViewModel>(parseEntityName).Wait();
+                EntitiesToApi<TParseEntity, TViewModel>(parseEntityName).Wait();
             }
             catch (Exception ex)
             {
@@ -299,8 +312,8 @@ namespace Seggu.Service.Services
             }
         }
 
-        private void ApiToEntities<TParseEntity, TViewModel>(string parseEntityName)
-            where TParseEntity : IdParseEntity
+        private async Task ApiToEntities<TParseEntity, TViewModel>(string parseEntityName)
+            where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
             var className = typeof(TParseEntity).FullName;
@@ -310,7 +323,7 @@ namespace Seggu.Service.Services
             {
                 lastSync = new Synchronization { ClassName = className };
             }
-            this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync);
+            await this.client.GetManyEntities<TParseEntity, TViewModel>(parseEntityName, lastSync);
             if (isNew)
             {
                 context.Synchronizations.Add(lastSync);
@@ -318,15 +331,15 @@ namespace Seggu.Service.Services
             context.SaveChanges();
         }
 
-        private void EntitiesToApi<TParseEntity, TViewModel>(string parseEntityName)
+        private async Task EntitiesToApi<TParseEntity, TViewModel>(string parseEntityName)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
             var newEntities = context.Set<TParseEntity>().Where(e => e.ObjectId == null).ToList();
             var updatedEntities = context.Set<TParseEntity>().Where(e => e.ObjectId != null && e.UpdatedAt < e.LocallyUpdatedAt).ToList();
 
-            var parseCreatedEntities = this.client.CreateEntities<TParseEntity, TViewModel>(newEntities, parseEntityName);
-            var parseUpdatedEntities = this.client.UpdateEntities<TParseEntity, TViewModel>(updatedEntities, parseEntityName);
+            var parseCreatedEntities = await this.client.CreateEntities<TParseEntity, TViewModel>(newEntities, parseEntityName);
+            var parseUpdatedEntities = await this.client.UpdateEntities<TParseEntity, TViewModel>(updatedEntities, parseEntityName);
         }
 
         private void WriteEntryInnerEx(Exception ex)
@@ -338,9 +351,9 @@ namespace Seggu.Service.Services
             }
         }
 
-        public TViewModel Map<TEntity, TViewModel>(TEntity e)
-        {
-            return Mapper.Map<TEntity, TViewModel>(e);
-        }
+        //public TViewModel Map<TEntity, TViewModel>(TEntity e)
+        //{
+        //    return Mapper.Map<TEntity, TViewModel>(e);
+        //}
     }
 }
