@@ -126,7 +126,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(205, 25);
-            this.txtNombre.TabIndex = 64;
+            this.txtNombre.TabIndex = 2;
             // 
             // txtNumero
             // 
@@ -134,7 +134,7 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.ReadOnly = true;
             this.txtNumero.Size = new System.Drawing.Size(205, 25);
-            this.txtNumero.TabIndex = 63;
+            this.txtNumero.TabIndex = 1;
             this.txtNumero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumero_KeyPress);
             // 
             // label6
@@ -152,7 +152,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(484, 126);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 27);
-            this.btnAgregar.TabIndex = 71;
+            this.btnAgregar.TabIndex = 0;
             this.btnAgregar.Text = "Nuevo";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -174,7 +174,7 @@
             this.btnGuardar.Location = new System.Drawing.Point(690, 126);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 27);
-            this.btnGuardar.TabIndex = 73;
+            this.btnGuardar.TabIndex = 3;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Visible = false;
@@ -197,7 +197,7 @@
             this.btnCancelar.Location = new System.Drawing.Point(587, 126);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 27);
-            this.btnCancelar.TabIndex = 75;
+            this.btnCancelar.TabIndex = 4;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Visible = false;
@@ -209,7 +209,7 @@
             this.btnSalir.Location = new System.Drawing.Point(678, 465);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(75, 27);
-            this.btnSalir.TabIndex = 76;
+            this.btnSalir.TabIndex = 5;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);

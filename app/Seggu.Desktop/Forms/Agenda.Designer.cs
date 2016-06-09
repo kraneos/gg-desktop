@@ -60,7 +60,7 @@
             this.btnNuevo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(29, 29);
-            this.btnNuevo.TabIndex = 19;
+            this.btnNuevo.TabIndex = 8;
             this.btnNuevo.Text = "+";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Visible = false;
@@ -76,7 +76,7 @@
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(74, 29);
-            this.btnGuardar.TabIndex = 7;
+            this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Visible = false;
@@ -100,7 +100,7 @@
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.ReadOnly = true;
             this.txtNotas.Size = new System.Drawing.Size(360, 169);
-            this.txtNotas.TabIndex = 6;
+            this.txtNotas.TabIndex = 7;
             // 
             // txtMail
             // 
@@ -109,7 +109,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.ReadOnly = true;
             this.txtMail.Size = new System.Drawing.Size(360, 25);
-            this.txtMail.TabIndex = 5;
+            this.txtMail.TabIndex = 6;
             // 
             // txtTelefono
             // 
@@ -118,7 +118,7 @@
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.ReadOnly = true;
             this.txtTelefono.Size = new System.Drawing.Size(360, 25);
-            this.txtTelefono.TabIndex = 4;
+            this.txtTelefono.TabIndex = 5;
             // 
             // txtEmpresa
             // 
@@ -136,7 +136,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(180, 25);
-            this.txtNombre.TabIndex = 0;
+            this.txtNombre.TabIndex = 1;
             // 
             // txtApellido
             // 
@@ -145,7 +145,7 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.ReadOnly = true;
             this.txtApellido.Size = new System.Drawing.Size(174, 25);
-            this.txtApellido.TabIndex = 1;
+            this.txtApellido.TabIndex = 2;
             // 
             // grdContactos
             // 
@@ -170,7 +170,7 @@
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(29, 29);
-            this.btnEliminar.TabIndex = 21;
+            this.btnEliminar.TabIndex = 9;
             this.btnEliminar.Text = "-";
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Visible = false;
@@ -191,7 +191,7 @@
             this.chkCompany.Location = new System.Drawing.Point(610, 134);
             this.chkCompany.Name = "chkCompany";
             this.chkCompany.Size = new System.Drawing.Size(179, 23);
-            this.chkCompany.TabIndex = 2;
+            this.chkCompany.TabIndex = 4;
             this.chkCompany.Text = "Es Compañía de Seguros";
             this.chkCompany.UseVisualStyleBackColor = true;
             this.chkCompany.Visible = false;
@@ -203,7 +203,7 @@
             this.btnEditar.Location = new System.Drawing.Point(131, 16);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(75, 29);
-            this.btnEditar.TabIndex = 24;
+            this.btnEditar.TabIndex = 1;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);

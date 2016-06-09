@@ -107,7 +107,7 @@
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(10);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(271, 25);
-            this.txtDescripcion.TabIndex = 14;
+            this.txtDescripcion.TabIndex = 4;
             this.txtDescripcion.Text = "Descripción";
             this.txtDescripcion.Click += new System.EventHandler(this.txtDescripcion_Click);
             // 
@@ -143,7 +143,7 @@
             this.dtpFechaTransaccion.Margin = new System.Windows.Forms.Padding(10);
             this.dtpFechaTransaccion.Name = "dtpFechaTransaccion";
             this.dtpFechaTransaccion.Size = new System.Drawing.Size(271, 25);
-            this.dtpFechaTransaccion.TabIndex = 11;
+            this.dtpFechaTransaccion.TabIndex = 1;
             // 
             // cmbActivos
             // 
@@ -162,7 +162,7 @@
             this.txtCuentas.Margin = new System.Windows.Forms.Padding(10);
             this.txtCuentas.Name = "txtCuentas";
             this.txtCuentas.Size = new System.Drawing.Size(238, 25);
-            this.txtCuentas.TabIndex = 19;
+            this.txtCuentas.TabIndex = 3;
             this.txtCuentas.Text = "Nueva Cuenta Contable";
             this.txtCuentas.Visible = false;
             this.txtCuentas.Click += new System.EventHandler(this.txtCuentas_Click);
@@ -201,7 +201,7 @@
             this.txtActivos.Margin = new System.Windows.Forms.Padding(10);
             this.txtActivos.Name = "txtActivos";
             this.txtActivos.Size = new System.Drawing.Size(238, 25);
-            this.txtActivos.TabIndex = 21;
+            this.txtActivos.TabIndex = 2;
             this.txtActivos.Text = "Nuevo Activo";
             this.txtActivos.Visible = false;
             this.txtActivos.Click += new System.EventHandler(this.txtActivos_Click);
@@ -225,7 +225,7 @@
             this.cmbCobrador.Location = new System.Drawing.Point(1211, 51);
             this.cmbCobrador.Name = "cmbCobrador";
             this.cmbCobrador.Size = new System.Drawing.Size(271, 25);
-            this.cmbCobrador.TabIndex = 25;
+            this.cmbCobrador.TabIndex = 0;
             this.cmbCobrador.Text = "Cobrador";
             // 
             // errorProvider1
@@ -255,7 +255,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1503, 633);
+            this.ClientSize = new System.Drawing.Size(1370, 633);
             this.Controls.Add(this.lblBalance);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbCobrador);

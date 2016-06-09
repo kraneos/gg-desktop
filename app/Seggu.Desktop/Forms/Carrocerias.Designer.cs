@@ -44,7 +44,7 @@
             this.btnEliminar.Location = new System.Drawing.Point(256, 496);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 27);
-            this.btnEliminar.TabIndex = 89;
+            this.btnEliminar.TabIndex = 4;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
@@ -55,7 +55,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(358, 496);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 27);
-            this.btnAgregar.TabIndex = 88;
+            this.btnAgregar.TabIndex = 2;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -83,7 +83,7 @@
             this.bodyWorkGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.bodyWorkGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.bodyWorkGrid.Size = new System.Drawing.Size(421, 449);
-            this.bodyWorkGrid.TabIndex = 86;
+            this.bodyWorkGrid.TabIndex = 3;
             // 
             // label1
             // 
@@ -110,7 +110,7 @@
             this.txtNombre.Location = new System.Drawing.Point(563, 38);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(205, 20);
-            this.txtNombre.TabIndex = 83;
+            this.txtNombre.TabIndex = 1;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // Carrocerias
