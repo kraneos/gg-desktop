@@ -55,12 +55,12 @@ namespace Seggu.Desktop.Forms
         {
             var table = new DataTable();
             table.Columns.Add("Id");
-            table.Columns.Add("Activo");
-            table.Columns.Add("Cuenta");
             table.Columns.Add("Fecha", typeof(DateTime));
+            table.Columns.Add("Activo");
+            table.Columns.Add("Balance", typeof(decimal));
+            table.Columns.Add("Cuenta");
             table.Columns.Add("Descripción");
             table.Columns.Add("Valor", typeof(decimal));
-            table.Columns.Add("Balance", typeof(decimal));
 
             var index = cashAccountService.GetAll();
 
@@ -77,20 +77,26 @@ namespace Seggu.Desktop.Forms
                 table.Rows.Add(row);
             }
             grdControlCaja.DataSource = table;
-            grdControlCaja.Columns["Cuenta"].Width = 90;
-            grdControlCaja.Columns["Fecha"].Width = 120;
-            grdControlCaja.Columns["Descripción"].Width = 250;
-            grdControlCaja.Columns["Valor"].Width = 90;
-            grdControlCaja.Columns["Balance"].Width = 90;
-            grdControlCaja.Columns["Id"].Visible = false;
-            grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
-            grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
+            FormatGrid();
 
             //txtDescripcion.DataBindings.Add("text", index, "Descripción");
             //txtValor.DataBindings.Add("text", index, "Valor");
             //cmbActivos.DataBindings.Add("text", index, "Activo");
             grdControlCaja.Select();
         }
+
+        private void FormatGrid()
+        {
+            grdControlCaja.Columns["Cuenta"].Width = 55;
+            grdControlCaja.Columns["Fecha"].Width = 100;
+            grdControlCaja.Columns["Descripción"].Width = 120;
+            grdControlCaja.Columns["Valor"].Width = 45;
+            grdControlCaja.Columns["Balance"].Width = 70;
+            grdControlCaja.Columns["Id"].Visible = false;
+            grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
+        }
+
         private void InitializeTextCtrls()
         {
             txtValor.Text = "Valor";
