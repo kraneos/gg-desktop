@@ -87,9 +87,9 @@ namespace Seggu.Desktop.Forms
 
         private void FormatGrid()
         {
-            grdControlCaja.Columns["Cuenta"].Width = 55;
-            grdControlCaja.Columns["Fecha"].Width = 100;
-            grdControlCaja.Columns["Descripción"].Width = 120;
+            grdControlCaja.Columns["Cuenta"].Width = 50;
+            grdControlCaja.Columns["Fecha"].Width = 80;
+            grdControlCaja.Columns["Descripción"].Width = 100;
             grdControlCaja.Columns["Valor"].Width = 45;
             grdControlCaja.Columns["Balance"].Width = 70;
             grdControlCaja.Columns["Id"].Visible = false;
@@ -125,6 +125,7 @@ namespace Seggu.Desktop.Forms
         private void ToggleEditModeOff()
         {
             ShowAssetBalance();
+            label2.Visible = true;
             txtCuentas.Visible = false;
             txtActivos.Visible = false;
             btnActivos.Visible = false;
@@ -141,6 +142,7 @@ namespace Seggu.Desktop.Forms
         private void ToggleEditModeOn()
         {
             lblBalance.Text = "";
+            label2.Visible = false;
             btnCuentas.Visible = true;
             txtCuentas.Visible = true;
             txtActivos.Visible = true;
