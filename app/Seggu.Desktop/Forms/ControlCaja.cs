@@ -32,15 +32,22 @@ namespace Seggu.Desktop.Forms
 
         private void ControlCaja_Load(object sender, EventArgs e)
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             InitializeComboboxes();
             InitializeIndex();
             InitializeTextCtrls();
         }
+
         private void InitializeComboboxes()
         {
             cmbActivos.DataSource = assetService.GetAll().ToList();
             cmbActivos.ValueMember = "Id";
             cmbActivos.DisplayMember = "Name";
+            cmbActivos.SelectedIndex = -1;
 
             cmbCuentasContables.DataSource = ledgerAccountService.GetAll().ToList();
             cmbCuentasContables.ValueMember = "Id";
@@ -84,19 +91,17 @@ namespace Seggu.Desktop.Forms
             //cmbActivos.DataBindings.Add("text", index, "Activo");
             grdControlCaja.Select();
         }
-
         private void FormatGrid()
         {
             grdControlCaja.Columns["Cuenta"].Width = 55;
             grdControlCaja.Columns["Fecha"].Width = 100;
-            grdControlCaja.Columns["Descripción"].Width = 120;
+            grdControlCaja.Columns["Descripción"].Width = 100;
             grdControlCaja.Columns["Valor"].Width = 45;
             grdControlCaja.Columns["Balance"].Width = 70;
             grdControlCaja.Columns["Id"].Visible = false;
             grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
             grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
         }
-
         private void InitializeTextCtrls()
         {
             txtValor.Text = "Valor";
@@ -129,6 +134,7 @@ namespace Seggu.Desktop.Forms
             txtActivos.Visible = false;
             btnActivos.Visible = false;
             btnCuentas.Visible = false;
+            label2.Visible = true;
             cmbActivos.Visible = true;
             cmbCuentasContables.Visible = true;
             btnGuardar.Visible = true;
@@ -145,6 +151,7 @@ namespace Seggu.Desktop.Forms
             txtCuentas.Visible = true;
             txtActivos.Visible = true;
             btnActivos.Visible = true;
+            label2.Visible = false;
             cmbActivos.Visible = false;
             cmbCuentasContables.Visible = false;
             btnGuardar.Visible = false;
@@ -196,11 +203,11 @@ namespace Seggu.Desktop.Forms
                     obj.Name = txtActivos.Text.Trim();
                     obj.Amount = num;
                     assetService.Create(obj);
-                    cmbActivos.DataSource = null;
                     txtValor.Text = "Valor";
                     txtActivos.Text = "Nuevo Activo";
-                    btnEditar.PerformClick();
+                    cmbActivos.DataSource = null;
                     InitializeComboboxes();
+                    btnEditar.PerformClick();
                     errorProvider1.Clear();
                 }
                 else
@@ -215,11 +222,10 @@ namespace Seggu.Desktop.Forms
                 LedgerAccountDto obj = new LedgerAccountDto();
                 obj.Name = txtCuentas.Text.Trim();
                 ledgerAccountService.Create(obj);
-                cmbCuentasContables.DataSource = null;
                 txtCuentas.Text = "Nueva Cuenta Contable";
-                btnEditar.PerformClick();
-                btnEditar.PerformClick();
+                cmbCuentasContables.DataSource = null;
                 InitializeComboboxes();
+                btnEditar.PerformClick();
             }
         }
 
@@ -295,6 +301,7 @@ namespace Seggu.Desktop.Forms
 
         private void cmbAccion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            errorProvider1.Clear();
             switch (cmbAccion.Text)
             {
                 case "Pago":
@@ -321,26 +328,51 @@ namespace Seggu.Desktop.Forms
         }
         private void SetTransferCtrls()
         {
+            if (cmbActivos.Text == "Activos")
+            {
+                errorProvider1.SetError(cmbActivos, "selecciona un Activo de Origen para la transferencia");
+                return;
+            }
             firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
             txtDescripcion.Text = "Transferencia";
             txtDescripcion.Enabled = false;
             dtpFechaTransaccion.Enabled = false;
             cmbCobrador.Enabled = false;
             cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Transferencia");
+            cmbCuentasContables.Text = "  ";
             cmbCuentasContables.Enabled = false;
             btnGuardar.Enabled = false;
         }
 
         private void cmbActivos_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            btnGuardar.Enabled = true;
             ShowAssetBalance();
+            if (IsValid())
+            {
+                btnGuardar.Enabled = true;
+            }
+            else
+            {
+                firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
+                //var obj = cmbActivos.SelectedItem;
+                Initialize();
+                cmbActivos.SelectedIndex = cmbActivos.FindString(firstSelectedAsset.Name);
+                cmbAccion.SelectedIndex = cmbAccion.FindString("Transferencia");
+                btnGuardar.Enabled = false;
+            }
         }
 
         private void ShowAssetBalance()
         {
             var currentAsset = (AssetDto)cmbActivos.SelectedItem;
             lblBalance.Text = currentAsset.Amount.ToString();
+        }
+        bool IsValid()
+        {
+            foreach (Control c in errorProvider1.ContainerControl.Controls)
+                if (errorProvider1.GetError(c) != "")
+                    return false;
+            return true;
         }
     }
 }
