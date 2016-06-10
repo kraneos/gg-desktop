@@ -94,11 +94,12 @@ namespace Seggu.Desktop.Forms
         }
         private void FormatGrid()
         {
-            grdControlCaja.Columns["Cuenta"].Width = 55;
-            grdControlCaja.Columns["Fecha"].Width = 100;
+            grdControlCaja.Columns["Fecha"].Width = 55;
+            grdControlCaja.Columns["Activo"].Width = 80;
+            grdControlCaja.Columns["Balance"].Width = 40;
+            grdControlCaja.Columns["Cuenta"].Width = 45;
             grdControlCaja.Columns["Descripción"].Width = 100;
-            grdControlCaja.Columns["Valor"].Width = 45;
-            grdControlCaja.Columns["Balance"].Width = 70;
+            grdControlCaja.Columns["Valor"].Width = 75;
             grdControlCaja.Columns["Id"].Visible = false;
             grdControlCaja.Columns["Valor"].DefaultCellStyle.Format = "c2";
             grdControlCaja.Columns["Balance"].DefaultCellStyle.Format = "c2";
@@ -115,6 +116,11 @@ namespace Seggu.Desktop.Forms
             cmbCobrador.Enabled = true;
             cmbActivos.Text = "Activos";
             cmbAccion.Text = "Acción";
+            lblBalance.Text = "";
+            lblDestinyBalance.Text = "";
+            lblOriginBalance.Text = "";
+            //cmbDestinyAsset.SelectedIndex = 0;
+            //cmbOriginAsset.SelectedIndex = 0;
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -130,7 +136,7 @@ namespace Seggu.Desktop.Forms
         }
         private void ToggleEditModeOff()
         {
-            ShowAssetBalance();
+            //ShowAssetBalance();
             txtCuentas.Visible = false;
             txtActivos.Visible = false;
             btnActivos.Visible = false;
@@ -147,6 +153,7 @@ namespace Seggu.Desktop.Forms
         }
         private void ToggleEditModeOn()
         {
+            grbTransfer.Visible = false;
             lblBalance.Text = "";
             btnCuentas.Visible = true;
             txtCuentas.Visible = true;
@@ -251,7 +258,8 @@ namespace Seggu.Desktop.Forms
                     && txtValor.Text.Trim() != "Valor" && txtValor.Text.Trim() != "")
                 {
                     SaveTransaction(accion, valor);
-                    InitializeIndex();
+                    Initialize();
+                    
                 }
                 else
                     errorProvider1.SetError(txtValor, "Verifique que todos los campos tengan el dato correcto");
@@ -352,13 +360,10 @@ namespace Seggu.Desktop.Forms
 
         private void cmbActivos_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ShowAssetBalance();
-        }
-        private void ShowAssetBalance()
-        {
             selectedAsset = (AssetDto)cmbActivos.SelectedItem;
             lblBalance.Text = selectedAsset.Amount.ToString();
-        } 
+
+        }
         private void cmbDestinyAsset_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedAsset = (AssetDto)cmbDestinyAsset.SelectedItem;
@@ -368,7 +373,6 @@ namespace Seggu.Desktop.Forms
         {
             firstSelectedAsset = (AssetDto)cmbOriginAsset.SelectedItem;
             lblOriginBalance.Text = firstSelectedAsset.Amount.ToString();
-
         }
 
         private void btnSaveTransfer_Click(object sender, EventArgs e)
@@ -379,7 +383,7 @@ namespace Seggu.Desktop.Forms
             if (isNume)
             {
                 SaveTransaction("Transferencia", valor);
-                InitializeIndex();
+                Initialize();
             }
         }
 
