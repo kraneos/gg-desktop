@@ -18,6 +18,7 @@ namespace Seggu.Desktop.Forms
         private ICashAccountService cashAccountService;
         private IProducerService producerService;
         private AssetDto firstSelectedAsset;
+        private AssetDto selectedAsset;
         public ControlCaja(IAssetService assetService
             , ILedgerAccountService ledgerAccountService
             , ICashAccountService cashAccountService
@@ -104,6 +105,7 @@ namespace Seggu.Desktop.Forms
         }
         private void InitializeTextCtrls()
         {
+            grbTransfer.Visible = false;
             txtValor.Text = "Valor";
             txtDescripcion.Text = "Descripción";
             txtDescripcion.Enabled = true;
@@ -111,7 +113,6 @@ namespace Seggu.Desktop.Forms
             cmbCuentasContables.Text = "Cuentas Contables";
             cmbCuentasContables.Enabled = true;
             cmbCobrador.Enabled = true;
-            //cmbCobrador.SelectedIndex = cmbCobrador.FindString("OF");
             cmbActivos.Text = "Activos";
             cmbAccion.Text = "Acción";
         }
@@ -254,16 +255,15 @@ namespace Seggu.Desktop.Forms
         }
         private void SaveTransaction(string accion, decimal valor)
         {
-            AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
             decimal AssetTotal = selectedAsset.Amount;
 
-            CashAccountDto obj = new CashAccountDto();
-            obj.Amount = valor;
-            obj.AssetId = (int)cmbActivos.SelectedValue;
-            obj.Date = dtpFechaTransaccion.Value;
-            obj.LedgerAccountId = (int)cmbCuentasContables.SelectedValue;
-            obj.Description = txtDescripcion.Text.Trim();
-            obj.ProducerId = (int)cmbCobrador.SelectedValue;
+            CashAccountDto cashAccount = new CashAccountDto();
+            cashAccount.Amount = valor;
+            cashAccount.AssetId = selectedAsset.Id;
+            cashAccount.Date = dtpFechaTransaccion.Value;
+            cashAccount.LedgerAccountId = (int)cmbCuentasContables.SelectedValue;
+            cashAccount.Description = txtDescripcion.Text.Trim();
+            cashAccount.ProducerId = (int)cmbCobrador.SelectedValue;
             // ver que accion y determinar si suma resta o ajusta
             switch (accion)
             {
@@ -273,30 +273,30 @@ namespace Seggu.Desktop.Forms
                     break;
                 case "Ajuste": selectedAsset.Amount = valor;
                     break;
-                case "Transferencia": CreateSecondCashaccountForTransfer(valor, selectedAsset, obj);
+                case "Transferencia": CreateSecondCashaccountForTransfer(valor, selectedAsset, cashAccount);
                     break;
             }
             assetService.Update(selectedAsset);
-            obj.Balance = selectedAsset.Amount;
-            this.cashAccountService.Save(obj);
+            cashAccount.Balance = selectedAsset.Amount;
+            this.cashAccountService.Save(cashAccount);
         }
-        private void CreateSecondCashaccountForTransfer(decimal valor, AssetDto selectedAsset, CashAccountDto obj)
+        private void CreateSecondCashaccountForTransfer(decimal valor, AssetDto selectedAsset, CashAccountDto cashAccount1)
         {
-            CashAccountDto cashAcc1 = new CashAccountDto();
-            cashAcc1.Amount = valor;
-            cashAcc1.AssetId = firstSelectedAsset.Id;
-            cashAcc1.Date = obj.Date;
-            cashAcc1.LedgerAccountId = obj.LedgerAccountId;
-            cashAcc1.Description = firstSelectedAsset.Name + "/" + selectedAsset.Name;
-            cashAcc1.ProducerId = obj.ProducerId;
-            obj.Description = cashAcc1.Description;
+            CashAccountDto cashAccount2 = new CashAccountDto();
+            cashAccount2.Amount = valor;
+            cashAccount2.AssetId = firstSelectedAsset.Id;
+            cashAccount2.Date = cashAccount1.Date;
+            cashAccount2.LedgerAccountId = cashAccount1.LedgerAccountId;
+            cashAccount2.Description = firstSelectedAsset.Name + "/" + selectedAsset.Name;
+            cashAccount2.ProducerId = cashAccount1.ProducerId;
+            cashAccount1.Description = cashAccount2.Description;
 
             selectedAsset.Amount += valor;
             firstSelectedAsset.Amount -= valor;
             assetService.Update(firstSelectedAsset);
 
-            cashAcc1.Balance = firstSelectedAsset.Amount;
-            cashAccountService.Save(cashAcc1);
+            cashAccount2.Balance = firstSelectedAsset.Amount;
+            cashAccountService.Save(cashAccount2);
         }
 
         private void cmbAccion_SelectedIndexChanged(object sender, EventArgs e)
@@ -320,6 +320,7 @@ namespace Seggu.Desktop.Forms
         }
         private void SetAdjustCtrls()
         {
+            grbTransfer.Visible = false;
             txtDescripcion.Text = "Ajuste";
             txtDescripcion.Enabled = false;
             cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Ajuste");
@@ -328,51 +329,60 @@ namespace Seggu.Desktop.Forms
         }
         private void SetTransferCtrls()
         {
-            if (cmbActivos.Text == "Activos")
-            {
-                errorProvider1.SetError(cmbActivos, "selecciona un Activo de Origen para la transferencia");
-                return;
-            }
-            firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
+            grbTransfer.Visible =  true;
+
+            cmbOriginAsset.DataSource = assetService.GetAll().ToList();
+            cmbOriginAsset.ValueMember = "Id";
+            cmbOriginAsset.DisplayMember = "Name";
+
+            cmbDestinyAsset.DataSource = assetService.GetAll().ToList();
+            cmbDestinyAsset.ValueMember = "Id";
+            cmbDestinyAsset.DisplayMember = "Name";
+
             txtDescripcion.Text = "Transferencia";
-            txtDescripcion.Enabled = false;
             dtpFechaTransaccion.Enabled = false;
-            cmbCobrador.Enabled = false;
             cmbCuentasContables.SelectedIndex = cmbCuentasContables.FindString("Transferencia");
-            cmbCuentasContables.Text = "  ";
-            cmbCuentasContables.Enabled = false;
-            btnGuardar.Enabled = false;
         }
 
         private void cmbActivos_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ShowAssetBalance();
-            if (IsValid())
+        }
+        private void ShowAssetBalance()
+        {
+            selectedAsset = (AssetDto)cmbActivos.SelectedItem;
+            lblBalance.Text = selectedAsset.Amount.ToString();
+        } 
+        private void cmbDestinyAsset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedAsset = (AssetDto)cmbDestinyAsset.SelectedItem;
+            lblDestinyBalance.Text = selectedAsset.Amount.ToString();
+        }
+
+        private void btnSaveTransfer_Click(object sender, EventArgs e)
+        {
+            string num = txtTransferValue.Text;
+            decimal valor;
+            bool isNume = decimal.TryParse(num, out valor);
+            if (isNume)
             {
-                btnGuardar.Enabled = true;
-            }
-            else
-            {
-                firstSelectedAsset = (AssetDto)cmbActivos.SelectedItem;
-                //var obj = cmbActivos.SelectedItem;
-                Initialize();
-                cmbActivos.SelectedIndex = cmbActivos.FindString(firstSelectedAsset.Name);
-                cmbAccion.SelectedIndex = cmbAccion.FindString("Transferencia");
-                btnGuardar.Enabled = false;
+                SaveTransaction("Transferencia", valor);
+
             }
         }
 
-        private void ShowAssetBalance()
+        private void cmbOriginAsset_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var currentAsset = (AssetDto)cmbActivos.SelectedItem;
-            lblBalance.Text = currentAsset.Amount.ToString();
+            firstSelectedAsset = (AssetDto)cmbOriginAsset.SelectedItem;
+            lblOriginBalance.Text = firstSelectedAsset.Amount.ToString();
+
         }
-        bool IsValid()
-        {
-            foreach (Control c in errorProvider1.ContainerControl.Controls)
-                if (errorProvider1.GetError(c) != "")
-                    return false;
-            return true;
-        }
+        //bool IsValid()
+        //{
+        //    foreach (Control c in errorProvider1.ContainerControl.Controls)
+        //        if (errorProvider1.GetError(c) != "")
+        //            return false;
+        //    return true;
+        //}
     }
 }

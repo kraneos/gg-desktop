@@ -49,15 +49,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblBalance = new System.Windows.Forms.Label();
             this.grbTransfer = new System.Windows.Forms.GroupBox();
+            this.lblDestinyBalance = new System.Windows.Forms.Label();
+            this.lblOriginBalance = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label = new System.Windows.Forms.Label();
             this.btnSaveTransfer = new System.Windows.Forms.Button();
             this.txtTransferValue = new System.Windows.Forms.TextBox();
             this.cmbDestinyAsset = new System.Windows.Forms.ComboBox();
             this.cmbOriginAsset = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblOriginBalance = new System.Windows.Forms.Label();
-            this.lblDestinyBalance = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grdControlCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.grbTransfer.SuspendLayout();
@@ -277,6 +277,32 @@
             this.grbTransfer.TabIndex = 28;
             this.grbTransfer.TabStop = false;
             this.grbTransfer.Text = "Transferencia";
+            this.grbTransfer.Visible = false;
+            // 
+            // lblDestinyBalance
+            // 
+            this.lblDestinyBalance.AutoSize = true;
+            this.lblDestinyBalance.Location = new System.Drawing.Point(164, 138);
+            this.lblDestinyBalance.Name = "lblDestinyBalance";
+            this.lblDestinyBalance.Size = new System.Drawing.Size(0, 23);
+            this.lblDestinyBalance.TabIndex = 32;
+            // 
+            // lblOriginBalance
+            // 
+            this.lblOriginBalance.AutoSize = true;
+            this.lblOriginBalance.Location = new System.Drawing.Point(158, 60);
+            this.lblOriginBalance.Name = "lblOriginBalance";
+            this.lblOriginBalance.Size = new System.Drawing.Size(0, 23);
+            this.lblOriginBalance.TabIndex = 31;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 138);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(138, 23);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "Destino Saldo:  $";
             // 
             // label3
             // 
@@ -306,6 +332,7 @@
             this.btnSaveTransfer.TabIndex = 18;
             this.btnSaveTransfer.Text = "Guardar";
             this.btnSaveTransfer.UseVisualStyleBackColor = true;
+            this.btnSaveTransfer.Click += new System.EventHandler(this.btnSaveTransfer_Click);
             // 
             // txtTransferValue
             // 
@@ -323,6 +350,7 @@
             this.cmbDestinyAsset.Name = "cmbDestinyAsset";
             this.cmbDestinyAsset.Size = new System.Drawing.Size(258, 29);
             this.cmbDestinyAsset.TabIndex = 1;
+            this.cmbDestinyAsset.SelectedIndexChanged += new System.EventHandler(this.cmbDestinyAsset_SelectedIndexChanged);
             // 
             // cmbOriginAsset
             // 
@@ -331,31 +359,7 @@
             this.cmbOriginAsset.Name = "cmbOriginAsset";
             this.cmbOriginAsset.Size = new System.Drawing.Size(257, 29);
             this.cmbOriginAsset.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 138);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(138, 23);
-            this.label4.TabIndex = 30;
-            this.label4.Text = "Destino Saldo:  $";
-            // 
-            // lblOriginBalance
-            // 
-            this.lblOriginBalance.AutoSize = true;
-            this.lblOriginBalance.Location = new System.Drawing.Point(158, 60);
-            this.lblOriginBalance.Name = "lblOriginBalance";
-            this.lblOriginBalance.Size = new System.Drawing.Size(0, 23);
-            this.lblOriginBalance.TabIndex = 31;
-            // 
-            // lblDestinyBalance
-            // 
-            this.lblDestinyBalance.AutoSize = true;
-            this.lblDestinyBalance.Location = new System.Drawing.Point(164, 138);
-            this.lblDestinyBalance.Name = "lblDestinyBalance";
-            this.lblDestinyBalance.Size = new System.Drawing.Size(0, 23);
-            this.lblDestinyBalance.TabIndex = 32;
+            this.cmbOriginAsset.SelectedIndexChanged += new System.EventHandler(this.cmbOriginAsset_SelectedIndexChanged);
             // 
             // ControlCaja
             // 
