@@ -342,6 +342,7 @@
             this.txtTransferValue.Size = new System.Drawing.Size(135, 29);
             this.txtTransferValue.TabIndex = 17;
             this.txtTransferValue.Text = "Valor";
+            this.txtTransferValue.Click += new System.EventHandler(this.txtTransferValue_Click);
             // 
             // cmbDestinyAsset
             // 

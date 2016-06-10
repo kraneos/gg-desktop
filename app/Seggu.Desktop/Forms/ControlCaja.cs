@@ -190,6 +190,12 @@ namespace Seggu.Desktop.Forms
             txtValor.SelectionStart = 0;
             txtValor.SelectionLength = txtValor.Text.Length;
         }
+        private void txtTransferValue_Click(object sender, EventArgs e)
+        {
+            txtTransferValue.SelectionStart = 0;
+            txtTransferValue.SelectionLength = txtTransferValue.Text.Length;
+        }
+
         private void btnActivos_Click(object sender, EventArgs e)
         {
             string str = txtValor.Text;
@@ -358,6 +364,12 @@ namespace Seggu.Desktop.Forms
             selectedAsset = (AssetDto)cmbDestinyAsset.SelectedItem;
             lblDestinyBalance.Text = selectedAsset.Amount.ToString();
         }
+        private void cmbOriginAsset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            firstSelectedAsset = (AssetDto)cmbOriginAsset.SelectedItem;
+            lblOriginBalance.Text = firstSelectedAsset.Amount.ToString();
+
+        }
 
         private void btnSaveTransfer_Click(object sender, EventArgs e)
         {
@@ -367,16 +379,10 @@ namespace Seggu.Desktop.Forms
             if (isNume)
             {
                 SaveTransaction("Transferencia", valor);
-
+                InitializeIndex();
             }
         }
 
-        private void cmbOriginAsset_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            firstSelectedAsset = (AssetDto)cmbOriginAsset.SelectedItem;
-            lblOriginBalance.Text = firstSelectedAsset.Amount.ToString();
-
-        }
         //bool IsValid()
         //{
         //    foreach (Control c in errorProvider1.ContainerControl.Controls)
