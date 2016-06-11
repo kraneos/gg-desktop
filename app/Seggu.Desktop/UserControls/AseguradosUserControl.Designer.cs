@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlAseguradosControl = new System.Windows.Forms.TabControl();
             this.tabPageListado = new System.Windows.Forms.TabPage();
             this.clientGrid = new System.Windows.Forms.DataGridView();
@@ -151,8 +151,8 @@
             this.clientGrid.AllowUserToOrderColumns = true;
             this.clientGrid.AllowUserToResizeColumns = false;
             this.clientGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.SkyBlue;
-            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.SkyBlue;
+            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
             this.clientGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.clientGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.clientGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,8 +162,8 @@
             this.clientGrid.RowHeadersVisible = false;
             this.clientGrid.RowHeadersWidth = 13;
             this.clientGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.AliceBlue;
-            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.AliceBlue;
+            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.clientGrid.RowTemplate.Height = 21;
             this.clientGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.clientGrid.Size = new System.Drawing.Size(986, 584);
@@ -630,6 +630,7 @@
             this.txtHomeNumber.Name = "txtHomeNumber";
             this.txtHomeNumber.Size = new System.Drawing.Size(65, 25);
             this.txtHomeNumber.TabIndex = 1;
+            this.txtHomeNumber.ValueChanged += new System.EventHandler(this.txtHomeNumber_ValueChanged);
             // 
             // cmbProvince
             // 
@@ -642,6 +643,7 @@
             this.cmbProvince.Size = new System.Drawing.Size(203, 25);
             this.cmbProvince.TabIndex = 6;
             this.cmbProvince.SelectionChangeCommitted += new System.EventHandler(this.cmbProvince_SelectionChangeCommitted);
+            this.cmbProvince.SelectedValueChanged += new System.EventHandler(this.cmbProvince_SelectedValueChanged);
             // 
             // cmbLocality
             // 
@@ -654,6 +656,7 @@
             this.cmbLocality.TabIndex = 8;
             this.cmbLocality.ValueMember = "Id";
             this.cmbLocality.SelectionChangeCommitted += new System.EventHandler(this.cmbLocality_SelectionChangeCommitted);
+            this.cmbLocality.SelectedValueChanged += new System.EventHandler(this.cmbLocality_SelectedValueChanged);
             // 
             // label17
             // 
@@ -670,6 +673,7 @@
             this.txtHomePhone.Name = "txtHomePhone";
             this.txtHomePhone.Size = new System.Drawing.Size(203, 25);
             this.txtHomePhone.TabIndex = 5;
+            this.txtHomePhone.TextChanged += new System.EventHandler(this.txtHomePhone_TextChanged);
             // 
             // label10
             // 
@@ -712,6 +716,7 @@
             this.txtHomeAppart.Name = "txtHomeAppart";
             this.txtHomeAppart.Size = new System.Drawing.Size(65, 25);
             this.txtHomeAppart.TabIndex = 3;
+            this.txtHomeAppart.TextChanged += new System.EventHandler(this.txtHomeAppart_TextChanged);
             // 
             // txtHomePostal
             // 
@@ -719,6 +724,7 @@
             this.txtHomePostal.Name = "txtHomePostal";
             this.txtHomePostal.Size = new System.Drawing.Size(49, 25);
             this.txtHomePostal.TabIndex = 4;
+            this.txtHomePostal.TextChanged += new System.EventHandler(this.txtHomePostal_TextChanged);
             // 
             // txtHomeFloor
             // 
@@ -726,6 +732,7 @@
             this.txtHomeFloor.Name = "txtHomeFloor";
             this.txtHomeFloor.Size = new System.Drawing.Size(49, 25);
             this.txtHomeFloor.TabIndex = 2;
+            this.txtHomeFloor.TextChanged += new System.EventHandler(this.txtHomeFloor_TextChanged);
             // 
             // label4
             // 
@@ -756,6 +763,7 @@
             this.cmbDistrict.TabIndex = 7;
             this.cmbDistrict.ValueMember = "Id";
             this.cmbDistrict.SelectionChangeCommitted += new System.EventHandler(this.cmbDistrict_SelectionChangeCommitted);
+            this.cmbDistrict.SelectedValueChanged += new System.EventHandler(this.cmbDistrict_SelectedValueChanged);
             // 
             // label7
             // 
