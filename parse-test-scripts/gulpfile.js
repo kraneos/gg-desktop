@@ -28,6 +28,6 @@ gulp.task('login', function () {
 });
 
 gulp.task('create-provinces', function () {
-	dataMig('http://seggu-api-test.herokuapp.com/parse/', 'seggu-api', 'SegguMasterKey')
-		.createProvinces('./data/provinces.json');
+	// dataMig('http://seggu-api-test.herokuapp.com/parse/', 'seggu-api', 'SegguMasterKey')
+	// 	.createProvinces('./data/provinces.json');
 });

@@ -9,7 +9,8 @@ module.exports = function (serverUrl, appId, masterKey) {
     return {
         createProvinces: createProvinces,
         createDistricts: createDistricts,
-        createLocalities: createLocalities
+        createLocalities: createLocalities,
+        createBanks: createBanks
     };
 };
 
@@ -111,6 +112,40 @@ function createDistricts(provFile, distFile) {
     });
 }
 
+function createBanks(jsonFile) {
+        readFile(jsonFile, function (banks) {
+        var parseBanks = banks.map(function (b) {
+            var parseBank = new Parse.Object('Bank');
+            parseBank.set('name', '' + b.Name);
+            parseBank.set('number', '' + b.Number);
+            var acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(false);
+            parseBank.setACL(acl);
+            return parseBank;
+        });
+
+        Parse.Object.saveAll(parseBanks, {
+            success: function (savedBanks) {
+                var newBanks = [];
+                savedBanks.forEach(function (b, i) {
+                    var prevBank = banks[i];
+                    newBanks.push({
+                        Id: prevBank.Id,
+                        Name: prevBank.Name,
+                        Number: prevBank.Number,
+                        ObjectId: b.id,
+                        CreatedAt: b.createdAt,
+                        UpdatedAt: b.createdAt,
+                        LocallyUpdatedAt: b.createdAt
+                    });
+                });
+                writeFileAsNew(jsonFile, newBanks);
+            },
+            error: console.log
+        });
+    });
+}
 function readFile(fileName, callback) {
     fs.readFile(fileName, 'utf8', function (err, data) {
         if (err) {
