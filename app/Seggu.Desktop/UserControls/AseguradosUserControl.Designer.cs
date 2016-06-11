@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlAseguradosControl = new System.Windows.Forms.TabControl();
             this.tabPageListado = new System.Windows.Forms.TabPage();
             this.clientGrid = new System.Windows.Forms.DataGridView();
@@ -151,8 +151,8 @@
             this.clientGrid.AllowUserToOrderColumns = true;
             this.clientGrid.AllowUserToResizeColumns = false;
             this.clientGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.SkyBlue;
-            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.SkyBlue;
+            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
             this.clientGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.clientGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.clientGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,8 +162,8 @@
             this.clientGrid.RowHeadersVisible = false;
             this.clientGrid.RowHeadersWidth = 13;
             this.clientGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.AliceBlue;
-            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.AliceBlue;
+            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle16;
             this.clientGrid.RowTemplate.Height = 21;
             this.clientGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.clientGrid.Size = new System.Drawing.Size(986, 584);
@@ -241,7 +241,7 @@
             this.groupBox1.Location = new System.Drawing.Point(356, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(298, 339);
-            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de Cobranza";
             // 
@@ -299,7 +299,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 151);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(36, 17);
+            this.label13.Size = new System.Drawing.Size(35, 17);
             this.label13.TabIndex = 78;
             this.label13.Text = "Telef";
             // 
@@ -429,7 +429,7 @@
             this.txtNotas.Multiline = true;
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.Size = new System.Drawing.Size(561, 129);
-            this.txtNotas.TabIndex = 18;
+            this.txtNotas.TabIndex = 17;
             // 
             // label42
             // 
@@ -447,7 +447,7 @@
             this.cmbSexo.Location = new System.Drawing.Point(849, 268);
             this.cmbSexo.Name = "cmbSexo";
             this.cmbSexo.Size = new System.Drawing.Size(121, 25);
-            this.cmbSexo.TabIndex = 15;
+            this.cmbSexo.TabIndex = 14;
             // 
             // ckbFumador
             // 
@@ -456,7 +456,7 @@
             this.ckbFumador.Location = new System.Drawing.Point(664, 266);
             this.ckbFumador.Name = "ckbFumador";
             this.ckbFumador.Size = new System.Drawing.Size(79, 21);
-            this.ckbFumador.TabIndex = 14;
+            this.ckbFumador.TabIndex = 13;
             this.ckbFumador.Text = "Fumador";
             this.ckbFumador.UseVisualStyleBackColor = true;
             // 
@@ -476,7 +476,7 @@
             this.cmbEstado.Location = new System.Drawing.Point(747, 305);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(223, 25);
-            this.cmbEstado.TabIndex = 16;
+            this.cmbEstado.TabIndex = 15;
             // 
             // dtpBirthDate
             // 
@@ -485,7 +485,7 @@
             this.dtpBirthDate.Name = "dtpBirthDate";
             this.dtpBirthDate.ShowCheckBox = true;
             this.dtpBirthDate.Size = new System.Drawing.Size(220, 25);
-            this.dtpBirthDate.TabIndex = 13;
+            this.dtpBirthDate.TabIndex = 12;
             // 
             // cmbIva
             // 
@@ -494,7 +494,7 @@
             this.cmbIva.Location = new System.Drawing.Point(748, 83);
             this.cmbIva.Name = "cmbIva";
             this.cmbIva.Size = new System.Drawing.Size(222, 25);
-            this.cmbIva.TabIndex = 9;
+            this.cmbIva.TabIndex = 8;
             // 
             // label29
             // 
@@ -510,14 +510,14 @@
             this.txtOccupation.Location = new System.Drawing.Point(744, 342);
             this.txtOccupation.Name = "txtOccupation";
             this.txtOccupation.Size = new System.Drawing.Size(223, 25);
-            this.txtOccupation.TabIndex = 17;
+            this.txtOccupation.TabIndex = 16;
             // 
             // txtCBU
             // 
             this.txtCBU.Location = new System.Drawing.Point(747, 194);
             this.txtCBU.Name = "txtCBU";
             this.txtCBU.Size = new System.Drawing.Size(223, 25);
-            this.txtCBU.TabIndex = 12;
+            this.txtCBU.TabIndex = 11;
             this.txtCBU.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCBU_KeyPress);
             // 
             // txtIB
@@ -526,7 +526,7 @@
             this.txtIB.MaxLength = 11;
             this.txtIB.Name = "txtIB";
             this.txtIB.Size = new System.Drawing.Size(223, 25);
-            this.txtIB.TabIndex = 11;
+            this.txtIB.TabIndex = 10;
             this.txtIB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIB_KeyPress);
             // 
             // txtCuit
@@ -535,7 +535,7 @@
             this.txtCuit.MaxLength = 11;
             this.txtCuit.Name = "txtCuit";
             this.txtCuit.Size = new System.Drawing.Size(222, 25);
-            this.txtCuit.TabIndex = 10;
+            this.txtCuit.TabIndex = 9;
             this.txtCuit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCuit_KeyPress);
             // 
             // label30
@@ -588,7 +588,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(664, 86);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(27, 17);
+            this.label22.Size = new System.Drawing.Size(26, 17);
             this.label22.TabIndex = 99;
             this.label22.Text = "IVA";
             // 
@@ -615,7 +615,7 @@
             this.grpbAddress1.Location = new System.Drawing.Point(6, 96);
             this.grpbAddress1.Name = "grpbAddress1";
             this.grpbAddress1.Size = new System.Drawing.Size(322, 339);
-            this.grpbAddress1.TabIndex = 7;
+            this.grpbAddress1.TabIndex = 6;
             this.grpbAddress1.TabStop = false;
             this.grpbAddress1.Text = "Dirección Principal";
             // 
@@ -676,7 +676,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(16, 166);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(36, 17);
+            this.label10.Size = new System.Drawing.Size(35, 17);
             this.label10.TabIndex = 46;
             this.label10.Text = "Telef";
             // 
@@ -703,7 +703,7 @@
             this.label3.Location = new System.Drawing.Point(187, 76);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 17);
-            this.label3.TabIndex = 31;
+            this.label3.TabIndex = 2;
             this.label3.Text = "Piso";
             // 
             // txtHomeAppart
@@ -803,14 +803,14 @@
             this.cmbTipoDoc.Location = new System.Drawing.Point(749, 33);
             this.cmbTipoDoc.Name = "cmbTipoDoc";
             this.cmbTipoDoc.Size = new System.Drawing.Size(59, 25);
-            this.cmbTipoDoc.TabIndex = 3;
+            this.cmbTipoDoc.TabIndex = 4;
             // 
             // txtApellido
             // 
             this.txtApellido.Location = new System.Drawing.Point(419, 16);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(222, 25);
-            this.txtApellido.TabIndex = 2;
+            this.txtApellido.TabIndex = 1;
             // 
             // label20
             // 
@@ -818,7 +818,7 @@
             this.label20.Location = new System.Drawing.Point(32, 54);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(33, 17);
-            this.label20.TabIndex = 95;
+            this.label20.TabIndex = 21;
             this.label20.Text = "Mail";
             // 
             // txtMail
@@ -826,7 +826,7 @@
             this.txtMail.Location = new System.Drawing.Point(102, 51);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(222, 25);
-            this.txtMail.TabIndex = 5;
+            this.txtMail.TabIndex = 2;
             // 
             // label19
             // 
@@ -842,7 +842,7 @@
             this.txtCel.Location = new System.Drawing.Point(419, 51);
             this.txtCel.Name = "txtCel";
             this.txtCel.Size = new System.Drawing.Size(222, 25);
-            this.txtCel.TabIndex = 6;
+            this.txtCel.TabIndex = 3;
             // 
             // label18
             // 
@@ -850,7 +850,7 @@
             this.label18.Location = new System.Drawing.Point(663, 37);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(64, 17);
-            this.label18.TabIndex = 84;
+            this.label18.TabIndex = 13;
             this.label18.Text = "Tipo Doc.";
             // 
             // txtDNI
@@ -859,7 +859,7 @@
             this.txtDNI.MaxLength = 4;
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(154, 25);
-            this.txtDNI.TabIndex = 4;
+            this.txtDNI.TabIndex = 5;
             this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
             // 
             // label6
@@ -868,7 +868,7 @@
             this.label6.Location = new System.Drawing.Point(16, 21);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 17);
-            this.label6.TabIndex = 93;
+            this.label6.TabIndex = 20;
             this.label6.Text = "Nombre";
             // 
             // txtFirstName
@@ -876,7 +876,7 @@
             this.txtFirstName.Location = new System.Drawing.Point(102, 16);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(222, 25);
-            this.txtFirstName.TabIndex = 1;
+            this.txtFirstName.TabIndex = 0;
             // 
             // btnGrabar
             // 
@@ -886,7 +886,7 @@
             this.btnGrabar.Location = new System.Drawing.Point(907, 547);
             this.btnGrabar.Name = "btnGrabar";
             this.btnGrabar.Size = new System.Drawing.Size(64, 30);
-            this.btnGrabar.TabIndex = 19;
+            this.btnGrabar.TabIndex = 18;
             this.btnGrabar.Text = "Grabar";
             this.btnGrabar.UseVisualStyleBackColor = true;
             this.btnGrabar.Click += new System.EventHandler(this.SaveClient);
