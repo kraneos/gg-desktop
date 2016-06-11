@@ -308,40 +308,40 @@ namespace Seggu.Service.Services
 
         public void SynchronizeParseEntities()
         {
-            if (true)//ParseUser.CurrentUser != null)
+            if (ParseUser.CurrentUser != null)
             {
-                //SendEntitiesToParse<Domain.AccessoryType, AccessoryTypeVM>();// "AccessoryType");
-                //SendEntitiesToParse<Asset, AssetVM>();//"Asset");
-                //SendEntitiesToParse<Bank, BankVM>();//"Bank");
-                //SendEntitiesToParse<Bodywork, BodyworkVM>();
-                //SendEntitiesToParse<Brand, BrandVM>();
-                //SendEntitiesToParse<CasualtyType, CasualtyTypeVM>();
-                //SendEntitiesToParse<Client, ClientVM>();
-                //SendEntitiesToParse<Company, CompanyVM>();
-                //SendEntitiesToParse<CreditCard, CreditCardVM>();
-                //SendEntitiesToParse<LedgerAccount, LedgerAccountVM>();
-                //SendEntitiesToParse<Producer, ProducerVM>();
+                SendEntitiesToParse<Domain.AccessoryType, AccessoryTypeVM>();// "AccessoryType");
+                SendEntitiesToParse<Asset, AssetVM>();//"Asset");
+                SendEntitiesToParse<Bank, BankVM>();//"Bank");
+                SendEntitiesToParse<Bodywork, BodyworkVM>();
+                SendEntitiesToParse<Brand, BrandVM>();
+                SendEntitiesToParse<CasualtyType, CasualtyTypeVM>();
+                SendEntitiesToParse<Client, ClientVM>();
+                SendEntitiesToParse<Company, CompanyVM>();
+                SendEntitiesToParse<CreditCard, CreditCardVM>();
+                SendEntitiesToParse<LedgerAccount, LedgerAccountVM>();
+                SendEntitiesToParse<Producer, ProducerVM>();
                 SendEntitiesToParse<Province, ProvinceVM>();
-                //SendEntitiesToParse<Use, UseVM>();
-                //SendEntitiesToParse<VehicleType, VehicleTypeVM>();
-                //SendEntitiesToParse<Cheque, ChequeVM>();
-                //SendEntitiesToParse<Contact, ContactVM>();
-                //SendEntitiesToParse<Liquidation, LiquidationVM>();
-                //// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
+                SendEntitiesToParse<Use, UseVM>();
+                SendEntitiesToParse<VehicleType, VehicleTypeVM>();
+                SendEntitiesToParse<Cheque, ChequeVM>();
+                SendEntitiesToParse<Contact, ContactVM>();
+                SendEntitiesToParse<Liquidation, LiquidationVM>();
+                // TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
                 SendEntitiesToParse<District, DistrictVM>();
                 SendEntitiesToParse<Locality, LocalityVM>();
-                //SendEntitiesToParse<Risk, RiskVM>();
-                //SendEntitiesToParse<VehicleModel, VehicleModelVM>();
-                //SendEntitiesToParse<Policy, PolicyVM>();
-                //SendEntitiesToParse<Endorse, EndorseVM>();
-                //SendEntitiesToParse<Employee, EmployeeVM>();
-                //SendEntitiesToParse<FeeSelection, FeeSelectionVM>();
-                //SendEntitiesToParse<Fee, FeeVM>();
-                //SendEntitiesToParse<Vehicle, VehicleVM>();
-                //SendEntitiesToParse<Accessory, AccessoryVM>();
-                //SendEntitiesToParse<Integral, IntegralVM>();
-                //SendEntitiesToParse<Address, AddressVM>();
-                //SendEntitiesToParse<CashAccount, CashAccountVM>();
+                SendEntitiesToParse<Risk, RiskVM>();
+                SendEntitiesToParse<VehicleModel, VehicleModelVM>();
+                SendEntitiesToParse<Policy, PolicyVM>();
+                SendEntitiesToParse<Endorse, EndorseVM>();
+                SendEntitiesToParse<Employee, EmployeeVM>();
+                SendEntitiesToParse<FeeSelection, FeeSelectionVM>();
+                SendEntitiesToParse<Fee, FeeVM>();
+                SendEntitiesToParse<Vehicle, VehicleVM>();
+                SendEntitiesToParse<Accessory, AccessoryVM>();
+                SendEntitiesToParse<Integral, IntegralVM>();
+                SendEntitiesToParse<Address, AddressVM>();
+                SendEntitiesToParse<CashAccount, CashAccountVM>();
                 // TODO: The rest...
 
             }

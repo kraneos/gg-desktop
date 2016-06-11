@@ -37,14 +37,14 @@ namespace Seggu.Service.Services
                 ApplicationId = Settings.Default.ParseAppId,
                 Server = Settings.Default.ParseBaseUrl,
             });
-            if (Parse.ParseUser.CurrentUser != null)
-            {
-                Parse.ParseUser.LogOut();
-            }
-            //if (setting != null)
+            //if (Parse.ParseUser.CurrentUser != null)
             //{
-            //    ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
+            //    Parse.ParseUser.LogOut();
             //}
+            if (setting != null)
+            {
+                ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
+            }
         }
 
         //private IEnumerable<T> SerializeCollectionResponse<T>(string content) where T : new()
