@@ -10,5 +10,5 @@ var dm = dataMig('http://seggu-api-test.herokuapp.com/parse/', 'seggu-api', 'Seg
 // dm.createKeyValue('./data/casualtytypes.json', 'CasualtyType');
 // dm.createKeyValue('./data/uses.json', 'Use');
 // dm.createKeyValue('./data/vehicle-types.json', 'VehicleType');
-dm.createCompanies('./data/companies.json');
-dm.createVehicleTypes('./data/vehicle-models.json');
+// dm.createCompanies('./data/companies.json');
+dm.createVehicleModels('./data/vehicle-models.js');

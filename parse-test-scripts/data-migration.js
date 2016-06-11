@@ -11,7 +11,9 @@ module.exports = function (serverUrl, appId, masterKey) {
         createDistricts: createDistricts,
         createLocalities: createLocalities,
         createBanks: createBanks,
-        createKeyValue: createKeyValue
+        createKeyValue: createKeyValue,
+        createVehicleModels: createVehicleModels,
+        createCompanies: createCompanies
     };
 };
 
@@ -194,7 +196,7 @@ function createFullObject(jsonFile, entityName, mapToParse, mapFromParse) {
                     prevProv.CreatedAt = p.createdAt;
                     prevProv.UpdatedAt = p.createdAt;
                     prevProv.LocallyUpdatedAt = p.createdAt;
-                    newProvinces.push(newProv);
+                    newProvinces.push(prevProv);
                 });
                 writeFileAsNew(jsonFile, newProvinces);
             },
@@ -208,17 +210,17 @@ function createCompanies(jsonFile) {
         jsonFile,
         'Company',
         function (c) {
-            var parseCompany = new Parse.Object(entityName);
-            parseCompany.set('name', p.Name);
-            parseCompany.set('phone', p.Phone);
-            parseCompany.set('notes', p.Notes);
-            parseCompany.set('active', p.Active);
-            parseCompany.set('email', p.EMail);
-            parseCompany.set('cuit', p.CUIT);
-            parseCompany.set('liqDay1', p.LiqDay1);
-            parseCompany.set('liqDay2', p.LiqDay2);
-            parseCompany.set('PaymentDay1', p.PaymentDay1);
-            parseCompany.set('PaymentDay2', p.PaymentDay2);
+            var parseCompany = new Parse.Object('Company');
+            parseCompany.set('name', c.Name);
+            parseCompany.set('phone', '' + c.Phone);
+            parseCompany.set('notes', c.Notes);
+            parseCompany.set('active', !!c.Active);
+            parseCompany.set('email', c.EMail);
+            parseCompany.set('cuit', c.CUIT);
+            parseCompany.set('liqDay1', c.LiqDay1);
+            parseCompany.set('liqDay2', c.LiqDay2);
+            parseCompany.set('paymentDay1', c.PaymentDay1);
+            parseCompany.set('paymentDay2', c.PaymentDay2);
             var acl = new Parse.ACL();
             acl.setPublicReadAccess(true);
             acl.setPublicWriteAccess(false);
@@ -226,6 +228,56 @@ function createCompanies(jsonFile) {
             return parseCompany;
         }
     )
+}
+
+function createVehicleModels(jsonFile) {
+    readFile('./data/brands.new.json', function (brands) {
+        var ParseBrand = Parse.Object.extend('Brand');
+        readFile('./data/vehicle-types.new.json', function (vehicleTypes) {
+            var ParseVehicleType = Parse.Object.extend('VehicleType');
+            createFullObject(
+                jsonFile,
+                'VehicleModel',
+                function (vm) {
+                    var parseVehicleModel = new Parse.Object('VehicleModel');
+                    parseVehicleModel.set('name', vm.Name);
+                    parseVehicleModel.set('origin', vm.Origin);
+                    parseVehicleModel.set('brand', ParseBrand.createWithoutData(brands.filter(function (b) {
+                        return b.Id === vm.BrandId;
+                    })[0].ObjectId));
+                    parseVehicleModel.set('vehicleType', ParseVehicleType.createWithoutData(vehicleTypes.filter(function (b) {
+                        return b.Id === vm.VehicleTypeId;
+                    })[0].ObjectId));
+                    var acl = new Parse.ACL();
+                    acl.setPublicReadAccess(true);
+                    acl.setPublicWriteAccess(false);
+                    parseVehicleModel.setACL(acl);
+                    return parseVehicleModel;
+                }
+            )
+
+            function createFullObject(jsonFile, entityName, mapToParse, mapFromParse) {
+                provinces = require(jsonFile);
+                var parseProvinces = provinces.map(mapToParse);
+
+                Parse.Object.saveAll(parseProvinces, {
+                    success: function (savedProvinces) {
+                        var newProvinces = [];
+                        savedProvinces.forEach(function (p, i) {
+                            var prevProv = provinces[i];
+                            prevProv.ObjectId = p.id;
+                            prevProv.CreatedAt = p.createdAt;
+                            prevProv.UpdatedAt = p.createdAt;
+                            prevProv.LocallyUpdatedAt = p.createdAt;
+                            newProvinces.push(prevProv);
+                        });
+                        writeFileAsNew(jsonFile, newProvinces);
+                    },
+                    error: console.log
+                });
+            }
+        });
+    });
 }
 
 function readFile(fileName, callback) {
