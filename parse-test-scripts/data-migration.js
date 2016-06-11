@@ -10,7 +10,10 @@ module.exports = function (serverUrl, appId, masterKey) {
         createProvinces: createProvinces,
         createDistricts: createDistricts,
         createLocalities: createLocalities,
-        createBanks: createBanks
+        createBanks: createBanks,
+        createKeyValue: createKeyValue,
+        createVehicleModels: createVehicleModels,
+        createCompanies: createCompanies
     };
 };
 
@@ -113,7 +116,7 @@ function createDistricts(provFile, distFile) {
 }
 
 function createBanks(jsonFile) {
-        readFile(jsonFile, function (banks) {
+    readFile(jsonFile, function (banks) {
         var parseBanks = banks.map(function (b) {
             var parseBank = new Parse.Object('Bank');
             parseBank.set('name', '' + b.Name);
@@ -146,6 +149,137 @@ function createBanks(jsonFile) {
         });
     });
 }
+
+function createKeyValue(jsonFile, entityName) {
+    readFile(jsonFile, function (provinces) {
+        var parseProvinces = provinces.map(function (p) {
+            var parseProvince = new Parse.Object(entityName);
+            parseProvince.set('name', p.Name);
+            var acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(false);
+            parseProvince.setACL(acl);
+            return parseProvince;
+        });
+
+        Parse.Object.saveAll(parseProvinces, {
+            success: function (savedProvinces) {
+                var newProvinces = [];
+                savedProvinces.forEach(function (p, i) {
+                    var prevProv = provinces[i];
+                    newProvinces.push({
+                        Id: prevProv.Id,
+                        Name: prevProv.Name,
+                        ObjectId: p.id,
+                        CreatedAt: p.createdAt,
+                        UpdatedAt: p.createdAt,
+                        LocallyUpdatedAt: p.createdAt
+                    });
+                });
+                writeFileAsNew(jsonFile, newProvinces);
+            },
+            error: console.log
+        });
+    });
+}
+
+function createFullObject(jsonFile, entityName, mapToParse, mapFromParse) {
+    readFile(jsonFile, function (provinces) {
+        var parseProvinces = provinces.map(mapToParse);
+
+        Parse.Object.saveAll(parseProvinces, {
+            success: function (savedProvinces) {
+                var newProvinces = [];
+                savedProvinces.forEach(function (p, i) {
+                    var prevProv = provinces[i];
+                    prevProv.ObjectId = p.id;
+                    prevProv.CreatedAt = p.createdAt;
+                    prevProv.UpdatedAt = p.createdAt;
+                    prevProv.LocallyUpdatedAt = p.createdAt;
+                    newProvinces.push(prevProv);
+                });
+                writeFileAsNew(jsonFile, newProvinces);
+            },
+            error: console.log
+        });
+    });
+}
+
+function createCompanies(jsonFile) {
+    createFullObject(
+        jsonFile,
+        'Company',
+        function (c) {
+            var parseCompany = new Parse.Object('Company');
+            parseCompany.set('name', c.Name);
+            parseCompany.set('phone', '' + c.Phone);
+            parseCompany.set('notes', c.Notes);
+            parseCompany.set('active', !!c.Active);
+            parseCompany.set('email', c.EMail);
+            parseCompany.set('cuit', c.CUIT);
+            parseCompany.set('liqDay1', c.LiqDay1);
+            parseCompany.set('liqDay2', c.LiqDay2);
+            parseCompany.set('paymentDay1', c.PaymentDay1);
+            parseCompany.set('paymentDay2', c.PaymentDay2);
+            var acl = new Parse.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(false);
+            parseCompany.setACL(acl);
+            return parseCompany;
+        }
+    )
+}
+
+function createVehicleModels(jsonFile) {
+    readFile('./data/brands.new.json', function (brands) {
+        var ParseBrand = Parse.Object.extend('Brand');
+        readFile('./data/vehicle-types.new.json', function (vehicleTypes) {
+            var ParseVehicleType = Parse.Object.extend('VehicleType');
+            createFullObject(
+                jsonFile,
+                'VehicleModel',
+                function (vm) {
+                    var parseVehicleModel = new Parse.Object('VehicleModel');
+                    parseVehicleModel.set('name', vm.Name);
+                    parseVehicleModel.set('origin', vm.Origin);
+                    parseVehicleModel.set('brand', ParseBrand.createWithoutData(brands.filter(function (b) {
+                        return b.Id === vm.BrandId;
+                    })[0].ObjectId));
+                    parseVehicleModel.set('vehicleType', ParseVehicleType.createWithoutData(vehicleTypes.filter(function (b) {
+                        return b.Id === vm.VehicleTypeId;
+                    })[0].ObjectId));
+                    var acl = new Parse.ACL();
+                    acl.setPublicReadAccess(true);
+                    acl.setPublicWriteAccess(false);
+                    parseVehicleModel.setACL(acl);
+                    return parseVehicleModel;
+                }
+            )
+
+            function createFullObject(jsonFile, entityName, mapToParse, mapFromParse) {
+                provinces = require(jsonFile);
+                var parseProvinces = provinces.map(mapToParse);
+
+                Parse.Object.saveAll(parseProvinces, {
+                    success: function (savedProvinces) {
+                        var newProvinces = [];
+                        savedProvinces.forEach(function (p, i) {
+                            var prevProv = provinces[i];
+                            prevProv.ObjectId = p.id;
+                            prevProv.CreatedAt = p.createdAt;
+                            prevProv.UpdatedAt = p.createdAt;
+                            prevProv.LocallyUpdatedAt = p.createdAt;
+                            newProvinces.push(prevProv);
+                        });
+                        writeFileAsNew(jsonFile, newProvinces);
+                    },
+                    error: console.log
+                });
+            }
+        });
+    });
+}
+
 function readFile(fileName, callback) {
     fs.readFile(fileName, 'utf8', function (err, data) {
         if (err) {
