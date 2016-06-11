@@ -37,10 +37,14 @@ namespace Seggu.Service.Services
                 ApplicationId = Settings.Default.ParseAppId,
                 Server = Settings.Default.ParseBaseUrl,
             });
-            if (setting != null)
+            if (Parse.ParseUser.CurrentUser != null)
             {
-                ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
+                Parse.ParseUser.LogOut();
             }
+            //if (setting != null)
+            //{
+            //    ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
+            //}
         }
 
         //private IEnumerable<T> SerializeCollectionResponse<T>(string content) where T : new()
@@ -174,7 +178,7 @@ namespace Seggu.Service.Services
             if (from != null && from > DateTime.MinValue)
             {
                 //req.AddParameter("where", "{\"updatedAt\":{\"$gt\":" + JsonConvert.SerializeObject(new DateVM(from.Value)) + "}}");
-                query = query.WhereGreaterThan("updatedAt", from.Value);
+                query = query.WhereGreaterThan("updatedAt", from.Value.ToUniversalTime());
             }
 
             //this.eventLog.WriteEntry("About to execute query for " + parseEntityName);

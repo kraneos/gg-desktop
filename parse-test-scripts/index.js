@@ -1,9 +1,9 @@
 var Parse = require('parse/node');
 
 Parse.initialize('seggu-api', null, 'SegguMasterKey');
-Parse.Cloud.useMasterKey();
+// Parse.Cloud.useMasterKey();
 Parse.serverURL = 'http://seggu-api-test.herokuapp.com/parse/';
-
+// createNewSegguClientWithDefaults('Segurolandia');
 module.exports = {
     queryAndDestroyAllClasses: queryAndDestroyAllClasses,
     createRole: createRole,
@@ -12,7 +12,9 @@ module.exports = {
     destroyUser: destroyUser,
     createNewSegguClient: createNewSegguClient,
     getRoleUsers: getRoleUsers,
-    getProvinceNullDistricts: getProvinceNullDistricts
+    getProvinceNullDistricts: getProvinceNullDistricts,
+    createNewSegguClientWithDefaults: createNewSegguClientWithDefaults,
+    logInAs: logInAs
 };
 //fetchUsers();
 // queryAndDestroyAllClasses();
@@ -160,6 +162,55 @@ function createNewSegguClient(clientName, users) {
     }, console.log)
 }
 
+function createNewSegguClientWithDefaults(clientName) {
+    var segguClient = new Parse.Object('SegguClient');
+    segguClient.set('name', clientName);
+
+    var users = [
+{
+    username: 'egentile' + clientName, password: 'seggu2016', email: 'egentilemontes@gmail.com'
+},
+{
+    username: 'ecolombano' + clientName, password: 'seggu2016', email: 'colombanoemiliano@gmail.com'
+},
+{
+    username: 'fcaironi' + clientName, password: 'seggu2016', email: 'fcaironi@gmail.com'
+},
+{
+    username: 'apolo' + clientName, password: 'seggu2016', email: 'poloagustin@gmail.com'
+}];
+
+    segguClient.save().then(function (savedClient) {
+        var clientRole = getNewRole(savedClient.id);
+        var clientClientsRole = getNewRole(savedClient.id + 'Clients');
+        var roles = [clientRole, clientClientsRole];
+        Parse.Object.saveAll(roles).then(function (savedRoles) {
+            var parseUsers = users.map(function (user) {
+                var parseUser = new Parse.User();
+                parseUser.set('username', user.username);
+                parseUser.set('password', user.password);
+                parseUser.set('email', user.email);
+                parseUser.set('segguClient', savedClient);
+                return parseUser;
+            });
+
+            parseUsers.forEach(function (parseUser) {
+                parseUser.signUp().then(function (createdUser) {
+                    savedRoles[0].getUsers().add(createdUser);
+                    savedRoles.save().then(console.log, console.log);
+                }, console.log);
+            })
+        }, console.log);
+
+        function getNewRole(roleName, segguClient) {
+            var roleACL = new Parse.ACL();
+            roleACL.setPublicReadAccess(true);
+            var role = new Parse.Role(roleName, roleACL);
+            return role;
+        }
+    }, console.log)
+}
+
 function getRoleUsers(roleId) {
     new Parse.Query(Parse.Role).get(roleId).then(function (role) {
         role.getUsers().query().find().then(console.log, console.log);
@@ -169,4 +220,8 @@ function getRoleUsers(roleId) {
 
 function getProvinceNullDistricts() {
     new Parse.Query('District').doesNotExist('province').find().then(console.log,console.log);
+}
+
+function logInAs(username, password) {
+    Parse.User.logIn(username, password).then(console.log, console.log);
 }

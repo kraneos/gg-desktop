@@ -20,7 +20,7 @@ namespace Seggu.Service.ViewModels
         [ParseFieldName("notes")]
         public string Notes { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("company")]
-        public ParseObject Company { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public CompanyVM Company { get { return GetProperty<CompanyVM>(); } set { SetProperty<CompanyVM>(value); } }
         [ParseFieldName("bussiness")]
         public string Bussiness { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
 

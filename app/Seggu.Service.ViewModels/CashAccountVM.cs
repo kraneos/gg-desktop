@@ -10,9 +10,9 @@ namespace Seggu.Service.ViewModels
     public class CashAccountVM : ViewModel
     {
         [ParseFieldName("asset")]
-        public ParseObject Asset { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public AssetVM Asset { get { return GetProperty<AssetVM>(); } set { SetProperty<AssetVM>(value); } }
         [ParseFieldName("ledgerAccount")]
-        public ParseObject LedgerAccount { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public LedgerAccountVM LedgerAccount { get { return GetProperty<LedgerAccountVM>(); } set { SetProperty<LedgerAccountVM>(value); } }
         [ParseFieldName("date")]
         public System.DateTime Date { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
         [ParseFieldName("description")]
@@ -22,9 +22,9 @@ namespace Seggu.Service.ViewModels
         [ParseFieldName("balance")]
         public double Balance { get { return GetProperty<double>(); } set { SetProperty<double>(value); } }
         [ParseFieldName("producer")]
-        public ParseObject Producer { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public ProducerVM Producer { get { return GetProperty<ProducerVM>(); } set { SetProperty<ProducerVM>(value); } }
         [ParseFieldName("fee")]
-        public ParseObject Fee { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public FeeVM Fee { get { return GetProperty<FeeVM>(); } set { SetProperty<FeeVM>(value); } }
         [ParseFieldName("receiptNumber")]
         public string ReceiptNumber { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
     }

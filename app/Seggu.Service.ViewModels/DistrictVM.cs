@@ -10,6 +10,6 @@ namespace Seggu.Service.ViewModels
     public class DistrictVM : KeyValueViewModel
     {
         [ParseFieldName("province")]
-        public ParseObject Province { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public ProvinceVM Province { get { return GetProperty<ProvinceVM>(); } set { SetProperty<ProvinceVM>(value); } }
     }
 }

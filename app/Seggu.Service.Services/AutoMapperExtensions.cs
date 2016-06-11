@@ -37,13 +37,13 @@ namespace Seggu.Service.Services
             var operation = (string)res.Context.Options.Items["HttpMethod"];
             if (operation == "POST")
             {
-                var acl = new ParseACL(ParseUser.CurrentUser);
-                acl.PublicReadAccess = false;
+                var acl = new ParseACL();//ParseUser.CurrentUser);
+                acl.PublicReadAccess = true;
                 acl.PublicWriteAccess = false;
-                acl.SetRoleReadAccess(setting.ClientsRole, true);
-                acl.SetRoleReadAccess(setting.UserRole, true);
-                acl.SetRoleWriteAccess(setting.ClientsRole, true);
-                acl.SetRoleWriteAccess(setting.UserRole, true);
+                //acl.SetRoleReadAccess(setting.ClientsRole, true);
+                //acl.SetRoleReadAccess(setting.UserRole, true);
+                //acl.SetRoleWriteAccess(setting.ClientsRole, true);
+                //acl.SetRoleWriteAccess(setting.UserRole, true);
                 return acl;
             }
             else

@@ -7,6 +7,7 @@ using Seggu.Service.Services;
 using Seggu.Data;
 using Moq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Seggu.Service.Tests
 {
@@ -65,6 +66,7 @@ namespace Seggu.Service.Tests
         [TestMethod]
         public void SynchronizationServiceShouldExecuteWithoutErrors()
         {
+            Thread.Sleep(30000);
             var eventLog = new EventLog();
             eventLog = new System.Diagnostics.EventLog();
             ((System.ComponentModel.ISupportInitialize)(eventLog)).BeginInit();

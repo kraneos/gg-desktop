@@ -14,7 +14,7 @@ namespace Seggu.Service.ViewModels
         //[ParseFieldName("bankId")]
         //public string BankId { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("bank")]
-        public ParseObject Bank { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public BankVM Bank { get { return GetProperty<BankVM>(); } set { SetProperty<BankVM>(value); } }
         [ParseFieldName("value")]
         public double Value { get { return GetProperty<double>(); } set { SetProperty<double>(value); } }
         [ParseFieldName("date")]

@@ -16,12 +16,12 @@ namespace Seggu.Service.ViewModels
         //[ParseFieldName("accessoryTypeId")]
         //public string AccessoryTypeId { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("accessoryType")]
-        public ParseObject AccessoryType { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public AccessoryTypeVM AccessoryType { get { return GetProperty<AccessoryTypeVM>(); } set { SetProperty<AccessoryTypeVM>(value); } }
         [ParseFieldName("value")]
         public double Value { get { return GetProperty<double>(); } set { SetProperty<double>(value); } }
         //[ParseFieldName("vehicleId")]
         //public string VehicleId { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("vehicle")]
-        public ParseObject Vehicle { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public VehicleVM Vehicle { get { return GetProperty<VehicleVM>(); } set { SetProperty<VehicleVM>(value); } }
     }
 }

@@ -17,12 +17,12 @@ namespace Seggu.Service.ViewModels
         [ParseFieldName("appartment")]
         public string Appartment { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("locality")]
-        public ParseObject Locality { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public LocalityVM Locality { get { return GetProperty<LocalityVM>(); } set { SetProperty<LocalityVM>(value); } }
         [ParseFieldName("postalCode")]
         public string PostalCode { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("addressType")]
         public int AddressType { get { return GetProperty<int>(); } set { SetProperty<int>(value); } }
         [ParseFieldName("client")]
-        public ParseObject Client { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        public ClientVM Client { get { return GetProperty<ClientVM>(); } set { SetProperty<ClientVM>(value); } }
     }
 }
