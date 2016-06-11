@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var scripts = require('./index');
 var argv = require('yargs').argv;
+var dataMig = require('./data-migration');
 
 gulp.task('destroy-all', function () {
     scripts.queryAndDestroyAllClasses();
@@ -21,7 +22,12 @@ gulp.task('login', function () {
 		console.log('Gonna try to login as ${argv.USERNAME} with password ${argv.PASSWORD}');
 		console.log(argv.USERNAME);
 		console.log(argv.PASSWORD);
-		
+
 		scripts.logInAs(argv.USERNAME, argv.PASSWORD);
 	}
+});
+
+gulp.task('create-provinces', function () {
+	dataMig('http://seggu-api-test.herokuapp.com/parse/', 'seggu-api', 'SegguMasterKey')
+		.createProvinces('./data/provinces.json');
 });
