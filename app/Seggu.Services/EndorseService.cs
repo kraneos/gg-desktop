@@ -42,6 +42,7 @@ namespace Seggu.Services
                 SetIntegralsIds(endorseFull);
 
             var endorse = EndorseDtoMapper.GetObjectWithCover(endorseFull);
+            SetChildrenToNull(endorse);
             bool isNew = endorseFull.Id == default(int);
 
             bool isAnnulated = endorse.EndorseType == Seggu.Domain.EndorseType.Anulación;
@@ -72,6 +73,37 @@ namespace Seggu.Services
                 endorseDao.Edit(endorse);
             }
         }
+
+        private void SetChildrenToNull(Endorse endorse)
+        {
+            if (endorse.Vehicles != null)
+            {
+                foreach (var vehicle in endorse.Vehicles)
+                {
+                    vehicle.Id = 0;
+                    foreach (var accessory in vehicle.Accessories)
+                    {
+                        accessory.Id = 0;
+                    }
+                }
+            }
+            if (endorse.Employees != null)
+            {
+                foreach (var vehicle in endorse.Employees)
+                {
+                    vehicle.Id = 0;
+                }
+            }
+            if (endorse.Integrals != null)
+            {
+                foreach (var vehicle in endorse.Integrals)
+                {
+                    vehicle.Id = 0;
+                    vehicle.Address.Id = 0;
+                }
+            }
+        }
+
         private static void SetFeesIds(EndorseFullDto endorseFull)
         {
             foreach (var fee in endorseFull.Fees) { }
