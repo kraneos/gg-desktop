@@ -90,21 +90,25 @@ namespace Seggu.Service.Services
             Mapper.CreateMap<VehicleTypeVM, Domain.VehicleType>().GetCommonMappingExpressionToEntity();
 
             Mapper.CreateMap<Domain.Cheque, ChequeVM>().GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Bank, y => y.MapFrom(x => new BankVM { ObjectId = x.Bank.ObjectId }));
+                .ForMember(x => x.Bank, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<BankVM>(x.Bank.ObjectId)));
             Mapper.CreateMap<ChequeVM, Domain.Cheque>().GetCommonMappingExpressionToEntity()
+                .ForMember(x=>x.Bank, y=>y.Ignore())
                 .ForMember(x => x.BankId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Banks.First(x => x.ObjectId == ((ChequeVM)res.Value).Bank.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.Contact, ContactVM>().GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Company, y => y.MapFrom(x => new CompanyVM { ObjectId = x.Company.ObjectId }));
+                .ForMember(x => x.Company,
+                    y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<CompanyVM>(x.Company.ObjectId)));
             Mapper.CreateMap<ContactVM, Domain.Contact>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Company, y => y.Ignore())
                 .ForMember(x => x.CompanyId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Companies.First(x => x.ObjectId == ((ContactVM)res.Value).Company.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.Liquidation, LiquidationVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Company, y => y.MapFrom(x => new CompanyVM { ObjectId = x.Company.ObjectId }));
+                .ForMember(x => x.Company, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<CompanyVM>(x.Company.ObjectId)));
             Mapper.CreateMap<LiquidationVM, Domain.Liquidation>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Company, y => y.Ignore())
                 .ForMember(x => x.CompanyId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Companies.First(x => x.ObjectId == ((LiquidationVM)res.Value).Company.ObjectId).Id)));
 
@@ -117,30 +121,35 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.District, DistrictVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Province, y => y.MapFrom(x => new ProvinceVM { ObjectId = x.Province.ObjectId }));
+                .ForMember(x => x.Province, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<ProvinceVM>(x.Province.ObjectId)));
             Mapper.CreateMap<DistrictVM, Domain.District>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Province, y => y.Ignore())
                 .ForMember(x => x.ProvinceId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Provinces.First(x => x.ObjectId == ((DistrictVM)res.Value).Province.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.Locality, LocalityVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.District, y => y.MapFrom(x => new DistrictVM { ObjectId = x.District.ObjectId }));
+                .ForMember(x => x.District, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<DistrictVM>(x.District.ObjectId)));
             Mapper.CreateMap<LocalityVM, Domain.Locality>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.District, y => y.Ignore())
                 .ForMember(x => x.DistrictId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Districts.First(x => x.ObjectId == ((LocalityVM)res.Value).District.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.Risk, RiskVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Company, y => y.MapFrom(x => new CompanyVM { ObjectId = x.Company.ObjectId }));
+                .ForMember(x => x.Company, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<CompanyVM>(x.Company.ObjectId)));
             Mapper.CreateMap<RiskVM, Domain.Risk>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Company, y => y.Ignore())
                 .ForMember(x => x.CompanyId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Companies.First(x => x.ObjectId == ((RiskVM)res.Value).Company.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.VehicleModel, VehicleModelVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Brand, y => y.MapFrom(x => new BrandVM { ObjectId = x.Brand.ObjectId }))
-                .ForMember(x => x.VehicleType, y => y.MapFrom(x => new VehicleTypeVM { ObjectId = x.VehicleType.ObjectId }));
+                .ForMember(x => x.Brand, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<BrandVM>(x.Brand.ObjectId)))
+                .ForMember(x => x.VehicleType, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<VehicleTypeVM>(x.VehicleType.ObjectId)));
             Mapper.CreateMap<VehicleModelVM, Domain.VehicleModel>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Brand, y => y.Ignore())
+                .ForMember(x => x.VehicleType, y => y.Ignore())
                 .ForMember(x => x.BrandId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Brands.First(x => x.ObjectId == ((VehicleModelVM)res.Value).Brand.ObjectId).Id)))
                 .ForMember(x => x.VehicleTypeId, y => y.ResolveUsing(
@@ -148,11 +157,15 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Policy, PolicyVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Client, y => y.MapFrom(x => new ClientVM { ObjectId = x.Client.ObjectId }))
-                .ForMember(x => x.Collector, y => y.MapFrom(x => new ProducerVM { ObjectId = x.Collector.ObjectId }))
-                .ForMember(x => x.Producer, y => y.MapFrom(x => new ProducerVM { ObjectId = x.Producer.ObjectId }))
-                .ForMember(x => x.Risk, y => y.MapFrom(x => new RiskVM { ObjectId = x.Risk.ObjectId }));
+                .ForMember(x => x.Client, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<ClientVM>(x.Client.ObjectId)))
+                .ForMember(x => x.Collector, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<ProducerVM>(x.Collector.ObjectId)))
+                .ForMember(x => x.Producer, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<ProducerVM>(x.Producer.ObjectId)))
+                .ForMember(x => x.Risk, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<RiskVM>(x.Risk.ObjectId)));
             Mapper.CreateMap<PolicyVM, Domain.Policy>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Client, y => y.Ignore())
+                .ForMember(x => x.Collector, y => y.Ignore())
+                .ForMember(x => x.Producer, y => y.Ignore())
+                .ForMember(x => x.Risk, y => y.Ignore())
                 .ForMember(x => x.ClientId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Clients.First(x => x.ObjectId == ((PolicyVM)res.Value).Client.ObjectId).Id)))
                 .ForMember(x => x.CollectorId, y => y.ResolveUsing(
@@ -164,9 +177,11 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Endorse, EndorseVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Client, y => y.MapFrom(x => new ClientVM { ObjectId = x.Client.ObjectId }))
-                .ForMember(x => x.Policy, y => y.MapFrom(x => new PolicyVM { ObjectId = x.Policy.ObjectId }));
+                .ForMember(x => x.Client, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<ClientVM>(x.Client.ObjectId)))
+                .ForMember(x => x.Policy, y => y.MapFrom(x => AutoMapperExtensions.GetParseObject<PolicyVM>(x.Policy.ObjectId)));
             Mapper.CreateMap<EndorseVM, Domain.Endorse>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Client, y => y.Ignore())
+                .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.ClientId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Clients.First(x => x.ObjectId == ((EndorseVM)res.Value).Client.ObjectId).Id)))
                 .ForMember(x => x.PolicyId, y => y.ResolveUsing(
@@ -174,9 +189,11 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Employee, EmployeeVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : new EndorseVM { ObjectId = x.Endorse.ObjectId }))
-                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : new PolicyVM { ObjectId = x.Policy.ObjectId }));
+                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(x.Endorse.ObjectId)))
+                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(x.Policy.ObjectId)));
             Mapper.CreateMap<EmployeeVM, Domain.Employee>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.EndorseId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((EmployeeVM)res.Value).Endorse.ObjectId).Id)))
                 .ForMember(x => x.PolicyId, y => y.ResolveUsing(
@@ -184,17 +201,21 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.FeeSelection, FeeSelectionVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Liquidation, y => y.MapFrom(x => x.Liquidation == null ? null : new LiquidationVM { ObjectId = x.Liquidation.ObjectId }));
+                .ForMember(x => x.Liquidation, y => y.MapFrom(x => x.Liquidation == null ? null : AutoMapperExtensions.GetParseObject<LiquidationVM>(x.Liquidation.ObjectId)));
             Mapper.CreateMap<FeeSelectionVM, Domain.FeeSelection>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Liquidation, y => y.Ignore())
                 .ForMember(x => x.LiquidationId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Liquidations.First(x => x.ObjectId == ((FeeSelectionVM)res.Value).Liquidation.ObjectId).Id)));
 
             Mapper.CreateMap<Domain.Fee, FeeVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : new EndorseVM { ObjectId = x.Endorse.ObjectId }))
-                .ForMember(x => x.FeeSelection, y => y.MapFrom(x => x.FeeSelection == null ? null : new FeeSelectionVM { ObjectId = x.FeeSelection.ObjectId }))
-                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : new PolicyVM { ObjectId = x.Policy.ObjectId }));
+                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(x.Endorse.ObjectId)))
+                .ForMember(x => x.FeeSelection, y => y.MapFrom(x => x.FeeSelection == null ? null : AutoMapperExtensions.GetParseObject<FeeSelectionVM>(x.FeeSelection.ObjectId)))
+                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(x.Policy.ObjectId)));
             Mapper.CreateMap<FeeVM, Domain.Fee>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.FeeSelection, y => y.Ignore())
+                .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.EndorseId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((FeeVM)res.Value).Endorse.ObjectId).Id)))
                 .ForMember(x => x.FeeSelectionId, y => y.ResolveUsing(
@@ -204,12 +225,17 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Vehicle, VehicleVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : new EndorseVM { ObjectId = x.Endorse.ObjectId }))
-                .ForMember(x => x.Bodywork, y => y.MapFrom(x => x.Bodywork == null ? null : new BodyworkVM { ObjectId = x.Bodywork.ObjectId }))
-                .ForMember(x => x.Use, y => y.MapFrom(x => x.Use == null ? null : new UseVM { ObjectId = x.Use.ObjectId }))
-                .ForMember(x => x.VehicleModel, y => y.MapFrom(x => x.VehicleModel == null ? null : new VehicleModelVM { ObjectId = x.VehicleModel.ObjectId }))
-                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : new PolicyVM { ObjectId = x.Policy.ObjectId }));
+                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(x.Endorse.ObjectId)))
+                .ForMember(x => x.Bodywork, y => y.MapFrom(x => x.Bodywork == null ? null : AutoMapperExtensions.GetParseObject<BodyworkVM>(x.Bodywork.ObjectId)))
+                .ForMember(x => x.Use, y => y.MapFrom(x => x.Use == null ? null : AutoMapperExtensions.GetParseObject<UseVM>(x.Use.ObjectId)))
+                .ForMember(x => x.VehicleModel, y => y.MapFrom(x => x.VehicleModel == null ? null : AutoMapperExtensions.GetParseObject<VehicleModelVM>(x.VehicleModel.ObjectId)))
+                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(x.Policy.ObjectId)));
             Mapper.CreateMap<VehicleVM, Domain.Vehicle>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.Bodywork, y => y.Ignore())
+                .ForMember(x => x.Use, y => y.Ignore())
+                .ForMember(x => x.VehicleModel, y => y.Ignore())
+                .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.EndorseId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((VehicleVM)res.Value).Endorse.ObjectId).Id)))
                 .ForMember(x => x.BodyworkId, y => y.ResolveUsing(
@@ -223,9 +249,11 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Accessory, AccessoryVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.AccessoryType, y => y.MapFrom(x => x.AccessoryType == null ? null : new AccessoryTypeVM { ObjectId = x.AccessoryType.ObjectId }))
-                .ForMember(x => x.Vehicle, y => y.MapFrom(x => x.Vehicle == null ? null : new VehicleVM { ObjectId = x.Vehicle.ObjectId }));
+                .ForMember(x => x.AccessoryType, y => y.MapFrom(x => x.AccessoryType == null ? null : AutoMapperExtensions.GetParseObject<AccessoryTypeVM>(x.AccessoryType.ObjectId)))
+                .ForMember(x => x.Vehicle, y => y.MapFrom(x => x.Vehicle == null ? null : AutoMapperExtensions.GetParseObject<VehicleVM>(x.Vehicle.ObjectId)));
             Mapper.CreateMap<AccessoryVM, Domain.Accessory>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.AccessoryType, y => y.Ignore())
+                .ForMember(x => x.Vehicle, y => y.Ignore())
                 .ForMember(x => x.AccessoryTypeId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.AccessoryTypes.First(x => x.ObjectId == ((AccessoryVM)res.Value).AccessoryType.ObjectId).Id)))
                 .ForMember(x => x.VehicleId, y => y.ResolveUsing(
@@ -233,9 +261,11 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Integral, IntegralVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : new EndorseVM { ObjectId = x.Endorse.ObjectId }))
-                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : new PolicyVM { ObjectId = x.Policy.ObjectId }));
+                .ForMember(x => x.Endorse, y => y.MapFrom(x => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(x.Endorse.ObjectId)))
+                .ForMember(x => x.Policy, y => y.MapFrom(x => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(x.Policy.ObjectId)));
             Mapper.CreateMap<IntegralVM, Domain.Integral>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.EndorseId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((IntegralVM)res.Value).Endorse.ObjectId).Id)))
                 .ForMember(x => x.PolicyId, y => y.ResolveUsing(
@@ -243,9 +273,11 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.Address, AddressVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Client, y => y.MapFrom(x => x.Client == null ? null : x.Client.ObjectId))
-                .ForMember(x => x.Locality, y => y.MapFrom(x => x.Locality == null ? null : x.Locality.ObjectId));
+                .ForMember(x => x.Client, y => y.MapFrom(x => x.Client == null ? null : AutoMapperExtensions.GetParseObject<ClientVM>(x.Client.ObjectId)))
+                .ForMember(x => x.Locality, y => y.MapFrom(x => x.Locality == null ? null : AutoMapperExtensions.GetParseObject<LocalityVM>(x.Locality.ObjectId)));
             Mapper.CreateMap<AddressVM, Domain.Address>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Client, y => y.Ignore())
+                .ForMember(x => x.Locality, y => y.Ignore())
                 .ForMember(x => x.ClientId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Clients.First(x => x.ObjectId == ((AddressVM)res.Value).Client.ObjectId).Id)))
                 .ForMember(x => x.LocalityId, y => y.ResolveUsing(
@@ -253,11 +285,15 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<Domain.CashAccount, CashAccountVM>()
                 .GetCommonMappingExpressionToVM()
-                .ForMember(x => x.Asset, y => y.MapFrom(x => x.Asset == null ? null : new AssetVM { ObjectId = x.Asset.ObjectId }))
-                .ForMember(x => x.Fee, y => y.MapFrom(x => x.Fee == null ? null : new FeeVM { ObjectId = x.Fee.ObjectId }))
-                .ForMember(x => x.Producer, y => y.MapFrom(x => x.Producer == null ? null : new ProducerVM { ObjectId = x.Producer.ObjectId }))
-                .ForMember(x => x.LedgerAccount, y => y.MapFrom(x => x.LedgerAccount == null ? null : new LedgerAccountVM { ObjectId = x.LedgerAccount.ObjectId }));
+                .ForMember(x => x.Asset, y => y.MapFrom(x => x.Asset == null ? null : AutoMapperExtensions.GetParseObject<AssetVM>(x.Asset.ObjectId)))
+                .ForMember(x => x.Fee, y => y.MapFrom(x => x.Fee == null ? null : AutoMapperExtensions.GetParseObject<FeeVM>(x.Fee.ObjectId)))
+                .ForMember(x => x.Producer, y => y.MapFrom(x => x.Producer == null ? null : AutoMapperExtensions.GetParseObject<ProducerVM>(x.Producer.ObjectId)))
+                .ForMember(x => x.LedgerAccount, y => y.MapFrom(x => x.LedgerAccount == null ? null : AutoMapperExtensions.GetParseObject<LedgerAccountVM>(x.LedgerAccount.ObjectId)));
             Mapper.CreateMap<CashAccountVM, Domain.CashAccount>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Asset, y => y.Ignore())
+                .ForMember(x => x.Fee, y => y.Ignore())
+                .ForMember(x => x.Producer, y => y.Ignore())
+                .ForMember(x => x.LedgerAccount, y => y.Ignore())
                 .ForMember(x => x.AssetId, y => y.ResolveUsing(
                     resolution => resolution.Value == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Assets.First(x => x.ObjectId == ((CashAccountVM)res.Value).Asset.ObjectId).Id)))
                 .ForMember(x => x.FeeId, y => y.ResolveUsing(

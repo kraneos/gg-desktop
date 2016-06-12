@@ -66,8 +66,8 @@ namespace Seggu.Services
                 Username = currentUser.Username,
                 Password = password,
                 ObjectId = currentUser.ObjectId,
-                UserRole = userRole.ObjectId,
-                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).ObjectId
+                UserRole = userRole.Name,
+                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name
             };
             settingsDao.Save(setting);
         }

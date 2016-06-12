@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using Parse;
 using Seggu.Desktop.Forms;
 using Seggu.Desktop.Properties;
 using Seggu.Infrastructure;
@@ -8,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Seggu.Domain;
+using Seggu.Service.Services;
+using ParseClient = Parse.ParseClient;
 
 namespace Seggu.Desktop
 {
@@ -24,7 +26,8 @@ namespace Seggu.Desktop
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
+                SynchronizationService.Initialize();
+                SynchronizationService.InitializeParseClasses();
                 ParseClient.Initialize(new ParseClient.Configuration
                 {
                     ApplicationId = Settings.Default.ParseAppId,

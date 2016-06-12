@@ -66,7 +66,7 @@ namespace Seggu.Service.Tests
         [TestMethod]
         public void SynchronizationServiceShouldExecuteWithoutErrors()
         {
-            Thread.Sleep(30000);
+            //Thread.Sleep(30000);
             var eventLog = new EventLog();
             eventLog = new System.Diagnostics.EventLog();
             ((System.ComponentModel.ISupportInitialize)(eventLog)).BeginInit();

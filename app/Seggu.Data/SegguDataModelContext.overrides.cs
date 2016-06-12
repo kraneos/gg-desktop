@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 
 namespace Seggu.Data
 {
@@ -38,11 +39,13 @@ namespace Seggu.Data
                     var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
                     if (setting != null)
                     {
-                        var parseObjects = modifiedEntries.Select(x => GetParseObject(x, setting));
 
                         try
                         {
-                            ParseObject.SaveAllAsync(parseObjects).Wait();
+                            foreach (var entry in modifiedEntries)
+                            {
+                                GetParseObject(entry, setting);
+                            }
                         }
                         catch (Exception)
                         {
@@ -58,41 +61,25 @@ namespace Seggu.Data
             return base.SaveChanges();
         }
 
-        private ParseObject GetParseObject(DbEntityEntry entry, Setting setting)
+        private void GetParseObject(DbEntityEntry entry, Setting setting)
         {
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
-            var parseObject = new ParseObject(entityName);
-            var properties = type.GetProperties().Where(p =>
-                (
-                    p.PropertyType == typeof(string) ||
-                    !typeof(IEnumerable).IsAssignableFrom(p.PropertyType)
-                ) && (
-                    p.Name != "Id" && p.Name != "ObjectId" && p.Name != "CreatedAt" && p.Name != "UpdatedAt" && p.Name != "LocallyUpdatedAt"
-                ));
-
-            foreach (var prop in properties)
+            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type).DestinationType;
+            var isNew = ((ParseEntity) entry.Entity).ObjectId == null;
+            var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
             {
-                parseObject.Add(prop.Name, entry.CurrentValues[prop.Name]);
-            }
-            var parseEntity = (ParseEntity)entry.Entity;
-            if (parseEntity.ObjectId != null)
+                opts.Items["Setting"] = setting;
+                opts.Items["HttpMethod"] = isNew ? "POST": "PUT";
+            });
+            parseObject.SaveAsync().Wait();
+            if (isNew)
             {
-                parseObject.ObjectId = parseEntity.ObjectId;
+                entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+                entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+                entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+                entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
             }
-            else
-            {
-                var ACL = new ParseACL(ParseUser.CurrentUser);
-                ACL.PublicReadAccess = false;
-                ACL.PublicWriteAccess = false;
-                ACL.SetRoleReadAccess(setting.UserRole, true);
-                ACL.SetRoleWriteAccess(setting.UserRole, true);
-                ACL.SetRoleReadAccess(setting.ClientsRole, true);
-                ACL.SetRoleWriteAccess(setting.ClientsRole, true);
-                parseObject.ACL = ACL;
-            }
-
-            return parseObject;
         }
     }
 }

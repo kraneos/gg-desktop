@@ -70,5 +70,12 @@ namespace Seggu.Service.Services
             var method = (string)res.Context.Options.Items["HttpMethod"];
             return predicate(context, setting, method, res);
         }
+
+        public static T GetParseObject<T>(string objectId) where T : ViewModel
+        {
+            var awaitable = new ParseQuery<T>().GetAsync(objectId);
+            awaitable.Wait();
+            return awaitable.Result;
+        }
     }
 }

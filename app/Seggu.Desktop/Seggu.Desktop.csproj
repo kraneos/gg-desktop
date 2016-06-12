@@ -589,6 +589,10 @@
       <Project>{15de0369-c38d-47b4-85ad-56651efb0d30}</Project>
       <Name>Seggu.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.Services\Seggu.Service.Services.csproj">
+      <Project>{2A018CE8-22CE-4947-A189-243906113079}</Project>
+      <Name>Seggu.Service.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seggu.Services.Interfaces\Seggu.Services.Interfaces.csproj">
       <Project>{ed582ff0-f547-49a8-a62f-55b3f96ab02f}</Project>
       <Name>Seggu.Services.Interfaces</Name>
