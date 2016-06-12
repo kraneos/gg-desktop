@@ -14,7 +14,7 @@ namespace Seggu.Data
             ConfigureVehicleTypeUse(modelBuilder);
             ConfigureVehicleCoverages(modelBuilder);
             ConfigureIntegralCoverages(modelBuilder);
-            ConfigureEmployeeCoverages(modelBuilder);            
+            ConfigureEmployeeCoverages(modelBuilder);
         }
 
         private void ConfigureVehicleCoverages(DbModelBuilder modelBuilder)
@@ -108,7 +108,8 @@ namespace Seggu.Data
             modelBuilder
                 .Entity<Integral>()
                 .HasRequired(t => t.Address)
-                .WithOptional(a => a.Integral);
+                .WithOptional(a => a.Integral)
+                .Map(x => x.MapKey("AddressId"));
         }
 
         private void ConfigureProducerCodeEntity(DbModelBuilder modelBuilder)
