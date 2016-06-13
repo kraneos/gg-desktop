@@ -124,6 +124,10 @@ namespace Seggu.Desktop.UserControls
                 foreach (var employee in ce.Employees) { }
                 //employee.Id = null;
             }
+            else if (cp.Integrals != null)
+            {
+                ce.Integrals = cp.Integrals;
+            }
             MainForm.currentEndorse = ce;
         }
         private void ConvertCurrentEndorseToNewEndorse()

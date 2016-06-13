@@ -38,8 +38,11 @@ namespace Seggu.Services
                 SetVehiclesIds(endorseFull);
             else if (endorseFull.Employees != null)
                 SetEmployeesIds(endorseFull);
+            else if (endorseFull.Integrals != null)
+                SetIntegralsIds(endorseFull);
 
             var endorse = EndorseDtoMapper.GetObjectWithCover(endorseFull);
+            SetChildrenToNull(endorse);
             bool isNew = endorseFull.Id == default(int);
 
             bool isAnnulated = endorse.EndorseType == Seggu.Domain.EndorseType.Anulación;
@@ -52,7 +55,9 @@ namespace Seggu.Services
                     AddCoveragesToVehicles(endorse);
                 else if (endorse.Employees != null)
                     AddCoveragesToEmployees(endorse);
-                endorseDao.Save(endorse);
+                else if (endorse.Integrals != null)
+                    AddCoveragesToIntegrals(endorse);
+                    endorseDao.Save(endorse);
             }
             else
             {
@@ -62,9 +67,43 @@ namespace Seggu.Services
                 else if (endorse.Employees != null)
                     foreach (var employee in endorse.Employees)
                         employee.EndorseId = endorse.Id;
+                else if (endorse.Integrals != null)
+                    foreach (var Integral in endorse.Integrals)
+                        Integral.EndorseId = Integral.Id;
                 endorseDao.Edit(endorse);
             }
         }
+
+        private void SetChildrenToNull(Endorse endorse)
+        {
+            if (endorse.Vehicles != null)
+            {
+                foreach (var vehicle in endorse.Vehicles)
+                {
+                    vehicle.Id = 0;
+                    foreach (var accessory in vehicle.Accessories)
+                    {
+                        accessory.Id = 0;
+                    }
+                }
+            }
+            if (endorse.Employees != null)
+            {
+                foreach (var vehicle in endorse.Employees)
+                {
+                    vehicle.Id = 0;
+                }
+            }
+            if (endorse.Integrals != null)
+            {
+                foreach (var vehicle in endorse.Integrals)
+                {
+                    vehicle.Id = 0;
+                    vehicle.Address.Id = 0;
+                }
+            }
+        }
+
         private static void SetFeesIds(EndorseFullDto endorseFull)
         {
             foreach (var fee in endorseFull.Fees) { }
@@ -78,6 +117,11 @@ namespace Seggu.Services
         private static void SetEmployeesIds(EndorseFullDto endorseFull)
         {
             foreach (var employee in endorseFull.Employees) { }
+            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
+        }
+        private static void SetIntegralsIds(EndorseFullDto endorseFull)
+        {
+            foreach (var Integrals in endorseFull.Integrals) { }
             //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
         }
         private void AddCoveragesToVehicles(Endorse endorse)
@@ -98,6 +142,16 @@ namespace Seggu.Services
                 foreach (var coverage in employee.Coverages)
                     coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
                 employee.Coverages = coverages;
+            }
+        }
+        private void AddCoveragesToIntegrals(Endorse endorse)
+        {
+            foreach (var Integral in endorse.Integrals)
+            {
+                var coverages = new List<Coverage>();
+                foreach (var coverage in Integral.Coverages)
+                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                Integral.Coverages = coverages;
             }
         }
         private void AnnulateEndorseChilds(Endorse endorse)

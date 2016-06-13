@@ -90,6 +90,7 @@ namespace Seggu.Services.DtoMappers
             dto.Value = obj.Value;
             dto.Vehicles = (obj.Vehicles ?? new List<Vehicle>()).Select(v => VehicleDtoMapper.GetDto(v));
             dto.Employees = (obj.Employees ?? new List<Employee>()).Select(e => EmployeeDtoMapper.GetDto(e));
+            dto.Integrals = (obj.Integrals ?? new List<Integral>()).Select(i => IntegralDtoMapper.GetDto(i));
 
             return dto;
         }
@@ -120,6 +121,7 @@ namespace Seggu.Services.DtoMappers
             obj.Fees = dto.Fees == null ? null : dto.Fees.Select(f => FeeDtoMapper.GetObject(f)).ToList();
             obj.Vehicles = dto.Vehicles == null ? null : dto.Vehicles.Select(v => VehicleDtoMapper.GetObjectWithCover(v)).ToList();
             obj.Employees = dto.Employees == null ? null : dto.Employees.Select(e => EmployeeDtoMapper.GetObjectWithCover(e)).ToList();
+            obj.Integrals = dto.Integrals== null ? null : dto.Integrals.Select(i => IntegralDtoMapper.GetObjectWithCover(i)).ToList();
             return obj;
         }
     }

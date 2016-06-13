@@ -256,7 +256,7 @@
             this.txtCoveragesPack.Location = new System.Drawing.Point(6, 259);
             this.txtCoveragesPack.Name = "txtCoveragesPack";
             this.txtCoveragesPack.Size = new System.Drawing.Size(196, 25);
-            this.txtCoveragesPack.TabIndex = 30;
+            this.txtCoveragesPack.TabIndex = 8;
             this.txtCoveragesPack.Visible = false;
             // 
             // btnQuitarPaquete
@@ -307,7 +307,7 @@
             this.txtCoberturas.Location = new System.Drawing.Point(208, 21);
             this.txtCoberturas.Name = "txtCoberturas";
             this.txtCoberturas.Size = new System.Drawing.Size(288, 25);
-            this.txtCoberturas.TabIndex = 25;
+            this.txtCoberturas.TabIndex = 7;
             this.txtCoberturas.Visible = false;
             // 
             // txtRiesgo
@@ -315,7 +315,7 @@
             this.txtRiesgo.Location = new System.Drawing.Point(6, 21);
             this.txtRiesgo.Name = "txtRiesgo";
             this.txtRiesgo.Size = new System.Drawing.Size(196, 25);
-            this.txtRiesgo.TabIndex = 23;
+            this.txtRiesgo.TabIndex = 6;
             this.txtRiesgo.Visible = false;
             // 
             // btnQuitarCobertura
@@ -508,7 +508,7 @@
             this.grpbDatos.Name = "grpbDatos";
             this.grpbDatos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbDatos.Size = new System.Drawing.Size(604, 360);
-            this.grpbDatos.TabIndex = 11;
+            this.grpbDatos.TabIndex = 2;
             this.grpbDatos.TabStop = false;
             this.grpbDatos.Text = "Datos";
             // 
@@ -530,7 +530,7 @@
             this.grpbContactos.Name = "grpbContactos";
             this.grpbContactos.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbContactos.Size = new System.Drawing.Size(566, 130);
-            this.grpbContactos.TabIndex = 10;
+            this.grpbContactos.TabIndex = 3;
             this.grpbContactos.TabStop = false;
             this.grpbContactos.Text = "Contactos";
             // 
@@ -647,7 +647,7 @@
             this.grpbOperatoria.Name = "grpbOperatoria";
             this.grpbOperatoria.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grpbOperatoria.Size = new System.Drawing.Size(604, 186);
-            this.grpbOperatoria.TabIndex = 12;
+            this.grpbOperatoria.TabIndex = 4;
             this.grpbOperatoria.TabStop = false;
             this.grpbOperatoria.Text = "Productores";
             // 
@@ -736,7 +736,7 @@
             this.cmbTipoRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoRiesgos.Name = "cmbTipoRiesgos";
             this.cmbTipoRiesgos.Size = new System.Drawing.Size(198, 25);
-            this.cmbTipoRiesgos.TabIndex = 24;
+            this.cmbTipoRiesgos.TabIndex = 5;
             this.cmbTipoRiesgos.SelectionChangeCommitted += new System.EventHandler(this.cmbTipoRiesgos_SelectionChangeCommitted);
             // 
             // label10
@@ -768,7 +768,7 @@
             this.cmbCompañias.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbCompañias.Name = "cmbCompañias";
             this.cmbCompañias.Size = new System.Drawing.Size(219, 25);
-            this.cmbCompañias.TabIndex = 26;
+            this.cmbCompañias.TabIndex = 1;
             this.cmbCompañias.SelectionChangeCommitted += new System.EventHandler(this.cmbCompañias_SelectionChangeCommitted);
             // 
             // Compañías

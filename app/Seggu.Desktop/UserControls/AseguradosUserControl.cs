@@ -465,9 +465,44 @@ namespace Seggu.Desktop.UserControls
         {
             txtCollectionStreet.Text = txtHomeStreet.Text;
         }
-        private void txtHomeNumber_TextChanged(object sender, EventArgs e)
+        private void txtHomeNumber_ValueChanged(object sender, EventArgs e)
         {
             txtCollectionNumber.Value = txtHomeNumber.Value;
+        }
+
+        private void txtHomeFloor_TextChanged(object sender, EventArgs e)
+        {
+            txtCollectionFloor.Text = txtHomeFloor.Text;
+        }
+
+        private void txtHomeAppart_TextChanged(object sender, EventArgs e)
+        {
+            txtCollectionAppartment.Text = txtHomeAppart.Text;
+        }
+
+        private void txtHomePostal_TextChanged(object sender, EventArgs e)
+        {
+            txtCollectionPostalCode.Text = txtHomePostal.Text;
+        }
+
+        private void txtHomePhone_TextChanged(object sender, EventArgs e)
+        {
+            txtCollectionPhone.Text = txtHomePhone.Text;
+        }
+
+        private void cmbProvince_SelectedValueChanged(object sender, EventArgs e)
+        {
+            cmbProvinceCollector.SelectedValue = cmbProvince.SelectedValue;
+        }
+
+        private void cmbDistrict_SelectedValueChanged(object sender, EventArgs e)
+        {
+            cmbDistrictCollector.SelectedValue = cmbDistrict.SelectedValue;
+        }
+
+        private void cmbLocality_SelectedValueChanged(object sender, EventArgs e)
+        {
+            cmbLocalityCollector.SelectedValue = cmbLocality.SelectedValue;
         }
 
         //y este?
@@ -502,6 +537,8 @@ namespace Seggu.Desktop.UserControls
                 }
             }
         }
+
+        
         //private void PopulateTarjetaCreditoDatos(ClientInformationDto aseg)
         //{
         //    IList<tarj_cre> tarjCre = tarjetaCreditoRepository.SelectWhere(x => x.cod_aseg == aseg.codigo).ToList();

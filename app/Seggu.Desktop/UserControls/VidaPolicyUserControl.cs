@@ -77,7 +77,7 @@ namespace Seggu.Desktop.UserControls
         private DataTable BuildEmployeeTable()
             {
                 var table = new DataTable();
-                table.Columns.Add("Id", typeof(string));
+                table.Columns.Add("Id", typeof(int));
                 table.Columns.Add("Apellido", typeof(string));
                 table.Columns.Add("Nombre", typeof(string));
                 table.Columns.Add("DNI", typeof(string));

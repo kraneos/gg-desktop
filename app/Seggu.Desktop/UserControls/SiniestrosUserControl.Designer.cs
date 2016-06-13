@@ -190,7 +190,7 @@
             this.btnExcel.Location = new System.Drawing.Point(714, 349);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(190, 25);
-            this.btnExcel.TabIndex = 31;
+            this.btnExcel.TabIndex = 14;
             this.btnExcel.Text = "Abrir Denuncia en Excel";
             this.btnExcel.UseVisualStyleBackColor = true;
             this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
@@ -200,7 +200,7 @@
             this.txtLiquidator.Location = new System.Drawing.Point(115, 72);
             this.txtLiquidator.Name = "txtLiquidator";
             this.txtLiquidator.Size = new System.Drawing.Size(139, 25);
-            this.txtLiquidator.TabIndex = 30;
+            this.txtLiquidator.TabIndex = 3;
             // 
             // dtpProximaGestion
             // 
@@ -211,7 +211,7 @@
             this.dtpProximaGestion.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpProximaGestion.ShowCheckBox = true;
             this.dtpProximaGestion.Size = new System.Drawing.Size(311, 25);
-            this.dtpProximaGestion.TabIndex = 28;
+            this.dtpProximaGestion.TabIndex = 8;
             this.dtpProximaGestion.Visible = false;
             // 
             // btnGrabar
@@ -221,7 +221,7 @@
             this.btnGrabar.Location = new System.Drawing.Point(624, 349);
             this.btnGrabar.Name = "btnGrabar";
             this.btnGrabar.Size = new System.Drawing.Size(59, 27);
-            this.btnGrabar.TabIndex = 33;
+            this.btnGrabar.TabIndex = 15;
             this.btnGrabar.Text = "Grabar";
             this.btnGrabar.UseVisualStyleBackColor = true;
             this.btnGrabar.Click += new System.EventHandler(this.btnGrabar_Click);
@@ -231,7 +231,7 @@
             this.txtProximaGestion.Location = new System.Drawing.Point(198, 278);
             this.txtProximaGestion.Name = "txtProximaGestion";
             this.txtProximaGestion.Size = new System.Drawing.Size(311, 25);
-            this.txtProximaGestion.TabIndex = 29;
+            this.txtProximaGestion.TabIndex = 9;
             this.txtProximaGestion.Visible = false;
             // 
             // label27
@@ -260,7 +260,7 @@
             this.txtAbogados.Multiline = true;
             this.txtAbogados.Name = "txtAbogados";
             this.txtAbogados.Size = new System.Drawing.Size(107, 114);
-            this.txtAbogados.TabIndex = 25;
+            this.txtAbogados.TabIndex = 7;
             this.txtAbogados.Visible = false;
             // 
             // label25
@@ -269,7 +269,7 @@
             this.label25.Location = new System.Drawing.Point(793, 108);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(69, 17);
-            this.label25.TabIndex = 24;
+            this.label25.TabIndex = 758;
             this.label25.Text = "Abogados";
             this.label25.Visible = false;
             // 
@@ -283,7 +283,7 @@
             this.groupBox3.Location = new System.Drawing.Point(624, 111);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(163, 139);
-            this.groupBox3.TabIndex = 23;
+            this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Documentación";
             this.groupBox3.Visible = false;
@@ -344,7 +344,7 @@
             this.txtDescripcionSiniestro.Multiline = true;
             this.txtDescripcionSiniestro.Name = "txtDescripcionSiniestro";
             this.txtDescripcionSiniestro.Size = new System.Drawing.Size(609, 70);
-            this.txtDescripcionSiniestro.TabIndex = 22;
+            this.txtDescripcionSiniestro.TabIndex = 4;
             // 
             // label24
             // 
@@ -362,7 +362,7 @@
             this.cmbNumber.Location = new System.Drawing.Point(115, 11);
             this.cmbNumber.Name = "cmbNumber";
             this.cmbNumber.Size = new System.Drawing.Size(65, 25);
-            this.cmbNumber.TabIndex = 18;
+            this.cmbNumber.TabIndex = 1;
             // 
             // cmbFormaPago
             // 
@@ -375,21 +375,21 @@
             this.cmbFormaPago.Location = new System.Drawing.Point(713, 317);
             this.cmbFormaPago.Name = "cmbFormaPago";
             this.cmbFormaPago.Size = new System.Drawing.Size(190, 25);
-            this.cmbFormaPago.TabIndex = 12;
+            this.cmbFormaPago.TabIndex = 13;
             // 
             // txtJuzgado
             // 
             this.txtJuzgado.Location = new System.Drawing.Point(713, 283);
             this.txtJuzgado.Name = "txtJuzgado";
             this.txtJuzgado.Size = new System.Drawing.Size(190, 25);
-            this.txtJuzgado.TabIndex = 10;
+            this.txtJuzgado.TabIndex = 12;
             // 
             // txtComisaria
             // 
             this.txtComisaria.Location = new System.Drawing.Point(713, 256);
             this.txtComisaria.Name = "txtComisaria";
             this.txtComisaria.Size = new System.Drawing.Size(190, 25);
-            this.txtComisaria.TabIndex = 8;
+            this.txtComisaria.TabIndex = 11;
             // 
             // label22
             // 
@@ -432,7 +432,7 @@
             this.groupBox2.Location = new System.Drawing.Point(21, 301);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(450, 105);
-            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Indemnización";
             // 
@@ -446,7 +446,7 @@
             this.dtpFechaPagoDef.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpFechaPagoDef.ShowCheckBox = true;
             this.dtpFechaPagoDef.Size = new System.Drawing.Size(135, 25);
-            this.dtpFechaPagoDef.TabIndex = 4;
+            this.dtpFechaPagoDef.TabIndex = 5;
             // 
             // label14
             // 
@@ -467,7 +467,7 @@
             this.dtpFechaPagoEst.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpFechaPagoEst.ShowCheckBox = true;
             this.dtpFechaPagoEst.Size = new System.Drawing.Size(141, 25);
-            this.dtpFechaPagoEst.TabIndex = 2;
+            this.dtpFechaPagoEst.TabIndex = 4;
             // 
             // label15
             // 
@@ -484,7 +484,7 @@
             this.chkbNuestroCargo.Location = new System.Drawing.Point(6, 23);
             this.chkbNuestroCargo.Name = "chkbNuestroCargo";
             this.chkbNuestroCargo.Size = new System.Drawing.Size(121, 21);
-            this.chkbNuestroCargo.TabIndex = 6;
+            this.chkbNuestroCargo.TabIndex = 1;
             this.chkbNuestroCargo.Text = "A nuestro cargo";
             this.chkbNuestroCargo.UseVisualStyleBackColor = true;
             // 
@@ -509,7 +509,7 @@
             this.txtIndemnizacionEst.Location = new System.Drawing.Point(144, 44);
             this.txtIndemnizacionEst.Name = "txtIndemnizacionEst";
             this.txtIndemnizacionEst.Size = new System.Drawing.Size(141, 25);
-            this.txtIndemnizacionEst.TabIndex = 1;
+            this.txtIndemnizacionEst.TabIndex = 2;
             // 
             // label16
             // 
@@ -729,7 +729,7 @@
             this.cmbType.Location = new System.Drawing.Point(115, 42);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(139, 25);
-            this.cmbType.TabIndex = 3;
+            this.cmbType.TabIndex = 2;
             // 
             // label4
             // 

@@ -63,8 +63,18 @@ namespace Seggu.Services.DtoMappers
                     dto.Patente = obj.Vehicles.First().Plate;
                     dto.Objeto = obj.Vehicles.First().VehicleModel.Name; //¿para impresión?
                 }
-            dto.Employees = (obj.Employees ?? new List<Employee>()).Select(e => EmployeeDtoMapper.GetDto(e));
-            dto.Integrals = (obj.Integrals ?? new List<Integral>()).Select(i => IntegralDtoMapper.GetDto(i));
+            if (obj.Employees != null)
+                if (obj.Employees.Count() > 0)
+                {
+                    dto.Employees = obj.Employees.Where(v => v.EndorseId == null)
+                        .Select(v => EmployeeDtoMapper.GetDto(v)).ToList();
+                }
+            if (obj.Integrals != null)
+                if (obj.Integrals.Count() > 0)
+                {
+                    dto.Integrals = obj.Integrals.Where(v => v.EndorseId == null)
+                        .Select(v => IntegralDtoMapper.GetDto(v)).ToList();
+                }
 
             return dto;
         }
