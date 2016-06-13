@@ -1,8 +1,6 @@
 namespace Seggu.Domain
 {
-    using System;
-    
-    public enum EndorseType : short
+    public enum EndorseType : int
     {
         Cambio_Asegurado = 1,
         Cambio_Unidad = 2,

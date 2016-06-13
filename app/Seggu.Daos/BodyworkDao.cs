@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class BodyworkDao : IdEntityDao<Bodywork>, IBodyworkDao
+    public sealed class BodyworkDao : IdParseEntityDao<Bodywork>, IBodyworkDao
     {
         public BodyworkDao(SegguDataModelContext context)
             : base(context)

@@ -140,6 +140,7 @@
             // 
             // cmbTipoRiesgos
             // 
+            this.cmbTipoRiesgos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoRiesgos.FormattingEnabled = true;
             this.cmbTipoRiesgos.Location = new System.Drawing.Point(84, 35);
             this.cmbTipoRiesgos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

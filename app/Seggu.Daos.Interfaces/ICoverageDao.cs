@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICoverageDao: IIdEntityDao<Coverage>
+    public interface ICoverageDao: IParseIdEntityDao<Coverage>
     {
         bool GetByName(string name);
         bool BetByNameId(string name, long id, long riskId);

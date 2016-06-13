@@ -4,11 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Seggu.Desktop.Forms;
 using Seggu.Dtos;
-using Seggu.Infrastructure;
 using Seggu.Services.Interfaces;
 using Seggu.Helpers;
 
@@ -33,16 +31,6 @@ namespace Seggu.Desktop.UserControls
         private bool changesDetected = false;
         private BindingSource accessoriesBindingSource = new BindingSource();
 
-
-        DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
-        public Layout LayoutForm
-        {
-            get
-            {
-                return (Layout)this.FindForm();
-            }
-        }
-
         public VehiculePolicyUserControl(IVehicleService vehicleService, ICoverageService coverageService
             , IBrandService brandService, IBodyworkService bodyworkService, IVehicleModelService vehicleModelService
             , IUseService useService, IVehicleTypeService vehicleTypeService, IMasterDataService masterDataService
@@ -63,16 +51,24 @@ namespace Seggu.Desktop.UserControls
             this.coveragesPackService = coveragesPackService;
         }
 
+        public Layout LayoutForm
+        {
+            get
+            {
+                return (Layout)this.FindForm();
+            }
+        }
 
-        public void InitializeComboboxes(CompanyFullDto selectedCompany, int riskId)
+        DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
+        public void InitializeComboboxes(int riskId)
         {
             cmbCoberturas.ValueMember = "Id";
             cmbCoberturas.DisplayMember = "Name";
-            cmbCoberturas.DataSource = selectedCompany.Risks
-                .Single(r => r.Id == riskId)
-                .CoveragesPacks
-                .OrderBy(cp => cp.Name)
-                .ToList();
+            cmbCoberturas.DataSource = this.coveragesPackService.GetAllByRiskIdCombobox(riskId).ToList();// selectedCompany.Risks
+                //.Single(r => r.Id == riskId)
+                //.CoveragesPacks
+                //.OrderBy(cp => cp.Name)
+                //.ToList();
 
             cmbMarcas.ValueMember = "Id";
             cmbMarcas.DisplayMember = "Name";
@@ -103,7 +99,7 @@ namespace Seggu.Desktop.UserControls
             vehicleList = LayoutForm.currentEndorse.Vehicles
                 .Where(v => v.IsRemoved == false).ToList();
             grdVehicles.DataSource = vehicleList;
-            Format_grdVehcles();
+            FormatVehclesGrid();
             grdVehicles.CurrentCell = grdVehicles.Rows[0].Cells["Plate"];
             currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
             PopulateVehicleFields();
@@ -114,16 +110,22 @@ namespace Seggu.Desktop.UserControls
             vehicleList = LayoutForm.currentPolicy.Vehicles
                 .Where(v => v.IsRemoved == false && v.EndorseId == null).ToList();
             grdVehicles.DataSource = vehicleList;
-            Format_grdVehcles();
+            FormatVehclesGrid();
             grdVehicles.CurrentCell = grdVehicles.Rows[0].Cells["Plate"];
             currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
             PopulateVehicleFields();
         }
-        private void Format_grdVehcles()
+        private void FormatVehclesGrid()
         {
             foreach (DataGridViewColumn c in grdVehicles.Columns)
                 c.Visible = false;
             grdVehicles.Columns["Plate"].Visible = true;
+        }
+
+        private void grdVehicles_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
+            PopulateVehicleFields();
         }
         private void PopulateVehicleFields()
         {
@@ -162,18 +164,11 @@ namespace Seggu.Desktop.UserControls
         //    grdAccessories.Columns["VehicleId"].Visible = false;
         //}        
 
-        private void grdVehicles_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentVehicle = (VehicleDto)grdVehicles.CurrentRow.DataBoundItem;
-            PopulateVehicleFields();
-        }
-
         private void cmbMarca_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SetChangesDetected();
             FillModelsByBrandId();
         }
-
         private void cmbTipoVehiculo_SelectedIndexChanged(object sender, EventArgs e)
         {
             FillBodyworks();
@@ -188,17 +183,17 @@ namespace Seggu.Desktop.UserControls
             FillBodyworks();
             FillUses();
         }
-        private void FillUses()
-        {
-            cmbUses.ValueMember = "Id";
-            cmbUses.DisplayMember = "Name";
-            cmbUses.DataSource = currentModel.Uses;
-        }
         private void FillBodyworks()
         {
             cmbBodyworks.ValueMember = "Id";
             cmbBodyworks.DisplayMember = "Name";
             cmbBodyworks.DataSource = currentModel.Bodyworks;
+        }
+        private void FillUses()
+        {
+            cmbUses.ValueMember = "Id";
+            cmbUses.DisplayMember = "Name";
+            cmbUses.DataSource = currentModel.Uses;
         }
 
         public VehicleDto GetFormInfo()
@@ -224,14 +219,6 @@ namespace Seggu.Desktop.UserControls
             return dto;
         }
 
-        private void txtAnio_Leave(object sender, EventArgs e)
-        {
-            if (txtAnio.Text.Length != 4)
-                MessageBox.Show("El año debe ser de cuatro digitos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
-                MessageBox.Show("El año debe estar entre 1950 y el actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         private void btnClean_Click(object sender, EventArgs e)
         {
             currentVehicle = null;
@@ -247,6 +234,11 @@ namespace Seggu.Desktop.UserControls
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            this.errorProvider1.Clear();
+            if (!this.ValidateChildren())
+            {
+                return;
+            }
             if (!ValidateControls()) return;
             if (!changesDetected) return;
 
@@ -300,6 +292,14 @@ namespace Seggu.Desktop.UserControls
                                     ok = false;
                                 }
                             }
+                            else if (c == txtChasis)
+                            {
+                                if (!txtChasis.Text.IsVIN())
+                                {
+                                    errorProvider1.SetError(c, "Formato de chasis inválido.");
+                                    ok = false;
+                                }
+                            }
                         }
                     }
                     else
@@ -326,7 +326,7 @@ namespace Seggu.Desktop.UserControls
                 vehicleList.Insert(0, vehicle);
                 grdVehicles.DataSource = null;
                 grdVehicles.DataSource = vehicleList;
-                Format_grdVehcles();
+                FormatVehclesGrid();
             }
             else
             {
@@ -382,7 +382,7 @@ namespace Seggu.Desktop.UserControls
             vehicleList.Remove(currentVehicle);
             grdVehicles.DataSource = null;
             grdVehicles.DataSource = vehicleList;
-            Format_grdVehcles();
+            FormatVehclesGrid();
         }
 
         public string GetSelectedPlate()
@@ -432,6 +432,10 @@ namespace Seggu.Desktop.UserControls
         {
             SetChangesDetected();
         }
+        private void grdAccessories_CurrentCellChanged(object sender, EventArgs e)
+        {
+            SetChangesDetected();
+        }
         private void SetChangesDetected()
         {
             tabPage1.BackColor = Color.Coral;
@@ -441,10 +445,99 @@ namespace Seggu.Desktop.UserControls
 
         #endregion
 
-        private void grdAccessories_CurrentCellChanged(object sender, EventArgs e)
+        #region validaciones
+        private void txtAnio_Leave(object sender, EventArgs e)
         {
-            SetChangesDetected();
+            if (txtAnio.Text.Length != 4)
+                MessageBox.Show("El año debe ser de cuatro digitos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
+                MessageBox.Show("El año debe estar entre 1950 y el actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
+        private void cmbMarcas_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbMarcas.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbMarcas, "Este campo es obligatorio.");
+            }
+        }
+        private void txtMotor_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.txtMotor.Text))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtMotor, "Este campo es obligatorio.");
+            }
+        }
+        private void txtChasis_Validating(object sender, CancelEventArgs e)
+        {
+            if (!this.txtChasis.Text.IsVIN())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtChasis, "Este campo debe tener un formato de chasis válido.");
+            }
+        }
+        private void txtAnio_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtAnio.Text.Length != 4)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtAnio, "El año debe ser de cuatro digitos");
+            }
+            else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtAnio, "El año debe estar entre 1950 y el actual");
+            }
+        }
+        private void cmbModelos_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbModelos.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbModelos, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbTipoVehiculo_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbTipoVehiculo.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbTipoVehiculo, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbBodyworks_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbBodyworks.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbBodyworks, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbUses_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbUses.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbUses, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbOrigen_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbOrigen.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbOrigen, "Este campo es obligatorio.");
+            }
+        }
+        private void txtPatente_Validating(object sender, CancelEventArgs e)
+        {
+            if (!this.txtPatente.Text.IsPlateNumber())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.txtPatente, "Este campo debe tener un formato de patente válido.");
+            }
+        }
+        #endregion
     }
 }

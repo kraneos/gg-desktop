@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class RiskDao : IdEntityDao<Risk> , IRiskDao
+    public sealed class RiskDao : IdParseEntityDao<Risk> , IRiskDao
     {
         public RiskDao(SegguDataModelContext context)
             : base(context)
@@ -50,6 +50,11 @@ namespace Seggu.Daos
                 return false;
             }
             return true;
+        }
+
+        public IEnumerable<Risk> GetByCompanyAndRiskType(int id, RiskType riskType)
+        {
+            return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
         }
     }
 }

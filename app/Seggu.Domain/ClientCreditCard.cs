@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class ClientCreditCard : IdEntity
+    public partial class ClientCreditCard : IdParseEntity
     {
         public Nullable<long> Number { get; set; }
         public long ClientId { get; set; }

@@ -16,7 +16,9 @@ namespace Seggu.Services.Interfaces
         bool GetByRegistrationNumber(string registrationNumber, int producerId);
         void Delete(int id);
         void Save(ProducerDto producer);
-        IEnumerable<ProducerCodeDto> GetByCompanyId(int companyId);
+        IEnumerable<ProducerCodeDto> GetProducerCodeByCompanyId(int companyId);
         bool HasPolicies(int p);
+        IEnumerable<KeyValueDto> GetByCompanyIdCombobox(int companyId);
+        IEnumerable<ProducerCompanyDto> GetForCompanyByCompanyId(int id);
     }
 }

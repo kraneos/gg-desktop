@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class CreditCard : KeyValueEntity
+    public partial class CreditCard : ParseKeyValueEntity
     {
         public CreditCard()
         {

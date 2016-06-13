@@ -9,7 +9,7 @@ using System.Transactions;
 
 namespace Seggu.Daos
 {
-    public sealed class CoverageDao : IdEntityDao<Coverage>, ICoverageDao
+    public sealed class CoverageDao : IdParseEntityDao<Coverage>, ICoverageDao
     {
         public CoverageDao(SegguDataModelContext context)
             : base(context)

@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Producer : KeyValueEntity
+    public partial class Producer : ParseKeyValueEntity
     {
         public Producer()
         {

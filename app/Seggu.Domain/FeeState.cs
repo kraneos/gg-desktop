@@ -1,8 +1,6 @@
 namespace Seggu.Domain
 {
-    using System;
-    
-    public enum FeeState : short
+    public enum FeeState : int
     {
         Debe = 0,
         Pagado = 1,

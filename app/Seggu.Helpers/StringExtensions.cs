@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Seggu.Helpers
 {
@@ -120,6 +121,25 @@ namespace Seggu.Helpers
                         return true;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Determines whether this instance is a valid Vehicle Identification Number.
+        /// </summary>
+        /// <param name="str">The string to evaluate.</param>
+        /// <returns></returns>
+        public static bool IsVIN(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return false;
+            }
+            else
+            {
+                var regex = new Regex(@"^(([a-h,A-H,j-n,J-N,p-z,P-Z,0-9]{9})([a-h,A-H,j-n,J-N,p,P,r-t,R-T,v-z,V-Z,0-9])([a-h,A-H,j-n,J-N,p-z,P-Z,0-9])(\d{6}))$");
+                var match = regex.Match(str);
+                return match.Success;
             }
         }
     }

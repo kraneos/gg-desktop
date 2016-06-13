@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Seggu.Daos
 {
-    public class AddressDao : IdEntityDao<Address>, IAddressDao
+    public class AddressDao : IdParseEntityDao<Address>, IAddressDao
     {
         public AddressDao(SegguDataModelContext context)
             : base(context)

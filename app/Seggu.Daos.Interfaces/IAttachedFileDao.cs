@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IAttachedFileDao : IIdEntityDao<AttachedFile>
+    public interface IAttachedFileDao : IParseIdEntityDao<AttachedFile>
     {
         IEnumerable<AttachedFile> GetByPolicyId(long guid);
     }

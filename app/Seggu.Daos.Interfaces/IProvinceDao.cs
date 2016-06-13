@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IProvinceDao : IIdEntityDao<Province>
+    public interface IProvinceDao : IParseIdEntityDao<Province>
     {
     }
 }

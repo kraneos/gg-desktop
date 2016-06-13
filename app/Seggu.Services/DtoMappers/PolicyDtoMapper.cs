@@ -25,6 +25,7 @@ namespace Seggu.Services.DtoMappers
             dto.CollectorId = (int?)obj.CollectorId ?? default(int);
             dto.Vence = obj.EndDate.ToShortDateString();
             dto.Endorses = (obj.Endorses ?? new List<Endorse>()).Select(e => EndorseDtoMapper.GetFullDto(e));
+            dto.NetCharge = obj.NetCharge;
 
             dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
 
@@ -47,6 +48,8 @@ namespace Seggu.Services.DtoMappers
             dto.RiskId = (int)obj.RiskId;
             
             dto.Surcharge = obj.Surcharge;
+            dto.PaymentDay = obj.PaymentDay;
+            dto.PaymentBonus = obj.PaymentBonus;
             dto.StartDate = obj.StartDate.ToShortDateString();
             
             dto.TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Risk.RiskType);
@@ -60,8 +63,18 @@ namespace Seggu.Services.DtoMappers
                     dto.Patente = obj.Vehicles.First().Plate;
                     dto.Objeto = obj.Vehicles.First().VehicleModel.Name; //¿para impresión?
                 }
-            dto.Employees = (obj.Employees ?? new List<Employee>()).Select(e => EmployeeDtoMapper.GetDto(e));
-            dto.Integrals = (obj.Integrals ?? new List<Integral>()).Select(i => IntegralDtoMapper.GetDto(i));
+            if (obj.Employees != null)
+                if (obj.Employees.Count() > 0)
+                {
+                    dto.Employees = obj.Employees.Where(v => v.EndorseId == null)
+                        .Select(v => EmployeeDtoMapper.GetDto(v)).ToList();
+                }
+            if (obj.Integrals != null)
+                if (obj.Integrals.Count() > 0)
+                {
+                    dto.Integrals = obj.Integrals.Where(v => v.EndorseId == null)
+                        .Select(v => IntegralDtoMapper.GetDto(v)).ToList();
+                }
 
             return dto;
         }
@@ -92,7 +105,10 @@ namespace Seggu.Services.DtoMappers
             obj.RiskId = dto.RiskId;
             obj.StartDate = DateTime.Parse(dto.StartDate);
             obj.Surcharge = dto.Surcharge;
+            obj.PaymentDay = dto.PaymentDay;
+            obj.PaymentBonus = dto.PaymentBonus;
             obj.Value = dto.Value;
+            obj.NetCharge = dto.NetCharge;
 
             obj.Fees = dto.Fees == null ? null : dto.Fees.Select(f => FeeDtoMapper.GetObject(f)).ToList();
             obj.Vehicles = dto.Vehicles == null ? null : dto.Vehicles.Select(v => VehicleDtoMapper.GetObjectWithCover(v)).ToList();

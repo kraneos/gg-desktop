@@ -2,7 +2,7 @@
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ILedgerAccountDao : IIdEntityDao<LedgerAccount>
+    public interface ILedgerAccountDao : IParseIdEntityDao<LedgerAccount>
     {
         long GetCobranzaId();
     }

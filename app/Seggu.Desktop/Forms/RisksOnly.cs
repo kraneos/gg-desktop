@@ -20,7 +20,7 @@ namespace Seggu.Desktop.Forms
         private int lastCompanyIndex;
         private bool isNew;
         private List<RiskCompanyDto> riesgos;
-        
+
 
         public RisksOnly(ICompanyService companyService, IRiskService riskService, IMasterDataService masterDataService)
         {
@@ -40,7 +40,7 @@ namespace Seggu.Desktop.Forms
             currentRisk = null;
         }
 
-       
+
         private void InitializeIndex()
         {
             lastCompanyIndex = grdCompañias.CurrentCell == null ? 0 : grdCompañias.CurrentCell.RowIndex;
@@ -84,7 +84,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            isNew = false;  
+            isNew = false;
             InitializeRisks();
             currentCompany = (CompanyDto)grdCompañias.CurrentRow.DataBoundItem;
             riesgos = riskService.GetByCompany(currentCompany.Id).ToList();
@@ -94,7 +94,7 @@ namespace Seggu.Desktop.Forms
 
             ShowEdition();
         }
-       
+
 
         private void ShowEdition()
         {
@@ -120,7 +120,7 @@ namespace Seggu.Desktop.Forms
 
             lsbRiesgos.ValueMember = "Id";
             lsbRiesgos.DisplayMember = "Name";
-            lsbRiesgos.DataSource = riesgos.Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList(); 
+            lsbRiesgos.DataSource = riesgos.Where(r => r.RiskType == cmbTipoRiesgos.SelectedValue.ToString()).ToList();
         }
 
         private bool ValidateControls()
@@ -140,24 +140,24 @@ namespace Seggu.Desktop.Forms
             }
             return ok;
         }
-       
+
 
         private void cmbTipoRiesgos_SelectionChangeCommitted(object sender, EventArgs e)
         {
-                 FillLsbRiesgos();
+            FillLsbRiesgos();
         }
 
         private void lsbRiesgos_SelectedValueChanged(object sender, EventArgs e)
         {
             if (lsbRiesgos.DataSource == null) return;
             CancelarAccion();
-            currentRisk = (RiskCompanyDto) lsbRiesgos.Items[lsbRiesgos.SelectedIndex];
+            currentRisk = (RiskCompanyDto)lsbRiesgos.Items[lsbRiesgos.SelectedIndex];
             currentRisk.CompanyId = currentCompany.Id;
             txtRiesgo.Text = currentRisk.Name;
         }
-      
-       
-       
+
+
+
         private void btnAgregarRiesgos_Click(object sender, EventArgs e)
         {
             btnAgregarRiesgos.Hide();
@@ -168,7 +168,7 @@ namespace Seggu.Desktop.Forms
             txtRiesgo.ReadOnly = false;
             txtRiesgo.Clear();
             isNew = true;
-            
+
         }
 
         private void CancelarAccion()
@@ -211,16 +211,17 @@ namespace Seggu.Desktop.Forms
                     }
                     try
                     {
-                        
+
                         riskService.Delete(riskId);
                         MessageBox.Show("Riesgo eliminado exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       
+
                     }
                     catch (Exception ex)
                     {
-                       
+
                         MessageBox.Show(ex.Message, "Error al Eliminar Riesgo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                            }finally
+                    }
+                    finally
                     {
                         InitializeRisks();
                         riesgos = riskService.GetByCompany(currentCompany.Id).ToList();
@@ -248,51 +249,51 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (txtRiesgo.Text == string.Empty)
-                {
-                    MessageBox.Show("Ingrese un nuevo Riesgo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            if (string.IsNullOrWhiteSpace(txtRiesgo.Text))
+            {
+                MessageBox.Show("Ingrese un nuevo Riesgo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             if (isNew)
             {
-                
-                    if (!riskService.ExistName(txtRiesgo.Text))
+
+                if (!riskService.ExistName(txtRiesgo.Text))
+                {
+
+                    try
+                    {
+                        var risk = new RiskCompanyDto();
+                        risk.CompanyId = currentCompany.Id;
+                        risk.Name = txtRiesgo.Text;
+                        risk.RiskType = cmbTipoRiesgos.SelectedItem.ToString();
+                        riskService.Create(risk);
+                        MessageBox.Show("Riesgo guardado exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }
+                    catch (Exception ex)
                     {
 
-                        try
-                        {
-                            var risk = new RiskCompanyDto();
-                            risk.CompanyId = currentCompany.Id;
-                            risk.Name = txtRiesgo.Text;
-                            risk.RiskType = cmbTipoRiesgos.SelectedItem.ToString();
-                            riskService.Create(risk);
-                            MessageBox.Show("Riesgo guardado exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                           
-                        }
-                        catch (Exception ex)
-                        {
+                        MessageBox.Show(ex.Message, "Error al guardar el nuevo Riesgo", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                            MessageBox.Show(ex.Message, "Error al guardar el nuevo Riesgo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
-                        }
-                        finally
-                        {
-                            InitializeRisks();
-                            currentRisk = null;
-                            riesgos = riskService.GetByCompany(currentCompany.Id).ToList();
-                            CancelarAccion();
-                            if (riesgos != null)
-                                FillLsbRiesgos();
-                       }
-                        
-                       
                     }
-                    else
+                    finally
                     {
-                        MessageBox.Show("Ya existe un riesgo con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        InitializeRisks();
+                        currentRisk = null;
+                        riesgos = riskService.GetByCompany(currentCompany.Id).ToList();
+                        CancelarAccion();
+                        if (riesgos != null)
+                            FillLsbRiesgos();
                     }
 
-               
+
+                }
+                else
+                {
+                    MessageBox.Show("Ya existe un riesgo con ese nombre. Ingrese un nombre diferente.", "Error al Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
             }
             else
             {
@@ -316,7 +317,7 @@ namespace Seggu.Desktop.Forms
                         {
 
                             MessageBox.Show(ex.Message, "Error al guardar los cambios del Riesgo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
+
                         }
                         finally
                         {
@@ -377,7 +378,7 @@ namespace Seggu.Desktop.Forms
             }
         }
 
-        
+
 
     }
 }

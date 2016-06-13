@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Locality : KeyValueEntity
+    public partial class Locality : ParseKeyValueEntity
     {
         public Locality()
         {

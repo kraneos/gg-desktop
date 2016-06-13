@@ -53,16 +53,18 @@
             // 
             this.txtNombre.Location = new System.Drawing.Point(447, 76);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(15);
+            this.txtNombre.MaxLength = 40;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(264, 25);
-            this.txtNombre.TabIndex = 10;
+            this.txtNombre.TabIndex = 0;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtMatricula
             // 
             this.txtMatricula.Location = new System.Drawing.Point(447, 138);
             this.txtMatricula.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtMatricula.MaxLength = 9;
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.ReadOnly = true;
             this.txtMatricula.Size = new System.Drawing.Size(264, 25);
@@ -77,7 +79,7 @@
             this.chkCobrador.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chkCobrador.Name = "chkCobrador";
             this.chkCobrador.Size = new System.Drawing.Size(84, 21);
-            this.chkCobrador.TabIndex = 3;
+            this.chkCobrador.TabIndex = 2;
             this.chkCobrador.Text = "Cobrador";
             this.chkCobrador.UseVisualStyleBackColor = true;
             // 
@@ -110,7 +112,7 @@
             this.grdProductores.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.grdProductores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdProductores.Size = new System.Drawing.Size(386, 428);
-            this.grdProductores.TabIndex = 0;
+            this.grdProductores.TabIndex = 8;
             this.grdProductores.SelectionChanged += new System.EventHandler(this.grdProductores_SelectionChanged);
             // 
             // btnEditar
@@ -142,7 +144,7 @@
             this.btnQuitar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnQuitar.Name = "btnQuitar";
             this.btnQuitar.Size = new System.Drawing.Size(75, 27);
-            this.btnQuitar.TabIndex = 28;
+            this.btnQuitar.TabIndex = 4;
             this.btnQuitar.Text = "Eliminar";
             this.btnQuitar.UseVisualStyleBackColor = true;
             this.btnQuitar.Click += new System.EventHandler(this.btnQuitar_Click);
@@ -154,7 +156,7 @@
             this.btnNuevo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(75, 27);
-            this.btnNuevo.TabIndex = 29;
+            this.btnNuevo.TabIndex = 3;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
@@ -189,7 +191,7 @@
             this.btnEditarProductor.Location = new System.Drawing.Point(636, 221);
             this.btnEditarProductor.Name = "btnEditarProductor";
             this.btnEditarProductor.Size = new System.Drawing.Size(75, 27);
-            this.btnEditarProductor.TabIndex = 32;
+            this.btnEditarProductor.TabIndex = 5;
             this.btnEditarProductor.Text = "Editar";
             this.btnEditarProductor.UseVisualStyleBackColor = true;
             this.btnEditarProductor.Click += new System.EventHandler(this.btnEditarProductor_Click);
@@ -197,10 +199,10 @@
             // btnCancelar
             // 
             this.btnCancelar.AutoSize = true;
-            this.btnCancelar.Location = new System.Drawing.Point(448, 221);
+            this.btnCancelar.Location = new System.Drawing.Point(447, 221);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 27);
-            this.btnCancelar.TabIndex = 33;
+            this.btnCancelar.TabIndex = 6;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Visible = false;
@@ -212,7 +214,7 @@
             this.btnSalir.Location = new System.Drawing.Point(636, 455);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(75, 27);
-            this.btnSalir.TabIndex = 34;
+            this.btnSalir.TabIndex = 7;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);

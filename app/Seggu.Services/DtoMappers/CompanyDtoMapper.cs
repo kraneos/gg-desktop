@@ -30,8 +30,8 @@ namespace Seggu.Services.DtoMappers
             c.Id = company.Id; 
             c.Active = company.Active;
             c.CUIT = company.CUIT;
-            c.LiqDay1 = string.IsNullOrEmpty(company.LiqDay1) ? (short?)null : short.Parse(company.LiqDay1);
-            c.LiqDay2 = string.IsNullOrEmpty(company.LiqDay2) ? (short?)null : short.Parse(company.LiqDay2);
+            c.LiqDay1 = string.IsNullOrEmpty("company.LiqDay1") ? (short)0 : int.Parse(company.LiqDay1);
+            c.LiqDay2 = string.IsNullOrEmpty("company.LiqDay2") ? (short)0 : int.Parse(company.LiqDay2);
             c.PaymentDay1 = string.IsNullOrEmpty(company.Convenio1) ? (short)0 : short.Parse(company.Convenio1);
             c.PaymentDay2 = string.IsNullOrEmpty(company.Convenio2) ? (short)0 : short.Parse(company.Convenio2);
             c.EMail = company.Mail;

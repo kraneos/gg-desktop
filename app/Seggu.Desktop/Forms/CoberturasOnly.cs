@@ -236,7 +236,7 @@ namespace Seggu.Desktop.Forms
             else
             {
                 MessageBox.Show("Primero debe seleccionar una cobertura para eliminarla.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
             }
         }
 
@@ -259,7 +259,7 @@ namespace Seggu.Desktop.Forms
                 return;
             }
 
-            if (txtCoberturas.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(txtCoberturas.Text))
             {
                 MessageBox.Show("Ingrese una nueva Cobertura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

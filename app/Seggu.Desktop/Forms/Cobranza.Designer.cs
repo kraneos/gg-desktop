@@ -92,8 +92,9 @@
             this.grdCuotas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.grdCuotas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.grdCuotas.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.grdCuotas.Location = new System.Drawing.Point(12, 74);
+            this.grdCuotas.Location = new System.Drawing.Point(12, 73);
             this.grdCuotas.Margin = new System.Windows.Forms.Padding(15);
+            this.grdCuotas.MultiSelect = false;
             this.grdCuotas.Name = "grdCuotas";
             this.grdCuotas.ReadOnly = true;
             this.grdCuotas.RowHeadersVisible = false;

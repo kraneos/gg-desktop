@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Seggu.Daos
 {
-    public sealed class UseDao : IdEntityDao<Use>, IUseDao
+    public sealed class UseDao : IdParseEntityDao<Use>, IUseDao
     {
         public UseDao(SegguDataModelContext context)
             : base(context)

@@ -55,6 +55,7 @@
             this.grdEmployees.Size = new System.Drawing.Size(985, 178);
             this.grdEmployees.TabIndex = 95;
             this.grdEmployees.TabStop = false;
+            this.grdEmployees.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grdEmployees_CellValidating);
             // 
             // cmbCoberturas
             // 
@@ -64,7 +65,7 @@
             this.cmbCoberturas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbCoberturas.Name = "cmbCoberturas";
             this.cmbCoberturas.Size = new System.Drawing.Size(263, 25);
-            this.cmbCoberturas.TabIndex = 177;
+            this.cmbCoberturas.TabIndex = 1;
             // 
             // label4
             // 

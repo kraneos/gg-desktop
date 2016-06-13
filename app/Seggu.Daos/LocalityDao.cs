@@ -7,7 +7,7 @@ using Seggu.Data;
 
 namespace Seggu.Daos
 {
-    public sealed class LocalityDao : IdEntityDao<Locality>, ILocalityDao
+    public sealed class LocalityDao : IdParseEntityDao<Locality>, ILocalityDao
     {
         public LocalityDao(SegguDataModelContext context)
             : base(context)

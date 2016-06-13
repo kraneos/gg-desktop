@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface ICashAccountDao : IIdEntityDao<CashAccount>
+    public interface ICashAccountDao : IParseIdEntityDao<CashAccount>
     {
         IEnumerable<CashAccount> GetRcrView(System.DateTime from, System.DateTime to);
 

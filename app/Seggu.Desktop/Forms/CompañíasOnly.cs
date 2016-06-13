@@ -225,7 +225,7 @@ namespace Seggu.Desktop.Forms
             {
                 if (control == txtNombre || control == txtTelefono || control == txtMail)
                 {
-                    if (control.Text == string.Empty)
+                    if (string.IsNullOrWhiteSpace(control.Text))
                     {
                         errorProvider1.SetError(control, "Campo vacío");
                         ok = false;
@@ -247,7 +247,7 @@ namespace Seggu.Desktop.Forms
             {
                 if (control == txtLiq2 || control == txtLiq1 || control == txtConvenio1 || control == txtConvenio2)
                 {
-                    if (control.Text != string.Empty)
+                    if (!string.IsNullOrWhiteSpace(control.Text))
                     {
                         int dia;
                         try
@@ -504,7 +504,7 @@ namespace Seggu.Desktop.Forms
 
                     SelectCompany();
                     InitializeProducers();
-                    grdProductores.DataSource = producerService.GetByCompanyId(selectedFullCompany.Id);
+                    grdProductores.DataSource = producerService.GetProducerCodeByCompanyId(selectedFullCompany.Id);
                     if (selectedFullCompany.Producers != null)
                         FillGrdProductores();
                 }

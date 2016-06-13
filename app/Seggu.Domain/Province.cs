@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Province : KeyValueEntity
+    public partial class Province : ParseKeyValueEntity
     {
         public Province()
         {

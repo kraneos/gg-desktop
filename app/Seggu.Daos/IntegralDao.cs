@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;                            
-using System.Text;
+﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
-using Seggu.Daos.Interfaces;
+using System.Collections.Generic;
 using System.Data.Entity;
-using Seggu.Data;       
+using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class IntegralDao : IdEntityDao<Integral>, IIntegralDao
+    public sealed class IntegralDao : IdParseEntityDao<Integral>, IIntegralDao
     {
         public IntegralDao(SegguDataModelContext context)
             : base(context)
@@ -21,7 +19,6 @@ namespace Seggu.Daos
         {
             var dbIntegral = context.Integrals
                                     .Include("Addresses")
-                                    //.Include("Coverages")
                                     .Single(c => c.Id == newIntegral.Id) ?? newIntegral;
 
             var coverages = new List<Coverage>(newIntegral.Coverages).ToList();
@@ -34,8 +31,6 @@ namespace Seggu.Daos
                     context.Coverages.Attach(dbCover);
                     dbIntegral.Coverages.Add(dbCover);
                 }
-                //else
-                //dbVehicle.Coverages.Remove(dbCover);
             }
 
             context.Entry(dbIntegral).State = EntityState.Added;

@@ -41,6 +41,11 @@ namespace Seggu.Infrastructure
             return (T)this.Resolve(type, parameters);
         }
 
+        public T Resolve<T>(IDictionary<string, object> parameters = null)
+        {
+            return (T)Resolve(typeof(T), parameters);
+        }
+
         public object Resolve(Type type, IDictionary<string, object> parameters = null)
         {
             object result = null;

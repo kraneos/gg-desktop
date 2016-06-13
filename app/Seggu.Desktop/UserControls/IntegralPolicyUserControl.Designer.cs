@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmbCubre = new System.Windows.Forms.ComboBox();
             this.label99 = new System.Windows.Forms.Label();
             this.cmbProvince = new System.Windows.Forms.ComboBox();
@@ -66,7 +66,7 @@
             this.cmbCubre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbCubre.Name = "cmbCubre";
             this.cmbCubre.Size = new System.Drawing.Size(250, 25);
-            this.cmbCubre.TabIndex = 102;
+            this.cmbCubre.TabIndex = 0;
             this.cmbCubre.SelectionChangeCommitted += new System.EventHandler(this.cmbCubre_SelectionChangeCommitted);
             // 
             // label99
@@ -87,8 +87,9 @@
             this.cmbProvince.Location = new System.Drawing.Point(345, 91);
             this.cmbProvince.Name = "cmbProvince";
             this.cmbProvince.Size = new System.Drawing.Size(222, 25);
-            this.cmbProvince.TabIndex = 125;
+            this.cmbProvince.TabIndex = 7;
             this.cmbProvince.SelectionChangeCommitted += new System.EventHandler(this.cmbProvince_SelectionChangeCommitted);
+            this.cmbProvince.Validating += new System.ComponentModel.CancelEventHandler(this.cmbProvince_Validating);
             // 
             // cmbLocality
             // 
@@ -98,8 +99,9 @@
             this.cmbLocality.Location = new System.Drawing.Point(345, 179);
             this.cmbLocality.Name = "cmbLocality";
             this.cmbLocality.Size = new System.Drawing.Size(222, 25);
-            this.cmbLocality.TabIndex = 124;
+            this.cmbLocality.TabIndex = 9;
             this.cmbLocality.ValueMember = "Id";
+            this.cmbLocality.Validating += new System.ComponentModel.CancelEventHandler(this.cmbLocality_Validating);
             // 
             // label17
             // 
@@ -127,9 +129,10 @@
             this.cmbDistrict.Location = new System.Drawing.Point(345, 136);
             this.cmbDistrict.Name = "cmbDistrict";
             this.cmbDistrict.Size = new System.Drawing.Size(222, 25);
-            this.cmbDistrict.TabIndex = 113;
+            this.cmbDistrict.TabIndex = 8;
             this.cmbDistrict.ValueMember = "Id";
             this.cmbDistrict.SelectionChangeCommitted += new System.EventHandler(this.cmbDistrict_SelectionChangeCommitted);
+            this.cmbDistrict.Validating += new System.ComponentModel.CancelEventHandler(this.cmbDistrict_Validating);
             // 
             // label9
             // 
@@ -148,7 +151,7 @@
             this.cmbCoverages.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbCoverages.Name = "cmbCoverages";
             this.cmbCoverages.Size = new System.Drawing.Size(250, 25);
-            this.cmbCoverages.TabIndex = 129;
+            this.cmbCoverages.TabIndex = 1;
             // 
             // lblcoberturas
             // 
@@ -197,7 +200,8 @@
             this.txtHomeStreet.Location = new System.Drawing.Point(63, 91);
             this.txtHomeStreet.Name = "txtHomeStreet";
             this.txtHomeStreet.Size = new System.Drawing.Size(178, 25);
-            this.txtHomeStreet.TabIndex = 132;
+            this.txtHomeStreet.TabIndex = 2;
+            this.txtHomeStreet.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomeStreet_Validating);
             // 
             // label3
             // 
@@ -213,28 +217,32 @@
             this.txtHomeAppart.Location = new System.Drawing.Point(63, 179);
             this.txtHomeAppart.Name = "txtHomeAppart";
             this.txtHomeAppart.Size = new System.Drawing.Size(65, 25);
-            this.txtHomeAppart.TabIndex = 135;
+            this.txtHomeAppart.TabIndex = 5;
             // 
             // txtHomeNumber
             // 
             this.txtHomeNumber.Location = new System.Drawing.Point(63, 134);
             this.txtHomeNumber.Name = "txtHomeNumber";
             this.txtHomeNumber.Size = new System.Drawing.Size(65, 25);
-            this.txtHomeNumber.TabIndex = 133;
+            this.txtHomeNumber.TabIndex = 3;
+            this.txtHomeNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarNumeros);
+            this.txtHomeNumber.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomeNumber_Validating);
             // 
             // txtHomePostal
             // 
             this.txtHomePostal.Location = new System.Drawing.Point(192, 179);
             this.txtHomePostal.Name = "txtHomePostal";
             this.txtHomePostal.Size = new System.Drawing.Size(49, 25);
-            this.txtHomePostal.TabIndex = 136;
+            this.txtHomePostal.TabIndex = 6;
+            this.txtHomePostal.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomePostal_Validating);
             // 
             // txtHomeFloor
             // 
             this.txtHomeFloor.Location = new System.Drawing.Point(192, 134);
             this.txtHomeFloor.Name = "txtHomeFloor";
             this.txtHomeFloor.Size = new System.Drawing.Size(49, 25);
-            this.txtHomeFloor.TabIndex = 134;
+            this.txtHomeFloor.TabIndex = 4;
+            this.txtHomeFloor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarNumeros);
             // 
             // label4
             // 
@@ -267,14 +275,14 @@
             // 
             this.grdCoverages.AllowUserToAddRows = false;
             this.grdCoverages.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdCoverages.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdCoverages.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.grdCoverages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdCoverages.ColumnHeadersVisible = false;
             this.grdCoverages.Location = new System.Drawing.Point(585, 6);
@@ -287,6 +295,7 @@
             this.grdCoverages.Size = new System.Drawing.Size(386, 202);
             this.grdCoverages.TabIndex = 142;
             this.grdCoverages.TabStop = false;
+            this.grdCoverages.Validating += new System.ComponentModel.CancelEventHandler(this.grdCoverages_Validating);
             // 
             // IntegralPolicyUserControl
             // 

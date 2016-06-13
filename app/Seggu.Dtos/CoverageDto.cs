@@ -8,6 +8,6 @@ namespace Seggu.Dtos
     {
         public string Description { get; set; }
         public int RiskId { get; set; }
-        public IEnumerable<CoveragesPackDto> CoveragesPacks { get; set; }
+        public virtual IEnumerable<CoveragesPackDto> CoveragesPacks { get; set; }
     }
 }

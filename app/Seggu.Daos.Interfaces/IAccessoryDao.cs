@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Seggu.Daos.Interfaces
 {
-    public interface IAccessoryDao : IIdEntityDao<Accessory>
+    public interface IAccessoryDao : IParseIdEntityDao<Accessory>
     {
         IEnumerable<Accessory> GetByVehicleId(long id);
     }

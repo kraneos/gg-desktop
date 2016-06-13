@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Fee : IdEntity
+    public partial class Fee : IdParseEntity
     {
         public Fee()
         {
@@ -12,7 +12,7 @@ namespace Seggu.Domain
     
         public long PolicyId { get; set; }
         public System.DateTime ExpirationDate { get; set; }
-        public short Number { get; set; }
+        public int Number { get; set; }
         public decimal Value { get; set; }
         public decimal Balance { get; set; }
         public decimal CompanyPayment { get; set; }

@@ -21,7 +21,7 @@ namespace Seggu.Services.DtoMappers
             //lista de cobranzas
             //dto.Cobrada = x.CollectionDate == null ? date : x.CollectionDate.Value.ToShortDateString();
             dto.Pago_Cía= x.CompanyPayment;
-            dto.Venc_Cuota = x.ExpirationDate.ToShortDateString();
+            dto.Venc_Cuota = x.ExpirationDate;
             dto.Fecha_Liquidación = x.RegisteredLiqDate;
             dto.FeeSelectionId = (int?)x.FeeSelectionId ?? default(int);
             dto.Id = (int)x.Id;
@@ -43,13 +43,13 @@ namespace Seggu.Services.DtoMappers
             //fs.CollectionDate = dto.Cobrada == null? date : DateTime.Parse(dto.Cobrada);
             fs.CompanyPayment = dto.Pago_Cía;
             fs.EndorseId = dto.EndorseId;
-            fs.ExpirationDate = DateTime.Parse(dto.Venc_Cuota);
+            fs.ExpirationDate = dto.Venc_Cuota;
             fs.RegisteredLiqDate = dto.Fecha_Liquidación;
             fs.FeeSelectionId = dto.FeeSelectionId;
             fs.Number = short.Parse(dto.Cuota);
             fs.PolicyId = dto.PolicyId;
             fs.State = FeeStateDtoMapper.ToEnum(dto.Estado);
-            fs.Value = (int)dto.Valor;
+            fs.Value = dto.Valor;
             return fs;
         }
     }

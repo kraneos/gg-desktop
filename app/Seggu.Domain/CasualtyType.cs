@@ -3,7 +3,7 @@ namespace Seggu.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class CasualtyType : KeyValueEntity
+    public partial class CasualtyType : ParseKeyValueEntity
     {
         public CasualtyType()
         {

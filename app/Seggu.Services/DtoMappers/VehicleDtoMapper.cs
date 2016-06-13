@@ -31,7 +31,7 @@ namespace Seggu.Services.DtoMappers
             dto.VehicleTypeId = (int)obj.VehicleModel.VehicleTypeId;
             dto.Year = obj.Year;
             dto.IsRemoved = (bool)(obj.IsRemoved ?? false);
-            dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
+            dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDtoWithPacks(c)).ToList();
 
             return dto;
         }

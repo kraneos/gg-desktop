@@ -17,6 +17,7 @@ namespace Seggu.Services.DtoMappers
             dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             dto.PolicyId = ((int?)obj.PolicyId) ?? default(int);
             dto.EndorseId = ((int?)obj.EndorseId) ?? default(int);
+            dto.locality = obj.Address.Locality.Name;
             return dto;
         }
 

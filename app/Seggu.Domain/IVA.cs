@@ -1,7 +1,5 @@
 namespace Seggu.Domain
 {
-    using System;
-    
     public enum IVA : int
     {
         Consumidor_final = 1,

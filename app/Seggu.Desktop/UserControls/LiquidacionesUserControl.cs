@@ -54,7 +54,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            CleanDataSourceGrid();
+            CleanDataSourceGrids();
             NavigateToCuotas();
             DisableFeeTabControls();
             cmbCompañia.Enabled = true;
@@ -62,7 +62,7 @@ namespace Seggu.Desktop.UserControls
             splitContainer1.Panel1Collapsed = false;
             CreateNewCurrentLiquidationObject();
         }
-        private void CleanDataSourceGrid()
+        private void CleanDataSourceGrids()
         {
             grdLiquidaciones.DataSource = null;
             grdFeeSelections.DataSource = null;
@@ -101,16 +101,6 @@ namespace Seggu.Desktop.UserControls
             EnableFeeTabControls();
             dtpFin_CloseUp(sender, e);
         }
-        private void EnableFeeTabControls()
-        {
-            dtpConvenio.Enabled = true;
-            dtpInicio.Enabled = true;
-            dtpFin.Enabled = true;
-            label6.Enabled = true;
-            txtSelectionName.Enabled = true;
-            btnGuardarSeleccion.Enabled = true;
-            txtNotes.Enabled = true;
-        }
         private void SetConvenioAndDateRange()
         {
             DateTime fechaInicio, fechaFin, fechaConvenio;
@@ -147,6 +137,16 @@ namespace Seggu.Desktop.UserControls
             dtpInicio.Value = fechaInicio;
             dtpFin.Value = fechaFin;
         }
+        private void EnableFeeTabControls()
+        {
+            dtpConvenio.Enabled = true;
+            dtpInicio.Enabled = true;
+            dtpFin.Enabled = true;
+            label6.Enabled = true;
+            txtSelectionName.Enabled = true;
+            btnGuardarSeleccion.Enabled = true;
+            txtNotes.Enabled = true;
+        }
         private void dtpFin_CloseUp(object sender, EventArgs e)
         {
             FillGrids();
@@ -176,6 +176,9 @@ namespace Seggu.Desktop.UserControls
             grdCandidateFees.Columns["CompanyId"].Visible = false;
             grdCandidateFees.Columns["Annulated"].Visible = false;
             grdCandidateFees.Columns["EndorseId"].Visible = false;
+            grdCandidateFees.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdCandidateFees.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdCandidateFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
         }
         private void FormatSelectedFeesGrid()
         {
@@ -185,6 +188,9 @@ namespace Seggu.Desktop.UserControls
             grdSelectedFees.Columns["FeeSelectionId"].Visible = false;
             grdSelectedFees.Columns["Annulated"].Visible = false;
             grdSelectedFees.Columns["EndorseId"].Visible = false;
+            grdSelectedFees.Columns["Valor"].DefaultCellStyle.Format = "c2";
+            grdSelectedFees.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdSelectedFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
         }
 
 
@@ -477,5 +483,6 @@ namespace Seggu.Desktop.UserControls
                     ));
             backgroundThread.Start();
         }
+
     }
 }
