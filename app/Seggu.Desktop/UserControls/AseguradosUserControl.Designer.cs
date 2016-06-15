@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlAseguradosControl = new System.Windows.Forms.TabControl();
             this.tabPageListado = new System.Windows.Forms.TabPage();
             this.clientGrid = new System.Windows.Forms.DataGridView();
@@ -151,8 +151,8 @@
             this.clientGrid.AllowUserToOrderColumns = true;
             this.clientGrid.AllowUserToResizeColumns = false;
             this.clientGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.SkyBlue;
-            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
+            this.clientGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.clientGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.clientGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.clientGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,8 +162,8 @@
             this.clientGrid.RowHeadersVisible = false;
             this.clientGrid.RowHeadersWidth = 13;
             this.clientGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.AliceBlue;
-            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
+            this.clientGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.clientGrid.RowTemplate.Height = 21;
             this.clientGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.clientGrid.Size = new System.Drawing.Size(986, 584);
@@ -299,7 +299,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 151);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(35, 17);
+            this.label13.Size = new System.Drawing.Size(36, 17);
             this.label13.TabIndex = 78;
             this.label13.Text = "Telef";
             // 
@@ -588,7 +588,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(664, 86);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(26, 17);
+            this.label22.Size = new System.Drawing.Size(27, 17);
             this.label22.TabIndex = 99;
             this.label22.Text = "IVA";
             // 
@@ -680,7 +680,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(16, 166);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(35, 17);
+            this.label10.Size = new System.Drawing.Size(36, 17);
             this.label10.TabIndex = 46;
             this.label10.Text = "Telef";
             // 
@@ -864,7 +864,7 @@
             // txtDNI
             // 
             this.txtDNI.Location = new System.Drawing.Point(813, 32);
-            this.txtDNI.MaxLength = 4;
+            this.txtDNI.MaxLength = 8;
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(154, 25);
             this.txtDNI.TabIndex = 5;
