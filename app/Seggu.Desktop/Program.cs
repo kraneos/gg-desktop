@@ -27,7 +27,7 @@ namespace Seggu.Desktop
                 ParseClient.Initialize(new ParseClient.Configuration
                 {
                     ApplicationId = "seggu-api",
-                    Server = "http://seggu-api-test.herokuapp.com/parse/",
+                    Server = "https://seggu-api-develop.herokuapp.com/parse/",
                 });
                 var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
                 Application.Run(form);
