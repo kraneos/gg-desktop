@@ -44,7 +44,7 @@ namespace Seggu.Desktop.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://seggu-api-test.herokuapp.com/parse/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://seggu-api-develop.herokuapp.com/parse/")]
         public string ParseBaseUrl {
             get {
                 return ((string)(this["ParseBaseUrl"]));

@@ -14,7 +14,7 @@
       <Value Profile="(Default)">seggu-api</Value>
     </Setting>
     <Setting Name="ParseBaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://seggu-api-test.herokuapp.com/parse/</Value>
+      <Value Profile="(Default)">http://seggu-api-develop.herokuapp.com/parse/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

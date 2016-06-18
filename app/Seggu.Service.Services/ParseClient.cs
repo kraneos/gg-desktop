@@ -253,7 +253,10 @@ namespace Seggu.Service.Services
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var parseObjects = entities.Select(x => Mapper.Map<TParseEntity, TViewModel>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode))).ToList();
+            var parseObjects = entities
+                .Select(x => Mapper.Map<TParseEntity, TViewModel>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode)))
+                .Where(x => x != null)
+                .ToList();
 
             await parseObjects.SaveAllAsync<TViewModel>();
 

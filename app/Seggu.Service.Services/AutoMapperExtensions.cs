@@ -73,9 +73,17 @@ namespace Seggu.Service.Services
 
         public static T GetParseObject<T>(string objectId) where T : ViewModel
         {
-            var awaitable = new ParseQuery<T>().GetAsync(objectId);
-            awaitable.Wait();
-            return awaitable.Result;
+            if (!string.IsNullOrWhiteSpace(objectId))
+            {
+                var awaitable = new ParseQuery<T>().GetAsync(objectId);
+                awaitable.Wait();
+                return awaitable.Result;
+
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

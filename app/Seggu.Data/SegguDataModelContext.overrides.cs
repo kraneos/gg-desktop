@@ -53,7 +53,7 @@ namespace Seggu.Data
                             {
                                 modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -66,19 +66,22 @@ namespace Seggu.Data
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
             var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type).DestinationType;
-            var isNew = ((ParseEntity) entry.Entity).ObjectId == null;
+            var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
             var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
             {
                 opts.Items["Setting"] = setting;
-                opts.Items["HttpMethod"] = isNew ? "POST": "PUT";
+                opts.Items["HttpMethod"] = isNew ? "POST" : "PUT";
             });
-            parseObject.SaveAsync().Wait();
-            if (isNew)
+            if (parseObject != null)
             {
-                entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
-                entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
-                entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
-                entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
+                parseObject.SaveAsync().Wait();
+                if (isNew)
+                {
+                    entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+                    entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+                    entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+                    entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
+                }
             }
         }
     }

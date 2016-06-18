@@ -28,7 +28,9 @@ namespace Seggu.Services
 
             var lastLogin = settingsDao.GetLastLogin();
 
-            var role = await ParseRole.Query.WhereContains("name", currentUser.Get<ParseObject>("segguClient").ObjectId).FindAsync();
+            var segguClient =
+                await ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            var role = await ParseRole.Query.WhereContains("name", segguClient.Get<string>("name")).FindAsync();
             var userRole = await ParseRole.Query.WhereEqualTo("users", currentUser).FirstAsync();
             if (!role.Any())
             {
