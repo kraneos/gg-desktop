@@ -217,7 +217,6 @@
     <Compile Include="Forms\CobranzasRealizadas.Designer.cs">
       <DependentUpon>CobranzasRealizadas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\cobranzaVencida.cs" />
     <Compile Include="Forms\FormCobranzasVencidas.cs">
       <SubType>Form</SubType>
     </Compile>

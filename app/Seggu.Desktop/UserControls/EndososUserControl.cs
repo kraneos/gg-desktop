@@ -293,8 +293,8 @@ namespace Seggu.Desktop.UserControls
                 SetCoberturasTab(vida_uc);
                 if (MainForm.currentEndorse != null)
                 {
-                    vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
-                    //vida_uc.
+                    vida_uc.PopulateEndorseVida((int)this.cmbRiesgo.SelectedValue);
+                    //vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
                 }
 
             }

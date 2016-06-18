@@ -40,14 +40,14 @@ namespace Seggu.Services
             var coveragesPacks = coveragesPackDao.GetByRiskId(riskId);
             var pack = coveragesPacks.FirstOrDefault(cp => cp.Coverages.Count != 0
                 && cp.Coverages.Any(x => x.Id == id));
-            return (int)pack.Id;
+            return pack == null ? -1 : (int)pack.Id;
         }
         public void Update(CoveragesPackDto coveragesPack)
         {
             var c = CoveragesPackDtoMapper.GetObject(coveragesPack);
             coveragesPackDao.UpdateCoveragesPack(c);
         }
-        public void Delete(int id)
+        public void Delete(long id)
         {
             var idPack = id;
             coveragesPackDao.Delete(idPack);

@@ -10,6 +10,6 @@ namespace Seggu.Daos.Interfaces
         IEnumerable<Risk> GetByCompany(long idCompany);
         IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany);
         bool BetByNameId(string name, long id);
-        IEnumerable<Risk> GetByCompanyAndRiskType(int id, RiskType riskType);
+        IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType);
     }
 }
