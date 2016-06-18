@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceDao.cs" />
     <Compile Include="RiskDao.cs" />
+    <Compile Include="SettingsDao.cs" />
     <Compile Include="UseDao.cs" />
     <Compile Include="VehicleDao.cs" />
     <Compile Include="VehicleModelDao.cs" />

@@ -25,6 +25,7 @@ namespace Seggu.Service
         public SegguService()
         {
             InitializeComponent();
+            SynchronizationService.InitializeParseClasses();
             SynchronizationService.Initialize();
         }
 

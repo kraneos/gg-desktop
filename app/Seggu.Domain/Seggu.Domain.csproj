@@ -99,6 +99,7 @@
     <Compile Include="Province.cs" />
     <Compile Include="Risk.cs" />
     <Compile Include="RiskType.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="Sex.cs" />
     <Compile Include="Synchronization.cs" />
     <Compile Include="Use.cs" />

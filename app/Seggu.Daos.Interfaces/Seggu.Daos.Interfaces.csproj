@@ -93,11 +93,13 @@
     <Compile Include="ILedgerAccountDao.cs" />
     <Compile Include="ILiquidationDao.cs" />
     <Compile Include="ILocalityDao.cs" />
+    <Compile Include="ILoginDao.cs" />
     <Compile Include="IPolicyDao.cs" />
     <Compile Include="IProducerCodeDao.cs" />
     <Compile Include="IProducerDao.cs" />
     <Compile Include="IProvinceDao.cs" />
     <Compile Include="IRiskDao.cs" />
+    <Compile Include="ISettingsDao.cs" />
     <Compile Include="IUseDao.cs" />
     <Compile Include="IVehicleDao.cs" />
     <Compile Include="IVehicleModelDao.cs" />

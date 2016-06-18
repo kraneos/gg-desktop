@@ -1,12 +1,15 @@
 ﻿using Microsoft.Win32;
-using Parse;
 using Seggu.Desktop.Forms;
+using Seggu.Desktop.Properties;
 using Seggu.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Seggu.Domain;
+using Seggu.Service.Services;
+using ParseClient = Parse.ParseClient;
 
 namespace Seggu.Desktop
 {
@@ -23,11 +26,12 @@ namespace Seggu.Desktop
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
+                SynchronizationService.Initialize();
+                SynchronizationService.InitializeParseClasses();
                 ParseClient.Initialize(new ParseClient.Configuration
                 {
-                    ApplicationId = "seggu-api",
-                    Server = "https://seggu-api-develop.herokuapp.com/parse/",
+                    ApplicationId = Settings.Default.ParseAppId,
+                    Server = Settings.Default.ParseBaseUrl,
                 });
                 var form = (Layout)DependencyResolver.Instance.Resolve(typeof(Layout));
                 Application.Run(form);
