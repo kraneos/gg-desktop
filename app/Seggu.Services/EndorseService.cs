@@ -23,12 +23,6 @@ namespace Seggu.Services
             this.policyDao = policyDao;
         }
 
-        public IEnumerable<EndorseDto> GetByPolicyId(int Id)
-        {
-            var polId = Id;
-            var endorses = endorseDao.GetByPolicyId(polId);
-            return endorses.Select(e => EndorseDtoMapper.GetDto(e));
-        }
         public void Save(EndorseFullDto endorseFull)
         {
             if (endorseFull.Fees != null)

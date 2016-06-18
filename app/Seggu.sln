@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Service.Tests", "Segg
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Seggu.Setup", "Seggu.Setup\Seggu.Setup.vdproj", "{90371886-2EC0-4051-BA8A-F0BBC7804FF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Console.Tests", "Seggu.Console.Tests\Seggu.Console.Tests.csproj", "{7D097E25-0184-42D0-A55E-FD928E079E0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ConsoleTest|Any CPU = ConsoleTest|Any CPU
@@ -358,6 +360,24 @@ Global
 		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|Mixed Platforms.Build.0 = Release
 		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|x86.ActiveCfg = Release
 		{90371886-2EC0-4051-BA8A-F0BBC7804FF1}.Release|x86.Build.0 = Release
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|Any CPU.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|Any CPU.Build.0 = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|x86.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.ConsoleTest|x86.Build.0 = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D097E25-0184-42D0-A55E-FD928E079E0E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -384,6 +404,7 @@ Global
 		{1BEC6BEE-D066-4A28-8EF7-E790FDF3CEF4} = {7BDDB0B4-4935-4BF8-BA6D-49808DC36DD5}
 		{DA590930-AA8A-45A8-82F8-3865F953D121} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 		{90371886-2EC0-4051-BA8A-F0BBC7804FF1} = {E9529A91-EBDD-4DF5-AB87-27C2131E4B35}
+		{7D097E25-0184-42D0-A55E-FD928E079E0E} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

@@ -16,3 +16,5 @@ bower_components/
 app/UpgradeLog.htm
 !ng-demo/bin/
 typings/
+Seggu.msi
+/app/Seggu.Setup/Release/setup.exe

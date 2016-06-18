@@ -21,14 +21,14 @@ namespace Seggu.Services
             this.coveragePackDao = coveragePackDao;
         }
 
-        public IEnumerable<RiskCompanyDto> GetByCompany(int id)
+        public IEnumerable<RiskCompanyDto> GetByCompany(long id)
         {
             var companyId = id;
             var risks = this.riskDao.GetByCompanyWithCoveragePacks(companyId);
             return risks.Select(x => RiskDtoMapper.GetRiskCompanyDto(x));
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             var guid = id;
             riskDao.Delete(guid);
@@ -49,7 +49,7 @@ namespace Seggu.Services
             riskDao.Update(RiskDtoMapper.GetObject(risk));
         }
 
-        public bool ExistNameId(string name, int id)
+        public bool ExistNameId(string name, long id)
         {
             if (id == default(int))
             {
@@ -60,7 +60,7 @@ namespace Seggu.Services
             return riskDao.BetByNameId(name, riskId);
         }
 
-        public bool HasCoverages(int id)
+        public bool HasCoverages(long id)
         {
             if (id == default(int))
             {
@@ -71,7 +71,7 @@ namespace Seggu.Services
             return coverageDao.RiskHasCoverage(riskId);
         }
 
-        public bool HasPackages(int id)
+        public bool HasPackages(long id)
         {
             if (id == default(int))
             {
@@ -82,7 +82,7 @@ namespace Seggu.Services
             return coveragePackDao.HasRiskPackege(riskId);
         }
 
-        public IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId)
+        public IEnumerable<RiskItemDto> GetByCompanyCombobox(long companyId)
         {
             return this.riskDao.GetAll()
                 .Where(x => x.CompanyId == companyId)
@@ -90,7 +90,7 @@ namespace Seggu.Services
                 .Select(x => new RiskItemDto { Id = (int)x.Id, Name = x.Name, RiskType = x.RiskType });
         }
 
-        public IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(int id, string riskType)
+        public IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(long id, string riskType)
         {
             return riskDao.GetByCompanyAndRiskType(id, RiskTypeDtoMapper.ToEnum(riskType)).Select(RiskDtoMapper.GetRiskCompanyDto);
         }

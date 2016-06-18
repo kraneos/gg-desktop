@@ -34,38 +34,11 @@ namespace Seggu.Service.Services.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SegguMasterKey")]
-        public string ParseSecretKey {
-            get {
-                return ((string)(this["ParseSecretKey"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http:/localhost:1337/parse")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http:/seggu-api-test.herokuapp.com/parse/")]
         public string ParseBaseUrl {
             get {
                 return ((string)(this["ParseBaseUrl"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("poloagustin")]
-        public string Username {
-            get {
-                return ((string)(this["Username"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("thestral")]
-        public string Password {
-            get {
-                return ((string)(this["Password"]));
             }
         }
     }

@@ -10,5 +10,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=POLOAGUSTINASUS;Initial Catalog=Seggu;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="ParseAppId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">seggu-api</Value>
+    </Setting>
+    <Setting Name="ParseBaseUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://seggu-api-develop.herokuapp.com/parse/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

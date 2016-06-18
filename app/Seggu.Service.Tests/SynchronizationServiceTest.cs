@@ -7,6 +7,7 @@ using Seggu.Service.Services;
 using Seggu.Data;
 using Moq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Seggu.Service.Tests
 {
@@ -18,6 +19,7 @@ namespace Seggu.Service.Tests
     {
         public SynchronizationServiceTest()
         {
+            SynchronizationService.InitializeParseClasses();
             SynchronizationService.Initialize();
         }
 
@@ -64,10 +66,22 @@ namespace Seggu.Service.Tests
         [TestMethod]
         public void SynchronizationServiceShouldExecuteWithoutErrors()
         {
+            //Thread.Sleep(30000);
             var eventLog = new EventLog();
-            using (var context = new SegguDataModelContext("Data Source=.\\seggu.sqlite;"))
+            eventLog = new System.Diagnostics.EventLog();
+            ((System.ComponentModel.ISupportInitialize)(eventLog)).BeginInit();
+            eventLog.Source = "test";
+            eventLog.Log = "test";
+
+            eventLog.WriteEntry("The service has started.");
+
+            //var ServiceName = "SegguService";
+            ((System.ComponentModel.ISupportInitialize)(eventLog)).EndInit();
+
+            using (var context = new SegguDataModelContext(@"Data Source=C:\Users\poloagustin\git\seggu\app\Seggu.Desktop\bin\Debug\seggu.sqlite;"))
             {
                 var syncService = new SynchronizationService(context, eventLog);
+                
                 syncService.SynchronizeParseEntities();
             }
         }

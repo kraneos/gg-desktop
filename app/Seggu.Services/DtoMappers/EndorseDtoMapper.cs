@@ -9,47 +9,6 @@ namespace Seggu.Services.DtoMappers
 {
     public class EndorseDtoMapper
     {
-        public static EndorseDto GetDto(Endorse obj)
-        {
-            var date = new DateTime(1753, 1, 1).ToShortDateString();
-            var dto = new EndorseDto();
-            dto.Asegurado = obj.Client.FirstName + " " + obj.Client.LastName;
-            dto.AnnulationDate = obj.AnnulationDate == null ? date : obj.AnnulationDate.Value.ToShortDateString();
-
-            dto.ClientId = (int?)obj.ClientId ?? default(int);
-            dto.CompanyId = (int)obj.Policy.Risk.Company.Id;
-            dto.Motivo = obj.Cause;
-
-            dto.EndDate = obj.EndDate.ToShortDateString();
-            dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
-            dto.EndorseType = EndorseTypeDtoMapper.ToString(obj.EndorseType);
-
-            dto.Id = (int)obj.Id;
-            dto.IsAnnulled = obj.IsAnnulled == null ? false : true;
-            dto.IsRemoved = obj.IsRemoved == null ? false : true;
-
-            dto.Notes = obj.Notes;
-            dto.Número = obj.Number;
-
-            dto.PolicyId = (int)obj.PolicyId;
-            dto.PolicyNumber = obj.Policy.Number;
-            dto.Premium = obj.Premium;
-            dto.Prima = obj.Prima;
-            dto.ProducerId = (int)obj.Policy.ProducerId;
-
-            dto.RequestDate = obj.RequestDate.ToShortDateString();
-            dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
-            dto.RiskId = (int)obj.Policy.Risk.Id;
-
-            dto.StartDate = obj.StartDate.ToShortDateString();
-            dto.Surcharge = obj.Surcharge;
-
-            dto.TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Policy.Risk.RiskType);
-
-            dto.Value = obj.Value;
-            dto.Vehicles = obj.Vehicles.Select(v => VehicleDtoMapper.GetDto(v)).ToList();
-            return dto;
-        }
         public static EndorseFullDto GetFullDto(Endorse obj)
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
@@ -77,6 +36,7 @@ namespace Seggu.Services.DtoMappers
             dto.Premium = obj.Premium;
             dto.Prima = obj.Prima;
             dto.ProducerId = (int)obj.Policy.ProducerId;
+            dto.PaymentBonus = obj.PaymentBonus;
 
             dto.RequestDate = obj.RequestDate.ToShortDateString();
             dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
@@ -111,6 +71,7 @@ namespace Seggu.Services.DtoMappers
             obj.Number = dto.Número;
             obj.Premium = dto.Premium;
             obj.Prima = dto.Prima;
+            obj.PaymentBonus = dto.PaymentBonus;
             obj.PolicyId = dto.PolicyId;
             obj.ReceptionDate = DateTime.Parse(dto.ReceptionDate);
             obj.RequestDate = DateTime.Parse(dto.RequestDate);

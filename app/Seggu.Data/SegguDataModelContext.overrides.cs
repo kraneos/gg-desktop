@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 
 namespace Seggu.Data
 {
@@ -32,19 +33,27 @@ namespace Seggu.Data
             // If Parse Entity
             if (Properties.Settings.Default.SyncWithParse)
             {
-                var modifiedEntries = entries.Where(e => e.State.HasFlag(EntityState.Added | EntityState.Modified));
-
-                var parseObjects = modifiedEntries.Select(GetParseObject);
-
-                try
+                var modifiedEntries = entries.Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+                if (modifiedEntries.Any())
                 {
-                    ParseObject.SaveAllAsync(parseObjects).Wait();
-                }
-                catch (Exception)
-                {
-                    foreach (var modified in modifiedEntries.Where(e=>e.State == EntityState.Modified))
+                    var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
+                    if (setting != null)
                     {
-                        modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
+
+                        try
+                        {
+                            foreach (var entry in modifiedEntries)
+                            {
+                                GetParseObject(entry, setting);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
+                            {
+                                modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
+                            }
+                        }
                     }
                 }
             }
@@ -52,25 +61,28 @@ namespace Seggu.Data
             return base.SaveChanges();
         }
 
-        private ParseObject GetParseObject(DbEntityEntry entry)
+        private void GetParseObject(DbEntityEntry entry, Setting setting)
         {
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
-            var parseObject = new ParseObject(entityName);
-            var properties = type.GetProperties().Where(p =>
-                (
-                    p.PropertyType == typeof(string) ||
-                    !typeof(IEnumerable).IsAssignableFrom(p.PropertyType)
-                ) && (
-                    p.Name != "Id"
-                ));
-
-            foreach (var prop in properties)
+            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type).DestinationType;
+            var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
+            var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
             {
-                parseObject[prop.Name] = entry.CurrentValues[prop.Name];
+                opts.Items["Setting"] = setting;
+                opts.Items["HttpMethod"] = isNew ? "POST" : "PUT";
+            });
+            if (parseObject != null)
+            {
+                parseObject.SaveAsync().Wait();
+                if (isNew)
+                {
+                    entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+                    entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+                    entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+                    entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
+                }
             }
-
-            return parseObject;
         }
     }
 }

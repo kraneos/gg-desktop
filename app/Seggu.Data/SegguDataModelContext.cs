@@ -68,6 +68,6 @@
         //public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VersionRecord> VersionRecords { get; set; }
         public virtual DbSet<Synchronization> Synchronizations { get; set; }
-
+        public virtual DbSet<Setting> Settings { get; set; }
     }
 }
