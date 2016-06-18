@@ -100,6 +100,7 @@ namespace Seggu.Desktop.UserControls
             ce.PolicyNumber = cp.Número;
             ce.Premium = cp.Premium;
             ce.Prima = cp.Prima;
+            ce.PaymentBonus = cp.PaymentBonus;
             ce.ProducerId = cp.ProducerId;
             ce.RiskId = cp.RiskId;
 
@@ -143,6 +144,7 @@ namespace Seggu.Desktop.UserControls
             newEndorse.PolicyNumber = ce.Número;
             newEndorse.Premium = ce.Premium;
             newEndorse.Prima = ce.Prima;
+            newEndorse.PaymentBonus = ce.PaymentBonus;
             newEndorse.ProducerId = ce.ProducerId;
             newEndorse.RiskId = ce.RiskId;
 
@@ -202,6 +204,7 @@ namespace Seggu.Desktop.UserControls
             txtRecargoPropio.Text = endorse.Surcharge.ToString();
             txtSumaAsegurado.Text = endorse.Value.ToString();
             txtPremioIva.Text = endorse.Premium.ToString();
+            txtBonificacionPago.Text = endorse.PaymentBonus.ToString();
             txtNotas.Text = endorse.Notes;
 
             dtpSolicitud.Value = DateTime.Parse(endorse.RequestDate);
@@ -410,6 +413,7 @@ namespace Seggu.Desktop.UserControls
             endorse.PolicyNumber = txtNroPoliza.Text;
             endorse.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
             endorse.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
+            endorse.PaymentBonus = txtBonificacionPago.Text == "" ? 0 : decimal.Parse(txtBonificacionPago.Text);
             endorse.ProducerId = (int)cmbProductor.SelectedValue;
 
             endorse.RequestDate = dtpSolicitud.Value.ToShortDateString();
