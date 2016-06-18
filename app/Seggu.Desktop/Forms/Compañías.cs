@@ -203,7 +203,7 @@ namespace Seggu.Desktop.Forms
             lblNuevaCompañia.Visible = false;
             btnAgregarCompañia.UseVisualStyleBackColor = true;
 
-            if (ValidateControls())
+            if (ControlsAreValidated())
             {
                 CompanyDto company;
                 if (isNew)
@@ -229,7 +229,7 @@ namespace Seggu.Desktop.Forms
                 InitializeIndex();
             }
         }
-        private bool ValidateControls()
+        private bool ControlsAreValidated()
         {
             bool ok = true;
             errorProvider1.Clear();

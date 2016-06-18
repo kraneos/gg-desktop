@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Agenda));
             this.btnNuevo = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -50,7 +51,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lblCurrentId = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.grdContactos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnNuevo
@@ -76,7 +79,7 @@
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(74, 29);
-            this.btnGuardar.TabIndex = 10;
+            this.btnGuardar.TabIndex = 8;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Visible = false;
@@ -127,7 +130,7 @@
             this.txtEmpresa.Name = "txtEmpresa";
             this.txtEmpresa.ReadOnly = true;
             this.txtEmpresa.Size = new System.Drawing.Size(180, 25);
-            this.txtEmpresa.TabIndex = 13;
+            this.txtEmpresa.TabIndex = 4;
             // 
             // txtNombre
             // 
@@ -136,7 +139,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.ReadOnly = true;
             this.txtNombre.Size = new System.Drawing.Size(180, 25);
-            this.txtNombre.TabIndex = 1;
+            this.txtNombre.TabIndex = 0;
             // 
             // txtApellido
             // 
@@ -145,7 +148,7 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.ReadOnly = true;
             this.txtApellido.Size = new System.Drawing.Size(174, 25);
-            this.txtApellido.TabIndex = 2;
+            this.txtApellido.TabIndex = 1;
             // 
             // grdContactos
             // 
@@ -191,7 +194,7 @@
             this.chkCompany.Location = new System.Drawing.Point(610, 134);
             this.chkCompany.Name = "chkCompany";
             this.chkCompany.Size = new System.Drawing.Size(179, 23);
-            this.chkCompany.TabIndex = 4;
+            this.chkCompany.TabIndex = 2;
             this.chkCompany.Text = "Es Compañía de Seguros";
             this.chkCompany.UseVisualStyleBackColor = true;
             this.chkCompany.Visible = false;
@@ -271,6 +274,10 @@
             this.lblCurrentId.TabIndex = 31;
             this.lblCurrentId.Visible = false;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Agenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -286,7 +293,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.chkCompany);
-            this.Controls.Add(this.cmbEmpresa);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.grdContactos);
             this.Controls.Add(this.btnNuevo);
@@ -294,15 +300,17 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.txtTelefono);
-            this.Controls.Add(this.txtEmpresa);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.txtApellido);
+            this.Controls.Add(this.cmbEmpresa);
+            this.Controls.Add(this.txtEmpresa);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Agenda";
             this.Text = "Agenda";
             ((System.ComponentModel.ISupportInitialize)(this.grdContactos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,5 +339,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblCurrentId;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
