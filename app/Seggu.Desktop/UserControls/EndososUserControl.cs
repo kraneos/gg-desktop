@@ -86,6 +86,7 @@ namespace Seggu.Desktop.UserControls
                 ConvertCurrentEndorseToNewEndorse();
 
             populateTextBoxesAndCombos(MainForm.currentEndorse);
+            cmbPlanes.Enabled = true;
         }
         private void ConvertPolicyToEndorse()
         {
