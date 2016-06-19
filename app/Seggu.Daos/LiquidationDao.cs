@@ -17,14 +17,14 @@ namespace Seggu.Daos
 
         public void Create(Liquidation obj, long id)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 //typeof(Liquidation).GetProperty("Id").SetValue(obj, id, null);
                 var entry = this.context.Entry(obj);
                 entry.State = EntityState.Added;
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
     }

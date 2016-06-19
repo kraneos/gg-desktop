@@ -30,8 +30,8 @@ namespace Seggu.Daos
         public void SaveEndorse(Endorse obj)
         {
             //obj.Id = Guid.NewGuid();
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 if (obj.Vehicles != null)
                     foreach (var vehicle in obj.Vehicles) { }
                 //vehicle.Id = Guid.NewGuid();
@@ -45,13 +45,13 @@ namespace Seggu.Daos
                 var entry = this.context.Entry(obj);
                 entry.State = EntityState.Added;
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
         public void UpdateEndorse(Endorse obj)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 var endorse = this.Set.Find(obj.Id);
                 var endorseEntry = this.context.Entry<Endorse>(endorse);
                 endorseEntry.CurrentValues.SetValues(obj);
@@ -69,8 +69,8 @@ namespace Seggu.Daos
                 if (obj.Fees.Count > 0)
                     this.UpdateFees(obj);
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
         public void Edit(Endorse newEndorse)
         {

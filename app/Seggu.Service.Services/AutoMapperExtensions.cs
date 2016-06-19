@@ -85,5 +85,40 @@ namespace Seggu.Service.Services
                 return null;
             }
         }
+
+        public static object GetParseObject<T, TVm>(ResolutionContext rc, Func<T, string> predFunc)
+            where TVm : ViewModel
+            where T : IdParseEntity
+        {
+            string objectId;
+
+            if (rc.Options.Items.ContainsKey("DbContext"))
+            {
+                var ctx = (SegguDataModelContext)rc.Options.Items["DbContext"];
+                var obj = ctx.Set<T>().Find(((IdParseEntity)rc.SourceValue).Id);
+                objectId = predFunc.Invoke(obj);
+            }
+            else
+            {
+                objectId = predFunc.Invoke((T)rc.SourceValue);
+            }
+            return GetParseObject<TVm>(objectId);
+        }
+
+        public static object GetParseObject<TVm>(ResolutionContext rc, Func<SegguDataModelContext, string> predFunc)
+            where TVm : ViewModel
+        {
+            var ctx = (SegguDataModelContext)rc.Options.Items["DbContext"];
+            var objectId = predFunc.Invoke(ctx);
+            return GetParseObject<TVm>(objectId);
+        }
+
+        public static void AssignOptions<T, TVM>(ResolutionContext rc, IMappingOperationOptions<T, TVM> opts)
+        {
+            foreach (var item in rc.Options.Items)
+            {
+                opts.Items.Add(item);
+            }
+        }
     }
 }
