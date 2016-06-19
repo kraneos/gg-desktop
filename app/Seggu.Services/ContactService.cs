@@ -28,8 +28,7 @@ namespace Seggu.Services
         {
             try
             {
-                var guid = id;
-                contactDao.Delete(guid);
+                contactDao.Delete(id);
             }
             catch (Exception) { throw; }
         }

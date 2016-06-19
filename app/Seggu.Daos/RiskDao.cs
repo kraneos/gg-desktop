@@ -52,7 +52,7 @@ namespace Seggu.Daos
             return true;
         }
 
-        public IEnumerable<Risk> GetByCompanyAndRiskType(int id, RiskType riskType)
+        public IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType)
         {
             return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
         }

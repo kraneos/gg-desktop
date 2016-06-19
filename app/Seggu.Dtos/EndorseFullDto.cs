@@ -23,7 +23,7 @@ namespace Seggu.Dtos
         public string Notes { get; set; }
         public string Número { get; set; }
 
-        public int PolicyId { get; set; }
+        public long PolicyId { get; set; }
         public string PolicyNumber { get; set; }
         public decimal? Prima { get; set; }
         public decimal? Premium { get; set; }

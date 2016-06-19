@@ -12,24 +12,18 @@ namespace Seggu.Desktop.UserControls
 {
     public partial class VidaPolicyUserControl : UserControl
     {
-        private ICoverageService coverageService;
+        private readonly ICoverageService coverageService;
         private IEmployeeService employeeService;
         private PolicyFullDto currentPolicy;
         private EndorseFullDto currentEndorse;
-        private ICoveragesPackService coveragePackService;
-        public Layout MainForm
-        {
-            get
-            {
-                return (Layout)FindForm();
-            }
-        }
+        private readonly ICoveragesPackService coveragePackService;
+        public Layout MainForm => (Layout)FindForm();
 
-        public VidaPolicyUserControl(ICoverageService _covergeService, IEmployeeService _employeeService,
+        public VidaPolicyUserControl(ICoverageService covergeService, IEmployeeService _employeeService,
             ICoveragesPackService _coveragePackService)
         {
             InitializeComponent();
-            coverageService = _covergeService;
+            coverageService = covergeService;
             employeeService = _employeeService;
             coveragePackService = _coveragePackService;
         }
@@ -44,11 +38,11 @@ namespace Seggu.Desktop.UserControls
 
         private void LoadCmbCoverages(int riskTypeId)
         {
-            var coberturas = this.coveragePackService.GetAllByRiskId(riskTypeId).ToList();
+            var coberturas = coveragePackService.GetAllByRiskId(riskTypeId).ToList();
             cmbCoberturas.DataSource = coberturas;
             cmbCoberturas.DisplayMember = "Name";
             cmbCoberturas.ValueMember = "Id";
-            if (currentPolicy != null && currentPolicy.Employees != null && currentPolicy.Employees.Any())
+            if (currentPolicy?.Employees != null && currentPolicy.Employees.Any())
             {
                 var coverages = currentPolicy.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
                 if (coverages.Any())
@@ -57,7 +51,7 @@ namespace Seggu.Desktop.UserControls
             else
             {
                 currentEndorse = MainForm.currentEndorse;
-                if (currentEndorse != null && currentEndorse.Employees != null && currentEndorse.Employees.Any())
+                if (currentEndorse?.Employees != null && currentEndorse.Employees.Any())
                 {
                     var coverages = currentEndorse.Employees.SelectMany(x => x.Coverages ?? new List<CoverageDto>());
                     if (coverages.Any())
@@ -75,67 +69,69 @@ namespace Seggu.Desktop.UserControls
         }
 
         private DataTable BuildEmployeeTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("Apellido", typeof(string));
+            table.Columns.Add("Nombre", typeof(string));
+            table.Columns.Add("DNI", typeof(string));
+            table.Columns.Add("CUIT", typeof(string));
+            table.Columns.Add("Nacimiento", typeof(DateTime));
+            table.Columns.Add("Suma Asegurada", typeof(decimal));
+
+            if (currentEndorse == null || !currentEndorse.Employees.Any())
             {
-                var table = new DataTable();
-                table.Columns.Add("Id", typeof(int));
-                table.Columns.Add("Apellido", typeof(string));
-                table.Columns.Add("Nombre", typeof(string));
-                table.Columns.Add("DNI", typeof(string));
-                table.Columns.Add("CUIT", typeof(string));
-                table.Columns.Add("Nacimiento", typeof(DateTime));
-                table.Columns.Add("Suma Asegurada", typeof(decimal));
-
-                if (currentEndorse == null || currentEndorse.Employees.Count() == 0)
+                foreach (var employee in currentPolicy.Employees ?? new List<EmployeeDto>())
                 {
-                    foreach (var employee in currentPolicy.Employees ?? new List<EmployeeDto>())
-                    {
-                        var row = table.NewRow();
-                        row["Id"] = employee.Id;
-                        row["Apellido"] = employee.Apellido;
-                        row["Nombre"] = employee.Nombre;
-                        row["DNI"] = employee.DNI;
-                        row["CUIT"] = employee.CUIT;
-                        row["Nacimiento"] = employee.Fecha_Nacimiento;
-                        row["Suma Asegurada"] = employee.Suma;
-                        table.Rows.Add(row);
-                    }
+                    var row = table.NewRow();
+                    row["Id"] = employee.Id;
+                    row["Apellido"] = employee.Apellido;
+                    row["Nombre"] = employee.Nombre;
+                    row["DNI"] = employee.DNI;
+                    row["CUIT"] = employee.CUIT;
+                    row["Nacimiento"] = employee.Fecha_Nacimiento;
+                    row["Suma Asegurada"] = employee.Suma;
+                    table.Rows.Add(row);
+                }
 
-                }
-                else
-                {
-                    foreach (var employee in currentEndorse.Employees ?? new List<EmployeeDto>())
-                    {
-                        var row = table.NewRow();
-                        row["Id"] = employee.Id;
-                        row["Apellido"] = employee.Apellido;
-                        row["Nombre"] = employee.Nombre;
-                        row["DNI"] = employee.DNI;
-                        row["CUIT"] = employee.CUIT;
-                        row["Nacimiento"] = employee.Fecha_Nacimiento;
-                        row["Suma Asegurada"] = employee.Suma;
-                        table.Rows.Add(row);
-                    }
-                }
-                return table;
             }
+            else
+            {
+                foreach (var employee in currentEndorse.Employees ?? new List<EmployeeDto>())
+                {
+                    var row = table.NewRow();
+                    row["Id"] = employee.Id;
+                    row["Apellido"] = employee.Apellido;
+                    row["Nombre"] = employee.Nombre;
+                    row["DNI"] = employee.DNI;
+                    row["CUIT"] = employee.CUIT;
+                    row["Nacimiento"] = employee.Fecha_Nacimiento;
+                    row["Suma Asegurada"] = employee.Suma;
+                    table.Rows.Add(row);
+                }
+            }
+            return table;
+        }
 
         public IEnumerable<EmployeeDto> GetEmployees()
         {
             var employees = new List<EmployeeDto>();
             var table = (DataTable)grdEmployees.DataSource;
             var coverages = coverageService.GetByPackId(((int)cmbCoberturas.SelectedValue));
-            for (int i = 0; i < table.Rows.Count; i++)
+            for (var i = 0; i < table.Rows.Count; i++)
             {
                 var row = table.Rows[i];
-                var employee = new EmployeeDto();
-                employee.Id = row["Id"] is DBNull ? default(int) : (int)row["Id"];
-                employee.Apellido = row["Apellido"] is DBNull ? string.Empty : (string)row["Apellido"];
-                employee.Nombre = row["Nombre"] is DBNull ? string.Empty : (string)row["Nombre"];
-                employee.DNI = row["DNI"] is DBNull ? "Sin DNI" : (string)row["DNI"];
-                employee.CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string)row["CUIT"];
-                employee.Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime)row["Nacimiento"];
-                employee.Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal)row["Suma Asegurada"];
-                employee.Coverages = coverages;
+                var employee = new EmployeeDto
+                {
+                    Id = row["Id"] is DBNull ? default(int) : (int) row["Id"],
+                    Apellido = row["Apellido"] is DBNull ? string.Empty : (string) row["Apellido"],
+                    Nombre = row["Nombre"] is DBNull ? string.Empty : (string) row["Nombre"],
+                    DNI = row["DNI"] is DBNull ? "Sin DNI" : (string) row["DNI"],
+                    CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string) row["CUIT"],
+                    Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime) row["Nacimiento"],
+                    Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal) row["Suma Asegurada"],
+                    Coverages = coverages
+                };
                 employees.Add(employee);
             }
             return employees;
@@ -201,5 +197,18 @@ namespace Seggu.Desktop.UserControls
             MessageBox.Show(errorMsg);
         }
         #endregion
+
+        public void PopulateEndorseVida(int riskId)
+        {
+            currentEndorse = MainForm.currentEndorse;
+            currentPolicy = MainForm.currentPolicy;
+            if (MainForm.currentEndorse.Employees == null || !MainForm.currentEndorse.Employees.Any()) return;
+            var employees = MainForm.currentEndorse.Employees
+                .Where(v => !v.IsRemoved).ToList();
+            grdEmployees.DataSource = employees;
+            LoadCmbCoverages(riskId);
+
+            LoadEmployeeGrid();
+        }
     }
 }
