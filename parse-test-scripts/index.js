@@ -1,8 +1,8 @@
 var Parse = require('parse/node');
 
-Parse.initialize('seggu-api', null, 'SegguMasterKey');
+// Parse.initialize('seggu-api', null, '{B39EC4DE-2F1C-40AF-906E-9CDA7BA2BD7B}');
 // Parse.Cloud.useMasterKey();
-Parse.serverURL = 'http://seggu-api-test.herokuapp.com/parse/';
+// Parse.serverURL = 'http://seggu-api-develop.herokuapp.com/parse/';
 // createNewSegguClientWithDefaults('Segurolandia');
 module.exports = {
     queryAndDestroyAllClasses: queryAndDestroyAllClasses,
@@ -14,7 +14,8 @@ module.exports = {
     getRoleUsers: getRoleUsers,
     getProvinceNullDistricts: getProvinceNullDistricts,
     createNewSegguClientWithDefaults: createNewSegguClientWithDefaults,
-    logInAs: logInAs
+    logInAs: logInAs,
+    addUserToRole: addUserToRole
 };
 //fetchUsers();
 // queryAndDestroyAllClasses();
@@ -75,37 +76,37 @@ function createUser(username, password, email) {
 
 function queryAndDestroyAllClasses() {
     [
-            'AccessoryType',
-            'Asset',
-            'Bank',
-            'Bodywork',
-            'Brand',
-            'CasualtyType',
-            'Client',
-            'Company',
-            'CreditCard',
-            'LedgerAccount',
-            'Producer',
-            'Province',
-            'Use',
-            'VehicleType',
-            'Cheque',
-            'Contact',
-            'Liquidation',
-            'District',
-            'Locality',
-            'Risk',
-            'VehicleModel',
-            'Policy',
-            'Endorse',
-            'Employee',
-            'FeeSelection',
-            'Fee',
-            'Vehicle',
-            'Accessory',
-            'Integral',
-            'Address',
-            'CashAccount',
+        'AccessoryType',
+        'Asset',
+        'Bank',
+        'Bodywork',
+        'Brand',
+        'CasualtyType',
+        'Client',
+        'Company',
+        'CreditCard',
+        'LedgerAccount',
+        'Producer',
+        'Province',
+        'Use',
+        'VehicleType',
+        'Cheque',
+        'Contact',
+        'Liquidation',
+        'District',
+        'Locality',
+        'Risk',
+        'VehicleModel',
+        'Policy',
+        'Endorse',
+        'Employee',
+        'FeeSelection',
+        'Fee',
+        'Vehicle',
+        'Accessory',
+        'Integral',
+        'Address',
+        'CashAccount',
     ].forEach(function (value) {
         queryAndDestroy(value);
     });
@@ -124,7 +125,7 @@ function queryAndDestroyAllClasses() {
 function destroyUser(username, password) {
     Parse.User.logIn(username, password).then(function (user) {
         user.destroy().then(console.log, console.log);
-    });
+    }, console.log);
 }
 
 function createNewSegguClient(clientName, users) {
@@ -167,18 +168,18 @@ function createNewSegguClientWithDefaults(clientName) {
     segguClient.set('name', clientName);
 
     var users = [
-{
-    username: 'egentile' + clientName, password: 'seggu2016', email: 'egentilemontes@gmail.com'
-},
-{
-    username: 'ecolombano' + clientName, password: 'seggu2016', email: 'colombanoemiliano@gmail.com'
-},
-{
-    username: 'fcaironi' + clientName, password: 'seggu2016', email: 'fcaironi@gmail.com'
-},
-{
-    username: 'apolo' + clientName, password: 'seggu2016', email: 'poloagustin@gmail.com'
-}];
+        {
+            username: 'egentile' + clientName, password: 'seggu2016', email: 'egentilemontes@gmail.com'
+        },
+        {
+            username: 'ecolombano' + clientName, password: 'seggu2016', email: 'colombanoemiliano@gmail.com'
+        },
+        {
+            username: 'fcaironi' + clientName, password: 'seggu2016', email: 'fcaironi@gmail.com'
+        },
+        {
+            username: 'apolo' + clientName, password: 'seggu2016', email: 'poloagustin@gmail.com'
+        }];
 
     segguClient.save().then(function (savedClient) {
         var clientRole = getNewRole(savedClient.id);
@@ -219,9 +220,22 @@ function getRoleUsers(roleId) {
 }
 
 function getProvinceNullDistricts() {
-    new Parse.Query('District').doesNotExist('province').find().then(console.log,console.log);
+    new Parse.Query('District').doesNotExist('province').find().then(console.log, console.log);
 }
 
 function logInAs(username, password) {
     Parse.User.logIn(username, password).then(console.log, console.log);
+}
+
+function addUserToRole(serverUrl, appId, masterKey, roleId, userId) {
+    Parse.initialize(appId, null, masterKey);
+    Parse.Cloud.useMasterKey();
+    Parse.serverURL = serverUrl;
+
+    new Parse.Query(Parse.Role).get(roleId).then(function (role) {
+        new Parse.Query(Parse.User).get(userId).then(function (user) {
+            role.getUsers().add(user);
+            role.save().then(console.log, console.log);
+        }, console.log);
+    }, console.log);
 }

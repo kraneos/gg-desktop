@@ -27,7 +27,17 @@ gulp.task('login', function () {
 	}
 });
 
+gulp.task('destroy-user', function () {
+	if (argv.USERNAME && argv.PASSWORD) {
+		scripts.destroyUser(argv.USERNAME, argv.PASSWORD);
+	}
+});
+
 gulp.task('create-provinces', function () {
 	// dataMig('http://seggu-api-test.herokuapp.com/parse/', 'seggu-api', 'SegguMasterKey')
 	// 	.createProvinces('./data/provinces.json');
+});
+
+gulp.task('add-user-to-role', function () {
+	scripts.addUserToRole(argv.SERVERURL, argv.APPID, argv.MASTERKEY, argv.ROLEID, argv.USERID);
 });
