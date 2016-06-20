@@ -32,3 +32,31 @@ El archivo está ubicado en C:\Users\Alicia\git\seggu\app\Seggu.Desktop\bin\Debu
 La fase de retroceso al estado original finalizó correctamente.
 
 La instalación con transacciones ha finalizado.
+
+
+The uninstall is beginning.
+See the contents of the log file for the C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.exe assembly's progress.
+The file is located at C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.InstallLog.
+
+The uninstall has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.exe assembly's progress.
+The file is located at C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.exe assembly's progress.
+The file is located at C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.exe assembly's progress.
+The file is located at C:\Users\usuario\Source\Repos\seggu\app\Seggu.Desktop\bin\Debug\Seggu.Service.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.

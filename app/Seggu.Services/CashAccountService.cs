@@ -21,7 +21,7 @@ namespace Seggu.Services
         public IEnumerable<CashAccountDto> GetAll()
         {
             var cashAccounts = this.cashAccountDao.GetAll();
-            return cashAccounts.OrderByDescending(x => x.Date).Select(b => CashAccountDtoMapper.GetDto(b));
+            return cashAccounts.OrderByDescending(x => x.Id).Select(b => CashAccountDtoMapper.GetDto(b));
         }
         
         public void Save(CashAccountDto x)
