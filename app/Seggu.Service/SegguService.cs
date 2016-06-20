@@ -1,19 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Seggu.Data;
-using Seggu.Domain;
-using Seggu.Infrastructure;
+﻿using Seggu.Infrastructure;
 using Seggu.Service.Services;
 using Seggu.Service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Timers;
 
 namespace Seggu.Service

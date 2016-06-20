@@ -1,10 +1,5 @@
-﻿using Seggu.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.ServiceProcess;
-using System.Text;
 
 namespace Seggu.Service
 {

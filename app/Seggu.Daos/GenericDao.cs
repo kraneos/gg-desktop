@@ -53,28 +53,30 @@ namespace Seggu.Daos
             //}
         }
 
-        public virtual void Update(T obj)
-        {
-            //using (var scope = new TransactionScope())
-            //{
-                var entry = this.context.Entry<T>(obj);
-                var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
-                if (entry.State == EntityState.Detached)
-                {
-                    T attachedEntity = this.Set.Find(pkey);  // access the key
-                    if (attachedEntity != null)
-                    {
-                        var attachedEntry = this.context.Entry(attachedEntity);
-                        attachedEntry.CurrentValues.SetValues(obj);
-                    }
-                    else
-                        entry.State = EntityState.Modified; // attach the entity
-                }
-                
-                this.context.SaveChanges();
-            //    scope.Complete();
-            //}
-        }
+        public abstract void Update(T obj);
+
+        //public virtual void Update(T obj)
+        //{
+        //    //using (var scope = new TransactionScope())
+        //    //{
+        //        var entry = this.context.Entry<T>(obj);
+        //        var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
+        //        if (entry.State == EntityState.Detached)
+        //        {
+        //            T attachedEntity = this.Set.Find(pkey);  // access the key
+        //            if (attachedEntity != null)
+        //            {
+        //                var attachedEntry = this.context.Entry(attachedEntity);
+        //                attachedEntry.CurrentValues.SetValues(obj);
+        //            }
+        //            else
+        //                entry.State = EntityState.Modified; // attach the entity
+        //        }
+
+        //        this.context.SaveChanges();
+        //    //    scope.Complete();
+        //    //}
+        //}
 
         public virtual void Delete(T obj)
         {

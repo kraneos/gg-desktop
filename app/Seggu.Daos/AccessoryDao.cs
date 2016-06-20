@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class AccessoryDao: IdParseEntityDao<Accessory>, IAccessoryDao
+    public sealed class AccessoryDao : IdParseEntityDao<Accessory>, IAccessoryDao
     {
         public AccessoryDao(SegguDataModelContext context)
             : base(context)
@@ -18,6 +18,16 @@ namespace Seggu.Daos
         {
             return this.Set
                 .Where(x => x.VehicleId == id);
+        }
+
+        public override void Update(Accessory obj)
+        {
+            // Update  ields
+            var orig = context.Accessories.Find(obj.Id);
+            orig.Name = obj.Name;
+            orig.Stamp = obj.Stamp;
+            orig.Value = obj.Value;
+            orig.ExpirationDate = obj.ExpirationDate;
         }
     }
 }

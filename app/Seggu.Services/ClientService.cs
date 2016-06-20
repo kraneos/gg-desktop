@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Seggu.Daos.Interfaces;
-using Seggu.Domain;
+﻿using Seggu.Daos.Interfaces;
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Seggu.Services
 {
