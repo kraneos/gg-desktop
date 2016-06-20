@@ -169,6 +169,7 @@ namespace Seggu.Service.Services
 
             Mapper.CreateMap<AccessoryType, AccessoryTypeVM>().GetCommonMappingExpressionToVM();
             Mapper.CreateMap<AccessoryTypeVM, AccessoryType>().GetCommonMappingExpressionToEntity();
+            Mapper.CreateMap<AccessoryType, AccessoryType>().GetCommonMappingExpressionEntityToEntity();
 
             Mapper.CreateMap<Asset, AssetVM>().GetCommonMappingExpressionToVM();
             Mapper.CreateMap<AssetVM, Asset>().GetCommonMappingExpressionToEntity();

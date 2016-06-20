@@ -63,6 +63,14 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.LocallyUpdatedAt, y => y.MapFrom(x => x.UpdatedAt));
         }
 
+        public static IMappingExpression<TSourceParseEntity, TDestinationParseEntity> GetCommonMappingExpressionEntityToEntity
+            <TSourceParseEntity, TDestinationParseEntity>(this IMappingExpression<TSourceParseEntity, TDestinationParseEntity> expression)
+            where TSourceParseEntity : IdParseEntity
+            where TDestinationParseEntity : IdParseEntity
+        {
+            return expression;
+        }
+
         private static object GetAcl(ResolutionResult res)
         {
             var setting = (Setting)res.Context.Options.Items["Setting"];
