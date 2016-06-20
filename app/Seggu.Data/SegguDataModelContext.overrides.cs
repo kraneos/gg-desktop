@@ -67,7 +67,7 @@ namespace Seggu.Data
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
             var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type && x.DestinationType != type).DestinationType;
-            var objId = entry.GetDatabaseValues()["ObjectId"];
+            var objId = entry.State == EntityState.Added ? null : entry.GetDatabaseValues()["ObjectId"];
             var isNew = objId == null;
             //var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
             var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
