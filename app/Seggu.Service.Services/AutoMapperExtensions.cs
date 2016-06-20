@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Seggu.Data;
+using Seggu.Helpers;
 
 namespace Seggu.Service.Services
 {
@@ -68,7 +69,15 @@ namespace Seggu.Service.Services
             where TSourceParseEntity : IdParseEntity
             where TDestinationParseEntity : IdParseEntity
         {
-            return expression;
+            expression = typeof(TSourceParseEntity)
+                .GetNonVirtualProperties()
+                .Aggregate(expression, (current, property) => current.ForMember(property.Name, x => x.Ignore()));
+            return expression
+                .ForMember(x => x.ObjectId, x => x.Ignore())
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.CreatedAt, x => x.Ignore())
+                .ForMember(x => x.LocallyUpdatedAt, x => x.Ignore())
+                .ForMember(x => x.UpdatedAt, x => x.Ignore());
         }
 
         private static object GetAcl(ResolutionResult res)

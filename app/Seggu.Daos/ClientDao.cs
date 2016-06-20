@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
+using AutoMapper;
 
 namespace Seggu.Daos
 {
@@ -53,23 +54,24 @@ namespace Seggu.Daos
         {
             // Update Client Fields
             var orig = context.Clients.Find(obj.Id);
-            orig.FirstName = obj.FirstName;
-            orig.LastName = obj.LastName;
-            orig.CellPhone = obj.CellPhone;
-            orig.Mail = obj.Mail;
-            orig.Document = obj.Document;
-            orig.BirthDate = obj.BirthDate;
-            orig.Cuit = obj.Cuit;
-            orig.IngresosBrutos = obj.IngresosBrutos;
-            orig.CollectionTimeRange = obj.CollectionTimeRange;
-            orig.BankingCode = obj.BankingCode;
-            orig.Notes = obj.Notes;
-            orig.IsSmoker = obj.IsSmoker;
-            orig.Sex = obj.Sex;
-            orig.IVA = obj.IVA;
-            orig.MaritalStatus = obj.MaritalStatus;
-            orig.DocumentType = obj.DocumentType;
-            orig.Occupation = obj.Occupation;
+            Mapper.Map<Client, Client>(obj, orig);
+            //orig.FirstName = obj.FirstName;
+            //orig.LastName = obj.LastName;
+            //orig.CellPhone = obj.CellPhone;
+            //orig.Mail = obj.Mail;
+            //orig.Document = obj.Document;
+            //orig.BirthDate = obj.BirthDate;
+            //orig.Cuit = obj.Cuit;
+            //orig.IngresosBrutos = obj.IngresosBrutos;
+            //orig.CollectionTimeRange = obj.CollectionTimeRange;
+            //orig.BankingCode = obj.BankingCode;
+            //orig.Notes = obj.Notes;
+            //orig.IsSmoker = obj.IsSmoker;
+            //orig.Sex = obj.Sex;
+            //orig.IVA = obj.IVA;
+            //orig.MaritalStatus = obj.MaritalStatus;
+            //orig.DocumentType = obj.DocumentType;
+            //orig.Occupation = obj.Occupation;
 
             // Update Addresses Fields
             foreach (var origAddress in orig.Addresses)

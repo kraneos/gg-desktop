@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 
 namespace Seggu.Data
@@ -65,7 +66,7 @@ namespace Seggu.Data
         {
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
-            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type).DestinationType;
+            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type && x.DestinationType != type).DestinationType;
             var objId = entry.GetDatabaseValues()["ObjectId"];
             var isNew = objId == null;
             //var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
