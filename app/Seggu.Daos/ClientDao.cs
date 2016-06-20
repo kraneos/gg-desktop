@@ -5,7 +5,6 @@ using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace Seggu.Daos
 {
@@ -52,10 +51,8 @@ namespace Seggu.Daos
 
         public override void Update(Client obj)
         {
-            // Update Client Fields
             var orig = context.Clients.Find(obj.Id);
             Mapper.Map<Client, Client>(obj, orig);
-
             context.SaveChanges();
         }
     }

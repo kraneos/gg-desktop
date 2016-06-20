@@ -1,12 +1,10 @@
 ﻿using Seggu.Daos.Interfaces;
 using Seggu.Data;
-using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Transactions;
 
 namespace Seggu.Daos
 {

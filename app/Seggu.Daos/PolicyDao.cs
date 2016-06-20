@@ -1,11 +1,11 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -90,8 +90,10 @@ namespace Seggu.Daos
 
             }
             UpdateFees(newPolicy);
-            context.Entry(dbPolicy).State = EntityState.Modified;
-            context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
+            //context.Entry(dbPolicy).State = EntityState.Modified;
+            //context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
+            Mapper.Map<Policy, Policy>(newPolicy, dbPolicy);
+
             context.SaveChanges();
         }
         private void UpdatePolicyVehicles(Policy newPolicy, Policy dbPolicy)
@@ -109,7 +111,9 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    //context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    Mapper.Map<Vehicle, Vehicle>(newVehicle, dbVehicle);
+
                     foreach (var dbCoverage in dbVehicle.Coverages)
                         if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -147,7 +151,9 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    //context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    Mapper.Map<Employee, Employee>(newEmployee, dbEmployee);
+
                     foreach (var dbCoverage in dbEmployee.Coverages)
                         if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -186,8 +192,10 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
-                    context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                    //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
+                    //context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                    Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
+
                     foreach (var dbCoverage in dbIntegral.Coverages)
                         if (newIntegral.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -214,8 +222,6 @@ namespace Seggu.Daos
         {
             foreach (var fee in policy.Fees)
             {
-                //if (fee.Id == Guid.Empty)
-                //fee.Id = Guid.NewGuid();
                 fee.PolicyId = policy.Id;
             }
 
@@ -235,6 +241,13 @@ namespace Seggu.Daos
                 .Include("Client.Addresses.Locality.District")
                 .Include("Client.Addresses.Locality.District.Province")
                 .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null);
+        }
+
+        public override void Update(Policy obj)
+        {
+            var orig = context.Policies.Find(obj.Id);
+            Mapper.Map<Policy, Policy>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

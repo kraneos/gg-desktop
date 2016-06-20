@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +18,13 @@ namespace Seggu.Daos
         {
             return this.Set
                 .Where(c => c.PolicyId == guid);
+        }
+
+        public override void Update(Casualty obj)
+        {
+            var orig = context.Casualties.Find(obj.Id);
+            Mapper.Map<Casualty, Casualty>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

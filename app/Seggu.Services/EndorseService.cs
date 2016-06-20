@@ -25,16 +25,6 @@ namespace Seggu.Services
 
         public void Save(EndorseFullDto endorseFull)
         {
-            if (endorseFull.Fees != null)
-                SetFeesIds(endorseFull);
-
-            if (endorseFull.Vehicles != null)
-                SetVehiclesIds(endorseFull);
-            else if (endorseFull.Employees != null)
-                SetEmployeesIds(endorseFull);
-            else if (endorseFull.Integrals != null)
-                SetIntegralsIds(endorseFull);
-
             var endorse = EndorseDtoMapper.GetObjectWithCover(endorseFull);
             SetChildrenToNull(endorse);
             bool isNew = endorseFull.Id == default(int);
@@ -98,26 +88,6 @@ namespace Seggu.Services
             }
         }
 
-        private static void SetFeesIds(EndorseFullDto endorseFull)
-        {
-            foreach (var fee in endorseFull.Fees) { }
-            //fee.Id = string.IsNullOrEmpty(fee.Id== default(int) ? Guid.NewGuid().ToString() : fee.Id;
-        }
-        private static void SetVehiclesIds(EndorseFullDto endorseFull)
-        {
-            foreach (var vehicle in endorseFull.Vehicles) { }
-            //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
-        }
-        private static void SetEmployeesIds(EndorseFullDto endorseFull)
-        {
-            foreach (var employee in endorseFull.Employees) { }
-            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-        }
-        private static void SetIntegralsIds(EndorseFullDto endorseFull)
-        {
-            foreach (var Integrals in endorseFull.Integrals) { }
-            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-        }
         private void AddCoveragesToVehicles(Endorse endorse)
         {
             foreach (var vehicle in endorse.Vehicles)

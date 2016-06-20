@@ -1,9 +1,8 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Data.Entity;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -17,15 +16,16 @@ namespace Seggu.Daos
 
         public void Create(Liquidation obj, long id)
         {
-            //using (var scope = new TransactionScope())
-            //{
-                //typeof(Liquidation).GetProperty("Id").SetValue(obj, id, null);
-                var entry = this.context.Entry(obj);
-                entry.State = EntityState.Added;
-                this.context.SaveChanges();
-            //    scope.Complete();
-            //}
+            var entry = this.context.Entry(obj);
+            entry.State = EntityState.Added;
+            this.context.SaveChanges();
         }
 
+        public override void Update(Liquidation obj)
+        {
+            var orig = context.Liquidations.Find(obj.Id);
+            Mapper.Map<Liquidation, Liquidation>(obj, orig);
+            context.SaveChanges();
+        }
     }
 }

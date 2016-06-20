@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,12 +22,9 @@ namespace Seggu.Daos
 
         public override void Update(Accessory obj)
         {
-            // Update  ields
             var orig = context.Accessories.Find(obj.Id);
-            orig.Name = obj.Name;
-            orig.Stamp = obj.Stamp;
-            orig.Value = obj.Value;
-            orig.ExpirationDate = obj.ExpirationDate;
+            Mapper.Map<Accessory, Accessory>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

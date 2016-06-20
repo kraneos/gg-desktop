@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -35,7 +35,8 @@ namespace Seggu.Daos
             context.Entry(dbVehicle).State = EntityState.Added;
 
             newVehicle.Id = dbVehicle.Id;
-            context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+            //context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+            Mapper.Map<Vehicle, Vehicle>(newVehicle, dbVehicle);
 
             foreach (var dbCover in context.Coverages)
             {
@@ -47,6 +48,13 @@ namespace Seggu.Daos
                 //else
                     //dbVehicle.Coverages.Remove(dbCover);
             }
+            context.SaveChanges();
+        }
+
+        public override void Update(Vehicle obj)
+        {
+            var orig = context.Vehicles.Find(obj.Id);
+            Mapper.Map<Vehicle, Vehicle>(obj, orig);
             context.SaveChanges();
         }
     }

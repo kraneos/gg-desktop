@@ -2,12 +2,8 @@
 using Seggu.Dtos;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.IO;
 
 
 namespace Seggu.Services

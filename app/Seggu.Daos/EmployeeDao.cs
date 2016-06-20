@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -21,30 +21,39 @@ namespace Seggu.Daos
             return this.Set.Where(x => x.PolicyId == policyId);
         }
 
-        public void SaveEmployee(Employee newVehicle)
+        public void SaveEmployee(Employee employee)
         {
-            var coverages = new List<Coverage>(newVehicle.Coverages).ToList();
-            var dbVehicle = context.Employees
+            var coverages = new List<Coverage>(employee.Coverages).ToList();
+            var dbEmployee = context.Employees
                                     .Include("Coverages")
-                                    .FirstOrDefault(c => c.Id == newVehicle.Id) ?? newVehicle;
+                                    .FirstOrDefault(c => c.Id == employee.Id) ?? employee;
 
-            dbVehicle.Coverages.Clear();
-            context.Entry(dbVehicle).State = EntityState.Added;
+            dbEmployee.Coverages.Clear();
+            context.Entry(dbEmployee).State = EntityState.Added;
 
-            newVehicle.Id = dbVehicle.Id;
-            context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+            employee.Id = dbEmployee.Id;
+            Mapper.Map<Employee, Employee>(employee, dbEmployee);
+
+            //context.Entry(dbEmployee).CurrentValues.SetValues(employee);
 
             foreach (var dbCover in context.Coverages)
             {
                 if (coverages.Any(cov => cov.Id == dbCover.Id))
                 {
                     context.Coverages.Attach(dbCover);
-                    dbVehicle.Coverages.Add(dbCover);
+                    dbEmployee.Coverages.Add(dbCover);
                 }
                 //else
                 //dbVehicle.Coverages.Remove(dbCover);
             }
             context.SaveChanges();
+        }
+
+        public override void Update(Employee obj)
+        {
+            //var orig = context.Employees.Find(obj.Id);
+            //Mapper.Map<Employee, Employee>(obj, orig);
+            //context.SaveChanges();
         }
     }
 }

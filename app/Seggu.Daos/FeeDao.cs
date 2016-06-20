@@ -1,10 +1,10 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace Seggu.Daos
@@ -86,35 +86,6 @@ namespace Seggu.Daos
                 modifiedFees.Add(existingFee);
             }
             context.SaveChanges();
-            //var table = new DataTable();
-            //table.Columns.Add("Id");
-            //table.Columns.Add("FeeSelectionId");
-            //table.Columns.Add("Status");
-
-            //foreach (var fee in fees)
-            //{
-            //    var row = table.NewRow();
-            //    row["Id"] = fee.Id;
-            //    row["FeeSelectionId"] = fee.FeeSelectionId;
-            //    row["Status"] = (long)fee.State;
-            //    table.Rows.Add(row);
-            //}
-
-            //var param = new SqlParameter("@FeesToUpdate", SqlDbType.Structured);
-            //param.Value = table;
-            //param.TypeName = "FeeSelectionAssigmentTable";
-
-            //var command = "EXEC FeeSelectionAssignment @FeesToUpdate;";
-
-            //try
-            //{
-            //    this.context.Database.ExecuteSqlCommand(command, param);
-            //    this.context.RefreshSet<Fee>();
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
         }
         public IEnumerable<Fee> GetOverdueEndorsesToday()
         {
@@ -123,6 +94,13 @@ namespace Seggu.Daos
         public IEnumerable<Fee> GetOverduePoliciesToday()
         {
             return this.Set.Where(x => x.ExpirationDate == DateTime.Today);
+        }
+
+        public override void Update(Fee obj)
+        {
+            var orig = context.Fees.Find(obj.Id);
+            Mapper.Map<Fee, Fee>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 
@@ -13,19 +14,8 @@ namespace Seggu.Daos
         public override void Update(Address obj)
         {
             var orig = context.Addresses.Find(obj.Id);
-            if (orig == null) return;
-
-            var props = orig.GetType().GetProperties();
-
-            orig.Street = obj.Street;
-            orig.Phone = obj.Phone;
-            orig.Number = obj.Number;
-            orig.Floor = obj.Floor;
-            orig.Appartment = obj.Appartment;
-            orig.LocalityId = obj.LocalityId;
-            orig.PostalCode = obj.PostalCode;
-            orig.AddressType = obj.AddressType;
-            orig.       
+            Mapper.Map<Address, Address>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

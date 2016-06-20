@@ -63,7 +63,7 @@ namespace Seggu.Services
                 return true;
             }
             var id = idRisk;
-            return coveragesPackDao.BetByNameRisk(name, id);
+            return coveragesPackDao.GetByNameRisk(name, id);
         }
         public bool ExistNameId(string name, int id, int riskId)
         {
@@ -79,7 +79,7 @@ namespace Seggu.Services
 
             var coverageId = id;
             var riskIds = riskId;
-            return coveragesPackDao.BetByNameId(name, coverageId, riskIds);
+            return coveragesPackDao.GetByNameId(name, coverageId, riskIds);
         }
 
         public IEnumerable<KeyValueDto> GetAllByRiskIdCombobox(int riskId)
