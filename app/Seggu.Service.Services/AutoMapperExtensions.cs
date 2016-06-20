@@ -15,9 +15,32 @@ namespace Seggu.Service.Services
     {
         public static IMappingExpression<TE, TVM> GetCommonMappingExpressionToVM<TE, TVM>(this IMappingExpression<TE, TVM> mappingExpression)
             where TE : IdParseEntity
-            where TVM : ViewModel
+            where TVM : ViewModel, new()
         {
             return mappingExpression
+                .ConstructUsing(rc =>
+                {
+                    if (rc.Options.Items.ContainsKey("ObjectId"))
+                    {
+                        var task = new ParseQuery<TVM>().GetAsync((string)rc.Options.Items["ObjectId"]);
+                        task.Wait();
+                        return task.Result;
+                    }
+                    else if (((IdParseEntity)rc.SourceValue).ObjectId != null)
+                    {
+                        var task = new ParseQuery<TVM>().GetAsync(((IdParseEntity)rc.SourceValue).ObjectId);
+                        task.Wait();
+                        return task.Result;
+                    }
+                    else
+                    {
+                        return new TVM();
+                    }
+                })
+                .ForMember(x => x.ObjectId, y => y.ResolveUsing(x =>
+                {
+                    return x.Context.Options.Items.ContainsKey("ObjectId") ? x.Context.Options.Items["ObjectId"] : ((IdParseEntity)x.Value).ObjectId;
+                }))
                 .ForMember(x => x.CreatedAt, y => y.Ignore())
                 .ForMember(x => x.UpdatedAt, y => y.Ignore())
                 .ForMember(x => x.ACL, y => y.ResolveUsing(GetAcl));
