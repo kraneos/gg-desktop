@@ -43,7 +43,16 @@ namespace Seggu.Service.Services
                 }))
                 .ForMember(x => x.CreatedAt, y => y.Ignore())
                 .ForMember(x => x.UpdatedAt, y => y.Ignore())
-                .ForMember(x => x.ACL, y => y.ResolveUsing(GetAcl));
+                .ForMember(x => x.ACL, y =>
+                {
+                    y.PreCondition(GetObjectIdPreCondition);
+                    y.ResolveUsing(GetAcl);
+                });
+        }
+
+        private static bool GetObjectIdPreCondition(ResolutionContext rc)
+        {
+            return !rc.Options.Items.ContainsKey("ObjectId") && ((IdParseEntity)rc.SourceValue).ObjectId == null;
         }
 
         public static IMappingExpression<TViewModel, TParseEntity> GetCommonMappingExpressionToEntity<TViewModel, TParseEntity>(this IMappingExpression<TViewModel, TParseEntity> expression)
