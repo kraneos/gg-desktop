@@ -74,29 +74,22 @@ function createUser(username, password, email) {
     });
 }
 
-function queryAndDestroyAllClasses() {
+function queryAndDestroyAllClasses(serverUrl, appId, masterKey, roleId, userId) {
+    Parse.initialize(appId, null, masterKey);
+    Parse.Cloud.useMasterKey();
+    Parse.serverURL = serverUrl;
+    
     [
         'AccessoryType',
         'Asset',
-        'Bank',
-        'Bodywork',
-        'Brand',
-        'CasualtyType',
         'Client',
-        'Company',
         'CreditCard',
         'LedgerAccount',
         'Producer',
-        'Province',
-        'Use',
-        'VehicleType',
         'Cheque',
         'Contact',
         'Liquidation',
-        'District',
-        'Locality',
         'Risk',
-        'VehicleModel',
         'Policy',
         'Endorse',
         'Employee',
@@ -107,6 +100,17 @@ function queryAndDestroyAllClasses() {
         'Integral',
         'Address',
         'CashAccount',
+        // 'Bank',
+        // 'Bodywork',
+        // 'Brand',
+        // 'CasualtyType',
+        // 'Company',
+        // 'District',
+        // 'Locality',
+        // 'Province',
+        // 'Use',
+        // 'VehicleModel',
+        // 'VehicleType',
     ].forEach(function (value) {
         queryAndDestroy(value);
     });
