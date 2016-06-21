@@ -4,7 +4,7 @@ var argv = require('yargs').argv;
 var dataMig = require('./data-migration');
 
 gulp.task('destroy-all', function () {
-    scripts.queryAndDestroyAllClasses();
+    scripts.queryAndDestroyAllClasses(argv.SERVERURL, argv.APPID, argv.MASTERKEY, argv.ROLEID, argv.USERID);
 });
 
 gulp.task('task1', function () {

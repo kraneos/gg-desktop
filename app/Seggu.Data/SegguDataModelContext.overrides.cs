@@ -74,7 +74,10 @@ namespace Seggu.Data
             {
                 opts.Items["Setting"] = setting;
                 opts.Items["HttpMethod"] = isNew ? "POST" : "PUT";
-                opts.Items["ObjectId"] = objId;
+                if (!isNew)
+                {
+                    opts.Items["ObjectId"] = objId;
+                }
             });
             if (parseObject != null)
             {
