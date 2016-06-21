@@ -254,18 +254,29 @@ namespace Seggu.Service.Services
             where TViewModel : ViewModel
         {
             var parseObjects = entities
-                .Select(x => Mapper.Map<TParseEntity, TViewModel>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode)))
-                .Where(x => x != null)
-                .ToList();
+                .Select(
+                    x =>
+                        Mapper.Map<TParseEntity, TViewModel>(x,
+                            opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode)))
+                .Select((x, i) => new { x, i })
+                .Where(x =>
+                    x != null && (
+                    x.x.ACL.PublicWriteAccess ||
+                    x.x.ACL.GetWriteAccess(ParseUser.CurrentUser) ||
+                    x.x.ACL.GetRoleWriteAccess(setting.UserRole)))
+                .ToDictionary(x => x.i, x => x.x);
 
-            await parseObjects.SaveAllAsync<TViewModel>();
+            await parseObjects.Values.SaveAllAsync<TViewModel>();
 
             var count = entities.Count();
             for (int i = 0; i < count; i++)
             {
-                var vm = parseObjects.ElementAt(i);
-                var e = entities.ElementAt(i);
-                callback.Invoke(e, vm);
+                if (parseObjects.ContainsKey(i))
+                {
+                    var vm = parseObjects[i];
+                    var e = entities.ElementAt(i);
+                    callback.Invoke(e, vm);
+                }
             }
 
             return entities;
