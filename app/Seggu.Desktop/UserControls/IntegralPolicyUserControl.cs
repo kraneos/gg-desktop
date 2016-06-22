@@ -274,7 +274,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeStreet.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 this.errorProvider1.SetError(this.txtHomeStreet, "Este campo es obligatorio.");
 
             }
@@ -283,7 +283,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeNumber.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 this.errorProvider1.SetError(this.txtHomeNumber, "Este campo es obligatorio.");
             }
         }
@@ -315,7 +315,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (this.coverages.Count == 0)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
             }
         }

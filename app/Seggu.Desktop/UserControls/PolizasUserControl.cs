@@ -1145,7 +1145,7 @@ namespace Seggu.Desktop.UserControls
             if (!isNum || input < 1 || input > 28)
             {
                 // Cancel the event and select the text to be corrected by the user.
-                e.Cancel = true;
+                //e.Cancel = true;
                 txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
                 errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
             }
@@ -1163,13 +1163,13 @@ namespace Seggu.Desktop.UserControls
                 if (netoCobrar <= 0)
                 {
                     errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
-                    e.Cancel = true;
+                    //e.Cancel = true;
                 }
             }
             else
             {
                 errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
-                e.Cancel = true;
+                //e.Cancel = true;
             }
         }
         private void txtPaymentDay_Validated(object sender, EventArgs e)
