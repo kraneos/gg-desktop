@@ -465,7 +465,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (string.IsNullOrWhiteSpace(this.txtMotor.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtMotor, "Este campo es obligatorio.");
             }
         }
@@ -473,7 +473,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (!this.txtChasis.Text.IsVIN())
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtChasis, "Este campo debe tener un formato de chasis válido.");
             }
         }
@@ -481,12 +481,12 @@ namespace Seggu.Desktop.UserControls
         {
             if (txtAnio.Text.Length != 4)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtAnio, "El año debe ser de cuatro digitos");
             }
             else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtAnio, "El año debe estar entre 1950 y el actual");
             }
         }
@@ -534,7 +534,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (!this.txtPatente.Text.IsPlateNumber())
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtPatente, "Este campo debe tener un formato de patente válido.");
             }
         }

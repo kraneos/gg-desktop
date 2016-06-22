@@ -149,7 +149,7 @@ namespace Seggu.Desktop.UserControls
                     var i = 0L;
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
-                        e.Cancel = true;
+                        //e.Cancel = true;
                         SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.");
                     }
                 }
@@ -158,7 +158,7 @@ namespace Seggu.Desktop.UserControls
                     var i = 0L;
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
-                        e.Cancel = true;
+                        //e.Cancel = true;
                         SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.");
                     }
                 }
@@ -167,7 +167,7 @@ namespace Seggu.Desktop.UserControls
                     var i = DateTime.Now;
                     if (!DateTime.TryParse(e.FormattedValue.ToString(), out i))
                     {
-                        e.Cancel = true;
+                        //e.Cancel = true;
                         SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.");
                     }
                 }
@@ -176,7 +176,7 @@ namespace Seggu.Desktop.UserControls
                     var i = 0M;
                     if (!decimal.TryParse(e.FormattedValue.ToString(), out i))
                     {
-                        e.Cancel = true;
+                        //e.Cancel = true;
                         SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.");
                     }
                 }
