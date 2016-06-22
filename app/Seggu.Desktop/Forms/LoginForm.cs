@@ -15,6 +15,7 @@ namespace Seggu.Desktop.Forms
 
             InitializeComponent();
             DialogResult = DialogResult.No;
+
         }
 
         private async void Login(object sender, EventArgs e)
@@ -33,6 +34,13 @@ namespace Seggu.Desktop.Forms
             {
                 MessageBox.Show("El usuario y la contrasena son incorrectos.");
             }
+        }
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            if (ParseUser.CurrentUser == null) return;
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

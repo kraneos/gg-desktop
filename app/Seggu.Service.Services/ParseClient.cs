@@ -41,7 +41,7 @@ namespace Seggu.Service.Services
             //{
             //    Parse.ParseUser.LogOut();
             //}
-            if (setting != null)
+            if (setting != null && ParseUser.CurrentUser == null)
             {
                 ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
             }
