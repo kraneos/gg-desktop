@@ -490,6 +490,15 @@ namespace Seggu.Desktop.UserControls
                 errorProvider1.SetError(this.txtAnio, "El año debe estar entre 1950 y el actual");
             }
         }
+        private void txtAnio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                errorProvider1.SetError(this.txtAnio, "Solo se permiten números");
+                e.Handled = true;
+                return;
+            }
+        }
         private void cmbModelos_Validating(object sender, CancelEventArgs e)
         {
             if (this.cmbModelos.SelectedValue == null)
@@ -539,5 +548,6 @@ namespace Seggu.Desktop.UserControls
             }
         }
         #endregion
+                
     }
 }

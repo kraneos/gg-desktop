@@ -72,7 +72,7 @@
             this.cmbBodyworks.Location = new System.Drawing.Point(393, 120);
             this.cmbBodyworks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbBodyworks.Name = "cmbBodyworks";
-            this.cmbBodyworks.Size = new System.Drawing.Size(165, 25);
+            this.cmbBodyworks.Size = new System.Drawing.Size(165, 36);
             this.cmbBodyworks.TabIndex = 8;
             this.cmbBodyworks.SelectionChangeCommitted += new System.EventHandler(this.cmbBodyworks_SelectionChangeCommitted);
             this.cmbBodyworks.Validating += new System.ComponentModel.CancelEventHandler(this.cmbBodyworks_Validating);
@@ -82,7 +82,7 @@
             this.label75.AutoSize = true;
             this.label75.Location = new System.Drawing.Point(312, 123);
             this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(69, 17);
+            this.label75.Size = new System.Drawing.Size(101, 28);
             this.label75.TabIndex = 167;
             this.label75.Text = "Carroceria";
             // 
@@ -91,7 +91,7 @@
             this.txtChasis.Location = new System.Drawing.Point(393, 86);
             this.txtChasis.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtChasis.Name = "txtChasis";
-            this.txtChasis.Size = new System.Drawing.Size(165, 25);
+            this.txtChasis.Size = new System.Drawing.Size(165, 33);
             this.txtChasis.TabIndex = 5;
             this.txtChasis.ModifiedChanged += new System.EventHandler(this.txtChasis_ModifiedChanged);
             this.txtChasis.Validating += new System.ComponentModel.CancelEventHandler(this.txtChasis_Validating);
@@ -101,7 +101,7 @@
             this.label79.AutoSize = true;
             this.label79.Location = new System.Drawing.Point(312, 89);
             this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(45, 17);
+            this.label79.Size = new System.Drawing.Size(66, 28);
             this.label79.TabIndex = 163;
             this.label79.Text = "Chasis";
             // 
@@ -110,7 +110,7 @@
             this.txtPatente.Location = new System.Drawing.Point(633, 120);
             this.txtPatente.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPatente.Name = "txtPatente";
-            this.txtPatente.Size = new System.Drawing.Size(69, 25);
+            this.txtPatente.Size = new System.Drawing.Size(69, 33);
             this.txtPatente.TabIndex = 9;
             this.txtPatente.ModifiedChanged += new System.EventHandler(this.txtPatente_ModifiedChanged);
             this.txtPatente.Validating += new System.ComponentModel.CancelEventHandler(this.txtPatente_Validating);
@@ -120,7 +120,7 @@
             this.label80.AutoSize = true;
             this.label80.Location = new System.Drawing.Point(733, 10);
             this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(36, 17);
+            this.label80.Size = new System.Drawing.Size(56, 28);
             this.label80.TabIndex = 162;
             this.label80.Text = "Flota";
             // 
@@ -131,7 +131,7 @@
             this.cmbOrigen.Location = new System.Drawing.Point(393, 154);
             this.cmbOrigen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbOrigen.Name = "cmbOrigen";
-            this.cmbOrigen.Size = new System.Drawing.Size(165, 25);
+            this.cmbOrigen.Size = new System.Drawing.Size(165, 36);
             this.cmbOrigen.TabIndex = 11;
             this.cmbOrigen.SelectionChangeCommitted += new System.EventHandler(this.cmbOrigen_SelectionChangeCommitted);
             this.cmbOrigen.Validating += new System.ComponentModel.CancelEventHandler(this.cmbOrigen_Validating);
@@ -141,7 +141,7 @@
             this.label81.AutoSize = true;
             this.label81.Location = new System.Drawing.Point(312, 157);
             this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(48, 17);
+            this.label81.Size = new System.Drawing.Size(72, 28);
             this.label81.TabIndex = 161;
             this.label81.Text = "Origen";
             // 
@@ -152,7 +152,7 @@
             this.cmbTipoVehiculo.Location = new System.Drawing.Point(112, 120);
             this.cmbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTipoVehiculo.Name = "cmbTipoVehiculo";
-            this.cmbTipoVehiculo.Size = new System.Drawing.Size(165, 25);
+            this.cmbTipoVehiculo.Size = new System.Drawing.Size(165, 36);
             this.cmbTipoVehiculo.TabIndex = 7;
             this.cmbTipoVehiculo.SelectedIndexChanged += new System.EventHandler(this.cmbTipoVehiculo_SelectedIndexChanged);
             this.cmbTipoVehiculo.SelectionChangeCommitted += new System.EventHandler(this.cmbTipoVehiculo_SelectionChangeCommitted);
@@ -163,7 +163,7 @@
             this.label82.AutoSize = true;
             this.label82.Location = new System.Drawing.Point(6, 124);
             this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(85, 17);
+            this.label82.Size = new System.Drawing.Size(129, 28);
             this.label82.TabIndex = 160;
             this.label82.Text = "Tipo vehiculo";
             // 
@@ -174,7 +174,7 @@
             this.cmbUses.Location = new System.Drawing.Point(112, 154);
             this.cmbUses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbUses.Name = "cmbUses";
-            this.cmbUses.Size = new System.Drawing.Size(165, 25);
+            this.cmbUses.Size = new System.Drawing.Size(165, 36);
             this.cmbUses.TabIndex = 10;
             this.cmbUses.SelectionChangeCommitted += new System.EventHandler(this.cmbUses_SelectionChangeCommitted);
             this.cmbUses.Validating += new System.ComponentModel.CancelEventHandler(this.cmbUses_Validating);
@@ -184,7 +184,7 @@
             this.txtMotor.Location = new System.Drawing.Point(112, 86);
             this.txtMotor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMotor.Name = "txtMotor";
-            this.txtMotor.Size = new System.Drawing.Size(165, 25);
+            this.txtMotor.Size = new System.Drawing.Size(165, 33);
             this.txtMotor.TabIndex = 4;
             this.txtMotor.ModifiedChanged += new System.EventHandler(this.txtMotor_ModifiedChanged);
             this.txtMotor.Validating += new System.ComponentModel.CancelEventHandler(this.txtMotor_Validating);
@@ -196,7 +196,7 @@
             this.cmbModelos.Location = new System.Drawing.Point(393, 49);
             this.cmbModelos.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbModelos.Name = "cmbModelos";
-            this.cmbModelos.Size = new System.Drawing.Size(309, 25);
+            this.cmbModelos.Size = new System.Drawing.Size(309, 36);
             this.cmbModelos.TabIndex = 3;
             this.cmbModelos.SelectedIndexChanged += new System.EventHandler(this.cmbModelos_SelectedIndexChanged);
             this.cmbModelos.SelectionChangeCommitted += new System.EventHandler(this.cmbModelos_SelectionChangeCommitted);
@@ -207,7 +207,7 @@
             this.label83.AutoSize = true;
             this.label83.Location = new System.Drawing.Point(312, 52);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(54, 17);
+            this.label83.Size = new System.Drawing.Size(81, 28);
             this.label83.TabIndex = 159;
             this.label83.Text = "Modelo";
             // 
@@ -217,9 +217,10 @@
             this.txtAnio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtAnio.MaxLength = 4;
             this.txtAnio.Name = "txtAnio";
-            this.txtAnio.Size = new System.Drawing.Size(69, 25);
+            this.txtAnio.Size = new System.Drawing.Size(69, 33);
             this.txtAnio.TabIndex = 6;
             this.txtAnio.ModifiedChanged += new System.EventHandler(this.txtAnio_ModifiedChanged);
+            this.txtAnio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAnio_KeyPress);
             this.txtAnio.Leave += new System.EventHandler(this.txtAnio_Leave);
             this.txtAnio.Validating += new System.ComponentModel.CancelEventHandler(this.txtAnio_Validating);
             // 
@@ -228,7 +229,7 @@
             this.label85.AutoSize = true;
             this.label85.Location = new System.Drawing.Point(6, 158);
             this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(31, 17);
+            this.label85.Size = new System.Drawing.Size(46, 28);
             this.label85.TabIndex = 157;
             this.label85.Text = "Uso";
             // 
@@ -237,7 +238,7 @@
             this.label86.AutoSize = true;
             this.label86.Location = new System.Drawing.Point(6, 87);
             this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(45, 17);
+            this.label86.Size = new System.Drawing.Size(68, 28);
             this.label86.TabIndex = 156;
             this.label86.Text = "Motor";
             // 
@@ -246,7 +247,7 @@
             this.label87.AutoSize = true;
             this.label87.Location = new System.Drawing.Point(584, 90);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(31, 17);
+            this.label87.Size = new System.Drawing.Size(48, 28);
             this.label87.TabIndex = 155;
             this.label87.Text = "Año";
             // 
@@ -257,7 +258,7 @@
             this.cmbMarcas.Location = new System.Drawing.Point(112, 49);
             this.cmbMarcas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbMarcas.Name = "cmbMarcas";
-            this.cmbMarcas.Size = new System.Drawing.Size(165, 25);
+            this.cmbMarcas.Size = new System.Drawing.Size(165, 36);
             this.cmbMarcas.TabIndex = 2;
             this.cmbMarcas.SelectionChangeCommitted += new System.EventHandler(this.cmbMarca_SelectionChangeCommitted);
             this.cmbMarcas.Validating += new System.ComponentModel.CancelEventHandler(this.cmbMarcas_Validating);
@@ -267,7 +268,7 @@
             this.label88.AutoSize = true;
             this.label88.Location = new System.Drawing.Point(6, 53);
             this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(45, 17);
+            this.label88.Size = new System.Drawing.Size(66, 28);
             this.label88.TabIndex = 154;
             this.label88.Text = "Marca";
             // 
@@ -282,7 +283,7 @@
             this.cmbCoberturas.Location = new System.Drawing.Point(112, 10);
             this.cmbCoberturas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbCoberturas.Name = "cmbCoberturas";
-            this.cmbCoberturas.Size = new System.Drawing.Size(269, 25);
+            this.cmbCoberturas.Size = new System.Drawing.Size(269, 36);
             this.cmbCoberturas.TabIndex = 1;
             this.cmbCoberturas.SelectionChangeCommitted += new System.EventHandler(this.cmbCoberturas_SelectionChangeCommitted);
             // 
@@ -291,7 +292,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 17);
+            this.label2.Size = new System.Drawing.Size(100, 28);
             this.label2.TabIndex = 176;
             this.label2.Text = "Cobertura";
             // 
@@ -333,10 +334,10 @@
             this.tabPage1.Controls.Add(this.label82);
             this.tabPage1.Controls.Add(this.label81);
             this.tabPage1.Controls.Add(this.cmbTipoVehiculo);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Location = new System.Drawing.Point(4, 37);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(982, 190);
+            this.tabPage1.Size = new System.Drawing.Size(982, 179);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Vehículo";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -346,7 +347,7 @@
             this.btnQuitar.AutoSize = true;
             this.btnQuitar.Location = new System.Drawing.Point(599, 8);
             this.btnQuitar.Name = "btnQuitar";
-            this.btnQuitar.Size = new System.Drawing.Size(103, 27);
+            this.btnQuitar.Size = new System.Drawing.Size(149, 38);
             this.btnQuitar.TabIndex = 181;
             this.btnQuitar.TabStop = false;
             this.btnQuitar.Text = "Quitar de flota";
@@ -358,7 +359,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(575, 124);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 17);
+            this.label1.Size = new System.Drawing.Size(77, 28);
             this.label1.TabIndex = 180;
             this.label1.Text = "Patente";
             // 
@@ -367,7 +368,7 @@
             this.btnAgregar.AutoSize = true;
             this.btnAgregar.Location = new System.Drawing.Point(474, 8);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(119, 27);
+            this.btnAgregar.Size = new System.Drawing.Size(171, 38);
             this.btnAgregar.TabIndex = 12;
             this.btnAgregar.Text = "Guardar cambios";
             this.btnAgregar.UseVisualStyleBackColor = true;
@@ -378,7 +379,7 @@
             this.btnClean.AutoSize = true;
             this.btnClean.Location = new System.Drawing.Point(393, 8);
             this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(75, 27);
+            this.btnClean.Size = new System.Drawing.Size(87, 38);
             this.btnClean.TabIndex = 178;
             this.btnClean.TabStop = false;
             this.btnClean.Text = "Limpiar";
@@ -401,7 +402,7 @@
             // 
             // VehiculePolicyUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
