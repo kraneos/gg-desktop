@@ -42,7 +42,7 @@ namespace Seggu.Service
         {
             this.eventLog.WriteEntry("Begin process.");
 
-            var syncService = DependencyResolver.Instance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
+            var syncService = DependencyResolver.PerThreadInstance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
 
             try
             {

@@ -8,8 +8,8 @@ namespace Seggu.Desktop.Forms
     public partial class LoginForm : Form
     {
         private ILoginService LoginService;
-         
-        public LoginForm(ILoginService LoginService )
+
+        public LoginForm(ILoginService LoginService)
         {
             this.LoginService = LoginService;
 
@@ -39,6 +39,7 @@ namespace Seggu.Desktop.Forms
         private void OnLoad(object sender, EventArgs e)
         {
             if (ParseUser.CurrentUser == null) return;
+            LoginService.ManageLoginRegisters(ParseUser.CurrentUser, string.Empty);
             DialogResult = DialogResult.OK;
             Close();
         }

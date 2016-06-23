@@ -407,6 +407,11 @@ namespace Seggu.Service.Services
             e.LocallyUpdatedAt = vm.UpdatedAt;
         }
 
+        internal bool HasSetting()
+        {
+            return setting != null;
+        }
+
         #endregion
     }
 

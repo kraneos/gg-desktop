@@ -47,7 +47,7 @@ namespace Seggu.Services
                 if (lastLogin.Username == currentUser.Username)
                 {
                     //update()
-                    lastLogin.Password = password;
+                    lastLogin.Password = string.IsNullOrWhiteSpace(password) ? lastLogin.Password : password;
                     lastLogin.ObjectId = currentUser.ObjectId;
                     lastLogin.UserRole = userRole.Name;
                     lastLogin.ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name;

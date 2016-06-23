@@ -461,7 +461,7 @@ namespace Seggu.Service.Services
 
         public void SynchronizeParseEntities()
         {
-            if (ParseUser.CurrentUser != null)
+            if (ParseUser.CurrentUser != null && client.HasSetting())
             {
                 SendEntitiesToParse<AccessoryType, AccessoryTypeVM>();// "AccessoryType");
                 SendEntitiesToParse<Asset, AssetVM>();//"Asset");
