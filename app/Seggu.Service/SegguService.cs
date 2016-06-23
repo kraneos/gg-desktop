@@ -12,6 +12,7 @@ namespace Seggu.Service
     partial class SegguService : ServiceBase
     {
         private Timer myTimer;
+        private static volatile bool isRunning;
 
         public SegguService()
         {
@@ -40,6 +41,9 @@ namespace Seggu.Service
 
         private void Process(object sender, System.EventArgs e)
         {
+            if (isRunning) return;
+            isRunning = true;
+
             this.eventLog.WriteEntry("Begin process.");
 
             var syncService = DependencyResolver.PerThreadInstance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
@@ -51,6 +55,10 @@ namespace Seggu.Service
             catch (Exception ex)
             {
                 HandleException(ex);
+            }
+            finally
+            {
+                isRunning = false;
             }
         }
 
