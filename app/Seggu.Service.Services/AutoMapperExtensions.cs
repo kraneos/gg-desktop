@@ -135,6 +135,13 @@ namespace Seggu.Service.Services
             }
         }
 
+        public static T GetParseObject<T>(ResolutionResult resolutionResult, Func<SegguDataModelContext, string> predicate) where T : ViewModel
+        {
+            var dbContext = (SegguDataModelContext)resolutionResult.Context.Options.Items["DbContext"];
+            var objectId = predicate.Invoke(dbContext);
+            return GetParseObject<T>(objectId);
+        }
+
         public static object GetParseObject<T, TVm>(ResolutionContext rc, Func<T, string> predFunc)
             where TVm : ViewModel
             where T : IdParseEntity
@@ -168,6 +175,29 @@ namespace Seggu.Service.Services
             {
                 opts.Items.Add(item);
             }
+        }
+
+        public static TVM ValidateAndMap<T, TVM>(
+            ResolutionContext rc,
+            T e, MappingEngine me,
+            params Func<SegguDataModelContext, T, string>[] objectIdRetrievals
+            )
+            where T : IdParseEntity
+            where TVM : ViewModel
+        {
+            var dbContext = (SegguDataModelContext)rc.Options.Items["DbContext"];
+            return objectIdRetrievals
+                .Select(objectIdRetrieval => objectIdRetrieval.Invoke(dbContext, e))
+                .Any(string.IsNullOrWhiteSpace) ? null : me.Map<T, TVM>(
+                    e, 
+                    opts => AutoMapperExtensions.AssignOptions(rc, opts));
+        }
+
+        public static string GetObjectId<T>(SegguDataModelContext ctx, long id)
+            where T : IdParseEntity
+        {
+            var q = ctx.Set<T>().Where(x => x.Id == id).Select(x => x.ObjectId).First();
+            return q;
         }
     }
 }

@@ -72,6 +72,7 @@ namespace Seggu.Data
             //var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
             var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
             {
+                opts.Items["DbContext"] = this;
                 opts.Items["Setting"] = setting;
                 opts.Items["HttpMethod"] = isNew ? "POST" : "PUT";
                 if (!isNew)
