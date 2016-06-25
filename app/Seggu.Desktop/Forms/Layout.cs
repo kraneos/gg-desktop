@@ -436,6 +436,7 @@ namespace Seggu.Desktop.Forms
         private void tabCtrlPolicies_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.splitContainer1.Panel2.Controls.Clear();
+            grdEndorses.Visible = false;//
 
             if (tabCtrlPolicies.SelectedIndex == 0)//pestaña de pol vigentes
             {
@@ -447,8 +448,6 @@ namespace Seggu.Desktop.Forms
                 }
                 else
                     grdValids.ClearSelection();
-
-                grdEndorses.Visible = false;
                       
             }
             else//pestaña de pol vencidas
