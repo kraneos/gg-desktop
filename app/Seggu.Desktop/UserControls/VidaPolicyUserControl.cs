@@ -150,7 +150,7 @@ namespace Seggu.Desktop.UserControls
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.", e);
                     }
                 }
                 else if (e.ColumnIndex == 4)
@@ -159,7 +159,7 @@ namespace Seggu.Desktop.UserControls
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.", e);
                     }
                 }
                 else if (e.ColumnIndex == 5)
@@ -168,7 +168,7 @@ namespace Seggu.Desktop.UserControls
                     if (!DateTime.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.", e);
                     }
                 }
                 else if (e.ColumnIndex == 6)
@@ -177,7 +177,7 @@ namespace Seggu.Desktop.UserControls
                     if (!decimal.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.", e);
                     }
                 }
             }
@@ -188,13 +188,14 @@ namespace Seggu.Desktop.UserControls
             //cell.Style.ForeColor = Color.Black;
             //cell.ToolTipText = string.Empty;
         }
-        private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg)
+        private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg, DataGridViewCellValidatingEventArgs e)
         {
             //var cell = sender.Rows[rowIndex].Cells[columnIndex];
             //cell.Style.ForeColor = Color.Red;
             //cell.ToolTipText = errorMsg;
             //cell.ErrorText = errorMsg;
             MessageBox.Show(errorMsg);
+            e.Cancel = true;
         }
         #endregion
 
@@ -209,6 +210,17 @@ namespace Seggu.Desktop.UserControls
             LoadCmbCoverages(riskId);
 
             LoadEmployeeGrid();
+        }
+
+        private void grdEmployees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            int a = grdEmployees.RowCount;
+            if (a <= 1)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(grdEmployees, "Debe ingresar al menos un asegurado");
+            }
+
         }
     }
 }
