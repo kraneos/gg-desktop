@@ -219,6 +219,12 @@ namespace Seggu.Desktop.UserControls
             int i = 0;
             int j = 0;
 
+            if(a<=1)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(grdEmployees, "Al menos un empleado debe ser ingresado");
+
+            }
             for (i=0; i<=a-2; i++)
                 {
                     for(j = 1; j<=6; j++)
