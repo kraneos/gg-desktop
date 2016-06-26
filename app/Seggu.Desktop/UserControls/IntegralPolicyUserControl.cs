@@ -221,12 +221,20 @@ namespace Seggu.Desktop.UserControls
             {
                 if (c is TextBox)
                 {
-                    if (c == txtHomeNumber || c == txtHomeStreet)
+                    if (c == txtHomeNumber || c == txtHomeStreet || c == txtHomePostal)
                         if (c.Text == string.Empty)
                         {
-                            errorProvider1.SetError(c, "Campo vacío");
+                            errorProvider1.SetError(c, "Campo vacío. Este campo es obligatorio.");
                             ok = false;
                         }
+                    if(c == txtHomePostal)
+                    {
+                        if(c.Text.Length <4)
+                        {
+                            errorProvider1.SetError(c, "El codigo postal no es valido.");
+                            ok = false;
+                        }
+                    }
                 }
 
                 if (c is ComboBox)
@@ -237,6 +245,15 @@ namespace Seggu.Desktop.UserControls
                             errorProvider1.SetError(c, "Debe seleccionar un elemento");
                             ok = false;
                         }
+                }
+
+                if(c is DataGridView)
+                {
+                    if((c as DataGridView).RowCount == 0)
+                    {
+                        errorProvider1.SetError(c, "Debe asignar coberturas a la poliza.");
+                        ok = false;
+                    }
                 }
 
             }
@@ -255,6 +272,15 @@ namespace Seggu.Desktop.UserControls
                 e.Handled = true;
             }
         }
+        public void ValidarSpecial(object sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+
+            if (!char.IsLetterOrDigit(c) && c != 8 && c != 46)
+            {
+                e.Handled = true;
+            }
+        }
         private void txtHomePostal_Validating(object sender, CancelEventArgs e)
         {
             //var regex = @"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$";
@@ -265,10 +291,10 @@ namespace Seggu.Desktop.UserControls
             //    this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
             //    e.Cancel = true;
             //}
-            if (this.txtHomePostal.Text.Length != 4)
-            {
-                this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
-            }
+            //if (this.txtHomePostal.Text.Length != 4)
+            //{
+            //    this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
+            //}
         }
         private void txtHomeStreet_Validating(object sender, CancelEventArgs e)
         {

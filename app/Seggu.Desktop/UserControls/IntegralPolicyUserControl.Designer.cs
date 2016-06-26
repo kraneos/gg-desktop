@@ -218,6 +218,7 @@
             this.txtHomeAppart.Name = "txtHomeAppart";
             this.txtHomeAppart.Size = new System.Drawing.Size(65, 25);
             this.txtHomeAppart.TabIndex = 5;
+            this.txtHomeAppart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarSpecial);
             // 
             // txtHomeNumber
             // 
@@ -234,6 +235,7 @@
             this.txtHomePostal.Name = "txtHomePostal";
             this.txtHomePostal.Size = new System.Drawing.Size(49, 25);
             this.txtHomePostal.TabIndex = 6;
+            this.txtHomePostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarSpecial);
             this.txtHomePostal.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomePostal_Validating);
             // 
             // txtHomeFloor
