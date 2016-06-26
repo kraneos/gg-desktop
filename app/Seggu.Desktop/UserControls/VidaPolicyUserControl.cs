@@ -123,13 +123,13 @@ namespace Seggu.Desktop.UserControls
                 var row = table.Rows[i];
                 var employee = new EmployeeDto
                 {
-                    Id = row["Id"] is DBNull ? default(int) : (int) row["Id"],
-                    Apellido = row["Apellido"] is DBNull ? string.Empty : (string) row["Apellido"],
-                    Nombre = row["Nombre"] is DBNull ? string.Empty : (string) row["Nombre"],
-                    DNI = row["DNI"] is DBNull ? "Sin DNI" : (string) row["DNI"],
-                    CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string) row["CUIT"],
-                    Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime) row["Nacimiento"],
-                    Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal) row["Suma Asegurada"],
+                    Id = row["Id"] is DBNull ? default(int) : (int)row["Id"],
+                    Apellido = row["Apellido"] is DBNull ? string.Empty : (string)row["Apellido"],
+                    Nombre = row["Nombre"] is DBNull ? string.Empty : (string)row["Nombre"],
+                    DNI = row["DNI"] is DBNull ? "Sin DNI" : (string)row["DNI"],
+                    CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string)row["CUIT"],
+                    Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime)row["Nacimiento"],
+                    Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal)row["Suma Asegurada"],
                     Coverages = coverages
                 };
                 employees.Add(employee);
@@ -214,13 +214,25 @@ namespace Seggu.Desktop.UserControls
 
         private void grdEmployees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            errorProvider1.Clear();
             int a = grdEmployees.RowCount;
-            if (a <= 1)
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(grdEmployees, "Debe ingresar al menos un asegurado");
+            int i = 0;
+            int j = 0;
+
+            for (i=0; i<=a-2; i++)
+                {
+                    for(j = 1; j<=6; j++)
+                    {
+                        if(grdEmployees[j, i].Value.ToString() == string.Empty)
+                        {
+                            e.Cancel = true;
+                            errorProvider1.SetError(grdEmployees, "Todos los campos son obligatorios");
+                        }
+
+                    }
+                }
             }
 
-        }
+    
     }
 }
