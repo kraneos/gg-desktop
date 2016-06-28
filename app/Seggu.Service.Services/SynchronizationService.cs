@@ -102,7 +102,7 @@ namespace Seggu.Service.Services
             innerConfigurationStore.CreateMap<Employee, EmployeeVM>()
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Endorse, y => y.ResolveUsing((rr, x) => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(rr, ctx => AutoMapperExtensions.GetObjectId<Endorse>(ctx, x.EndorseId.Value))))
-                .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId))));
+                .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId))));
 
             innerConfigurationStore.CreateMap<FeeSelection, FeeSelectionVM>()
                 .GetCommonMappingExpressionToVM()
@@ -371,7 +371,7 @@ namespace Seggu.Service.Services
                             rc,
                             e,
                             innerMappingEngine,
-                            (ctx, entity) => AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId)));
+                            (ctx, entity) => (entity.Policy?.ObjectId != null) ? entity.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId)));
             Mapper.CreateMap<EmployeeVM, Employee>().GetCommonMappingExpressionToEntity()
                 .ForMember(x => x.Endorse, y => y.Ignore())
                 .ForMember(x => x.Policy, y => y.Ignore())
