@@ -675,7 +675,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls() && this.ValidateChildren() && this.vehicle_uc.ValidateFlota())
+            if (ValidateControls() && this.ValidateChildren())
             {
                 try
                 {
@@ -684,7 +684,7 @@ namespace Seggu.Desktop.UserControls
 
                     if (vida_uc != null)
                         policy.Employees = vida_uc.GetEmployees();
-                    else if (vehicle_uc != null && vehicle_uc.ValidateControls())
+                    else if (vehicle_uc != null && vehicle_uc.ValidateControls() && vehicle_uc.ValidateFlota())
                         policy.Vehicles = vehicle_uc.vehicleList;
                     else if (integral_uc != null && integral_uc.ValidateControls())
                         policy.Integrals = integral_uc.GetIntegral();
