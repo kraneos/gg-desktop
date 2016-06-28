@@ -249,7 +249,7 @@ namespace Seggu.Desktop.UserControls
 
                 if(c is DataGridView)
                 {
-                    if((c as DataGridView).RowCount == 0)
+                    if(c == grdCoverages && (c as DataGridView).RowCount == 0)
                     {
                         errorProvider1.SetError(c, "Debe asignar coberturas a la poliza.");
                         ok = false;

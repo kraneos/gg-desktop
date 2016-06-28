@@ -675,7 +675,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls() && this.ValidateChildren())
+            if (ValidateControls() && this.ValidateChildren() && this.vehicle_uc.ValidateFlota())
             {
                 try
                 {
