@@ -719,12 +719,53 @@ namespace Seggu.Desktop.UserControls
                 foreach (Control c in tabPage.Controls)
                 {
                     if (c is TextBox)
-                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
-                            if (c.Text == string.Empty || c.Text == "0")
+                    {
+                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado || c == txtRecargoPropio || c == txtBonificacionPropia || c == txtBonificacionPago)
+                        {
+                            if (c.Text == string.Empty)
                             {
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
+                            else if(c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
+                            {
+                                var x = 0M;
+
+                                if (decimal.TryParse(c.Text, out x))
+                                {
+                                    if (x <= 0)
+                                    {
+                                        errorProvider1.SetError(c, "El valor debe ser mayor a 0.");
+                                        ok = false;
+                                    }
+                                }
+                            }
+                        }
+
+                        /*if (c == txtPaymentDay)
+                        {
+                            if (c.Text == string.Empty)
+                            {
+                                errorProvider1.SetError(c, "Campo vacio");
+                                ok = false;
+                            }
+                            else
+                            {
+                                int input = 0;
+                                bool isNum = Int32.TryParse(c.Text, out input);
+
+                                if (!isNum || input < 1 || input > 28)
+                                {
+                                    // Cancel the event and select the text to be corrected by the user.
+                                    //e.Cancel = true;
+                                    //txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
+                                    errorProvider1.SetError(c, "El dia de debe ser mayor a 0 y menor o igual a 28");
+                                    ok = false;
+                                }
+                            }
+
+                        }*/
+                    }
                     if (c is ComboBox)
                         if (c == cmbCompania || c == cmbRiesgo || c == cmbPeriodo || c == cmbProductor || c == cmbCobrador)
                             if ((c as ComboBox).SelectedIndex == -1)
@@ -734,7 +775,7 @@ namespace Seggu.Desktop.UserControls
                             }
                 }
             }
-            return ok || this.ValidateChildren();
+            return ok && this.ValidateChildren();
         }
         private PolicyFullDto GetFormInfo()
         {
@@ -1147,7 +1188,7 @@ namespace Seggu.Desktop.UserControls
                 // Cancel the event and select the text to be corrected by the user.
                 e.Cancel = true;
                 txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
-                errorProvider1.SetError(this.txtPaymentDay, "El dia de pago es obligatorio.");
+                errorProvider1.SetError(this.txtPaymentDay, "El dia de debe ser mayor a 0 y menor o igual a 28");
             }
         }
         private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)

@@ -332,7 +332,7 @@ namespace Seggu.Desktop.UserControls
 
                     if (vida_uc != null)
                         endorse.Employees = vida_uc.GetEmployees();
-                    else if (vehicle_uc != null && vehicle_uc.ValidateControls())
+                    else if (vehicle_uc != null && vehicle_uc.ValidateControls() && vehicle_uc.ValidateFlota())
                         endorse.Vehicles = vehicle_uc.vehicleList;
                     else if (integral_uc != null)
                         endorse.Integrals = integral_uc.GetIntegral();
