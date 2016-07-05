@@ -286,6 +286,7 @@
             this.cmbCoberturas.Size = new System.Drawing.Size(269, 29);
             this.cmbCoberturas.TabIndex = 0;
             this.cmbCoberturas.SelectionChangeCommitted += new System.EventHandler(this.cmbCoberturas_SelectionChangeCommitted);
+            this.cmbCoberturas.Validating += new System.ComponentModel.CancelEventHandler(this.cmbCoberturas_Validating);
             // 
             // label2
             // 
@@ -399,6 +400,7 @@
             this.grdVehicles.Size = new System.Drawing.Size(120, 150);
             this.grdVehicles.TabIndex = 14;
             this.grdVehicles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdVehicles_CellClick);
+            this.grdVehicles.Validating += new System.ComponentModel.CancelEventHandler(this.grdVehicles_Validating);
             // 
             // VehiculePolicyUserControl
             // 

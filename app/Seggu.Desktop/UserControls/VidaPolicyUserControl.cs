@@ -123,13 +123,13 @@ namespace Seggu.Desktop.UserControls
                 var row = table.Rows[i];
                 var employee = new EmployeeDto
                 {
-                    Id = row["Id"] is DBNull ? default(int) : (int) row["Id"],
-                    Apellido = row["Apellido"] is DBNull ? string.Empty : (string) row["Apellido"],
-                    Nombre = row["Nombre"] is DBNull ? string.Empty : (string) row["Nombre"],
-                    DNI = row["DNI"] is DBNull ? "Sin DNI" : (string) row["DNI"],
-                    CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string) row["CUIT"],
-                    Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime) row["Nacimiento"],
-                    Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal) row["Suma Asegurada"],
+                    Id = row["Id"] is DBNull ? default(int) : (int)row["Id"],
+                    Apellido = row["Apellido"] is DBNull ? string.Empty : (string)row["Apellido"],
+                    Nombre = row["Nombre"] is DBNull ? string.Empty : (string)row["Nombre"],
+                    DNI = row["DNI"] is DBNull ? "Sin DNI" : (string)row["DNI"],
+                    CUIT = row["CUIT"] is DBNull ? "Sin CUIT" : (string)row["CUIT"],
+                    Fecha_Nacimiento = row["Nacimiento"] is DBNull ? DateTime.MinValue : (DateTime)row["Nacimiento"],
+                    Suma = row["Suma Asegurada"] is DBNull ? 0M : (decimal)row["Suma Asegurada"],
                     Coverages = coverages
                 };
                 employees.Add(employee);
@@ -150,7 +150,7 @@ namespace Seggu.Desktop.UserControls
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un DNI valido.", e);
                     }
                 }
                 else if (e.ColumnIndex == 4)
@@ -159,7 +159,7 @@ namespace Seggu.Desktop.UserControls
                     if (!long.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un CUIT valido.", e);
                     }
                 }
                 else if (e.ColumnIndex == 5)
@@ -168,7 +168,7 @@ namespace Seggu.Desktop.UserControls
                     if (!DateTime.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser una fecha valida.", e);
                     }
                 }
                 else if (e.ColumnIndex == 6)
@@ -177,7 +177,7 @@ namespace Seggu.Desktop.UserControls
                     if (!decimal.TryParse(e.FormattedValue.ToString(), out i))
                     {
                         //e.Cancel = true;
-                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.");
+                        SetError(ctrl, e.RowIndex, e.ColumnIndex, "El valor debe ser un monto valido.", e);
                     }
                 }
             }
@@ -188,13 +188,14 @@ namespace Seggu.Desktop.UserControls
             //cell.Style.ForeColor = Color.Black;
             //cell.ToolTipText = string.Empty;
         }
-        private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg)
+        private void SetError(DataGridView sender, int rowIndex, int columnIndex, string errorMsg, DataGridViewCellValidatingEventArgs e)
         {
             //var cell = sender.Rows[rowIndex].Cells[columnIndex];
             //cell.Style.ForeColor = Color.Red;
             //cell.ToolTipText = errorMsg;
             //cell.ErrorText = errorMsg;
             MessageBox.Show(errorMsg);
+            e.Cancel = true;
         }
         #endregion
 
@@ -210,5 +211,34 @@ namespace Seggu.Desktop.UserControls
 
             LoadEmployeeGrid();
         }
+
+        private void grdEmployees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            errorProvider1.Clear();
+            int a = grdEmployees.RowCount;
+            int i = 0;
+            int j = 0;
+
+            if(a<=1)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(grdEmployees, "Al menos un empleado debe ser ingresado");
+
+            }
+            for (i=0; i<=a-2; i++)
+                {
+                    for(j = 1; j<=6; j++)
+                    {
+                        if(grdEmployees[j, i].Value.ToString() == string.Empty)
+                        {
+                            e.Cancel = true;
+                            errorProvider1.SetError(grdEmployees, "Todos los campos son obligatorios");
+                        }
+
+                    }
+                }
+            }
+
+    
     }
 }
