@@ -25,6 +25,10 @@ namespace Seggu.Desktop.Forms
 
             try
             {
+                if(ParseUser.CurrentUser != null)
+                {
+                    ParseUser.LogOut();
+                }
                 var parseUser = await ParseUser.LogInAsync(username, password);
                 LoginService.ManageLoginRegisters(parseUser, password);
                 DialogResult = DialogResult.OK;
@@ -38,7 +42,7 @@ namespace Seggu.Desktop.Forms
 
         private void OnLoad(object sender, EventArgs e)
         {
-            if (ParseUser.CurrentUser == null) return;
+            if (ParseUser.CurrentUser == null || !LoginService.HasValidSetting()) return;
             LoginService.ManageLoginRegisters(ParseUser.CurrentUser, string.Empty);
             DialogResult = DialogResult.OK;
             Close();

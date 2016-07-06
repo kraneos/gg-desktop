@@ -18,7 +18,7 @@ namespace Seggu.Daos
 
         public override void Update(Setting obj)
         {
-
+            context.SaveChanges();
         }
 
     }

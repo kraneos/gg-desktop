@@ -21,6 +21,12 @@ namespace Seggu.Services
             this.settingsDao = settingsDao;
         }
 
+        public bool HasValidSetting()
+        {
+            var lastLogin = settingsDao.GetLastLogin();
+            return lastLogin != null && !string.IsNullOrWhiteSpace(lastLogin.Username) && !string.IsNullOrWhiteSpace(lastLogin.Password);
+        }
+
         public async void ManageLoginRegisters(ParseUser parseUser, string password)
         {
             var currentUser = ParseUser.CurrentUser;

@@ -10,6 +10,7 @@ namespace Seggu.Services.Interfaces
     public interface ILoginService
     {
         void ManageLoginRegisters(ParseUser parseUser, string password);
+        bool HasValidSetting();
 
         //IEnumerable<BankDto> GetAll();
         //void Save(BankDto bank);
