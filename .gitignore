@@ -18,3 +18,4 @@ app/UpgradeLog.htm
 typings/
 Seggu.msi
 /app/Seggu.Setup/Release/setup.exe
+/InstallUtil.InstallLog
