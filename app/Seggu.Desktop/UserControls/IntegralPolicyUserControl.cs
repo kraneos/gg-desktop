@@ -283,6 +283,11 @@ namespace Seggu.Desktop.UserControls
         }
         private void txtHomePostal_Validating(object sender, CancelEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(this.txtHomePostal.Text))
+            {
+                //e.Cancel = true;
+                this.errorProvider1.SetError(this.txtHomePostal, "Este campo es obligatorio.");
+            }
             //var regex = @"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$";
             //var re = new Regex(regex);
             //var match = re.Match(this.txtHomePostal.Text);

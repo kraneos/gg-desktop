@@ -323,7 +323,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls())
+            if (ValidateControls() == true && this.ValidateChildren())
             {
                 try
                 {
@@ -334,9 +334,10 @@ namespace Seggu.Desktop.UserControls
                         endorse.Employees = vida_uc.GetEmployees();
                     else if (vehicle_uc != null && vehicle_uc.ValidateControls() && vehicle_uc.ValidateFlota())
                         endorse.Vehicles = vehicle_uc.vehicleList;
-                    else if (integral_uc != null)
+                    else if (integral_uc != null && integral_uc.ValidateControls())
                         endorse.Integrals = integral_uc.GetIntegral();
-
+                    else
+                        return;
                     endorseService.Save(endorse);
 
                     MessageBox.Show("El endoso se ha guardado con exito.");
@@ -367,11 +368,24 @@ namespace Seggu.Desktop.UserControls
                 {
                     if (c is TextBox)
                     {
-                        if (c == txtAsegurado || c == txtPremioIva || c == txtMotivo)
+                        if (c == txtAsegurado || c == txtSumaAsegurado || c == txtPremioIva || c == txtMotivo || c == txtBonificacionPago || c == txtRecargoPropio)
                             if (c.Text == string.Empty)
                             {
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
+                            }
+                            else if (c == txtPremioIva || c == txtSumaAsegurado)
+                            {
+                                var x = 0M;
+
+                                if (decimal.TryParse(c.Text, out x))
+                                {
+                                    if (x <= 0)
+                                    {
+                                        errorProvider1.SetError(c, "El valor debe ser mayor a 0.");
+                                        ok = false;
+                                    }
+                                }
                             }
                     }
                     else if (c is ComboBox)
@@ -386,7 +400,7 @@ namespace Seggu.Desktop.UserControls
                     }
                 }
             }
-            return ok;
+            return ok && this.ValidateChildren();
         }
         private EndorseFullDto GetFormInfo()
         {
