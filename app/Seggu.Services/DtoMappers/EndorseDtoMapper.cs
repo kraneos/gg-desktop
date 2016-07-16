@@ -12,77 +12,77 @@ namespace Seggu.Services.DtoMappers
         public static EndorseFullDto GetFullDto(Endorse obj)
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
-            var dto = new EndorseFullDto();
-            dto.Asegurado = obj.Client.FirstName + " " + obj.Client.LastName;
-            dto.AnnulationDate = obj.AnnulationDate == null ? date : obj.AnnulationDate.Value.ToShortDateString();
-
-            dto.ClientId = (int?)obj.ClientId ?? default(int);
-            dto.CompanyId = (int)obj.Policy.Risk.Company.Id;
-            dto.Motivo = obj.Cause;
-
-            dto.EndDate = obj.EndDate.ToShortDateString();
-            dto.EmissionDate = obj.EmissionDate == null ? date : obj.EmissionDate.Value.ToShortDateString();
-            dto.EndorseType = EndorseTypeDtoMapper.ToString(obj.EndorseType);
-
-            dto.Id = (int)obj.Id;
-            dto.IsAnnulled = obj.IsAnnulled == null ? false : true;
-            dto.IsRemoved = obj.IsRemoved == null ? false : true;
-
-            dto.Notes = obj.Notes;
-            dto.Número = obj.Number;
-
-            dto.PolicyId = (int)obj.PolicyId;
-            dto.PolicyNumber = obj.Policy.Number;
-            dto.Premium = obj.Premium;
-            dto.Prima = obj.Prima;
-            dto.ProducerId = (int)obj.Policy.ProducerId;
-            dto.PaymentBonus = obj.PaymentBonus;
-
-            dto.RequestDate = obj.RequestDate.ToShortDateString();
-            dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
-            dto.RiskId = (int)obj.Policy.Risk.Id;
-
-            dto.StartDate = obj.StartDate.ToShortDateString();
-            dto.Surcharge = obj.Surcharge;
-
-            dto.TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Policy.Risk.RiskType);
-
-            dto.Value = obj.Value;
-            dto.Vehicles = (obj.Vehicles ?? new List<Vehicle>()).Select(v => VehicleDtoMapper.GetDto(v));
-            dto.Employees = (obj.Employees ?? new List<Employee>()).Select(e => EmployeeDtoMapper.GetDto(e));
-            dto.Integrals = (obj.Integrals ?? new List<Integral>()).Select(i => IntegralDtoMapper.GetDto(i));
+            var dto = new EndorseFullDto
+            {
+                Asegurado = obj.Client.FirstName + " " + obj.Client.LastName,
+                AnnulationDate = obj.AnnulationDate?.ToShortDateString() ?? date,
+                ClientId = (int?) obj.ClientId ?? default(int),
+                CompanyId = (int) obj.Policy.Risk.Company.Id,
+                Motivo = obj.Cause,
+                EndDate = obj.EndDate.ToShortDateString(),
+                EmissionDate = obj.EmissionDate?.ToShortDateString() ?? date,
+                EndorseType = EndorseTypeDtoMapper.ToString(obj.EndorseType),
+                Id = (int) obj.Id,
+                IsAnnulled = obj.IsAnnulled != null,
+                IsRemoved = obj.IsRemoved != null,
+                Notes = obj.Notes,
+                Número = obj.Number,
+                NetCharge = obj.NetCharge,
+                PolicyId = (int) obj.PolicyId,
+                PolicyNumber = obj.Policy.Number,
+                Premium = obj.Premium,
+                Prima = obj.Prima,
+                ProducerId = (int) obj.Policy.ProducerId,
+                PaymentBonus = obj.PaymentBonus,
+                RequestDate = obj.RequestDate.ToShortDateString(),
+                ReceptionDate = obj.ReceptionDate?.ToShortDateString() ?? date,
+                RiskId = (int) obj.Policy.Risk.Id,
+                StartDate = obj.StartDate.ToShortDateString(),
+                Surcharge = obj.Surcharge,
+                TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Policy.Risk.RiskType),
+                Value = obj.Value,
+                Vehicles = (obj.Vehicles ?? new List<Vehicle>()).Select(VehicleDtoMapper.GetDto),
+                Employees = (obj.Employees ?? new List<Employee>()).Select(EmployeeDtoMapper.GetDto),
+                Integrals = (obj.Integrals ?? new List<Integral>()).Select(IntegralDtoMapper.GetDto)
+            };
 
             return dto;
         }
 
         public static Endorse GetObjectWithCover(EndorseFullDto dto)
         {
-            var obj = new Endorse();
-            obj.AnnulationDate = dto.AnnulationDate == null ? (DateTime?)null : DateTime.Parse(dto.AnnulationDate);
-            obj.ClientId = dto.ClientId;
-            obj.Cause = dto.Motivo;
-            obj.EndDate = DateTime.Parse(dto.EndDate);
-            obj.EndorseType = EndorseTypeDtoMapper.ToEnum(dto.EndorseType);
-            obj.EmissionDate = DateTime.Parse(dto.EmissionDate);
-            obj.Id = dto.Id;
-            obj.IsAnnulled = dto.IsAnnulled;
-            obj.IsRemoved = dto.IsRemoved;
-            obj.Notes = dto.Notes;
-            obj.Number = dto.Número;
-            obj.Premium = dto.Premium;
-            obj.Prima = dto.Prima;
-            obj.PaymentBonus = dto.PaymentBonus;
-            obj.PolicyId = dto.PolicyId;
-            obj.ReceptionDate = DateTime.Parse(dto.ReceptionDate);
-            obj.RequestDate = DateTime.Parse(dto.RequestDate);
-            obj.StartDate = DateTime.Parse(dto.StartDate);
-            obj.Surcharge = dto.Surcharge;
-            obj.Value = dto.Value;
+            var obj = new Endorse
+            {
+                AnnulationDate = dto.AnnulationDate == null ? (DateTime?) null : DateTime.Parse(dto.AnnulationDate),
+                ClientId = dto.ClientId,
+                Cause = dto.Motivo,
+                EndDate = DateTime.Parse(dto.EndDate),
+                EndorseType = EndorseTypeDtoMapper.ToEnum(dto.EndorseType),
+                EmissionDate = DateTime.Parse(dto.EmissionDate),
+                Id = dto.Id,
+                IsAnnulled = dto.IsAnnulled,
+                IsRemoved = dto.IsRemoved,
+                NetCharge = dto.NetCharge,
+                Notes = dto.Notes,
+                Number = dto.Número,
+                Premium = dto.Premium,
+                Prima = dto.Prima,
+                PaymentBonus = dto.PaymentBonus,
+                PolicyId = dto.PolicyId,
+                ReceptionDate = DateTime.Parse(dto.ReceptionDate),
+                RequestDate = DateTime.Parse(dto.RequestDate),
+                StartDate = DateTime.Parse(dto.StartDate),
+                Surcharge = dto.Surcharge,
+                Value = dto.Value,
+                Fees = dto.Fees?.Select(FeeDtoMapper.GetObject).ToList(),
+                Vehicles =
+                    dto.Vehicles?.Select(VehicleDtoMapper.GetObjectWithCover).ToList(),
+                Employees =
+                    dto.Employees?.Select(EmployeeDtoMapper.GetObjectWithCover).ToList(),
+                Integrals =
+                    dto.Integrals?.Select(IntegralDtoMapper.GetObjectWithCover).ToList()
+            };
 
-            obj.Fees = dto.Fees == null ? null : dto.Fees.Select(f => FeeDtoMapper.GetObject(f)).ToList();
-            obj.Vehicles = dto.Vehicles == null ? null : dto.Vehicles.Select(v => VehicleDtoMapper.GetObjectWithCover(v)).ToList();
-            obj.Employees = dto.Employees == null ? null : dto.Employees.Select(e => EmployeeDtoMapper.GetObjectWithCover(e)).ToList();
-            obj.Integrals = dto.Integrals== null ? null : dto.Integrals.Select(i => IntegralDtoMapper.GetObjectWithCover(i)).ToList();
             return obj;
         }
     }

@@ -17,15 +17,15 @@ namespace Seggu.Desktop.UserControls
 {
     public partial class EndososUserControl : UserControl
     {
-        private IEndorseService endorseService;
-        private IPolicyService policyService;
-        private IClientService clientService;
-        private ICompanyService companyService;
-        private IRiskService riskService;
-        private IProducerService producerService;
-        private IMasterDataService masterDataService;
-        private IFeeService feeService;
-        private IPrintService printService;
+        private readonly IEndorseService endorseService;
+        //private IPolicyService policyService;
+        //private IClientService clientService;
+        private readonly ICompanyService companyService;
+        private readonly IRiskService riskService;
+        private readonly IProducerService producerService;
+        private readonly IMasterDataService masterDataService;
+        private readonly IFeeService feeService;
+        private readonly IPrintService printService;
 
         private VehiculePolicyUserControl vehicle_uc = null;
         private VidaPolicyUserControl vida_uc = null;
@@ -38,8 +38,8 @@ namespace Seggu.Desktop.UserControls
         {
             InitializeComponent();
             this.endorseService = endorseService;
-            this.policyService = polServ;
-            this.clientService = cliServ;
+            //this.policyService = polServ;
+            //this.clientService = cliServ;
             this.companyService = compServ;
             this.riskService = riskServ;
             this.masterDataService = masterDataServ;
@@ -64,13 +64,7 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.DisplayMember = "Name";
             cmbCobrador.DataSource = producerService.GetCollectors().ToList();
         }
-        public Layout MainForm
-        {
-            get
-            {
-                return (Layout)this.FindForm();
-            }
-        }
+        public Layout MainForm => (Layout)this.FindForm();
 
         public void NewEndorse()
         {
@@ -79,7 +73,7 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
             //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
-            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
             if (MainForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
@@ -117,13 +111,13 @@ namespace Seggu.Desktop.UserControls
             if (cp.Vehicles != null)
             {
                 ce.Vehicles = cp.Vehicles;
-                foreach (var vehicle in ce.Vehicles) { }
+                //foreach (var vehicle in ce.Vehicles) { }
                 //vehicle.Id = null;
             }
             else if (cp.Employees != null)
             {
                 ce.Employees = cp.Employees;
-                foreach (var employee in ce.Employees) { }
+                //foreach (var employee in ce.Employees) { }
                 //employee.Id = null;
             }
             else if (cp.Integrals != null)
@@ -160,26 +154,12 @@ namespace Seggu.Desktop.UserControls
             newEndorse.Value = ce.Value;
             if (ce.Vehicles != null)
             {
-                var newVehicles = new List<VehicleDto>();
-                foreach (var vehicle in ce.Vehicles)
-                {
-                    //vehicle.Id = null;// no lo hace
-                    var newVehicle = vehicle;
-                    //newVehicle.Id = string.Empty;
-                    newVehicles.Add(newVehicle);
-                }
+                var newVehicles = ce.Vehicles.ToList();
                 newEndorse.Vehicles = newVehicles;
             }
             else if (ce.Employees != null)
             {
-                var newEmployees = new List<EmployeeDto>();
-                foreach (var employee in ce.Employees)
-                {
-                    //vehicle.Id = null;// no lo hace
-                    var newEmployee = employee;
-                    //newEmployee.Id = string.Empty;
-                    newEmployees.Add(newEmployee);
-                }
+                var newEmployees = ce.Employees.ToList();
                 newEndorse.Employees = newEmployees;
                 //newEndorse.Employees = ce.Employees;
                 //foreach (var employee in newEndorse.Employees)
@@ -390,7 +370,7 @@ namespace Seggu.Desktop.UserControls
         }
         private EndorseFullDto GetFormInfo()
         {
-            EndorseFullDto endorse = new EndorseFullDto();
+            var endorse = new EndorseFullDto();
             endorse.Id = MainForm.currentEndorse.Id;
             endorse.AnnulationDate = null;
             endorse.Asegurado = txtAsegurado.Text;
@@ -408,6 +388,7 @@ namespace Seggu.Desktop.UserControls
 
             endorse.Notes = txtNotas.Text;
             endorse.Número = txtNroEndoso.Text;
+            endorse.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
 
             endorse.PolicyId = MainForm.currentPolicy.Id;
             endorse.PolicyNumber = txtNroPoliza.Text;
@@ -534,10 +515,10 @@ namespace Seggu.Desktop.UserControls
                 e.Handled = true;
             }
             else if (!char.IsDigit(c) && c != 8 && c != 46)
-            {		              
-                e.Handled = true;		             
-            }		              
-        }		          
+            {
+                e.Handled = true;
+            }
+        }
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {

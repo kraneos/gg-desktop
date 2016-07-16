@@ -79,7 +79,7 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.ValueMember = "Id";
             cmbCobrador.DisplayMember = "Name";
             cmbCobrador.DataSource = producerService.GetCollectors().ToList();
-          
+
             cmbCompania.SelectedIndex = cmbCompania.Items.Count > 0 ? 0 : -1;
 
             if (cmbRiesgo.Items.Count > 0)
@@ -112,7 +112,7 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo_SelectionChangeCommitted(null, null);
             grdFees.Rows.Clear();
             cmbPlanes.Enabled = true;
-            foreach(Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
+            foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
             {
                 c.Visible = false;
             }
@@ -272,7 +272,7 @@ namespace Seggu.Desktop.UserControls
             txtNotas.DataBindings.Add("Text", policy, "Notes");
 
             dtpInicio.DataBindings.Add("Value", policy, "StartDate");
-         //   txtNetoCobrar.Text = policy.NetCharge.ToString();
+            //   txtNetoCobrar.Text = policy.NetCharge.ToString();
             dtpFin.Value = DateTime.Parse(policy.Vence);
             cmbPeriodo.SelectedItem = LayoutForm.currentPolicy.Period;
 
@@ -350,7 +350,7 @@ namespace Seggu.Desktop.UserControls
 
                 case RiskType.Combinados_Integrales:
                     printService.PolicyIntegralPDF(pol);
-                    break;                   
+                    break;
             }
         }
         #region Datos grales Tab
@@ -727,7 +727,7 @@ namespace Seggu.Desktop.UserControls
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
-                            else if(c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
+                            else if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
                             {
                                 var x = 0M;
 
@@ -806,7 +806,7 @@ namespace Seggu.Desktop.UserControls
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
             policy.PaymentDay = int.Parse(txtPaymentDay.Text);
             policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
-          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
+            policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
             return policy;
         }
         #endregion
@@ -963,7 +963,7 @@ namespace Seggu.Desktop.UserControls
                             ok = false;
                         }
                     }
-                    
+
                     else if (c is ComboBox)
                     {
                         if (c == cmbType)
@@ -1010,7 +1010,7 @@ namespace Seggu.Desktop.UserControls
             ClearSiniestrosDataBindings();
             int casualtiesCount = cmbNumber.Items.Count;
             lblNumber.Text = (casualtiesCount + 1).ToString();
-            
+
             currentCasualty = new CasualtyDto();
             currentCasualty.Number = (casualtiesCount + 1).ToString();
             currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
@@ -1055,7 +1055,7 @@ namespace Seggu.Desktop.UserControls
                         }
                     }
                 }
-            }         
+            }
         }
 
         #endregion
