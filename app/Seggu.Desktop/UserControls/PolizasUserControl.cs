@@ -6,6 +6,7 @@ using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,14 +17,14 @@ namespace Seggu.Desktop.UserControls
 
     public partial class PolizasUserControl : UserControl
     {
-        private IPolicyService policyService;
-        private IClientService clientService;
-        private ICompanyService companyService;
-        private IRiskService riskService;
-        private IProducerService producerService;
-        private IMasterDataService masterDataService;
-        private IFeeService feeService;
-        private IPrintService printService;
+        private readonly IPolicyService policyService;
+        private readonly IClientService clientService;
+        private readonly ICompanyService companyService;
+        private readonly IRiskService riskService;
+        private readonly IProducerService producerService;
+        private readonly IMasterDataService masterDataService;
+        private readonly IFeeService feeService;
+        private readonly IPrintService printService;
         private IAttachedFileService attachedFileService;
         private ClientIndexDto currentClient;
         private VehiculePolicyUserControl vehicle_uc = null;
@@ -87,13 +88,7 @@ namespace Seggu.Desktop.UserControls
                 cmbRiesgo.SelectedIndex = 0;
             }
         }
-        private Layout LayoutForm
-        {
-            get
-            {
-                return (Layout)this.FindForm();
-            }
-        }
+        private Layout LayoutForm => (Layout)this.FindForm();
 
         private void btnNuevaPoliza_Click(object sender, EventArgs e)
         {
@@ -112,11 +107,37 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo_SelectionChangeCommitted(null, null);
             grdFees.Rows.Clear();
             cmbPlanes.Enabled = true;
-            foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
+            EnablePage(tabPageSiniestros, false);
+            //tctrlPolizasDatos.TabPages[3].Visible = false;
+            //tabPageSiniestros.Visible = false;
+
+            //foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
+            //{
+            //    c.Visible = false;
+            //}
+        }
+
+        private readonly List<TabPage> hiddenPages = new List<TabPage>();
+
+        private void EnablePage(TabPage page, bool enable)
+        {
+            if (enable)
             {
-                c.Visible = false;
+                tctrlPolizasDatos.TabPages.Add(page);
+                hiddenPages.Remove(page);
+            }
+            else
+            {
+                tctrlPolizasDatos.TabPages.Remove(page);
+                hiddenPages.Add(page);
             }
         }
+
+        protected void Dispose()
+        {
+            foreach (var page in hiddenPages) page.Dispose();
+        }
+
         private void EmptyControlsDetalleTab()
         {
             lblAnulada.Visible = false;
@@ -218,10 +239,12 @@ namespace Seggu.Desktop.UserControls
                 chkOtherClient.Visible = true;
                 PopulateDetails();
                 CalculateNetoCobrar();
-                foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)
-                {
-                    c.Visible = false;
-                }
+                //tctrlPolizasDatos.TabPages[3].Visible = false;
+                //tabPageSiniestros.Visible = false;
+                //foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)
+                //{
+                //    c.Visible = false;
+                //}
             }
             else
             {
@@ -701,7 +724,8 @@ namespace Seggu.Desktop.UserControls
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        "Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.\n" +
+                        @"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.
+" +
                         ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
                         ex.InnerException.Message + "\nStackTrace: " +
                         ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -712,7 +736,7 @@ namespace Seggu.Desktop.UserControls
         }
         private bool ValidateControls()
         {
-            bool ok = true;
+            var ok = true;
             errorProvider1.Clear();
             foreach (TabPage tabPage in this.tctrlPolizasDatos.TabPages)
             {
@@ -1239,5 +1263,56 @@ namespace Seggu.Desktop.UserControls
 
         #endregion
 
+        private void AgregarFoto(object sender, EventArgs e)
+        {
+            this.folderBrowserFotos.Reset();
+            //var openFileDialog = new OpenFileDialog { CheckFileExists = true };
+            //if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            //foreach (var fileName in openFileDialog.FileNames)
+            //{
+            //    listViewFotos.Items.Add(fileName);
+            //}
+            var fdlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = @"Select a file to add... ",
+                InitialDirectory = "C:\\",
+                Filter = @"All files|*.*",
+                RestoreDirectory = true
+            };
+            if (fdlg.ShowDialog() != DialogResult.OK) return;
+
+            foreach (var files in fdlg.FileNames)
+            {
+                try
+                {
+                    this.imageList1.Images.Add(Image.FromFile(files));
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            this.listViewFotos.View = View.LargeIcon;
+            this.imageList1.ImageSize = new Size(32, 32);
+            this.listViewFotos.LargeImageList = this.imageList1;
+            //or
+            //this.listView1.View = View.SmallIcon;
+            //this.listView1.SmallImageList = this.imageList1;
+            for (var j = 0; j < this.imageList1.Images.Count; j++)
+            {
+                var item = new ListViewItem { ImageIndex = j };
+                this.listViewFotos.Items.Add(item);
+            }
+        }
+
+        private void EliminarFoto(object sender, EventArgs e)
+        {
+            if (listViewFotos.FocusedItem == null) return;
+            var focusedItem = listViewFotos.FocusedItem;
+            imageList1.Images.RemoveAt(focusedItem.ImageIndex);
+            listViewFotos.Items.Remove(listViewFotos.FocusedItem);
+        }
     }
 }
