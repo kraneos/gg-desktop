@@ -68,12 +68,6 @@ namespace Seggu.Desktop.UserControls
 
         public void NewEndorse()
         {
-            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
-
-            cmbRiesgo.ValueMember = "Id";
-            cmbRiesgo.DisplayMember = "Name";
-            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
-            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
             if (MainForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
@@ -83,7 +77,7 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.Enabled = true;
         }
         private void ConvertPolicyToEndorse()
-        {
+{
             var ce = new EndorseFullDto();
             var cp = MainForm.currentPolicy;
             ce.Asegurado = cp.Asegurado;
@@ -170,6 +164,13 @@ namespace Seggu.Desktop.UserControls
 
         private void populateTextBoxesAndCombos(EndorseFullDto endorse)
         {
+            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
+
+            cmbRiesgo.ValueMember = "Id";
+            cmbRiesgo.DisplayMember = "Name";
+            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
+
             cmbProductor.SelectedValue = endorse.ProducerId;
             cmbRiesgo.SelectedValue = endorse.RiskId == default(int) ? cmbRiesgo.SelectedValue : endorse.RiskId;
             cmbCompania.SelectedValue = endorse.CompanyId == default(int) ? cmbCompania.SelectedValue : endorse.CompanyId;
