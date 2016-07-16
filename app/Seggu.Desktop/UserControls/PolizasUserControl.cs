@@ -727,7 +727,7 @@ namespace Seggu.Desktop.UserControls
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
-                            else if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado)
+                            else if (c == txtPremioIva || c == txtSumaAsegurado)
                             {
                                 var x = 0M;
 
