@@ -133,49 +133,47 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        protected void Dispose()
+        protected new void Dispose()
         {
             foreach (var page in hiddenPages) page.Dispose();
+            base.Dispose();
         }
 
         private void EmptyControlsDetalleTab()
         {
             lblAnulada.Visible = false;
-            foreach (TabPage tabPage in this.tctrlPolizasDatos.TabPages)
+            foreach (Control control in from TabPage tabPage in this.tctrlPolizasDatos.TabPages from Control control in tabPage.Controls select control)
             {
-                foreach (Control control in tabPage.Controls)
+                if (control is TextBox)
+                    control.Text = string.Empty;
+                //else if (control is ComboBox)
+                //(control as ComboBox).SelectedIndex = -1;
+                else if (control is DataGridView)
                 {
-                    if (control is TextBox)
-                        control.Text = string.Empty;
-                    //else if (control is ComboBox)
-                    //(control as ComboBox).SelectedIndex = -1;
-                    else if (control is DataGridView)
+                    (control as DataGridView).DataSource = null;
+                    (control as DataGridView).Rows.Clear();
+                }
+                else if (control is CheckBox)
+                    (control as CheckBox).Checked = false;
+                else if (control is DateTimePicker)
+                {
+                    (control as DateTimePicker).Value = DateTime.Today;
+                    (control as DateTimePicker).Checked = false;
+                }
+                else if (control is GroupBox)
+                {
+                    foreach (Control groupBoxControl in control.Controls)
                     {
-                        (control as DataGridView).DataSource = null;
-                        (control as DataGridView).Rows.Clear();
-                    }
-                    else if (control is CheckBox)
-                        (control as CheckBox).Checked = false;
-                    else if (control is DateTimePicker)
-                    {
-                        (control as DateTimePicker).Value = DateTime.Today;
-                        (control as DateTimePicker).Checked = false;
-                    }
-                    else if (control is GroupBox)
-                    {
-                        foreach (Control groupBoxControl in control.Controls)
+                        if (groupBoxControl is TextBox)
+                            groupBoxControl.Text = string.Empty;
+                        else if (groupBoxControl is ComboBox)
+                            (groupBoxControl as ComboBox).SelectedIndex = -1;
+                        else if (groupBoxControl is CheckBox)
+                            (groupBoxControl as CheckBox).Checked = false;
+                        else if (groupBoxControl is DateTimePicker)
                         {
-                            if (groupBoxControl is TextBox)
-                                groupBoxControl.Text = string.Empty;
-                            else if (groupBoxControl is ComboBox)
-                                (groupBoxControl as ComboBox).SelectedIndex = -1;
-                            else if (groupBoxControl is CheckBox)
-                                (groupBoxControl as CheckBox).Checked = false;
-                            else if (groupBoxControl is DateTimePicker)
-                            {
-                                (groupBoxControl as DateTimePicker).Value = DateTime.Today;
-                                (groupBoxControl as DateTimePicker).Checked = false;
-                            }
+                            (groupBoxControl as DateTimePicker).Value = DateTime.Today;
+                            (groupBoxControl as DateTimePicker).Checked = false;
                         }
                     }
                 }

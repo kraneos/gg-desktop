@@ -77,17 +77,13 @@ namespace Seggu.Data
                     opts.Items["ObjectId"] = objId;
                 }
             });
-            if (parseObject != null)
-            {
-                parseObject.SaveAsync().Wait();
-                if (isNew)
-                {
-                    entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
-                    entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
-                    entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
-                    entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
-                }
-            }
+            if (parseObject == null) return;
+            parseObject.SaveAsync().Wait();
+            if (!isNew) return;
+            entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+            entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
         }
     }
 }
