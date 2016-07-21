@@ -196,7 +196,6 @@
             this.txtBonificacionPago.Size = new System.Drawing.Size(100, 25);
             this.txtBonificacionPago.TabIndex = 5;
             this.txtBonificacionPago.TextChanged += new System.EventHandler(this.txtBonificacionPago_TextChanged);
-            this.txtBonificacionPago.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBonificacionPago_KeyPress);
             // 
             // label15
             // 
