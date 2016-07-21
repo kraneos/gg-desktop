@@ -806,7 +806,8 @@ namespace Seggu.Desktop.UserControls
             policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
             policy.PaymentDay = int.Parse(txtPaymentDay.Text);
             policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
-          //  policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
+
+            policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
             return policy;
         }
         #endregion

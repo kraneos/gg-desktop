@@ -419,7 +419,7 @@ namespace Seggu.Desktop.UserControls
 
             endorse.Notes = txtNotas.Text;
             endorse.Número = txtNroEndoso.Text;
-
+            
             endorse.PolicyId = LayoutForm.currentPolicy.Id;
             endorse.PolicyNumber = txtNroPoliza.Text;
             endorse.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
