@@ -196,8 +196,16 @@ namespace Seggu.Service.Services
         public static string GetObjectId<T>(SegguDataModelContext ctx, long id)
             where T : IdParseEntity
         {
-            var q = ctx.Set<T>().Where(x => x.Id == id).Select(x => x.ObjectId).First();
-            return q;
+            if (id != 0)
+            {
+                var q = ctx.Set<T>().Where(x => x.Id == id).Select(x => x.ObjectId).First();
+                return q;
+
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

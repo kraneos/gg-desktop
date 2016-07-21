@@ -32,28 +32,25 @@ namespace Seggu.Data
                 .ToList();
 
             // If Parse Entity
-            if (Properties.Settings.Default.SyncWithParse)
+            if (!Properties.Settings.Default.SyncWithParse) return base.SaveChanges();
             {
                 var modifiedEntries = entries.Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
-                if (modifiedEntries.Any())
+                if (!modifiedEntries.Any()) return base.SaveChanges();
                 {
                     var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
-                    if (setting != null)
+                    if (setting == null) return base.SaveChanges();
+                    try
                     {
-
-                        try
+                        foreach (var entry in modifiedEntries)
                         {
-                            foreach (var entry in modifiedEntries)
-                            {
-                                GetParseObject(entry, setting);
-                            }
+                            GetParseObject(entry, setting);
                         }
-                        catch (Exception)
+                    }
+                    catch (Exception)
+                    {
+                        foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
                         {
-                            foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
-                            {
-                                modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
-                            }
+                            modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
                         }
                     }
                 }
@@ -80,17 +77,13 @@ namespace Seggu.Data
                     opts.Items["ObjectId"] = objId;
                 }
             });
-            if (parseObject != null)
-            {
-                parseObject.SaveAsync().Wait();
-                if (isNew)
-                {
-                    entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
-                    entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
-                    entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
-                    entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
-                }
-            }
+            if (parseObject == null) return;
+            parseObject.SaveAsync().Wait();
+            if (!isNew) return;
+            entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+            entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
         }
     }
 }
