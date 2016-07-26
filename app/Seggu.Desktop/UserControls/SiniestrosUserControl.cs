@@ -233,7 +233,7 @@ namespace Seggu.Desktop.UserControls
             string fileName = "P-" + MainForm.currentPolicy.Número + " D-";// + currentCasualty.Number;
             string policeReportFilePath = Path.Combine(policeReportDirectoryPath, fileName);
 
-            string tempPath = System.IO.Path.GetTempFileName();
+            string tempPath = Path.GetTempFileName();
             FileInfo tempFile = new FileInfo(tempPath);
             System.IO.File.WriteAllBytes(tempPath, Properties.Resources.PlantillaDenunciaSiniestro);
 

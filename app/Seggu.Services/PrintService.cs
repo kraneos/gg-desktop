@@ -10,7 +10,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-
 namespace Seggu.Services
 {
     public class PrintService : IPrintService
@@ -24,26 +23,10 @@ namespace Seggu.Services
             this.producerService = producerService;
         }
 
-        static string currentMonthString = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month - 1];
-        static string nextMonthString = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month];
+        static string currentMonthString = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month - 1];
+        static string nextMonthString = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month];
 
-        string currentDate = DateTime.Today.Day.ToString() + " de " + currentMonthString + " de " + DateTime.Today.Year.ToString();
-
-        private string ValidatePaths(string PDFcategory)
-        {
-            //var path = Properties.Settings.Default.FileServerPath + @"\SeGGu PDFs";
-            var path = AppDomain.CurrentDomain.BaseDirectory + @"SeGGu PDFs";
-            //string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments) + @"\SeGGu PDFs";
-            if (!(Directory.Exists(path))) Directory.CreateDirectory(path);
-
-            string pathDateFolder = path + @"\" + PDFcategory + @"\"
-                + DateTime.Today.Year + "-" + currentMonthString + "-" + DateTime.Today.Day;
-            if (!(Directory.Exists(pathDateFolder)))
-            {
-                Directory.CreateDirectory(pathDateFolder);
-            }
-            return pathDateFolder;
-        }
+        string currentDate = DateTime.Today.Year.ToString() + "-" + currentMonthString.ToString() + "-" + DateTime.Today.Day.ToString();
 
         private static void PopulateClient(ClientFullDto clientFull, AcroFields form)
         {
@@ -70,15 +53,10 @@ namespace Seggu.Services
             var receipt = new Rectangle(300, 400);
             var document = new Document(receipt);
             string path = AppDomain.CurrentDomain.BaseDirectory + "/ReceiptTemplate.pdf";
-            //string path = "C:/Users/Ezequiel G.Montes/Desktop/pdfsSeggu/CuotasLiquidación.pdf";
             PdfWriter.GetInstance(document, new FileStream(path, FileMode.OpenOrCreate));
             document.Open();
-
             var table = new PdfPTable(2);
-
-            //document.Add(header);
             document.Add(table);
-
             document.Close();
         }
         #endregion
@@ -86,8 +64,8 @@ namespace Seggu.Services
         #region Recibo
         public void PrintReceipt(FeeChargeDto printFee)
         {
-            string pathDateFolder = ValidatePaths("Recibos");
-            string PDFPath = System.IO.Path.Combine(pathDateFolder, printFee.VehiclePlate
+            string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, printFee.FullClientName);
+            string PDFPath = Path.Combine(clientPath, printFee.VehiclePlate
                 + " Pol-" + printFee.Items.FirstOrDefault().PolicyNumber
                 + " cuota-" + printFee.Items.FirstOrDefault().FeeNumber + ".pdf");
 
@@ -95,13 +73,13 @@ namespace Seggu.Services
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form1 = stamp1.AcroFields;
 
-            PopulateReceiptPDF(printFee, form1);
+            PopulateVehicleReceiptPDF(printFee, form1);
             stamp1.Close();
             reader.Close();
 
             System.Diagnostics.Process.Start(PDFPath);
         }
-        private void PopulateReceiptPDF(FeeChargeDto printFee, AcroFields form1)
+        private void PopulateVehicleReceiptPDF(FeeChargeDto printFee, AcroFields form1)
         {
 
             string feeExpirationDate = printFee.PolicyExpirationDate.Day.ToString()
@@ -131,10 +109,8 @@ namespace Seggu.Services
         #region Polizas
         public void PolicyVehiclePDF(PolicyFullDto policy, string selectedPlate)
         {
-            string pathDateFolder = ValidatePaths("Pólizas");
-
-            string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Vehicles.First().Plate +
-                " " + policy.Asegurado + ".pdf");
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
+            string PDFPath = Path.Combine(clientPath, policy.Vehicles.First().Plate + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
@@ -189,34 +165,29 @@ namespace Seggu.Services
 
         public void PolicyLifePDF(PolicyFullDto policy)
         {
-            string pathDateFolder = ValidatePaths("Pólizas");
-
-            string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Objeto +
-                " " + policy.Asegurado + ".pdf");
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
+            string PDFPath = Path.Combine(clientPath, policy.Objeto + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form = stamp.AcroFields;
 
             ClientFullDto clientFull = clientService.GetById(policy.ClientId);
-            //VehicleDto vehicle = policy.Vehicles.First();
             ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
 
             PopulatePolicy(policy, form);
             PopulateClient(clientFull, form);
-            //PopulatePolicyVehicle(vehicle, form);
             PolpulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
+
         public void PolicyIntegralPDF(PolicyFullDto policy)
         {
-            string pathDateFolder = ValidatePaths("Pólizas");
-
-            string PDFPath = System.IO.Path.Combine(pathDateFolder, policy.Objeto +
-                " " + policy.Asegurado + ".pdf");
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
+            string PDFPath = Path.Combine(clientPath, policy.Objeto + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Integral);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
@@ -259,9 +230,8 @@ namespace Seggu.Services
         public void EndorsePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
         {
             var clientFull = clientService.GetById(policy.ClientId);
-            string pathDateFolder = ValidatePaths("Endosos");
-            string PDFPath = System.IO.Path.Combine(pathDateFolder, endorse.Vehicles.First().Plate +
-                " " + client.Nombre_Completo + ".pdf");
+            string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, policy.Asegurado);
+            string PDFPath = Path.Combine(clientPath, endorse.Vehicles.First().Plate + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));

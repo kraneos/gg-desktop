@@ -118,7 +118,6 @@ namespace Seggu.Desktop.UserControls
         }
 
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
-
         private void EnablePage(TabPage page, bool enable)
         {
             if (enable)
@@ -132,13 +131,11 @@ namespace Seggu.Desktop.UserControls
                 hiddenPages.Add(page);
             }
         }
-
         protected new void Dispose()
         {
             foreach (var page in hiddenPages) page.Dispose();
             base.Dispose();
         }
-
         private void EmptyControlsDetalleTab()
         {
             lblAnulada.Visible = false;
@@ -374,6 +371,7 @@ namespace Seggu.Desktop.UserControls
                     break;
             }
         }
+       
         #region Datos grales Tab
 
         private void dtpInicio_ValueChanged(object sender, EventArgs e)
