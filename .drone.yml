@@ -5,6 +5,6 @@ build:
   pull: true
   shell: mingw64
   commands:
-    - ./configure
+    # - ./configure
     - make
     - make check
