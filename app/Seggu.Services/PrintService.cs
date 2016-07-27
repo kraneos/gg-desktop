@@ -141,7 +141,7 @@ namespace Seggu.Services
             form.SetField("Notas", policy.Notes);
             form.SetField("Suma", policy.Value.ToString());
             form.SetField("Cobranza", "Directa");
-            form.SetField("Cuotas", "");
+            //form.SetField("Cuotas", policy.Fees.Count().ToString());
         }
         private static void PopulatePolicyVehicle(VehicleDto vehicle, AcroFields form)
         {
@@ -166,9 +166,9 @@ namespace Seggu.Services
         public void PolicyLifePDF(PolicyFullDto policy)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
-            string PDFPath = Path.Combine(clientPath, policy.Objeto + ".pdf");
+            string PDFPath = Path.Combine(clientPath, "vida.pdf");
 
-            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza);
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Vida);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form = stamp.AcroFields;
 
@@ -177,11 +177,30 @@ namespace Seggu.Services
 
             PopulatePolicy(policy, form);
             PopulateClient(clientFull, form);
+            PopulateLifePolicy(policy, form);
             PolpulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
+        }
+
+        private void PopulateLifePolicy(PolicyFullDto policy, AcroFields form)
+        {
+            //haccer un foreach para lista empleados
+            form.SetField("AsegApellido1", policy.Employees.First().Apellido);
+            form.SetField("AsegNombre1", policy.Employees.First().Nombre);
+            form.SetField("AsegDNI1", policy.Employees.First().DNI);
+            form.SetField("AsegCUIT1", policy.Employees.First().CUIT);
+            form.SetField("AsegNacimiento1", policy.Employees.First().CUIT);
+            form.SetField("AsegSuma1", policy.Employees.First().Suma.ToString());
+
+            form.SetField("AsegApellido2", policy.Employees.Last().Apellido);
+            form.SetField("AsegNombre2", policy.Employees.Last().Nombre);
+            form.SetField("AsegDNI2", policy.Employees.Last().DNI);
+            form.SetField("AsegCUIT2", policy.Employees.Last().CUIT);
+            form.SetField("AsegNacimiento2", policy.Employees.Last().CUIT);
+            form.SetField("AsegSuma2", policy.Employees.Last().Suma.ToString());
         }
 
         public void PolicyIntegralPDF(PolicyFullDto policy)
@@ -238,6 +257,7 @@ namespace Seggu.Services
             AcroFields form = stamp1.AcroFields;
 
             PopulateEndorsePDF(endorse, clientFull, policy, form);
+            //PolpulateProducer(producer, form);
 
             stamp1.Close();
             reader.Close();

@@ -113,6 +113,16 @@ namespace Seggu.Data {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] Plantilla_Solicitud_Póliza_Vida {
+            get {
+                object obj = ResourceManager.GetObject("Plantilla_Solicitud_Póliza_Vida", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] Solicitud_Inscripcion_Seguro_Colectivo {
             get {
                 object obj = ResourceManager.GetObject("Solicitud_Inscripcion_Seguro_Colectivo", resourceCulture);
