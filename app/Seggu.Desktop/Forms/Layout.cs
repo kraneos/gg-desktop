@@ -1,7 +1,5 @@
 ﻿using Microsoft.Win32;
-using Seggu.Data;
 using Seggu.Desktop.UserControls;
-using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Infrastructure;
@@ -9,9 +7,7 @@ using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Seggu.Desktop.Forms
@@ -576,8 +572,6 @@ namespace Seggu.Desktop.Forms
             clientUC = (AseguradosUserControl)DependencyResolver.Instance.Resolve(typeof(AseguradosUserControl));
             SetPanelControl(clientUC);
             clientUC.ListClientsWithValidsPolicies();
-            //SetButtonsPrincipal();
-            //SetButtonsClients();
         }
 
         private void pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -625,27 +619,6 @@ namespace Seggu.Desktop.Forms
         {
 
             new RosReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
-        }
-  
-        private void riesgosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Forms.RisksOnly risksOnly = (RisksOnly)DependencyResolver
-            //    .Instance.Resolve(typeof(RisksOnly));
-            //risksOnly.Show();
-        }
-
-        private void coberturasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Forms.CoberturasOnly coberturasOnly = (CoberturasOnly)DependencyResolver
-            //   .Instance.Resolve(typeof(CoberturasOnly));
-            //coberturasOnly.Show();
-        }
-
-        private void paquetesToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            //Forms.PackagesOnly paquetes = (PackagesOnly)DependencyResolver
-            //    .Instance.Resolve(typeof(PackagesOnly));
-            //paquetes.Show();
         }
         #endregion
 
