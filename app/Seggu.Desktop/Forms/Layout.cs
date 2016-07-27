@@ -35,21 +35,7 @@ namespace Seggu.Desktop.Forms
             this.clientService = clientService;
             this.feeService = feeService;
             this.companyService = companyService;
-
-            //try
-            //{
-            //    LaunchSplash();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
         }
-        //private void LaunchSplash()
-        //{
-        //    var splashForm = (Splash)DependencyResolver.Instance.Resolve(typeof(Splash));
-        //    splashForm.ShowDialog();
-        //}
 
         #region Security
         private static bool ValidateRegistry()

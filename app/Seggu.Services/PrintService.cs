@@ -120,7 +120,7 @@ namespace Seggu.Services
             VehicleDto vehicle = policy.Vehicles.First(v => v.Plate == selectedPlate);
             ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
 
-            PopulatePolicy(policy, form);
+            PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
             PopulatePolicyVehicle(vehicle, form);
             PolpulateProducer(producer, form);
@@ -129,80 +129,6 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-
-        private static void PopulatePolicy(PolicyFullDto policy, AcroFields form)
-        {
-            form.SetField("Compañía", policy.Compañía);
-            form.SetField("Riesgo", policy.TipoRiesgo);
-            form.SetField("Vigencia", policy.StartDate + " al " + policy.Vence);
-            form.SetField("Solicitada", policy.RequestDate);
-
-            form.SetField("Asegurado", policy.Asegurado);
-            form.SetField("Notas", policy.Notes);
-            form.SetField("Suma", policy.Value.ToString());
-            form.SetField("Cobranza", "Directa");
-            //form.SetField("Cuotas", policy.Fees.Count().ToString());
-        }
-        private static void PopulatePolicyVehicle(VehicleDto vehicle, AcroFields form)
-        {
-            form.SetField("Marca", vehicle.Brand);
-            form.SetField("Modelo", vehicle.Model);
-            form.SetField("Año", vehicle.Year);
-            var cobertura = string.Empty;
-            if (vehicle.Coverages.Any() && vehicle.Coverages.First().CoveragesPacks.Any())
-            {
-                cobertura = vehicle.Coverages.First().CoveragesPacks.First().Name;
-            }
-            form.SetField("Cobertura", cobertura);
-            form.SetField("Motor", vehicle.Engine);
-            form.SetField("Chasis", vehicle.Chassis);
-            form.SetField("Patente", vehicle.Plate);
-            form.SetField("Tipo", vehicle.VehicleType);
-            form.SetField("Carrocería", vehicle.Bodywork);
-            form.SetField("Uso", vehicle.Uso);
-            form.SetField("Origen", vehicle.Origin);
-        }
-
-        public void PolicyLifePDF(PolicyFullDto policy)
-        {
-            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
-            string PDFPath = Path.Combine(clientPath, "vida.pdf");
-
-            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Vida);
-            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
-            AcroFields form = stamp.AcroFields;
-
-            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
-            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
-
-            PopulatePolicy(policy, form);
-            PopulateClient(clientFull, form);
-            PopulateLifePolicy(policy, form);
-            PolpulateProducer(producer, form);
-
-            stamp.Close();
-            reader.Close();
-            System.Diagnostics.Process.Start(PDFPath);
-        }
-
-        private void PopulateLifePolicy(PolicyFullDto policy, AcroFields form)
-        {
-            //haccer un foreach para lista empleados
-            form.SetField("AsegApellido1", policy.Employees.First().Apellido);
-            form.SetField("AsegNombre1", policy.Employees.First().Nombre);
-            form.SetField("AsegDNI1", policy.Employees.First().DNI);
-            form.SetField("AsegCUIT1", policy.Employees.First().CUIT);
-            form.SetField("AsegNacimiento1", policy.Employees.First().CUIT);
-            form.SetField("AsegSuma1", policy.Employees.First().Suma.ToString());
-
-            form.SetField("AsegApellido2", policy.Employees.Last().Apellido);
-            form.SetField("AsegNombre2", policy.Employees.Last().Nombre);
-            form.SetField("AsegDNI2", policy.Employees.Last().DNI);
-            form.SetField("AsegCUIT2", policy.Employees.Last().CUIT);
-            form.SetField("AsegNacimiento2", policy.Employees.Last().CUIT);
-            form.SetField("AsegSuma2", policy.Employees.Last().Suma.ToString());
-        }
-
         public void PolicyIntegralPDF(PolicyFullDto policy)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
@@ -216,7 +142,7 @@ namespace Seggu.Services
             IntegralDto integral = policy.Integrals.First();
             ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
 
-            PopulatePolicy(policy, form);
+            PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
 
             
@@ -242,6 +168,77 @@ namespace Seggu.Services
             stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
+        }
+        public void PolicyLifePDF(PolicyFullDto policy)
+        {
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
+            string PDFPath = Path.Combine(clientPath, "vida.pdf");
+
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Vida);
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
+
+            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
+
+            PopulatePolicyHeader(policy, form);
+            PopulateClient(clientFull, form);
+            PopulatePolicyEmployees(policy, form);
+            PolpulateProducer(producer, form);
+
+            stamp.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
+        }
+
+        private static void PopulatePolicyHeader(PolicyFullDto policy, AcroFields form)
+        {
+            form.SetField("Compañía", policy.Compañía);
+            form.SetField("Riesgo", policy.TipoRiesgo);
+            form.SetField("Vigencia", policy.StartDate + " al " + policy.Vence);
+            form.SetField("Solicitada", policy.RequestDate);
+
+            form.SetField("Asegurado", policy.Asegurado);
+            form.SetField("Notas", policy.Notes);
+            form.SetField("Suma", policy.Value.ToString());
+            form.SetField("Cobranza", "Directa");
+            //form.SetField("Cuotas", policy.Fees.Count().ToString());
+        }
+        private static void PopulatePolicyEmployees(PolicyFullDto policy, AcroFields form)
+        {
+            //haccer un foreach para lista empleados
+            form.SetField("AsegApellido1", policy.Employees.First().Apellido);
+            form.SetField("AsegNombre1", policy.Employees.First().Nombre);
+            form.SetField("AsegDNI1", policy.Employees.First().DNI);
+            form.SetField("AsegCUIT1", policy.Employees.First().CUIT);
+            form.SetField("AsegNacimiento1", policy.Employees.First().CUIT);
+            form.SetField("AsegSuma1", policy.Employees.First().Suma.ToString());
+
+            form.SetField("AsegApellido2", policy.Employees.Last().Apellido);
+            form.SetField("AsegNombre2", policy.Employees.Last().Nombre);
+            form.SetField("AsegDNI2", policy.Employees.Last().DNI);
+            form.SetField("AsegCUIT2", policy.Employees.Last().CUIT);
+            form.SetField("AsegNacimiento2", policy.Employees.Last().CUIT);
+            form.SetField("AsegSuma2", policy.Employees.Last().Suma.ToString());
+        }
+        private static void PopulatePolicyVehicle(VehicleDto vehicle, AcroFields form)
+        {
+            form.SetField("Marca", vehicle.Brand);
+            form.SetField("Modelo", vehicle.Model);
+            form.SetField("Año", vehicle.Year);
+            var cobertura = string.Empty;
+            if (vehicle.Coverages.Any() && vehicle.Coverages.First().CoveragesPacks.Any())
+            {
+                cobertura = vehicle.Coverages.First().CoveragesPacks.First().Name;
+            }
+            form.SetField("Cobertura", cobertura);
+            form.SetField("Motor", vehicle.Engine);
+            form.SetField("Chasis", vehicle.Chassis);
+            form.SetField("Patente", vehicle.Plate);
+            form.SetField("Tipo", vehicle.VehicleType);
+            form.SetField("Carrocería", vehicle.Bodywork);
+            form.SetField("Uso", vehicle.Uso);
+            form.SetField("Origen", vehicle.Origin);
         }
         #endregion
 
