@@ -1,0 +1,10 @@
+# Build configuration for https://www.tea-ci.org
+
+build:
+  image: teaci/msys64
+  pull: true
+  shell: mingw64
+  commands:
+    - ./configure
+    - make
+    - make check
