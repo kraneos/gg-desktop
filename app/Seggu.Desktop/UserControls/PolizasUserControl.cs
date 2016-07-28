@@ -329,6 +329,9 @@ namespace Seggu.Desktop.UserControls
                 case RiskType.Vida_colectivo_Otros:
                     printService.PolicyLifePDF(pol);
                     break;
+                case RiskType.Otros:
+                    printService.PolicyLifePDF(pol);
+                    break;
 
                 case RiskType.Vida_individual:
                     printService.PolicyLifePDF(pol);

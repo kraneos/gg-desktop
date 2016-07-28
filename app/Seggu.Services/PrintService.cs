@@ -35,7 +35,7 @@ namespace Seggu.Services
             form.SetField("Teléfono", clientFull.Tel_Móvil);
             form.SetField("DNI", clientFull.DNI);
             form.SetField("Domicilio", clientFull.HomeStreet + " " + clientFull.HomeNumber + ", " + clientFull.HomeLocality);
-            form.SetField("EtadoCivil", clientFull.MaritalStatus);
+            form.SetField("EstadoCivil", clientFull.MaritalStatus);
             form.SetField("CódigoPostal", clientFull.HomePostalCode);
             form.SetField("IVA", clientFull.Iva);
             form.SetField("Nacionalidad", "Argentino");
