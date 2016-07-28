@@ -1,14 +1,10 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Seggu.Daos.Interfaces;
+﻿using Seggu.Daos.Interfaces;
 using Seggu.Domain;
 using Seggu.Dtos;
-using Seggu.Helpers;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Seggu.Services
@@ -55,36 +51,16 @@ namespace Seggu.Services
         {
             return policyDao.GetByPolicyNumber(polNum).OrderByDescending(x => x.EndDate)
                 .Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
-                //.Select(x => PolicyDtoMapper.GetFullDto(x));
         }
 
         public void SavePolicy(PolicyFullDto pol)
         {
-            if (pol.Fees != null)
-                if (pol.Fees.Count() > 0)
-                    foreach (var fee in pol.Fees) { }
-            //fee.Id = fee.Id== default(int) ? Guid.NewGuid().ToString() : fee.Id;
-
             if (pol.Vehicles != null)
                 foreach (var vehicle in pol.Vehicles)
                 {
-                    //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
                     if (vehicle.Accessories != null)
                         foreach (var accessory in vehicle.Accessories)
-                        {
-                            //accessory.Id = string.IsNullOrEmpty(accessory.Id) ? Guid.NewGuid().ToString() : accessory.Id;
                             accessory.VehicleId = vehicle.Id;
-                        }
-                }
-            else if (pol.Employees != null)
-                foreach (var employee in pol.Employees) { }
-            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-            else if (pol.Integrals != null)
-                foreach (var integral in pol.Integrals)
-                {
-                    //integral.Id = string.IsNullOrEmpty(integral.Id) ? Guid.NewGuid().ToString() : integral.Id;
-                    //integral.Address.Id = string.IsNullOrEmpty(integral.Address.Id) ?
-                    //Guid.NewGuid().ToString() : integral.Address.Id;
                 }
 
             var policy = PolicyDtoMapper.GetObjectWithCover(pol);
@@ -108,12 +84,8 @@ namespace Seggu.Services
                     foreach (var employee in policy.Employees)
                         employee.PolicyId = policy.Id;
                 else if (policy.Integrals != null)
-                {
                     foreach (var integral in policy.Integrals)
-                    {
                         integral.PolicyId = policy.Id;
-                    }
-                }
                 policyDao.Edit(policy);
             }
         }

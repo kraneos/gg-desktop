@@ -19,7 +19,7 @@ namespace Seggu.Desktop.UserControls
         private readonly ICoveragesPackService coveragePackService;
         public Layout MainForm => (Layout)FindForm();
 
-        public VidaPolicyUserControl(ICoverageService covergeService, IEmployeeService _employeeService,
+        public VidaPolicyUserControl( ICoverageService covergeService, IEmployeeService _employeeService,
             ICoveragesPackService _coveragePackService)
         {
             InitializeComponent();
@@ -28,14 +28,25 @@ namespace Seggu.Desktop.UserControls
             coveragePackService = _coveragePackService;
         }
 
-        public void InitializeIndex(int riskTypeId)
+        public void PopulatePolicyVida(int riskId)
         {
+            LoadCmbCoverages(riskId);
+
             currentPolicy = MainForm.currentPolicy;
+            if (MainForm.currentPolicy.Employees == null || !MainForm.currentPolicy.Employees.Any()) return;
 
             LoadEmployeeGrid();
-            LoadCmbCoverages(riskTypeId);
         }
+        public void PopulateEndorseVida(int riskId)
+        {
+            LoadCmbCoverages(riskId);
 
+            currentEndorse = MainForm.currentEndorse;
+            currentPolicy = MainForm.currentPolicy;
+            if (MainForm.currentEndorse.Employees == null || !MainForm.currentEndorse.Employees.Any()) return;
+
+            LoadEmployeeGrid();
+        }
         private void LoadCmbCoverages(int riskTypeId)
         {
             var coberturas = coveragePackService.GetAllByRiskId(riskTypeId).ToList();
@@ -57,17 +68,14 @@ namespace Seggu.Desktop.UserControls
                     if (coverages.Any())
                         cmbCoberturas.SelectedValue = coveragePackService.GetPackIdByCoverageId(coverages.First().Id, riskTypeId);
                 }
-
             }
         }
-
         private void LoadEmployeeGrid()
         {
             var employeeTable = BuildEmployeeTable();
             grdEmployees.DataSource = employeeTable;
             grdEmployees.Columns["Id"].Visible = false;
         }
-
         private DataTable BuildEmployeeTable()
         {
             var table = new DataTable();
@@ -93,7 +101,6 @@ namespace Seggu.Desktop.UserControls
                     row["Suma Asegurada"] = employee.Suma;
                     table.Rows.Add(row);
                 }
-
             }
             else
             {
@@ -136,7 +143,6 @@ namespace Seggu.Desktop.UserControls
             }
             return employees;
         }
-
         #region validaciones
         private void grdEmployees_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
@@ -197,21 +203,6 @@ namespace Seggu.Desktop.UserControls
             MessageBox.Show(errorMsg);
             e.Cancel = true;
         }
-        #endregion
-
-        public void PopulateEndorseVida(int riskId)
-        {
-            currentEndorse = MainForm.currentEndorse;
-            currentPolicy = MainForm.currentPolicy;
-            if (MainForm.currentEndorse.Employees == null || !MainForm.currentEndorse.Employees.Any()) return;
-            var employees = MainForm.currentEndorse.Employees
-                .Where(v => !v.IsRemoved).ToList();
-            grdEmployees.DataSource = employees;
-            LoadCmbCoverages(riskId);
-
-            LoadEmployeeGrid();
-        }
-
         private void grdEmployees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             errorProvider1.Clear();
@@ -237,8 +228,7 @@ namespace Seggu.Desktop.UserControls
 
                     }
                 }
-            }
-
-    
+            }  
+        #endregion
     }
 }

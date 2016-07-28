@@ -15,8 +15,6 @@ namespace Seggu.Desktop.UserControls
     public partial class EndososUserControl : UserControl
     {
         private readonly IEndorseService endorseService;
-        //private IPolicyService policyService;
-        //private IClientService clientService;
         private readonly ICompanyService companyService;
         private readonly IRiskService riskService;
         private readonly IProducerService producerService;
@@ -35,8 +33,6 @@ namespace Seggu.Desktop.UserControls
         {
             InitializeComponent();
             this.endorseService = endorseService;
-            //this.policyService = polServ;
-            //this.clientService = cliServ;
             this.companyService = compServ;
             this.riskService = riskServ;
             this.masterDataService = masterDataServ;
@@ -103,14 +99,10 @@ namespace Seggu.Desktop.UserControls
             if (cp.Vehicles != null)
             {
                 ce.Vehicles = cp.Vehicles;
-                //foreach (var vehicle in ce.Vehicles) { }
-                //vehicle.Id = null;
             }
             else if (cp.Employees != null)
             {
                 ce.Employees = cp.Employees;
-                //foreach (var employee in ce.Employees) { }
-                //employee.Id = null;
             }
             else if (cp.Integrals != null)
             {
@@ -153,9 +145,6 @@ namespace Seggu.Desktop.UserControls
             {
                 var newEmployees = ce.Employees.ToList();
                 newEndorse.Employees = newEmployees;
-                //newEndorse.Employees = ce.Employees;
-                //foreach (var employee in newEndorse.Employees)
-                //    employee.Id = null;
             }
             MainForm.currentEndorse = newEndorse;
         }
@@ -273,7 +262,6 @@ namespace Seggu.Desktop.UserControls
                 if (MainForm.currentEndorse != null)
                 {
                     vida_uc.PopulateEndorseVida((int)this.cmbRiesgo.SelectedValue);
-                    //vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
                 }
 
             }

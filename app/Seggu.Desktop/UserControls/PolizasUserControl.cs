@@ -108,13 +108,6 @@ namespace Seggu.Desktop.UserControls
             grdFees.Rows.Clear();
             cmbPlanes.Enabled = true;
             EnablePage(tabPageSiniestros, false);
-            //tctrlPolizasDatos.TabPages[3].Visible = false;
-            //tabPageSiniestros.Visible = false;
-
-            //foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)//tab siniestros
-            //{
-            //    c.Visible = false;
-            //}
         }
 
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
@@ -143,8 +136,6 @@ namespace Seggu.Desktop.UserControls
             {
                 if (control is TextBox)
                     control.Text = string.Empty;
-                //else if (control is ComboBox)
-                //(control as ComboBox).SelectedIndex = -1;
                 else if (control is DataGridView)
                 {
                     (control as DataGridView).DataSource = null;
@@ -186,7 +177,6 @@ namespace Seggu.Desktop.UserControls
             var cp = LayoutForm.currentPolicy;
             if (!string.IsNullOrWhiteSpace(cp.Número))
             {
-                //selectedCompany = companyService.GetFullById(LayoutForm.currentPolicy.CompanyId);
                 cp.Id = default(int);
                 cp.PreviousNumber = cp.Número;
                 cp.Número = "";
@@ -196,31 +186,16 @@ namespace Seggu.Desktop.UserControls
                 if (cp.Vehicles != null)
                 {
                     var vehicles = cp.Vehicles.ToList();
-                    foreach (var vehicle in vehicles)
-                    {
-                        //vehicle.Id = null;
-                        //vehicle.PolicyId = null;
-                    }
                     cp.Vehicles = vehicles;
                 }
                 else if (cp.Employees != null)
                 {
                     var employees = cp.Employees.ToList();
-                    foreach (var employee in employees)
-                    {
-                        //employee.Id = null;
-                        //employee.PolicyId = null;
-                    }
                     cp.Employees = employees;
                 }
                 else if (cp.Integrals != null)
                 {
                     var integrals = cp.Integrals.ToList();
-                    foreach (var integral in integrals)
-                    {
-                        //integral.Id = null;
-                        //integral.PolicyId = null;
-                    }
                     cp.Integrals = integrals;
                 }
                 cp.IsRenovated = true;
@@ -234,12 +209,6 @@ namespace Seggu.Desktop.UserControls
                 chkOtherClient.Visible = true;
                 PopulateDetails();
                 CalculateNetoCobrar();
-                //tctrlPolizasDatos.TabPages[3].Visible = false;
-                //tabPageSiniestros.Visible = false;
-                //foreach (Control c in tctrlPolizasDatos.TabPages[2].Controls)
-                //{
-                //    c.Visible = false;
-                //}
             }
             else
             {
@@ -267,7 +236,6 @@ namespace Seggu.Desktop.UserControls
         private void BindTextBoxesAndCombos(PolicyFullDto policy)
         {
             ClearDataBindings();
-            //txtBonificacionPago;
             lblAnulada.DataBindings.Add("Visible", policy, "IsAnnulled");
             cmbCompania.DataBindings.Add("SelectedValue", policy, "CompanyId");
             cmbProductor.DataBindings.Add("SelectedValue", policy, "ProducerId");
@@ -367,7 +335,7 @@ namespace Seggu.Desktop.UserControls
                     break;
 
                 case RiskType.Combinados_Integrales:
-                    printService.PolicyIntegralPDF(pol);
+                    printService.PolicyIntegralPDF(pol, integral_uc.province, integral_uc.district);
                     break;
             }
         }
@@ -419,7 +387,6 @@ namespace Seggu.Desktop.UserControls
             if (this.cmbCompania.SelectedValue != null)
             {
                 var companyId = (int)cmbCompania.SelectedValue;
-                //selectedCompany = companyService.GetFullById(CompanyId);
                 cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
                 cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
                 cmbCobrador.SelectedIndex = 0;
@@ -459,7 +426,7 @@ namespace Seggu.Desktop.UserControls
                 vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
                 SetCoberturasTab(vida_uc);
                 if (LayoutForm.currentPolicy != null)
-                    vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
+                    vida_uc.PopulatePolicyVida((int)this.cmbRiesgo.SelectedValue);
             }
             else
             {
@@ -720,8 +687,7 @@ namespace Seggu.Desktop.UserControls
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        @"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico.
-" +
+                        @"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo tecnico." +
                         ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
                         ex.InnerException.Message + "\nStackTrace: " +
                         ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -842,7 +808,6 @@ namespace Seggu.Desktop.UserControls
         private void LoadSiniestrosTab()
         {
             if (LayoutForm.currentPolicy.Casualties == null) return;
-            //casualties = casualtyService.GetByPolicyId(LayoutForm.currentPolicy.Id).OrderByDescending(x => x.Number).ToList();
             casualties = LayoutForm.currentPolicy.Casualties;
             InitializeSiniestrosComboboxes();
 

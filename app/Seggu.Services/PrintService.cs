@@ -16,11 +16,13 @@ namespace Seggu.Services
     {
         private IClientService clientService;
         private IProducerService producerService;
+        private IFeeService feeService;
 
-        public PrintService(IClientService clientService, IProducerService producerService)
+        public PrintService(IClientService clientService, IProducerService producerService, IFeeService feeService)
         {
             this.clientService = clientService;
             this.producerService = producerService;
+            this.feeService = feeService;
         }
 
         static string currentMonthString = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month - 1];
@@ -129,7 +131,7 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-        public void PolicyIntegralPDF(PolicyFullDto policy)
+        public void PolicyIntegralPDF(PolicyFullDto policy, string province, string district)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
             string PDFPath = Path.Combine(clientPath, policy.Objeto + ".pdf");
@@ -144,31 +146,15 @@ namespace Seggu.Services
 
             PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
-
-            
-            form.SetField("Calle", integral.Address.Street);
-            form.SetField("Número", integral.Address.Number);
-            form.SetField("Piso", integral.Address.Floor);
-            form.SetField("Dpto", integral.Address.Appartment);
-            form.SetField("Provincia", integral.province);
-            form.SetField("Distrito", integral.district);
-            form.SetField("Localidad", integral.locality);
-            form.SetField("codPostalInmueble", integral.Address.PostalCode);
-           // form.SetField("Cubre", integral);
-            var coberturas = string.Empty;
-
-            if (integral.Coverages.Any())
-            {
-                coberturas = string.Join("\n", integral.Coverages.Select(x => x.Name));
-            }
-            form.SetField("Coberturas", coberturas);
-
+            PopulatePolicyIntegral(integral, province, district, form);
             PolpulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
+
+
         public void PolicyLifePDF(PolicyFullDto policy)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
@@ -191,7 +177,7 @@ namespace Seggu.Services
             System.Diagnostics.Process.Start(PDFPath);
         }
 
-        private static void PopulatePolicyHeader(PolicyFullDto policy, AcroFields form)
+        private void PopulatePolicyHeader(PolicyFullDto policy, AcroFields form)
         {
             form.SetField("Compañía", policy.Compañía);
             form.SetField("Riesgo", policy.TipoRiesgo);
@@ -202,7 +188,8 @@ namespace Seggu.Services
             form.SetField("Notas", policy.Notes);
             form.SetField("Suma", policy.Value.ToString());
             form.SetField("Cobranza", "Directa");
-            //form.SetField("Cuotas", policy.Fees.Count().ToString());
+            string feesCount = this.feeService.GetByPolicyId(policy.Id).Count().ToString();
+            form.SetField("Cuotas", feesCount);
         }
         private static void PopulatePolicyEmployees(PolicyFullDto policy, AcroFields form)
         {
@@ -239,6 +226,25 @@ namespace Seggu.Services
             form.SetField("Carrocería", vehicle.Bodywork);
             form.SetField("Uso", vehicle.Uso);
             form.SetField("Origen", vehicle.Origin);
+        }
+        private static void PopulatePolicyIntegral(IntegralDto integral, string province, string district, AcroFields form)
+        {
+            form.SetField("Calle", integral.Address.Street);
+            form.SetField("Número", integral.Address.Number);
+            form.SetField("Piso", integral.Address.Floor);
+            form.SetField("Dpto", integral.Address.Appartment);
+            form.SetField("Provincia", province);
+            form.SetField("Distrito", district);
+            form.SetField("Localidad", integral.locality);
+            form.SetField("codPostalInmueble", integral.Address.PostalCode);
+            // form.SetField("Cubre", integral);
+            var coberturas = string.Empty;
+
+            if (integral.Coverages.Any())
+            {
+                coberturas = string.Join("\n", integral.Coverages.Select(x => x.Name));
+            }
+            form.SetField("Coberturas", coberturas);
         }
         #endregion
 
