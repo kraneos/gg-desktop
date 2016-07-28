@@ -154,8 +154,6 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-
-
         public void PolicyLifePDF(PolicyFullDto policy)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
@@ -250,9 +248,8 @@ namespace Seggu.Services
         #endregion
 
         #region Endosos
-        public void EndorsePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
+        public void EndorseVehiclePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
         {
-            var clientFull = clientService.GetById(policy.ClientId);
             string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, policy.Asegurado);
             string PDFPath = Path.Combine(clientPath, endorse.Vehicles.First().Plate + ".pdf");
 
@@ -260,16 +257,21 @@ namespace Seggu.Services
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form = stamp1.AcroFields;
 
-            PopulateEndorsePDF(endorse, clientFull, policy, form);
-            //PolpulateProducer(producer, form);
+            var clientFull = clientService.GetById(policy.ClientId);
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
+
+            PopulateEndorseHeader(endorse, form, policy.Compañía);
+            PopulateClient(clientFull, form);
+            PopulateEndorseVehicle(endorse, form);
+            PolpulateProducer(producer, form);
 
             stamp1.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-        private static void PopulateEndorsePDF(EndorseFullDto endorse, ClientFullDto clientFull, PolicyFullDto policy, AcroFields form)
+        private static void PopulateEndorseHeader(EndorseFullDto endorse, AcroFields form, string company)
         {
-            form.SetField("Compañía", policy.Compañía);// sacar compañía de otro lado para no pasar policyFullDto
+            form.SetField("Compañía", company);// sacar compañía de otro lado para no pasar policyFullDto
             form.SetField("Riesgo", endorse.TipoRiesgo);
             form.SetField("Vigencia", endorse.StartDate + " al " + endorse.EndDate);
             form.SetField("Solicitado", endorse.RequestDate);
@@ -277,9 +279,6 @@ namespace Seggu.Services
 
             form.SetField("Nombre", endorse.Asegurado);
             form.SetField("Notas", endorse.Notes);
-
-            PopulateClient(clientFull, form);
-            PopulateEndorseVehicle(endorse, form);
         }
         private static void PopulateEndorseVehicle(EndorseFullDto endorse, AcroFields form)
         {

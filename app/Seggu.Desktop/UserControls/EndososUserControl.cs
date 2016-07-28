@@ -523,7 +523,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            printService.EndorsePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
+            printService.EndorseVehiclePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
         }
     }
 }
