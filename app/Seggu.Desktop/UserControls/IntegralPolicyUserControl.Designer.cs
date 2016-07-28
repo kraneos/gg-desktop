@@ -88,7 +88,6 @@
             this.cmbProvince.Name = "cmbProvince";
             this.cmbProvince.Size = new System.Drawing.Size(222, 25);
             this.cmbProvince.TabIndex = 7;
-            this.cmbProvince.SelectedIndexChanged += new System.EventHandler(this.cmbProvince_SelectedIndexChanged);
             this.cmbProvince.SelectionChangeCommitted += new System.EventHandler(this.cmbProvince_SelectionChangeCommitted);
             this.cmbProvince.Validating += new System.ComponentModel.CancelEventHandler(this.cmbProvince_Validating);
             // 
@@ -132,7 +131,6 @@
             this.cmbDistrict.Size = new System.Drawing.Size(222, 25);
             this.cmbDistrict.TabIndex = 8;
             this.cmbDistrict.ValueMember = "Id";
-            this.cmbDistrict.SelectedIndexChanged += new System.EventHandler(this.cmbDistrict_SelectedIndexChanged);
             this.cmbDistrict.SelectionChangeCommitted += new System.EventHandler(this.cmbDistrict_SelectionChangeCommitted);
             this.cmbDistrict.Validating += new System.ComponentModel.CancelEventHandler(this.cmbDistrict_Validating);
             // 

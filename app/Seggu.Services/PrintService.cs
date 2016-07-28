@@ -134,7 +134,8 @@ namespace Seggu.Services
         public void PolicyIntegralPDF(PolicyFullDto policy, string province, string district)
         {
             string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, policy.Asegurado);
-            string PDFPath = Path.Combine(clientPath, policy.Objeto + ".pdf");
+            string address = policy.Integrals.FirstOrDefault().Address.Street + " " + policy.Integrals.FirstOrDefault().Address.Number;
+            string PDFPath = Path.Combine(clientPath, address + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Integral);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
@@ -236,7 +237,7 @@ namespace Seggu.Services
             form.SetField("Provincia", province);
             form.SetField("Distrito", district);
             form.SetField("Localidad", integral.locality);
-            form.SetField("codPostalInmueble", integral.Address.PostalCode);
+            form.SetField("CodPostalInmueble", integral.Address.PostalCode);
             // form.SetField("Cubre", integral);
             var coberturas = string.Empty;
 

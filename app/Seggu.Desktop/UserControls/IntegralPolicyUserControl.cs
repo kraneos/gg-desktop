@@ -117,7 +117,9 @@ namespace Seggu.Desktop.UserControls
             txtHomePostal.Text = address.PostalCode;
             txtHomeStreet.Text = address.Street;
             cmbProvince.SelectedValue = address.ProvinceId;
+            province = cmbProvince.Text;
             cmbDistrict.SelectedValue = address.DistrictId;
+            district = cmbDistrict.Text;
             cmbLocality.SelectedValue = address.LocalityId;
         }
 
@@ -185,7 +187,7 @@ namespace Seggu.Desktop.UserControls
             cmbDistrict.DisplayMember = "Name";
             cmbDistrict.DataSource = filteredDistricts;
 
-            province = cmbProvince.DisplayMember;//for printing
+            province = cmbProvince.Text;//for printing
         }
         private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -194,7 +196,7 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.ValueMember = "Id";
             cmbLocality.DataSource = filteredLocalities;
 
-            district = cmbDistrict.DisplayMember;
+            district = cmbDistrict.Text;
         }
 
 
@@ -366,14 +368,5 @@ namespace Seggu.Desktop.UserControls
         }
         #endregion
 
-        private void cmbProvince_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            province = cmbProvince.DisplayMember;//for printing
-        }
-
-        private void cmbDistrict_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            district = cmbDistrict.DisplayMember;
-        }
     }
 }
