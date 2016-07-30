@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AccessoryDto.cs" />
     <Compile Include="AccessoryTypeDto.cs" />
     <Compile Include="AddressDto.cs" />
