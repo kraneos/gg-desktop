@@ -87,15 +87,31 @@ namespace Seggu.Daos
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newPolicy.Id);
                 UpdatePolicyIntegral(newPolicy, dbPolicy);
-
             }
+
             UpdateFees(newPolicy);
-            //context.Entry(dbPolicy).State = EntityState.Modified;
-            //context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
+            UpdateAttachedFiles(newPolicy);
             Mapper.Map<Policy, Policy>(newPolicy, dbPolicy);
 
             context.SaveChanges();
         }
+
+        private void UpdateAttachedFiles(Policy newPolicy)
+        {
+            var existingAttachedFiles = context.AttachedFiles.Where(x => newPolicy.Id == x.PolicyId);
+            var nonExistingAttachedFiles = new List<AttachedFile>();
+
+            foreach (var attachedFile in newPolicy.AttachedFiles)
+            {
+                var existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath && x.PolicyId == newPolicy.Id);
+
+                if (existingAttachedFile == null)
+                {
+
+                }
+            }
+        }
+
         private void UpdatePolicyVehicles(Policy newPolicy, Policy dbPolicy)
         {
             var vehiclesToRemove = new List<Vehicle>();

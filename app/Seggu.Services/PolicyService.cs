@@ -15,7 +15,7 @@ namespace Seggu.Services
 {
     public sealed class PolicyService : IPolicyService
     {
-        private IPolicyDao policyDao;
+        private readonly IPolicyDao policyDao;
         private IVehicleDao vehicleDao;
         private IFeeDao feeDao;
         private IAddressDao addressDao;
@@ -37,13 +37,13 @@ namespace Seggu.Services
         public IEnumerable<PolicyGridItemDto> GetValidsByClient(long clientId)
         {
             var id = clientId;
-            var policies = this.policyDao.GetValidsByClient(id);
+            var policies = policyDao.GetValidsByClient(id);
             return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
         }
         public IEnumerable<PolicyGridItemDto> GetNotValidsByClient(long clientId)
         {
             var id = clientId;
-            var policies = this.policyDao.GetNotValidsByClient(id).OrderByDescending(x => x.EndDate);
+            var policies = policyDao.GetNotValidsByClient(id).OrderByDescending(x => x.EndDate);
             return policies.Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });//dto mapper???
         }
         public IEnumerable<PolicyGridItemDto> GetByPlate(string plate)
@@ -55,36 +55,19 @@ namespace Seggu.Services
         {
             return policyDao.GetByPolicyNumber(polNum).OrderByDescending(x => x.EndDate)
                 .Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
-                //.Select(x => PolicyDtoMapper.GetFullDto(x));
+            //.Select(x => PolicyDtoMapper.GetFullDto(x));
         }
 
         public void SavePolicy(PolicyFullDto pol)
         {
-            if (pol.Fees != null)
-                if (pol.Fees.Count() > 0)
-                    foreach (var fee in pol.Fees) { }
-            //fee.Id = fee.Id== default(int) ? Guid.NewGuid().ToString() : fee.Id;
-
             if (pol.Vehicles != null)
                 foreach (var vehicle in pol.Vehicles)
                 {
-                    //vehicle.Id = string.IsNullOrEmpty(vehicle.Id) ? Guid.NewGuid().ToString() : vehicle.Id;
-                    if (vehicle.Accessories != null)
-                        foreach (var accessory in vehicle.Accessories)
-                        {
-                            //accessory.Id = string.IsNullOrEmpty(accessory.Id) ? Guid.NewGuid().ToString() : accessory.Id;
-                            accessory.VehicleId = vehicle.Id;
-                        }
-                }
-            else if (pol.Employees != null)
-                foreach (var employee in pol.Employees) { }
-            //employee.Id = string.IsNullOrEmpty(employee.Id) ? Guid.NewGuid().ToString() : employee.Id;
-            else if (pol.Integrals != null)
-                foreach (var integral in pol.Integrals)
-                {
-                    //integral.Id = string.IsNullOrEmpty(integral.Id) ? Guid.NewGuid().ToString() : integral.Id;
-                    //integral.Address.Id = string.IsNullOrEmpty(integral.Address.Id) ?
-                    //Guid.NewGuid().ToString() : integral.Address.Id;
+                    if (vehicle.Accessories == null) continue;
+                    foreach (var accessory in vehicle.Accessories)
+                    {
+                        accessory.VehicleId = vehicle.Id;
+                    }
                 }
 
             var policy = PolicyDtoMapper.GetObjectWithCover(pol);
@@ -96,7 +79,7 @@ namespace Seggu.Services
                 else if (policy.Employees != null)
                     AddCoveragesToEmployees(policy);
                 else if (policy.Integrals != null)
-                    this.AddCoveragesToIntegral(policy);
+                    AddCoveragesToIntegral(policy);
                 policyDao.Save(policy);
             }
             else
@@ -121,9 +104,7 @@ namespace Seggu.Services
         {
             foreach (var integral in policy.Integrals)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in integral.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                var coverages = integral.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
                 integral.Coverages = coverages;
             }
         }
@@ -131,9 +112,7 @@ namespace Seggu.Services
         {
             foreach (var vehicle in policy.Vehicles)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in vehicle.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                var coverages = vehicle.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
                 vehicle.Coverages = coverages;
             }
         }
@@ -141,16 +120,14 @@ namespace Seggu.Services
         {
             foreach (var employee in policy.Employees)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in employee.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                var coverages = employee.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
                 employee.Coverages = coverages;
             }
         }
         public IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to)
         {
-            var policies = this.policyDao.GetRosView(from, to);
-            return policies.Select(obj => PolicyDtoMapper.GetRosView(obj));
+            var policies = policyDao.GetRosView(from, to);
+            return policies.Select(PolicyDtoMapper.GetRosView);
         }
     }
 }
