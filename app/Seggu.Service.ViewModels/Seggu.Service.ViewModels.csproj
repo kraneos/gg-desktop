@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AccessoryTypeVM.cs" />
     <Compile Include="AccessoryVM.cs" />
     <Compile Include="AddressVM.cs" />
@@ -71,6 +74,8 @@
     <Compile Include="ClientVM.cs" />
     <Compile Include="CompanyVM.cs" />
     <Compile Include="ContactVM.cs" />
+    <Compile Include="CoveragesPackVM.cs" />
+    <Compile Include="CoverageVM.cs" />
     <Compile Include="CreditCardVM.cs" />
     <Compile Include="DateVM.cs" />
     <Compile Include="DistrictVM.cs" />

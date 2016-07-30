@@ -82,6 +82,14 @@ namespace Seggu.Service.Services
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Company, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<CompanyVM>(rr, ctx => (x.Company?.ObjectId != null) ? x.Company.ObjectId : AutoMapperExtensions.GetObjectId<Company>(ctx, x.CompanyId))));
 
+            innerConfigurationStore.CreateMap<Coverage, CoverageVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Risk, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<RiskVM>(rr, ctx => (x.Risk?.ObjectId != null) ? x.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, x.RiskId))));
+
+            innerConfigurationStore.CreateMap<CoveragesPack, CoveragesPackVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Risk, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<RiskVM>(rr, ctx => (x.Risk?.ObjectId != null) ? x.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, x.RiskId))));
+
             innerConfigurationStore.CreateMap<VehicleModel, VehicleModelVM>()
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Brand, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<BrandVM>(rr, ctx => (x.Brand?.ObjectId != null) ? x.Brand.ObjectId : AutoMapperExtensions.GetObjectId<Brand>(ctx, x.BrandId))))
@@ -302,6 +310,36 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.CompanyId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Companies.First(x => x.ObjectId == ((RiskVM)res.Value).Company.ObjectId).Id)));
             Mapper.CreateMap<Risk, Risk>().GetCommonMappingExpressionEntityToEntity();
+
+
+            Mapper.CreateMap<Coverage, CoverageVM>()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<Coverage, CoverageVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Risk?.ObjectId != null) ? entity.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, entity.RiskId)));
+            Mapper.CreateMap<CoverageVM, Coverage>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Risk, y => y.Ignore())
+                .ForMember(x => x.RiskId, y => y.ResolveUsing(
+                    resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Risks.First(x => x.ObjectId == ((CoverageVM)res.Value).Risk.ObjectId).Id)));
+            Mapper.CreateMap<Coverage, Coverage>().GetCommonMappingExpressionEntityToEntity();
+
+
+            Mapper.CreateMap<CoveragesPack, CoveragesPackVM>()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<CoveragesPack, CoveragesPackVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Risk?.ObjectId != null) ? entity.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, entity.RiskId)));
+            Mapper.CreateMap<CoveragesPackVM, CoveragesPack>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Risk, y => y.Ignore())
+                .ForMember(x => x.RiskId, y => y.ResolveUsing(
+                    resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Risks.First(x => x.ObjectId == ((CoveragesPackVM)res.Value).Risk.ObjectId).Id)));
+            Mapper.CreateMap<CoveragesPack, CoveragesPack>().GetCommonMappingExpressionEntityToEntity();
 
 
             Mapper.CreateMap<VehicleModel, VehicleModelVM>()
@@ -532,6 +570,8 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<DistrictVM>();
             ParseObject.RegisterSubclass<LocalityVM>();
             ParseObject.RegisterSubclass<RiskVM>();
+            ParseObject.RegisterSubclass<CoverageVM>();
+            ParseObject.RegisterSubclass<CoveragesPackVM>();
             ParseObject.RegisterSubclass<VehicleModelVM>();
             ParseObject.RegisterSubclass<PolicyVM>();
             ParseObject.RegisterSubclass<EndorseVM>();
@@ -573,6 +613,8 @@ namespace Seggu.Service.Services
                 SendEntitiesToParse<District, DistrictVM>();
                 SendEntitiesToParse<Locality, LocalityVM>();
                 SendEntitiesToParse<Risk, RiskVM>();
+                SendEntitiesToParse<Coverage, CoverageVM>();
+                SendEntitiesToParse<CoveragesPack, CoveragesPackVM>();
                 SendEntitiesToParse<VehicleModel, VehicleModelVM>();
                 SendEntitiesToParse<Policy, PolicyVM>();
                 SendEntitiesToParse<Endorse, EndorseVM>();

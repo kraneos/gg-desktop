@@ -27,13 +27,13 @@ namespace Seggu.Desktop.UserControls
         private readonly IPrintService printService;
         private IAttachedFileService attachedFileService;
         private ClientIndexDto currentClient;
-        private VehiculePolicyUserControl vehicle_uc = null;
-        private VidaPolicyUserControl vida_uc = null;
-        private IntegralPolicyUserControl integral_uc = null;
+        private VehiculePolicyUserControl vehicle_uc;
+        private VidaPolicyUserControl vida_uc;
+        private IntegralPolicyUserControl integral_uc;
 
         #region Siniestros Vars
-        private ICasualtyService casualtyService;
-        private ICasualtyTypeService casualtyTypeService;
+        private readonly ICasualtyService casualtyService;
+        private readonly ICasualtyTypeService casualtyTypeService;
 
         private CasualtyDto currentCasualty;
         private List<CasualtyDto> casualties;
@@ -46,12 +46,12 @@ namespace Seggu.Desktop.UserControls
             ICasualtyTypeService casualtyTypeService, ICasualtyService casualtyService)
         {
             InitializeComponent();
-            this.policyService = polServ;
-            this.clientService = cliServ;
-            this.companyService = compServ;
-            this.riskService = riskServ;
-            this.masterDataService = masterDataServ;
-            this.producerService = prodServ;
+            policyService = polServ;
+            clientService = cliServ;
+            companyService = compServ;
+            riskService = riskServ;
+            masterDataService = masterDataServ;
+            producerService = prodServ;
             this.feeService = feeService;
             this.printService = printService;
             this.attachedFileService = attachedFileService;
@@ -88,18 +88,18 @@ namespace Seggu.Desktop.UserControls
                 cmbRiesgo.SelectedIndex = 0;
             }
         }
-        private Layout LayoutForm => (Layout)this.FindForm();
+        private Layout LayoutForm => (Layout)FindForm();
 
         private void btnNuevaPoliza_Click(object sender, EventArgs e)
         {
-            this.NewPolicy();
+            NewPolicy();
         }
         private void NewPolicy()
         {
             currentClient = LayoutForm.currentClient;
             EmptyControlsDetalleTab();
             PanelCoverage.Controls.Clear();
-            txtAsegurado.Text = currentClient.Nombre + " " + currentClient.Apellido;
+            txtAsegurado.Text = currentClient.Nombre + @" " + currentClient.Apellido;
             NavigateToDetalle();
             ClearDataBindings();
             LayoutForm.currentPolicy = new PolicyFullDto();
@@ -132,7 +132,7 @@ namespace Seggu.Desktop.UserControls
         private void EmptyControlsDetalleTab()
         {
             lblAnulada.Visible = false;
-            foreach (Control control in from TabPage tabPage in this.tctrlPolizasDatos.TabPages from Control control in tabPage.Controls select control)
+            foreach (Control control in from TabPage tabPage in tctrlPolizasDatos.TabPages from Control control in tabPage.Controls select control)
             {
                 if (control is TextBox)
                     control.Text = string.Empty;
@@ -170,7 +170,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnRenovar_Click(object sender, EventArgs e)
         {
-            this.RenovatePolicy();
+            RenovatePolicy();
         }
         public void RenovatePolicy()
         {
@@ -212,7 +212,7 @@ namespace Seggu.Desktop.UserControls
             }
             else
             {
-                MessageBox.Show("La póliza debe tener un número asignado para ser renovada.");
+                MessageBox.Show(@"La póliza debe tener un número asignado para ser renovada.");
             }
         }
 
@@ -221,17 +221,17 @@ namespace Seggu.Desktop.UserControls
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
-            cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
-            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
+            cmbProductor.DataSource = producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
+            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
             //LoadAttachedFilesGrid();
         }
         private void NavigateToDetalle()
         {
-            this.tctrlPolizasDatos.SelectedIndex = 0;
-            this.tctrlPolizasDatos.Enabled = true;
-            this.btnGrabar.Enabled = true;
+            tctrlPolizasDatos.SelectedIndex = 0;
+            tctrlPolizasDatos.Enabled = true;
+            btnGrabar.Enabled = true;
         }
         private void BindTextBoxesAndCombos(PolicyFullDto policy)
         {
@@ -244,12 +244,12 @@ namespace Seggu.Desktop.UserControls
 
             txtAsegurado.DataBindings.Add("Text", policy, "Asegurado");
             //txtBonificacionPropia.DataBindings.Add("Text", policy, "Bonus");
-            txtBonificacionPropia.Text = policy.Bonus.ToString();
+            txtBonificacionPropia.Text = policy.Bonus.ToString(CultureInfo.InvariantCulture);
             txtNroPolAnt.DataBindings.Add("Text", policy, "PreviousNumber");
             txtNroPoliza.DataBindings.Add("Text", policy, "Número");
             txtPrima.DataBindings.Add("Text", policy, "Prima");
             //txtRecargoPropio.DataBindings.Add("Text", policy, "Surcharge");
-            txtRecargoPropio.Text = policy.Surcharge.ToString();
+            txtRecargoPropio.Text = policy.Surcharge.ToString(CultureInfo.InvariantCulture);
             txtBonificacionPago.Text = policy.PaymentBonus.ToString();
             //txtPaymentDay.DataBindings.Add("Text", policy, "PaymentDay");
             txtPaymentDay.Text = policy.PaymentDay.ToString();
@@ -269,6 +269,15 @@ namespace Seggu.Desktop.UserControls
             dtpEmision.Value = DateTime.Parse(policy.EmissionDate);
             if (policy.EmissionDate == "01/01/1753")
                 dtpEmision.Checked = false;
+
+            foreach (var filePath in policy.FilePaths)
+            {
+                imageList1.Images.Add(filePath, Image.FromFile(filePath));
+            }
+            for (var i = 0; imageList1.Images.Count > i; i++)
+            {
+                listViewFotos.Items.Add(new ListViewItem { ImageIndex = i });
+            }
         }
         private void ClearDataBindings()
         {
@@ -387,11 +396,11 @@ namespace Seggu.Desktop.UserControls
 
         private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (this.cmbCompania.SelectedValue != null)
+            if (cmbCompania.SelectedValue != null)
             {
                 var companyId = (int)cmbCompania.SelectedValue;
-                cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
-                cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
+                cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
+                cmbProductor.DataSource = producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
                 cmbCobrador.SelectedIndex = 0;
             }
         }
@@ -435,7 +444,7 @@ namespace Seggu.Desktop.UserControls
             {
                 integral_uc = (IntegralPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(IntegralPolicyUserControl));
                 SetCoberturasTab(integral_uc);
-                integral_uc.InitializeComboboxes((int)this.cmbRiesgo.SelectedValue);
+                integral_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
                 if (LayoutForm.currentPolicy != null)
                     integral_uc.PopulatePolicyIntegral();
             }
@@ -456,10 +465,7 @@ namespace Seggu.Desktop.UserControls
             cmbClient.ValueMember = "Id";
             cmbClient.DisplayMember = "FullName";
             cmbClient.DataSource = clientService.GetAll().ToList();
-            if (chkOtherClient.Checked)
-                cmbClient.Visible = true;
-            else
-                cmbClient.Visible = false;
+            cmbClient.Visible = chkOtherClient.Checked;
 
         }
         #endregion
@@ -468,30 +474,30 @@ namespace Seggu.Desktop.UserControls
 
         private void cmbPlanes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbPlanes.SelectedIndex != -1 && txtNetoCobrar.Text != string.Empty && txtNetoCobrar.Text != "0")
+            if (cmbPlanes.SelectedIndex != -1 && txtNetoCobrar.Text != string.Empty && txtNetoCobrar.Text != @"0")
             {
                 GenerarPlanDeCobro();
             }
         }
         private void GenerarPlanDeCobro()
         {
-            int cuotas;
-            decimal[] importesCobrar;
-            decimal[] importesPagar;
-            var neto = 0M;
+            decimal neto;
 
-            if (decimal.TryParse(this.txtNetoCobrar.Text, out neto))
+            if (decimal.TryParse(txtNetoCobrar.Text, out neto))
             {
                 if (neto > 0)
                 {
+                    int cuotas;
+                    decimal[] importesPagar;
+                    decimal[] importesCobrar;
                     DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
-                    this.grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
+                    grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
                     FormatFeeGrid();
                     CalculateFeeTotals();
                 }
                 else
                 {
-                    MessageBox.Show("El valor neto a cobrar debe ser mayor a 0.");
+                    MessageBox.Show(@"El valor neto a cobrar debe ser mayor a 0.");
                 }
             }
         }
@@ -505,7 +511,7 @@ namespace Seggu.Desktop.UserControls
             //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
             {
-                importesCobrar[i] = Math.Round(netoCobrar / (decimal)cuotas, 2);
+                importesCobrar[i] = Math.Round(netoCobrar / cuotas, 2);
             }
 
             if (importesCobrar.Sum() != netoCobrar)
@@ -539,13 +545,15 @@ namespace Seggu.Desktop.UserControls
             List<FeeDto> fees = new List<FeeDto>();
             for (int f = 0; f < cuotas; f++)
             {
-                FeeDto fee = new FeeDto();
-                fee.Cuota = (f + 1).ToString();
-                fee.Venc_Cuota = payDate.AddMonths(f);
-                fee.Valor = importesCobrar[f];
-                fee.Annulated = false;
-                fee.Estado = "Debe";
-                fee.Pago_Cía = importesPagar[f];
+                FeeDto fee = new FeeDto
+                {
+                    Cuota = (f + 1).ToString(),
+                    Venc_Cuota = payDate.AddMonths(f),
+                    Valor = importesCobrar[f],
+                    Annulated = false,
+                    Estado = "Debe",
+                    Pago_Cía = importesPagar[f]
+                };
                 fee.Saldo = fee.Valor;
                 fees.Add(fee);
             }
@@ -564,7 +572,7 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Valor"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Saldo"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "0.00";
-            grdFees.Columns["Venc_Cuota"].HeaderText = "Vencimiento";
+            grdFees.Columns["Venc_Cuota"].HeaderText = @"Vencimiento";
             grdFees.Columns["Venc_Cuota"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
         private void CalculateFeeTotals()
@@ -589,12 +597,12 @@ namespace Seggu.Desktop.UserControls
             if (string.IsNullOrEmpty(txtPremioIva.Text)) return;
             CalculateNetoCobrar();
             CalcularNetoPagar();
-            txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString();
-            txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString();
+            txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString(CultureInfo.InvariantCulture);
+            txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString(CultureInfo.InvariantCulture);
         }
         private void CalcularNetoPagar()
         {
-            var d = 0M;
+            decimal d;
             if (
                 decimal.TryParse(txtPremioIva.Text, out d) &&
                 decimal.TryParse(txtBonificacionPago.Text, out d))
@@ -621,7 +629,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void CalculateNetoCobrar()
         {
-            var d = 0M;
+            decimal d;
             if (
                 decimal.TryParse(txtRecargoPropio.Text, out d) &&
                 decimal.TryParse(txtBonificacionPropia.Text, out d) &&
@@ -640,7 +648,7 @@ namespace Seggu.Desktop.UserControls
 
         private void rdbIguales_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdbIguales.Checked == true)
+            if (rdbIguales.Checked)
             {
                 lblPlanAsegurado.Visible = false;
                 lblPlanCia.Visible = false;
@@ -652,7 +660,7 @@ namespace Seggu.Desktop.UserControls
 
         private void rdbDistintos_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdbDistintos.Checked == true)
+            if (rdbDistintos.Checked)
             {
                 lblPlanAsegurado.Visible = true;
                 lblPlanCia.Visible = true;
@@ -664,12 +672,12 @@ namespace Seggu.Desktop.UserControls
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (ValidateControls() && this.ValidateChildren())
+            if (ValidateControls() && ValidateChildren())
             {
                 try
                 {
                     var policy = GetFormInfo();
-                    policy.Fees = (List<FeeDto>)this.grdFees.DataSource;
+                    policy.Fees = (List<FeeDto>)grdFees.DataSource;
 
                     if (vida_uc != null)
                         policy.Employees = vida_uc.GetEmployees();
@@ -683,9 +691,9 @@ namespace Seggu.Desktop.UserControls
 
                     MessageBox.Show("La poliza se ha guardado con exito.");
                     //limpiar layout
-                    var mainForm = (Layout)this.FindForm();
+                    var mainForm = (Layout)FindForm();
                     mainForm.CleanLeftPanel();
-                    this.Dispose();
+                    Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -703,7 +711,7 @@ namespace Seggu.Desktop.UserControls
         {
             var ok = true;
             errorProvider1.Clear();
-            foreach (TabPage tabPage in this.tctrlPolizasDatos.TabPages)
+            foreach (TabPage tabPage in tctrlPolizasDatos.TabPages)
             {
                 foreach (Control c in tabPage.Controls)
                 {
@@ -718,7 +726,7 @@ namespace Seggu.Desktop.UserControls
                             }
                             else if (c == txtPremioIva || c == txtSumaAsegurado)
                             {
-                                var x = 0M;
+                                decimal x;
 
                                 if (decimal.TryParse(c.Text, out x))
                                 {
@@ -764,38 +772,43 @@ namespace Seggu.Desktop.UserControls
                             }
                 }
             }
-            return ok && this.ValidateChildren();
+            return ok && ValidateChildren();
         }
         private PolicyFullDto GetFormInfo()
         {
-            PolicyFullDto policy = new PolicyFullDto();
-            policy.Id = LayoutForm.currentPolicy == null ? default(int) : LayoutForm.currentPolicy.Id;
-            policy.AnnulationDate = null;
-            policy.Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text);
-            policy.ClientId = chkOtherClient.Checked ? ((ClientIndexDto)this.cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id;
-            policy.CollectorId = (int)cmbCobrador.SelectedValue;
-            policy.EmissionDate = dtpEmision.Checked ? dtpEmision.Value.ToShortDateString() : null;
-            policy.Vence = dtpFin.Value.ToShortDateString();
-            policy.IsAnnulled = LayoutForm.currentPolicy.IsAnnulled;
-            policy.IsRemoved = LayoutForm.currentPolicy.IsRemoved;
-            policy.IsRenovated = LayoutForm.currentPolicy.IsRenovated;
-            policy.Notes = txtNotas.Text;
-            policy.Número = txtNroPoliza.Text;
-            policy.Period = (string)cmbPeriodo.SelectedValue;
-            policy.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
-            policy.PreviousNumber = txtNroPolAnt.Text;
-            policy.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
-            policy.ProducerId = (int)cmbProductor.SelectedValue;
-            policy.ReceptionDate = dtpRecibido.Checked ? dtpRecibido.Value.ToShortDateString() : null;
-            policy.RequestDate = dtpSolicitud.Value.ToShortDateString();
-            policy.RiskId = (int)cmbRiesgo.SelectedValue;
+            var policy = new PolicyFullDto
+            {
+                Id = LayoutForm.currentPolicy?.Id ?? default(int),
+                AnnulationDate = null,
+                Bonus = txtBonificacionPropia.Text == "" ? 0 : decimal.Parse(txtBonificacionPropia.Text),
+                ClientId =
+                    chkOtherClient.Checked ? ((ClientIndexDto)cmbClient.SelectedItem).Id : LayoutForm.currentClient.Id,
+                CollectorId = (int)cmbCobrador.SelectedValue,
+                EmissionDate = dtpEmision.Checked ? dtpEmision.Value.ToShortDateString() : null,
+                Vence = dtpFin.Value.ToShortDateString(),
+                IsAnnulled = LayoutForm.currentPolicy.IsAnnulled,
+                IsRemoved = LayoutForm.currentPolicy.IsRemoved,
+                IsRenovated = LayoutForm.currentPolicy.IsRenovated,
+                Notes = txtNotas.Text,
+                Número = txtNroPoliza.Text,
+                Period = (string)cmbPeriodo.SelectedValue,
+                Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text),
+                PreviousNumber = txtNroPolAnt.Text,
+                Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text),
+                ProducerId = (int)cmbProductor.SelectedValue,
+                ReceptionDate = dtpRecibido.Checked ? dtpRecibido.Value.ToShortDateString() : null,
+                RequestDate = dtpSolicitud.Value.ToShortDateString(),
+                RiskId = (int)cmbRiesgo.SelectedValue,
+                StartDate = dtpInicio.Value.ToShortDateString(),
+                Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text),
+                Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text),
+                PaymentDay = int.Parse(txtPaymentDay.Text),
+                PaymentBonus =
+                    txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text),
+                NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text),
+                FilePaths = imageList1.Images.Keys.Cast<string>()
+            };
 
-            policy.StartDate = dtpInicio.Value.ToShortDateString();
-            policy.Surcharge = txtRecargoPropio.Text == "" ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            policy.Value = txtSumaAsegurado.Text == "" ? 0 : decimal.Parse(txtSumaAsegurado.Text);
-            policy.PaymentDay = int.Parse(txtPaymentDay.Text);
-            policy.PaymentBonus = txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text);
-            policy.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
             return policy;
         }
         #endregion
@@ -939,7 +952,7 @@ namespace Seggu.Desktop.UserControls
         {
             bool ok = true;
             errorProvider1.Clear();
-            foreach (TabPage tabPage in this.tctrlSiniestrosDatos.TabPages)
+            foreach (TabPage tabPage in tctrlSiniestrosDatos.TabPages)
             {
                 foreach (Control c in tabPage.Controls)
                 {
@@ -996,50 +1009,51 @@ namespace Seggu.Desktop.UserControls
             cmbNumber.Visible = false;
 
             ClearSiniestrosDataBindings();
-            int casualtiesCount = cmbNumber.Items.Count;
+            var casualtiesCount = cmbNumber.Items.Count;
             lblNumber.Text = (casualtiesCount + 1).ToString();
 
-            currentCasualty = new CasualtyDto();
-            currentCasualty.Number = (casualtiesCount + 1).ToString();
-            currentCasualty.OccurredDate = DateTime.Today.ToShortDateString();
-            currentCasualty.PoliceReportDate = DateTime.Today.ToShortDateString();
-            currentCasualty.ReceiveDate = DateTime.Today.ToShortDateString();
+            currentCasualty = new CasualtyDto
+            {
+                Number = (casualtiesCount + 1).ToString(),
+                OccurredDate = DateTime.Today.ToShortDateString(),
+                PoliceReportDate = DateTime.Today.ToShortDateString(),
+                ReceiveDate = DateTime.Today.ToShortDateString()
+            };
 
             btnNuevoSiniestro.Enabled = false;
         }
         private void EmptyControlsSiniestrosTab()
         {
-            foreach (TabPage tabPage in tctrlSiniestrosDatos.TabPages)
+            foreach (var control in from TabPage tabPage in tctrlSiniestrosDatos.TabPages
+                                    from Control control in tabPage.Controls
+                                    select control)
             {
-                foreach (Control control in tabPage.Controls)
-                {
-                    if (control is TextBox)
-                        control.Text = string.Empty;
-                    //else if (control is ComboBox)
-                    //(control as ComboBox).SelectedIndex = -1;
+                if (control is TextBox)
+                    control.Text = string.Empty;
+                //else if (control is ComboBox)
+                //(control as ComboBox).SelectedIndex = -1;
 
-                    else if (control is CheckBox)
-                        (control as CheckBox).Checked = false;
-                    else if (control is DateTimePicker)
+                else if (control is CheckBox)
+                    (control as CheckBox).Checked = false;
+                else if (control is DateTimePicker)
+                {
+                    (control as DateTimePicker).Value = DateTime.Today;
+                    (control as DateTimePicker).Checked = false;
+                }
+                else if (control is GroupBox)
+                {
+                    foreach (Control groupBoxControl in control.Controls)
                     {
-                        (control as DateTimePicker).Value = DateTime.Today;
-                        (control as DateTimePicker).Checked = false;
-                    }
-                    else if (control is GroupBox)
-                    {
-                        foreach (Control groupBoxControl in control.Controls)
+                        if (groupBoxControl is TextBox)
+                            groupBoxControl.Text = string.Empty;
+                        else if (groupBoxControl is ComboBox)
+                            (groupBoxControl as ComboBox).SelectedIndex = -1;
+                        else if (groupBoxControl is CheckBox)
+                            (groupBoxControl as CheckBox).Checked = false;
+                        else if (groupBoxControl is DateTimePicker)
                         {
-                            if (groupBoxControl is TextBox)
-                                groupBoxControl.Text = string.Empty;
-                            else if (groupBoxControl is ComboBox)
-                                (groupBoxControl as ComboBox).SelectedIndex = -1;
-                            else if (groupBoxControl is CheckBox)
-                                (groupBoxControl as CheckBox).Checked = false;
-                            else if (groupBoxControl is DateTimePicker)
-                            {
-                                (groupBoxControl as DateTimePicker).Value = DateTime.Today;
-                                (groupBoxControl as DateTimePicker).Checked = false;
-                            }
+                            (groupBoxControl as DateTimePicker).Value = DateTime.Today;
+                            (groupBoxControl as DateTimePicker).Checked = false;
                         }
                     }
                 }
@@ -1076,18 +1090,13 @@ namespace Seggu.Desktop.UserControls
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
-                foreach (string fileLoc in filePaths)
+                var filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string fileLoc in filePaths.Where(File.Exists))
                 {
-                    // Code to read the contents of the text file
-                    if (File.Exists(fileLoc))
+                    using (TextReader tr = new StreamReader(fileLoc))
                     {
-                        using (TextReader tr = new StreamReader(fileLoc))
-                        {
-                            MessageBox.Show(tr.ReadToEnd());
-                        }
+                        MessageBox.Show(tr.ReadToEnd());
                     }
-
                 }
             }
         }
@@ -1168,7 +1177,7 @@ namespace Seggu.Desktop.UserControls
         }
         private void txtPaymentDay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            int input = 0;
+            int input;
             bool isNum = Int32.TryParse(txtPaymentDay.Text, out input);
 
             if (!isNum || input < 1 || input > 28)
@@ -1176,7 +1185,7 @@ namespace Seggu.Desktop.UserControls
                 // Cancel the event and select the text to be corrected by the user.
                 e.Cancel = true;
                 txtPaymentDay.Select(0, txtPaymentDay.Text.Length);
-                errorProvider1.SetError(this.txtPaymentDay, "El dia de debe ser mayor a 0 y menor o igual a 28");
+                errorProvider1.SetError(txtPaymentDay, "El dia de debe ser mayor a 0 y menor o igual a 28");
             }
         }
         private void txtPaymentDay_KeyPress(object sender, KeyPressEventArgs e)
@@ -1185,30 +1194,30 @@ namespace Seggu.Desktop.UserControls
         }
         private void txtNetoCobrar_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var netoCobrar = 0M;
+            decimal netoCobrar;
 
-            if (decimal.TryParse(this.txtNetoCobrar.Text, out netoCobrar))
+            if (decimal.TryParse(txtNetoCobrar.Text, out netoCobrar))
             {
                 if (netoCobrar <= 0)
                 {
-                    errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
+                    errorProvider1.SetError(txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
                     //e.Cancel = true;
                 }
             }
             else
             {
-                errorProvider1.SetError(this.txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
+                errorProvider1.SetError(txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
                 //e.Cancel = true;
             }
         }
         private void txtPaymentDay_Validated(object sender, EventArgs e)
         {
-            var val = 0;
+            int val;
             if (int.TryParse(txtPaymentDay.Text, out val))
             {
                 if (val > 0 && val < 29)
                 {
-                    var fees = (List<FeeDto>)this.grdFees.DataSource;
+                    var fees = (List<FeeDto>)grdFees.DataSource;
                     if (fees != null)
                     {
                         foreach (var fee in fees)
@@ -1218,8 +1227,8 @@ namespace Seggu.Desktop.UserControls
                                 fee.Venc_Cuota = new DateTime(fee.Venc_Cuota.Year, fee.Venc_Cuota.Month, val);
                             }
                         }
-                        this.grdFees.DataSource = fees;
-                        this.grdFees.Invalidate();
+                        grdFees.DataSource = fees;
+                        grdFees.Invalidate();
                     }
                 }
             }
@@ -1229,7 +1238,7 @@ namespace Seggu.Desktop.UserControls
 
         private void AgregarFoto(object sender, EventArgs e)
         {
-            this.folderBrowserFotos.Reset();
+            folderBrowserFotos.Reset();
             //var openFileDialog = new OpenFileDialog { CheckFileExists = true };
             //if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             //foreach (var fileName in openFileDialog.FileNames)
@@ -1250,24 +1259,29 @@ namespace Seggu.Desktop.UserControls
             {
                 try
                 {
-                    this.imageList1.Images.Add(Image.FromFile(files));
+                    var image = Image.FromFile(files);
+                    if (!imageList1.Images.ContainsKey(files))
+                    {
+                        imageList1.Images.Add(files, image);
+                    }
                 }
-
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
-            this.listViewFotos.View = View.LargeIcon;
-            this.imageList1.ImageSize = new Size(32, 32);
-            this.listViewFotos.LargeImageList = this.imageList1;
+
+            listViewFotos.View = View.LargeIcon;
+            imageList1.ImageSize = new Size(32, 32);
+            listViewFotos.LargeImageList = imageList1;
             //or
             //this.listView1.View = View.SmallIcon;
             //this.listView1.SmallImageList = this.imageList1;
-            for (var j = 0; j < this.imageList1.Images.Count; j++)
+            listViewFotos.Items.Clear();
+            for (var j = 0; j < imageList1.Images.Count; j++)
             {
                 var item = new ListViewItem { ImageIndex = j };
-                this.listViewFotos.Items.Add(item);
+                listViewFotos.Items.Add(item);
             }
         }
 
