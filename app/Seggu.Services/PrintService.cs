@@ -47,6 +47,7 @@ namespace Seggu.Services
             form.SetField("Productor", producer.Name);
             form.SetField("CódigoCia", producer.Code);
             form.SetField("Comisión", producer.commission.ToString("P1", CultureInfo.InvariantCulture));
+            form.SetField("Cobranza", "Directa");
         }
 
         #region Liquidaciones
@@ -186,7 +187,6 @@ namespace Seggu.Services
             form.SetField("Asegurado", policy.Asegurado);
             form.SetField("Notas", policy.Notes);
             form.SetField("Suma", policy.Value.ToString());
-            form.SetField("Cobranza", "Directa");
             string feesCount = this.feeService.GetByPolicyId(policy.Id).Count().ToString();
             form.SetField("Cuotas", feesCount);
         }
@@ -251,7 +251,7 @@ namespace Seggu.Services
         public void EndorseVehiclePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
         {
             string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, policy.Asegurado);
-            string PDFPath = Path.Combine(clientPath, endorse.Vehicles.First().Plate + ".pdf");
+            string PDFPath = Path.Combine(clientPath, endorse.Vehicles.FirstOrDefault().Plate + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
@@ -269,32 +269,41 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-        private static void PopulateEndorseHeader(EndorseFullDto endorse, AcroFields form, string company)
+        private void PopulateEndorseHeader(EndorseFullDto endorse, AcroFields form, string company)
         {
             form.SetField("Compañía", company);// sacar compañía de otro lado para no pasar policyFullDto
             form.SetField("Riesgo", endorse.TipoRiesgo);
             form.SetField("Vigencia", endorse.StartDate + " al " + endorse.EndDate);
+            form.SetField("NumPóliza", endorse.PolicyNumber);
             form.SetField("Solicitado", endorse.RequestDate);
             form.SetField("Motivo", endorse.Motivo);
 
             form.SetField("Nombre", endorse.Asegurado);
             form.SetField("Notas", endorse.Notes);
+            string feesCount = this.feeService.GetByEndorseId(endorse.Id).Count().ToString();
+            form.SetField("Cuotas", feesCount);
         }
         private static void PopulateEndorseVehicle(EndorseFullDto endorse, AcroFields form)
         {
-            form.SetField("Marca", endorse.Vehicles.FirstOrDefault().Brand);
-            form.SetField("Modelo", endorse.Vehicles.FirstOrDefault().Model);
-            form.SetField("Año", endorse.Vehicles.FirstOrDefault().Year);
-            //form1.SetField("Cobertura", policy.Coverage); // ????
+            var vehicle = endorse.Vehicles.FirstOrDefault();
+            form.SetField("Marca", vehicle.Brand);
+            form.SetField("Modelo", vehicle.Model);
+            form.SetField("Año", vehicle.Year);
+            var cobertura = string.Empty;
+            if (vehicle.Coverages.Any() && vehicle.Coverages.First().CoveragesPacks.Any())
+            {
+                cobertura = vehicle.Coverages.First().CoveragesPacks.First().Name;
+            }
+            form.SetField("Cobertura", cobertura);
 
-            form.SetField("Motor", endorse.Vehicles.FirstOrDefault().Engine);
-            form.SetField("Chasis", endorse.Vehicles.FirstOrDefault().Chassis);
+            form.SetField("Motor", vehicle.Engine);
+            form.SetField("Chasis", vehicle.Chassis);
             form.SetField("Patente", endorse.Vehicles.First().Plate);
             form.SetField("Suma", endorse.Value.ToString());
-            form.SetField("TipoVehiculo", endorse.Vehicles.FirstOrDefault().VehicleType);
-            form.SetField("Carrocería", endorse.Vehicles.FirstOrDefault().Bodywork);
-            form.SetField("Uso", endorse.Vehicles.FirstOrDefault().Uso);
-            form.SetField("Origen", endorse.Vehicles.FirstOrDefault().Origin);
+            form.SetField("TipoVehiculo", vehicle.VehicleType);
+            form.SetField("Carrocería", vehicle.Bodywork);
+            form.SetField("Uso", vehicle.Uso);
+            form.SetField("Origen", vehicle.Origin);
         }
         #endregion
 
