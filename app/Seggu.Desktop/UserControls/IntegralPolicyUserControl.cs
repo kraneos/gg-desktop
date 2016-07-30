@@ -27,8 +27,11 @@ namespace Seggu.Desktop.UserControls
         private IEnumerable<LocalityDto> filteredLocalities;
 
         private List<IntegralDto> integralList = new List<IntegralDto>();
-        private IntegralDto currentIntegral = new IntegralDto();
+        private IntegralDto currentIntegral;
         private List<CoverageDto> coverages = new List<CoverageDto>();
+
+        public string province;
+        public string district;
 
         public Layout MainForm
         {
@@ -97,10 +100,9 @@ namespace Seggu.Desktop.UserControls
         }
         public void PopulatePolicyIntegral()
         {
-            if (MainForm.currentPolicy.Integrals == null) return;
+            if ( MainForm.currentPolicy.Integrals == null || MainForm.currentPolicy.Integrals.Count() == 0 ) return;
 
-            integralList = MainForm.currentPolicy.Integrals
-                .Where(v => v.EndorseId == default(int)).ToList();
+            integralList = MainForm.currentPolicy.Integrals.ToList();
             currentIntegral = integralList.FirstOrDefault();
             if (currentIntegral.Address != null)
                 PopulateAddress(currentIntegral.Address);
@@ -115,7 +117,9 @@ namespace Seggu.Desktop.UserControls
             txtHomePostal.Text = address.PostalCode;
             txtHomeStreet.Text = address.Street;
             cmbProvince.SelectedValue = address.ProvinceId;
+            province = cmbProvince.Text;
             cmbDistrict.SelectedValue = address.DistrictId;
+            district = cmbDistrict.Text;
             cmbLocality.SelectedValue = address.LocalityId;
         }
 
@@ -157,10 +161,18 @@ namespace Seggu.Desktop.UserControls
             address.Number = txtHomeNumber.Text;
             address.PostalCode = this.txtHomePostal.Text;
             address.Street = this.txtHomeStreet.Text;
-            currentIntegral.Address = address;
-            currentIntegral.Coverages = coverages;
 
-            currentIntegral.PolicyId = MainForm.currentPolicy.Id;
+            IntegralDto integral = new IntegralDto();
+            integral.Address = address;
+            integral.Coverages = coverages;
+            integral.district = cmbDistrict.Text;
+            integral.EndorseId = MainForm.currentEndorse == null ? null : (int?)MainForm.currentEndorse.Id;
+            integral.Id = currentIntegral == null ? default(int) : currentIntegral.Id;
+            integral.locality = cmbLocality.Text;
+            integral.PolicyId = MainForm.currentPolicy.Id;
+            integral.province = cmbProvince.Text;
+            currentIntegral = integral;
+
             integralList.Clear();
             integralList.Add(currentIntegral);
             return integralList;
@@ -174,6 +186,8 @@ namespace Seggu.Desktop.UserControls
             cmbDistrict.ValueMember = "Id";
             cmbDistrict.DisplayMember = "Name";
             cmbDistrict.DataSource = filteredDistricts;
+
+            province = cmbProvince.Text;//for printing
         }
         private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -181,6 +195,8 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.DisplayMember = "Name";
             cmbLocality.ValueMember = "Id";
             cmbLocality.DataSource = filteredLocalities;
+
+            district = cmbDistrict.Text;
         }
 
 
@@ -351,5 +367,6 @@ namespace Seggu.Desktop.UserControls
             }
         }
         #endregion
+
     }
 }

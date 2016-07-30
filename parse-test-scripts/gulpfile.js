@@ -4,7 +4,12 @@ var argv = require('yargs').argv;
 var dataMig = require('./data-migration');
 
 gulp.task('destroy-all', function () {
-    scripts.queryAndDestroyAllClasses(argv.SERVERURL, argv.APPID, argv.MASTERKEY, argv.ROLEID, argv.USERID);
+	if (argv.MASTERKEY) {
+		scripts.queryAndDestroyAllClasses(argv.SERVERURL, argv.APPID, argv.MASTERKEY, argv.ROLEID, argv.USERID);
+	} else if (argv.USERNAME && argv.PASSWORD) {
+		console.log('queryAndDestroyAllClassesByUser');
+		scripts.queryAndDestroyAllClassesByUser(argv.SERVERURL, argv.APPID, argv.USERNAME, argv.PASSWORD);
+	}
 });
 
 gulp.task('task1', function () {

@@ -1,14 +1,10 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Seggu.Daos.Interfaces;
+﻿using Seggu.Daos.Interfaces;
 using Seggu.Domain;
 using Seggu.Dtos;
-using Seggu.Helpers;
 using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Seggu.Services
@@ -55,7 +51,6 @@ namespace Seggu.Services
         {
             return policyDao.GetByPolicyNumber(polNum).OrderByDescending(x => x.EndDate)
                 .Select(p => new PolicyGridItemDto { Id = (int)p.Id, Name = p.Number, EndDate = p.EndDate });
-            //.Select(x => PolicyDtoMapper.GetFullDto(x));
         }
 
         public void SavePolicy(PolicyFullDto pol)
@@ -91,12 +86,8 @@ namespace Seggu.Services
                     foreach (var employee in policy.Employees)
                         employee.PolicyId = policy.Id;
                 else if (policy.Integrals != null)
-                {
                     foreach (var integral in policy.Integrals)
-                    {
                         integral.PolicyId = policy.Id;
-                    }
-                }
                 policyDao.Edit(policy);
             }
         }

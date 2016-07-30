@@ -1,6 +1,5 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
-using System;
 
 namespace Seggu.Services.DtoMappers
 {
@@ -50,6 +49,7 @@ namespace Seggu.Services.DtoMappers
 
             dto.ProvinceId = (int)obj.Locality.District.ProvinceId;
             dto.DistrictId = (int)obj.Locality.DistrictId;
+            //dto.District = (int)obj.Locality.District.Name;
 
             dto.Number = obj.Number;
             dto.Phone = obj.Phone;

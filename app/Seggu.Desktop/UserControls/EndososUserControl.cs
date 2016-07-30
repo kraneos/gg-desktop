@@ -1,10 +1,7 @@
-﻿using iTextSharp.text.pdf;
-using Seggu.Data;
-using Seggu.Desktop.Forms;
+﻿using Seggu.Desktop.Forms;
 using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Infrastructure;
-using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,8 +15,6 @@ namespace Seggu.Desktop.UserControls
     public partial class EndososUserControl : UserControl
     {
         private readonly IEndorseService endorseService;
-        //private IPolicyService policyService;
-        //private IClientService clientService;
         private readonly ICompanyService companyService;
         private readonly IRiskService riskService;
         private readonly IProducerService producerService;
@@ -38,8 +33,6 @@ namespace Seggu.Desktop.UserControls
         {
             InitializeComponent();
             this.endorseService = endorseService;
-            //this.policyService = polServ;
-            //this.clientService = cliServ;
             this.companyService = compServ;
             this.riskService = riskServ;
             this.masterDataService = masterDataServ;
@@ -48,6 +41,7 @@ namespace Seggu.Desktop.UserControls
             this.printService = printService;
             InitializeDetailComboBoxes();
         }
+
         private void InitializeDetailComboBoxes()
         {
             cmbTipoEndosos.DataSource = masterDataService.GetEndorseTypes().ToList();
@@ -68,12 +62,6 @@ namespace Seggu.Desktop.UserControls
 
         public void NewEndorse()
         {
-            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
-
-            cmbRiesgo.ValueMember = "Id";
-            cmbRiesgo.DisplayMember = "Name";
-            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
-            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
             if (MainForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
@@ -83,7 +71,7 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.Enabled = true;
         }
         private void ConvertPolicyToEndorse()
-        {
+{
             var ce = new EndorseFullDto();
             var cp = MainForm.currentPolicy;
             ce.Asegurado = cp.Asegurado;
@@ -111,14 +99,10 @@ namespace Seggu.Desktop.UserControls
             if (cp.Vehicles != null)
             {
                 ce.Vehicles = cp.Vehicles;
-                //foreach (var vehicle in ce.Vehicles) { }
-                //vehicle.Id = null;
             }
             else if (cp.Employees != null)
             {
                 ce.Employees = cp.Employees;
-                //foreach (var employee in ce.Employees) { }
-                //employee.Id = null;
             }
             else if (cp.Integrals != null)
             {
@@ -161,15 +145,19 @@ namespace Seggu.Desktop.UserControls
             {
                 var newEmployees = ce.Employees.ToList();
                 newEndorse.Employees = newEmployees;
-                //newEndorse.Employees = ce.Employees;
-                //foreach (var employee in newEndorse.Employees)
-                //    employee.Id = null;
             }
             MainForm.currentEndorse = newEndorse;
         }
 
         private void populateTextBoxesAndCombos(EndorseFullDto endorse)
         {
+            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
+
+            cmbRiesgo.ValueMember = "Id";
+            cmbRiesgo.DisplayMember = "Name";
+            //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
+
             cmbProductor.SelectedValue = endorse.ProducerId;
             cmbRiesgo.SelectedValue = endorse.RiskId == default(int) ? cmbRiesgo.SelectedValue : endorse.RiskId;
             cmbCompania.SelectedValue = endorse.CompanyId == default(int) ? cmbCompania.SelectedValue : endorse.CompanyId;
@@ -274,7 +262,6 @@ namespace Seggu.Desktop.UserControls
                 if (MainForm.currentEndorse != null)
                 {
                     vida_uc.PopulateEndorseVida((int)this.cmbRiesgo.SelectedValue);
-                    //vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
                 }
 
             }
@@ -536,7 +523,7 @@ namespace Seggu.Desktop.UserControls
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            printService.EndorsePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
+            printService.EndorseVehiclePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
         }
     }
 }

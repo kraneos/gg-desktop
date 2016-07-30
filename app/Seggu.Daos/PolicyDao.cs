@@ -209,7 +209,7 @@ namespace Seggu.Daos
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
                     //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
-                    //context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                    context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
                     Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
 
                     foreach (var dbCoverage in dbIntegral.Coverages)
