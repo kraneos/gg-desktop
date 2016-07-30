@@ -71,6 +71,8 @@
     <Compile Include="ClientVM.cs" />
     <Compile Include="CompanyVM.cs" />
     <Compile Include="ContactVM.cs" />
+    <Compile Include="CoveragesPackVM.cs" />
+    <Compile Include="CoverageVM.cs" />
     <Compile Include="CreditCardVM.cs" />
     <Compile Include="DateVM.cs" />
     <Compile Include="DistrictVM.cs" />
