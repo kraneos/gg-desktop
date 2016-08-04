@@ -10,7 +10,9 @@ namespace Seggu.Services.Interfaces
         void PolicyVehiclePDF(PolicyFullDto policy, string selectedPlate);
         void PolicyIntegralPDF(PolicyFullDto policy, string province, string district);
         void PolicyLifePDF(PolicyFullDto policy);
-        void EndorseVehiclePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy);
+        void EndorseVehiclePDF(EndorseFullDto endorse);
+        void EndorseLifePDF(EndorseFullDto endorse);
+        void EndorseIntegralPDF(EndorseFullDto endorse, string province, string district);
         //void GetNames();
     }
 }

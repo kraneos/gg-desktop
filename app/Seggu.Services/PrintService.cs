@@ -17,12 +17,14 @@ namespace Seggu.Services
         private IClientService clientService;
         private IProducerService producerService;
         private IFeeService feeService;
+        private ICompanyService companyService;
 
-        public PrintService(IClientService clientService, IProducerService producerService, IFeeService feeService)
+        public PrintService(IClientService clientService, IProducerService producerService, IFeeService feeService, ICompanyService companyService)
         {
             this.clientService = clientService;
             this.producerService = producerService;
             this.feeService = feeService;
+            this.companyService = companyService;
         }
 
         static string currentMonthString = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month - 1];
@@ -248,19 +250,67 @@ namespace Seggu.Services
         #endregion
 
         #region Endosos
-        public void EndorseVehiclePDF(EndorseFullDto endorse, ClientIndexDto client, PolicyFullDto policy)
+        public void EndorseIntegralPDF(EndorseFullDto endorse, string province, string district)
         {
-            string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, policy.Asegurado);
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, endorse.Asegurado);
+            string address = endorse.Integrals.FirstOrDefault().Address.Street + " " + endorse.Integrals.FirstOrDefault().Address.Number;
+            string PDFPath = Path.Combine(clientPath, address + ".pdf");
+
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso_Integral);
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
+
+            ClientFullDto clientFull = clientService.GetById(endorse.ClientId);
+            IntegralDto integral = endorse.Integrals.First();
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(endorse.ProducerId, endorse.CompanyId);
+            string company = companyService.GetById(endorse.CompanyId).Name;
+
+            PopulateEndorseHeader(endorse, form, company);
+            PopulateClient(clientFull, form);
+            PopulateEndorseIntegral(integral, province, district, form);
+            PolpulateProducer(producer, form);
+
+            stamp.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
+        }
+        public void EndorseLifePDF(EndorseFullDto endorse)
+        {
+            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, endorse.Asegurado);
+            string PDFPath = Path.Combine(clientPath, "vida.pdf");
+
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Vida);
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
+
+            ClientFullDto clientFull = clientService.GetById(endorse.ClientId);
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(endorse.ProducerId, endorse.CompanyId);
+            string company = companyService.GetById(endorse.CompanyId).Name;
+
+            PopulateEndorseHeader(endorse, form, company);
+            PopulateClient(clientFull, form);
+            //PopulateEnEmployees(endorse, form);
+            PolpulateProducer(producer, form);
+
+            stamp.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
+        }
+
+        public void EndorseVehiclePDF(EndorseFullDto endorse)
+        {
+            string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, endorse.Asegurado);
             string PDFPath = Path.Combine(clientPath, endorse.Vehicles.FirstOrDefault().Plate + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso);
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form = stamp1.AcroFields;
 
-            var clientFull = clientService.GetById(policy.ClientId);
-            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(policy.ProducerId, policy.CompanyId);
+            ClientFullDto clientFull = clientService.GetById(endorse.ClientId);
+            ProducerCompanyDto producer = producerService.GetByIdAndCompanyId(endorse.ProducerId, endorse.CompanyId);
+            string company = companyService.GetById(endorse.CompanyId).Name;
 
-            PopulateEndorseHeader(endorse, form, policy.Compañía);
+            PopulateEndorseHeader(endorse, form, company);
             PopulateClient(clientFull, form);
             PopulateEndorseVehicle(endorse, form);
             PolpulateProducer(producer, form);
@@ -269,6 +319,7 @@ namespace Seggu.Services
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
+
         private void PopulateEndorseHeader(EndorseFullDto endorse, AcroFields form, string company)
         {
             form.SetField("Compañía", company);// sacar compañía de otro lado para no pasar policyFullDto
@@ -305,6 +356,26 @@ namespace Seggu.Services
             form.SetField("Uso", vehicle.Uso);
             form.SetField("Origen", vehicle.Origin);
         }
+        private static void PopulateEndorseIntegral(IntegralDto integral, string province, string district, AcroFields form)
+        {
+            form.SetField("Calle", integral.Address.Street);
+            form.SetField("Número", integral.Address.Number);
+            form.SetField("Piso", integral.Address.Floor);
+            form.SetField("Dpto", integral.Address.Appartment);
+            form.SetField("Provincia", province);
+            form.SetField("Distrito", district);
+            form.SetField("Localidad", integral.locality);
+            form.SetField("CodPostalInmueble", integral.Address.PostalCode);
+            // form.SetField("Cubre", integral);
+            var coberturas = string.Empty;
+
+            if (integral.Coverages.Any())
+            {
+                coberturas = string.Join("\n", integral.Coverages.Select(x => x.Name));
+            }
+            form.SetField("Coberturas", coberturas);
+        }
+
         #endregion
 
         //public void GetNames()

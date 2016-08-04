@@ -210,7 +210,37 @@ namespace Seggu.Desktop.UserControls
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            printService.EndorseVehiclePDF(LayoutForm.currentEndorse, LayoutForm.currentClient, LayoutForm.currentPolicy);
+            var endorse = LayoutForm.currentEndorse;
+
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
+            var riesgo = risk.RiskType;
+
+            switch (riesgo)
+            {
+                case RiskType.Automotores:
+                    if (endorse.Vehicles.Count() > 1)
+                    {
+                        //print flota
+                    }
+                    else
+                        printService.EndorseVehiclePDF(endorse);
+                    break;
+
+                case RiskType.Vida_colectivo_Otros:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+                case RiskType.Otros:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+
+                case RiskType.Vida_individual:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+
+                case RiskType.Combinados_Integrales:
+                    printService.EndorseIntegralPDF(endorse, integral_uc.province, integral_uc.district);
+                    break;
+            }
         }
 
         #region Datos grales Tab

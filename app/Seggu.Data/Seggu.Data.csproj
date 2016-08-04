@@ -121,6 +121,7 @@
     </None>
     <None Include="Resources\Comercial+e+Industria-Solicitud+de+Cobertura.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Endoso.pdf" />
+    <None Include="Resources\Plantilla_Solicitud_Endoso_Integral.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Póliza.pdf" />
     <None Include="Resources\plantilla_recibo_seggu.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Póliza_Integral.pdf" />
