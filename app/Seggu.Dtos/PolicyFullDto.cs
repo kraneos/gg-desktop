@@ -18,7 +18,6 @@ namespace Seggu.Dtos
         public int CollectorId { get; set; }
 
         public IEnumerable<EndorseFullDto> Endorses { get; set; }
-        public IEnumerable<string> FilePaths { get; set; }
         public int EndorseCount { get; set; }
         public string Vence { get; set; }
         public string EmissionDate { get; set; }

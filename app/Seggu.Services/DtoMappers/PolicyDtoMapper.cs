@@ -113,7 +113,7 @@ namespace Seggu.Services.DtoMappers
             obj.Vehicles = dto.Vehicles?.Select(VehicleDtoMapper.GetObjectWithCover).ToList();
             obj.Employees = dto.Employees?.Select(EmployeeDtoMapper.GetObjectWithCover).ToList();
             obj.Integrals = dto.Integrals?.Select(IntegralDtoMapper.GetObjectWithCover).ToList();
-            obj.AttachedFiles = dto.FilePaths.Select(x => AttachedFileDtoMapper.GetObject(new AttachedFileDto { FilePath = x })).ToList();
+            obj.AttachedFiles = dto.AttachedFiles.Select(x => AttachedFileDtoMapper.GetObject(new AttachedFileDto { FilePath = x.FilePath, PolicyId = x.PolicyId })).ToList();
             return obj;
         }
         public static PolicyRosViewDto GetRosView(Policy obj)

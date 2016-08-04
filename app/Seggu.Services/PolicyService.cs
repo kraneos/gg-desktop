@@ -15,13 +15,15 @@ namespace Seggu.Services
         private IVehicleDao vehicleDao;
         private IFeeDao feeDao;
         private IAddressDao addressDao;
+        private IAttachedFileDao attachedFilesDao;
 
-        public PolicyService(IPolicyDao policyDao, IVehicleDao vehicleDao, IFeeDao feeDao, IAddressDao addressDao)
+        public PolicyService(IPolicyDao policyDao, IVehicleDao vehicleDao, IFeeDao feeDao, IAddressDao addressDao, IAttachedFileDao attachedFilesDao)
         {
             this.policyDao = policyDao;
             this.vehicleDao = vehicleDao;
             this.feeDao = feeDao;
             this.addressDao = addressDao;
+            this.attachedFilesDao = attachedFilesDao;
         }
         public PolicyFullDto GetById(long policyId)
         {
@@ -79,6 +81,9 @@ namespace Seggu.Services
             }
             else
             {
+                var existingAttachedFiles = attachedFilesDao.GetByPolicyId(pol.Id);
+                var attachedFilesToRemove = existingAttachedFiles.Where(x => !policy.AttachedFiles.Any(y => y.FilePath == x.FilePath));
+                attachedFilesDao.DeleteMany(attachedFilesToRemove);
                 if (policy.Vehicles != null)
                     foreach (var vehicle in policy.Vehicles)
                         vehicle.PolicyId = policy.Id;

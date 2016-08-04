@@ -103,11 +103,11 @@ namespace Seggu.Daos
 
             foreach (var attachedFile in newPolicy.AttachedFiles)
             {
-                var existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath && x.PolicyId == newPolicy.Id);
+                var existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath);
 
                 if (existingAttachedFile == null)
                 {
-
+                    context.AttachedFiles.Add(attachedFile);
                 }
             }
         }

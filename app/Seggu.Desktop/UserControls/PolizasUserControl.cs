@@ -25,8 +25,10 @@ namespace Seggu.Desktop.UserControls
         private readonly IMasterDataService masterDataService;
         private readonly IFeeService feeService;
         private readonly IPrintService printService;
+
         private IAttachedFileService attachedFileService;
         private ClientIndexDto currentClient;
+
         private VehiculePolicyUserControl vehicle_uc;
         private VidaPolicyUserControl vida_uc;
         private IntegralPolicyUserControl integral_uc;
@@ -225,7 +227,8 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
-            //LoadAttachedFilesGrid();
+            if (LayoutForm.currentPolicy.AttachedFiles != null)
+                LoadAttachedFilesGrid();
         }
         private void NavigateToDetalle()
         {
@@ -269,15 +272,6 @@ namespace Seggu.Desktop.UserControls
             dtpEmision.Value = DateTime.Parse(policy.EmissionDate);
             if (policy.EmissionDate == "01/01/1753")
                 dtpEmision.Checked = false;
-
-            foreach (var filePath in policy.FilePaths)
-            {
-                imageList1.Images.Add(filePath, Image.FromFile(filePath));
-            }
-            for (var i = 0; imageList1.Images.Count > i; i++)
-            {
-                listViewFotos.Items.Add(new ListViewItem { ImageIndex = i });
-            }
         }
         private void ClearDataBindings()
         {
@@ -315,6 +309,17 @@ namespace Seggu.Desktop.UserControls
             }
             else
                 cmbPlanes.Enabled = true;
+        }
+        private void LoadAttachedFilesGrid()
+        {
+            foreach (var AttachedFile in LayoutForm.currentPolicy.AttachedFiles)
+            {
+                imageList1.Images.Add(AttachedFile.FilePath, Image.FromFile(AttachedFile.FilePath));
+            }
+            for (var i = 0; imageList1.Images.Count > i; i++)
+            {
+                listViewFotos.Items.Add(new ListViewItem { ImageIndex = i });
+            }
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -591,7 +596,6 @@ namespace Seggu.Desktop.UserControls
             txtTotalSaldo.Text = totsaldo.ToString("F");
         }
 
-
         private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtPremioIva.Text)) return;
@@ -621,7 +625,6 @@ namespace Seggu.Desktop.UserControls
         {
             CalculateNetoCobrar();
             CalcularNetoPagar();
-
         }
         private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
@@ -645,7 +648,6 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-
         private void rdbIguales_CheckedChanged(object sender, EventArgs e)
         {
             if (rdbIguales.Checked)
@@ -657,7 +659,6 @@ namespace Seggu.Desktop.UserControls
                 cmbPlanes.Visible = true;
             }
         }
-
         private void rdbDistintos_CheckedChanged(object sender, EventArgs e)
         {
             if (rdbDistintos.Checked)
@@ -806,9 +807,8 @@ namespace Seggu.Desktop.UserControls
                 PaymentBonus =
                     txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text),
                 NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text),
-                FilePaths = imageList1.Images.Keys.Cast<string>()
+                AttachedFiles = imageList1.Images.Keys.Cast<string>().Select(x => new AttachedFileDto { FilePath = x , PolicyId = LayoutForm.currentPolicy?.Id ?? default(int) })
             };
-
             return policy;
         }
         #endregion
