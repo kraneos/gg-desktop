@@ -95,9 +95,21 @@
       <Project>{C604FB07-487A-428D-A6C3-8967C0DDA26E}</Project>
       <Name>Seggu.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
+      <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
+      <Name>Seggu.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.Services.Interfaces\Seggu.Service.Services.Interfaces.csproj">
+      <Project>{bfaf01b1-0798-405d-bbb3-6280928ae802}</Project>
+      <Name>Seggu.Service.Services.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seggu.Service.Services\Seggu.Service.Services.csproj">
       <Project>{2A018CE8-22CE-4947-A189-243906113079}</Project>
       <Name>Seggu.Service.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Service.ViewModels\Seggu.Service.ViewModels.csproj">
+      <Project>{1bec6bee-d066-4a28-8ef7-e790fdf3cef4}</Project>
+      <Name>Seggu.Service.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
