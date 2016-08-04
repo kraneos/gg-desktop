@@ -64,12 +64,14 @@
     <Compile Include="AccessoryVM.cs" />
     <Compile Include="AddressVM.cs" />
     <Compile Include="AssetVM.cs" />
+    <Compile Include="AttachedFileVM.cs" />
     <Compile Include="BankVM.cs" />
     <Compile Include="BatchElementResponseVM.cs" />
     <Compile Include="BodyworkVM.cs" />
     <Compile Include="BrandVM.cs" />
     <Compile Include="CashAccountVM.cs" />
     <Compile Include="CasualtyTypeVM.cs" />
+    <Compile Include="CasualtyVM.cs" />
     <Compile Include="ChequeVM.cs" />
     <Compile Include="ClientVM.cs" />
     <Compile Include="CompanyVM.cs" />
