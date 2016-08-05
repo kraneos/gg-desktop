@@ -228,7 +228,7 @@ namespace Seggu.Desktop.UserControls
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
             if (LayoutForm.currentPolicy.AttachedFiles != null)
-                LoadAttachedFilesGrid();
+                LoadAttachedFiles();
         }
         private void NavigateToDetalle()
         {
@@ -310,8 +310,11 @@ namespace Seggu.Desktop.UserControls
             else
                 cmbPlanes.Enabled = true;
         }
-        private void LoadAttachedFilesGrid()
+        private void LoadAttachedFiles()
         {
+            listViewFotos.View = View.LargeIcon;
+            imageList1.ImageSize = new Size(130, 97);
+            listViewFotos.LargeImageList = imageList1;
             foreach (var AttachedFile in LayoutForm.currentPolicy.AttachedFiles)
             {
                 imageList1.Images.Add(AttachedFile.FilePath, Image.FromFile(AttachedFile.FilePath));
@@ -1239,21 +1242,17 @@ namespace Seggu.Desktop.UserControls
         private void AgregarFoto(object sender, EventArgs e)
         {
             folderBrowserFotos.Reset();
-            //var openFileDialog = new OpenFileDialog { CheckFileExists = true };
-            //if (openFileDialog.ShowDialog() != DialogResult.OK) return;
-            //foreach (var fileName in openFileDialog.FileNames)
-            //{
-            //    listViewFotos.Items.Add(fileName);
-            //}
             var fdlg = new OpenFileDialog
             {
                 Multiselect = true,
-                Title = @"Select a file to add... ",
+                Title = @"Seleccione las fotos que quiere agregar... ",
                 InitialDirectory = "C:\\",
                 Filter = @"All files|*.*",
                 RestoreDirectory = true
             };
             if (fdlg.ShowDialog() != DialogResult.OK) return;
+
+            //TODO: mover fotos a un directorio de seggu
 
             foreach (var files in fdlg.FileNames)
             {
@@ -1272,11 +1271,8 @@ namespace Seggu.Desktop.UserControls
             }
 
             listViewFotos.View = View.LargeIcon;
-            imageList1.ImageSize = new Size(32, 32);
+            imageList1.ImageSize = new Size(130, 97);
             listViewFotos.LargeImageList = imageList1;
-            //or
-            //this.listView1.View = View.SmallIcon;
-            //this.listView1.SmallImageList = this.imageList1;
             listViewFotos.Items.Clear();
             for (var j = 0; j < imageList1.Images.Count; j++)
             {
@@ -1284,7 +1280,6 @@ namespace Seggu.Desktop.UserControls
                 listViewFotos.Items.Add(item);
             }
         }
-
         private void EliminarFoto(object sender, EventArgs e)
         {
             if (listViewFotos.FocusedItem == null) return;

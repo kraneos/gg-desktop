@@ -74,6 +74,7 @@ namespace Seggu.Services.DtoMappers
                     dto.Integrals = obj.Integrals.Where(v => v.EndorseId == null)
                         .Select(v => IntegralDtoMapper.GetDto(v)).ToList();
                 }
+            dto.AttachedFiles = obj.AttachedFiles?.Select(x => AttachedFileDtoMapper.GetDto(x)).ToList();
 
             return dto;
         }
