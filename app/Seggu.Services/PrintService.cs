@@ -252,7 +252,7 @@ namespace Seggu.Services
         #region Endosos
         public void EndorseIntegralPDF(EndorseFullDto endorse, string province, string district)
         {
-            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, endorse.Asegurado);
+            string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, endorse.Asegurado);
             string address = endorse.Integrals.FirstOrDefault().Address.Street + " " + endorse.Integrals.FirstOrDefault().Address.Number;
             string PDFPath = Path.Combine(clientPath, address + ".pdf");
 
@@ -276,10 +276,10 @@ namespace Seggu.Services
         }
         public void EndorseLifePDF(EndorseFullDto endorse)
         {
-            string clientPath = PathBuilder.ValidateClientPath("Pólizas", currentDate, endorse.Asegurado);
+            string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, endorse.Asegurado);
             string PDFPath = Path.Combine(clientPath, "vida.pdf");
 
-            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Póliza_Vida);
+            PdfReader reader = new PdfReader(Resources.Plantilla_Solicitud_Endoso_Vida);
             PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form = stamp.AcroFields;
 
@@ -289,14 +289,13 @@ namespace Seggu.Services
 
             PopulateEndorseHeader(endorse, form, company);
             PopulateClient(clientFull, form);
-            //PopulateEnEmployees(endorse, form);
+            PopulateEndorseEmployees(endorse, form);
             PolpulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-
         public void EndorseVehiclePDF(EndorseFullDto endorse)
         {
             string clientPath = PathBuilder.ValidateClientPath("Endosos", currentDate, endorse.Asegurado);
@@ -374,6 +373,23 @@ namespace Seggu.Services
                 coberturas = string.Join("\n", integral.Coverages.Select(x => x.Name));
             }
             form.SetField("Coberturas", coberturas);
+        }
+        private void PopulateEndorseEmployees(EndorseFullDto endorse, AcroFields form)
+        {
+            //haccer un foreach para lista empleados
+            form.SetField("AsegApellido1", endorse.Employees.First().Apellido);
+            form.SetField("AsegNombre1", endorse.Employees.First().Nombre);
+            form.SetField("AsegDNI1", endorse.Employees.First().DNI);
+            form.SetField("AsegCUIT1", endorse.Employees.First().CUIT);
+            form.SetField("AsegNacimiento1", endorse.Employees.First().CUIT);
+            form.SetField("AsegSuma1", endorse.Employees.First().Suma.ToString());
+
+            form.SetField("AsegApellido2", endorse.Employees.Last().Apellido);
+            form.SetField("AsegNombre2", endorse.Employees.Last().Nombre);
+            form.SetField("AsegDNI2", endorse.Employees.Last().DNI);
+            form.SetField("AsegCUIT2", endorse.Employees.Last().CUIT);
+            form.SetField("AsegNacimiento2", endorse.Employees.Last().CUIT);
+            form.SetField("AsegSuma2", endorse.Employees.Last().Suma.ToString());
         }
 
         #endregion

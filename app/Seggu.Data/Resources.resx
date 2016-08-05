@@ -130,6 +130,9 @@
   <data name="Plantilla_Solicitud_Endoso_Integral" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Plantilla_Solicitud_Endoso_Integral.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Plantilla_Solicitud_Endoso_Vida" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Plantilla_Solicitud_Endoso_Vida.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Plantilla_Solicitud_Póliza" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\plantilla_solicitud_póliza.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
