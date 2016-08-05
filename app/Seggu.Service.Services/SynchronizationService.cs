@@ -551,8 +551,34 @@ namespace Seggu.Service.Services
                     resolution => ((CashAccountVM)resolution.Value).LedgerAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.LedgerAccounts.First(x => x.ObjectId == ((CashAccountVM)res.Value).LedgerAccount.ObjectId).Id)));
             Mapper.CreateMap<CashAccount, CashAccount>().GetCommonMappingExpressionEntityToEntity();
 
-            Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM();
-            Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity();
+            Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<AttachedFile, AttachedFileVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Policy?.ObjectId != null) ? entity.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId.Value),
+                            (ctx, entity) => (entity.Endorse?.ObjectId != null) ? entity.Endorse.ObjectId : AutoMapperExtensions.GetObjectId<Endorse>(ctx, entity.EndorseId.Value),
+                            (ctx, entity) => (entity.CashAccount?.ObjectId != null) ? entity.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, entity.CashAccountId.Value), 
+                            (ctx, entity) => (entity.Client?.ObjectId != null) ? entity.Client.ObjectId : AutoMapperExtensions.GetObjectId<Client>(ctx, entity.ClientId.Value),
+                            (ctx, entity) => (entity.Casualty?.ObjectId != null) ? entity.Casualty.ObjectId : AutoMapperExtensions.GetObjectId<Casualty>(ctx, entity.CasualtyId.Value)));
+            Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Policy, y => y.Ignore())
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.CashAccount, y => y.Ignore())
+                .ForMember(x => x.Client, y => y.Ignore())
+                .ForMember(x => x.Casualty, y => y.Ignore())
+                .ForMember(x => x.PolicyId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Policy == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Policies.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Policy.ObjectId).Id)))
+                .ForMember(x => x.EndorseId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Endorse == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Endorse.ObjectId).Id)))
+                .ForMember(x => x.CasualtyId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Casualty == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Casualties.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Casualty.ObjectId).Id)))
+                .ForMember(x => x.ClientId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Client == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Clients.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Client.ObjectId).Id)))
+                .ForMember(x => x.CashAccountId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).CashAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.CashAccounts.First(x => x.ObjectId == ((AttachedFileVM)res.Value).CashAccount.ObjectId).Id)));
             Mapper.CreateMap<AttachedFile, AttachedFile>().GetCommonMappingExpressionEntityToEntity();
 
         }
