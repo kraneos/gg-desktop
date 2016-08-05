@@ -171,10 +171,6 @@ namespace Seggu.Service.Services
             Mapper.CreateMap<AccessoryTypeVM, AccessoryType>().GetCommonMappingExpressionToEntity();
             Mapper.CreateMap<AccessoryType, AccessoryType>().GetCommonMappingExpressionEntityToEntity();
 
-            Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM();
-            Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity();
-            Mapper.CreateMap<AttachedFile, AttachedFile>().GetCommonMappingExpressionEntityToEntity();
-
             Mapper.CreateMap<Asset, AssetVM>().GetCommonMappingExpressionToVM();
             Mapper.CreateMap<AssetVM, Asset>().GetCommonMappingExpressionToEntity();
             Mapper.CreateMap<Asset, Asset>().GetCommonMappingExpressionEntityToEntity();
@@ -554,13 +550,17 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.LedgerAccountId, y => y.ResolveUsing(
                     resolution => ((CashAccountVM)resolution.Value).LedgerAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.LedgerAccounts.First(x => x.ObjectId == ((CashAccountVM)res.Value).LedgerAccount.ObjectId).Id)));
             Mapper.CreateMap<CashAccount, CashAccount>().GetCommonMappingExpressionEntityToEntity();
+
+            Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM();
+            Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity();
+            Mapper.CreateMap<AttachedFile, AttachedFile>().GetCommonMappingExpressionEntityToEntity();
+
         }
 
         public static void InitializeParseClasses()
         {
             ParseObject.RegisterSubclass<AccessoryTypeVM>();
             ParseObject.RegisterSubclass<AssetVM>();
-            ParseObject.RegisterSubclass<AttachedFileVM>();
             ParseObject.RegisterSubclass<BankVM>();
             ParseObject.RegisterSubclass<BodyworkVM>();
             ParseObject.RegisterSubclass<BrandVM>();
@@ -592,6 +592,7 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<IntegralVM>();
             ParseObject.RegisterSubclass<AddressVM>();
             ParseObject.RegisterSubclass<CashAccountVM>();
+            ParseObject.RegisterSubclass<AttachedFileVM>();
             ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
             // TODO: The rest...
 
@@ -601,11 +602,8 @@ namespace Seggu.Service.Services
         {
             if (ParseUser.CurrentUser != null && client.HasSetting())
             {
-                SendEntitiesToParse<Accessory, AccessoryVM>();
                 SendEntitiesToParse<AccessoryType, AccessoryTypeVM>();// "AccessoryType");
                 SendEntitiesToParse<Asset, AssetVM>();//"Asset");
-                SendEntitiesToParse<AttachedFile, AttachedFileVM>();//"Asset");
-                SendEntitiesToParse<Address, AddressVM>();
                 SendEntitiesToParse<Bank, BankVM>();//"Bank");
                 SendEntitiesToParse<Bodywork, BodyworkVM>();
                 SendEntitiesToParse<Brand, BrandVM>();
@@ -634,8 +632,12 @@ namespace Seggu.Service.Services
                 SendEntitiesToParse<FeeSelection, FeeSelectionVM>();
                 SendEntitiesToParse<Fee, FeeVM>();
                 SendEntitiesToParse<Vehicle, VehicleVM>();
+                SendEntitiesToParse<Accessory, AccessoryVM>();
                 SendEntitiesToParse<Integral, IntegralVM>();
+                SendEntitiesToParse<Address, AddressVM>();
                 SendEntitiesToParse<CashAccount, CashAccountVM>();
+                SendEntitiesToParse<AttachedFile, AttachedFileVM>();//"Asset");
+                                                                    
                 // TODO: The rest...
 
             }
