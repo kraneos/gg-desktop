@@ -100,7 +100,7 @@ namespace Seggu.Desktop.UserControls
             if (MainForm.currentPolicy.Integrals == null) return;
 
             integralList = MainForm.currentPolicy.Integrals
-                .Where(v => v.EndorseId == default(int)).ToList();
+                .Where(v => v.EndorseId == null).ToList();
             currentIntegral = integralList.FirstOrDefault();
             if (currentIntegral.Address != null)
                 PopulateAddress(currentIntegral.Address);
