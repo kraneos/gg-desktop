@@ -109,6 +109,9 @@ namespace Seggu.Services
             form1.SetField("Motor", printFee.VehicleEngine);
             form1.SetField("Chasis", printFee.VehicleChasis);
         }
+        public void LifeReceiptPDF(PolicyFullDto pol) { }
+        public void IntegralReceiptPDF(PolicyFullDto pol) { }
+
         #endregion
 
         #region Polizas

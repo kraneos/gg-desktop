@@ -110,6 +110,7 @@ namespace Seggu.Desktop.UserControls
             grdFees.Rows.Clear();
             cmbPlanes.Enabled = true;
             EnablePage(tabPageSiniestros, false);
+            btnPrint.Visible = false;
         }
 
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
@@ -209,6 +210,7 @@ namespace Seggu.Desktop.UserControls
                 dtpRecibido.Checked = false;
                 dtpEmision.Checked = false;
                 chkOtherClient.Visible = true;
+                btnPrint.Visible = false;
                 PopulateDetails();
                 CalculateNetoCobrar();
             }
@@ -303,12 +305,16 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.SelectedIndex = grdFees.RowCount > 12 ? -1 : grdFees.RowCount - 1;
             if (grdFees.RowCount != 0)
             {
+                grpbClientPayDay.Enabled = false;
                 cmbPlanes.Enabled = false;
                 FormatFeeGrid();
                 CalculateFeeTotals();
             }
             else
+            {
+                grpbClientPayDay.Enabled = true;
                 cmbPlanes.Enabled = true;
+            }
         }
         private void LoadAttachedFiles()
         {

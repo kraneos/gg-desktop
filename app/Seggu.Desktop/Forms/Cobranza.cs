@@ -1,6 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Seggu.Data;
+using Seggu.Domain;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Services.Interfaces;
@@ -24,6 +25,7 @@ namespace Seggu.Desktop.Forms
         private IVehicleService vehicleService;
         private IPrintService printService;
         private IPolicyService policyService;
+        private IRiskService riskService;
         private FeeDto currentFee;
         private int policyId;
         private int ledgerAccountId;
@@ -33,7 +35,7 @@ namespace Seggu.Desktop.Forms
             , ILedgerAccountService ledgerAccountService, IAssetService assetService
             , ICashAccountService cashAccountService, IPrintService printService
             , ICollectionService collectionService, IVehicleService vehicleService
-            , IPolicyService policyService, int policyId)
+            , IPolicyService policyService, IRiskService riskService, int policyId)
         {
             this.policyId = policyId;
             this.feeService = feeService;
@@ -45,6 +47,7 @@ namespace Seggu.Desktop.Forms
             this.vehicleService = vehicleService;
             this.policyService = policyService;
             this.printService = printService;
+            this.riskService = riskService;
             InitializeComponent();
         }
 
@@ -253,7 +256,36 @@ namespace Seggu.Desktop.Forms
         private void btnPDF_Click(object sender, EventArgs e)
         {
             decimal value = decimal.Parse(txtImporte.Text);
-            printService.PrintReceipt(ConvertCurrentFeeToFeeChargeDto(currentFee, value));
+            var pol = policyService.GetById(currentFee.PolicyId);
+            var risk = pol.TipoRiesgo;
+
+            switch (risk)
+            {
+                case "Automotores":
+                    if (pol.Vehicles.Count() > 1)
+                    {
+                        //print flota
+                    }
+                    else
+                        //printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
+                        printService.PrintReceipt(ConvertCurrentFeeToFeeChargeDto(currentFee, value));
+                    break;
+
+                case "Vida_colectivo_Otros":
+                    printService.LifeReceiptPDF(pol);
+                    break;
+                case "Otros":
+                    printService.LifeReceiptPDF(pol);
+                    break;
+
+                case "Vida_individual":
+                    printService.LifeReceiptPDF(pol);
+                    break;
+
+                case "Combinados_Integrales":
+                    printService.IntegralReceiptPDF(pol);//, integral_uc.province, integral_uc.district);
+                    break;
+            }
         }
 
         private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
@@ -312,6 +344,7 @@ namespace Seggu.Desktop.Forms
             //    }
             //txtImporte.Text = value.ToString();
         }
+
 
     }
 }

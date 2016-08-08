@@ -13,6 +13,8 @@ namespace Seggu.Services.Interfaces
         void EndorseVehiclePDF(EndorseFullDto endorse);
         void EndorseLifePDF(EndorseFullDto endorse);
         void EndorseIntegralPDF(EndorseFullDto endorse, string province, string district);
+        void LifeReceiptPDF(PolicyFullDto pol);
+        void IntegralReceiptPDF(PolicyFullDto pol);
         //void GetNames();
     }
 }
