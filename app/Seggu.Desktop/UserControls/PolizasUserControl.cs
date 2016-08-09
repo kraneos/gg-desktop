@@ -102,12 +102,15 @@ namespace Seggu.Desktop.UserControls
             EmptyControlsDetalleTab();
             PanelCoverage.Controls.Clear();
             txtAsegurado.Text = currentClient.Nombre + @" " + currentClient.Apellido;
+
             NavigateToDetalle();
+
             ClearDataBindings();
             LayoutForm.currentPolicy = new PolicyFullDto();
             cmbCompania_SelectionChangeCommitted(null, null);
             cmbRiesgo_SelectionChangeCommitted(null, null);
             grdFees.Rows.Clear();
+            grpbClientPayDay.Enabled = true;
             cmbPlanes.Enabled = true;
             EnablePage(tabPageSiniestros, false);
             btnPrint.Visible = false;
@@ -207,6 +210,7 @@ namespace Seggu.Desktop.UserControls
                 cp.Notes = "";
                 //cp.Premium = 0;
                 cp.RequestDate = DateTime.Today.ToShortDateString();
+
                 dtpRecibido.Checked = false;
                 dtpEmision.Checked = false;
                 chkOtherClient.Visible = true;
@@ -305,7 +309,7 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.SelectedIndex = grdFees.RowCount > 12 ? -1 : grdFees.RowCount - 1;
             if (grdFees.RowCount != 0)
             {
-                grpbClientPayDay.Enabled = false;
+                grpbClientPayDay.Enabled = LayoutForm.currentPolicy.Id == 0 ? true : false;
                 cmbPlanes.Enabled = false;
                 FormatFeeGrid();
                 CalculateFeeTotals();
@@ -1072,6 +1076,55 @@ namespace Seggu.Desktop.UserControls
         #endregion
 
         #region Files Tab
+        private void AgregarFoto(object sender, EventArgs e)
+        {
+            folderBrowserFotos.Reset();
+            var fdlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = @"Seleccione las fotos que quiere agregar... ",
+                InitialDirectory = "C:\\",
+                Filter = @"All files|*.*",
+                RestoreDirectory = true
+            };
+            if (fdlg.ShowDialog() != DialogResult.OK) return;
+
+            //TODO: mover fotos a un directorio de seggu
+
+            foreach (var files in fdlg.FileNames)
+            {
+                try
+                {
+                    var image = Image.FromFile(files);
+                    if (!imageList1.Images.ContainsKey(files))
+                    {
+                        imageList1.Images.Add(files, image);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            listViewFotos.View = View.LargeIcon;
+            imageList1.ImageSize = new Size(130, 97);
+            listViewFotos.LargeImageList = imageList1;
+            listViewFotos.Items.Clear();
+            for (var j = 0; j < imageList1.Images.Count; j++)
+            {
+                var item = new ListViewItem { ImageIndex = j };
+                listViewFotos.Items.Add(item);
+            }
+        }
+        private void EliminarFoto(object sender, EventArgs e)
+        {
+            if (listViewFotos.FocusedItem == null) return;
+            var focusedItem = listViewFotos.FocusedItem;
+            imageList1.Images.RemoveAt(focusedItem.ImageIndex);
+            listViewFotos.Items.Remove(listViewFotos.FocusedItem);
+        }
+
         //private void LoadAttachedFilesGrid()
         //{
         //    grdFiles.Columns.Clear();
@@ -1091,24 +1144,24 @@ namespace Seggu.Desktop.UserControls
         //        grdFiles.Columns["FilePath"].HeaderText = "Ruta del Archivo";
 
         //    }
-        private void tabPageFiles_DragDrop(object sender, DragEventArgs e)
-        {
+        //private void tabPageFiles_DragDrop(object sender, DragEventArgs e)
+        //{
 
-        }
-        private void grdFiles_DragDrop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                var filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
-                foreach (string fileLoc in filePaths.Where(File.Exists))
-                {
-                    using (TextReader tr = new StreamReader(fileLoc))
-                    {
-                        MessageBox.Show(tr.ReadToEnd());
-                    }
-                }
-            }
-        }
+        //}
+        //private void grdFiles_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        //    {
+        //        var filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+        //        foreach (string fileLoc in filePaths.Where(File.Exists))
+        //        {
+        //            using (TextReader tr = new StreamReader(fileLoc))
+        //            {
+        //                MessageBox.Show(tr.ReadToEnd());
+        //            }
+        //        }
+        //    }
+        //}
         //private void grdFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         //{
         //    string path = grdFiles.SelectedCells[0].Value.ToString();
@@ -1245,53 +1298,5 @@ namespace Seggu.Desktop.UserControls
 
         #endregion
 
-        private void AgregarFoto(object sender, EventArgs e)
-        {
-            folderBrowserFotos.Reset();
-            var fdlg = new OpenFileDialog
-            {
-                Multiselect = true,
-                Title = @"Seleccione las fotos que quiere agregar... ",
-                InitialDirectory = "C:\\",
-                Filter = @"All files|*.*",
-                RestoreDirectory = true
-            };
-            if (fdlg.ShowDialog() != DialogResult.OK) return;
-
-            //TODO: mover fotos a un directorio de seggu
-
-            foreach (var files in fdlg.FileNames)
-            {
-                try
-                {
-                    var image = Image.FromFile(files);
-                    if (!imageList1.Images.ContainsKey(files))
-                    {
-                        imageList1.Images.Add(files, image);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-
-            listViewFotos.View = View.LargeIcon;
-            imageList1.ImageSize = new Size(130, 97);
-            listViewFotos.LargeImageList = imageList1;
-            listViewFotos.Items.Clear();
-            for (var j = 0; j < imageList1.Images.Count; j++)
-            {
-                var item = new ListViewItem { ImageIndex = j };
-                listViewFotos.Items.Add(item);
-            }
-        }
-        private void EliminarFoto(object sender, EventArgs e)
-        {
-            if (listViewFotos.FocusedItem == null) return;
-            var focusedItem = listViewFotos.FocusedItem;
-            imageList1.Images.RemoveAt(focusedItem.ImageIndex);
-            listViewFotos.Items.Remove(listViewFotos.FocusedItem);
-        }
     }
 }
