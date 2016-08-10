@@ -18,13 +18,17 @@ namespace Seggu.Services
         private IProducerService producerService;
         private IFeeService feeService;
         private ICompanyService companyService;
+        private IPolicyService policyService;
 
-        public PrintService(IClientService clientService, IProducerService producerService, IFeeService feeService, ICompanyService companyService)
+        public PrintService(IClientService clientService,
+            IProducerService producerService, IFeeService feeService,
+            ICompanyService companyService, IPolicyService policyService)
         {
             this.clientService = clientService;
             this.producerService = producerService;
             this.feeService = feeService;
             this.companyService = companyService;
+            this.policyService = policyService;
         }
 
         static string currentMonthString = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[DateTime.Today.Month - 1];
@@ -44,7 +48,7 @@ namespace Seggu.Services
             form.SetField("Nacimiento", clientFull.BirthDate);
             form.SetField("Actividad", clientFull.Occupation);
         }
-        private static void PolpulateProducer(ProducerCompanyDto producer, AcroFields form)
+        private static void PopulateProducer(ProducerCompanyDto producer, AcroFields form)
         {
             form.SetField("Productor", producer.Name);
             form.SetField("CódigoCia", producer.Code);
@@ -67,8 +71,9 @@ namespace Seggu.Services
         #endregion
 
         #region Recibo
-        public void PrintReceipt(FeeChargeDto printFee)
+        public void VehicleReceipt(FeeChargeDto printFee)
         {
+            var producer = producerService.GetByIdAndCompanyId(printFee.PolicyId, printFee.CompanyId);
             string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, printFee.FullClientName);
             string PDFPath = Path.Combine(clientPath, printFee.VehiclePlate
                 + " Pol-" + printFee.Items.FirstOrDefault().PolicyNumber
@@ -78,29 +83,66 @@ namespace Seggu.Services
             PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
             AcroFields form1 = stamp1.AcroFields;
 
-            PopulateVehicleReceiptPDF(printFee, form1);
+            PopulateVehicleReceiptHeader(printFee, form1);
+            PopulateVehicleReceipt(printFee, form1);
+            PopulateProducer(producer, form1);
+
             stamp1.Close();
             reader.Close();
-
             System.Diagnostics.Process.Start(PDFPath);
         }
-        private void PopulateVehicleReceiptPDF(FeeChargeDto printFee, AcroFields form1)
+        public void LifeReceiptPDF(FeeDto printFee)
         {
+            var policy = policyService.GetById(printFee.PolicyId);
+            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
+            var producer = producerService.GetByIdAndCompanyId(printFee.PolicyId, printFee.CompanyId);
+            string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, clientFull.Apellido);
+            string PDFPath = Path.Combine(clientPath, "Vida-Pol-" + policy.Número
+                + " cuota-" + printFee.Cuota + ".pdf");
 
+            PdfReader reader = new PdfReader(Resources.Recibo_Vida);
+            PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form1 = stamp1.AcroFields;
+
+            PopulateReceiptHeader(printFee, form1);
+            PopulateLiveReceipt(policy, form1);
+            PopulateProducer(producer, form1);
+
+            stamp1.Close();
+            reader.Close();
+            System.Diagnostics.Process.Start(PDFPath);
+        }
+
+        private void PopulateReceiptHeader(FeeDto printFee, AcroFields form1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void IntegralReceiptPDF(FeeDto printFee)
+        {
+            var pol = policyService.GetById(printFee.PolicyId);
+
+        }
+
+        private void PopulateVehicleReceiptHeader(FeeChargeDto printFee, AcroFields form1)
+        {
             string feeExpirationDate = printFee.PolicyExpirationDate.Day.ToString()
                 + " de " + nextMonthString
                 + " de " + printFee.PolicyExpirationDate.Year.ToString();
             string amountInLetters = Convert.ToDouble(printFee.ChargeTotal).ToSpanishTextWithDecimals();
-            form1.SetField("Recibo", printFee.NºRecibo);
             form1.SetField("Fecha", currentDate);
-
+            form1.SetField("Compañía", printFee.Company);
+            form1.SetField("Recibo", printFee.NºRecibo);
             form1.SetField("RecibimosDe", printFee.FullClientName);
             form1.SetField("TotalLetras", amountInLetters);
+            form1.SetField("PolizaNum", printFee.Items.FirstOrDefault().PolicyNumber);
             form1.SetField("Cuota", printFee.Items.FirstOrDefault().FeeNumber);
             form1.SetField("Cobertura", printFee.Coverage);
             form1.SetField("VálidoHasta", feeExpirationDate);
             form1.SetField("Total", printFee.ChargeTotal.ToString());
-
+        }
+        private void PopulateVehicleReceipt(FeeChargeDto printFee, AcroFields form1)
+        {
             form1.SetField("Asegurado", printFee.FullClientName);
             form1.SetField("Póliza", printFee.Items.FirstOrDefault().PolicyNumber);
             form1.SetField("Vigencia", printFee.PolicyExpirationDate.ToShortDateString());
@@ -109,9 +151,15 @@ namespace Seggu.Services
             form1.SetField("Motor", printFee.VehicleEngine);
             form1.SetField("Chasis", printFee.VehicleChasis);
         }
-        public void LifeReceiptPDF(PolicyFullDto pol) { }
-        public void IntegralReceiptPDF(PolicyFullDto pol) { }
-
+        private void PopulateLiveReceipt(PolicyFullDto policy, AcroFields form)
+        {
+            form.SetField("AsegApellido1", policy.Employees.First().Apellido);
+            form.SetField("AsegNombre1", policy.Employees.First().Nombre);
+            form.SetField("AsegDNI1", policy.Employees.First().DNI);
+            form.SetField("AsegCUIT1", policy.Employees.First().CUIT);
+            form.SetField("AsegNacimiento1", policy.Employees.First().CUIT);
+            form.SetField("AsegSuma1", policy.Employees.First().Suma.ToString());
+        }
         #endregion
 
         #region Polizas
@@ -131,7 +179,7 @@ namespace Seggu.Services
             PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
             PopulatePolicyVehicle(vehicle, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
@@ -154,7 +202,7 @@ namespace Seggu.Services
             PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
             PopulatePolicyIntegral(integral, province, district, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
@@ -175,7 +223,7 @@ namespace Seggu.Services
             PopulatePolicyHeader(policy, form);
             PopulateClient(clientFull, form);
             PopulatePolicyEmployees(policy, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
@@ -271,7 +319,7 @@ namespace Seggu.Services
             PopulateEndorseHeader(endorse, form, company);
             PopulateClient(clientFull, form);
             PopulateEndorseIntegral(integral, province, district, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
@@ -293,7 +341,7 @@ namespace Seggu.Services
             PopulateEndorseHeader(endorse, form, company);
             PopulateClient(clientFull, form);
             PopulateEndorseEmployees(endorse, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp.Close();
             reader.Close();
@@ -315,7 +363,7 @@ namespace Seggu.Services
             PopulateEndorseHeader(endorse, form, company);
             PopulateClient(clientFull, form);
             PopulateEndorseVehicle(endorse, form);
-            PolpulateProducer(producer, form);
+            PopulateProducer(producer, form);
 
             stamp1.Close();
             reader.Close();

@@ -703,7 +703,7 @@ namespace Seggu.Desktop.UserControls
                         return;
                     policyService.SavePolicy(policy);
 
-                    MessageBox.Show("La poliza se ha guardado con exito.");
+                    MessageBox.Show("La póliza se ha guardado con éxito.");
                     //limpiar layout
                     var mainForm = (Layout)FindForm();
                     mainForm.CleanLeftPanel();
