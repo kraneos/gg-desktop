@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Seggu.Desktop.Forms
 {
@@ -52,39 +53,39 @@ namespace Seggu.Desktop.Forms
             InitializeGrdCuotas();
             txtNumeroRecibo.Text = (cashAccountService.GetLastReceiptNumber() + 1).ToString();
         }
-            private void InitializeComboboxes()
-            {
-                cmbActivos.ValueMember = "Id";
-                cmbActivos.DisplayMember = "Name";
-                cmbActivos.DataSource = assetService.GetAll().ToList();
+        private void InitializeComboboxes()
+        {
+            cmbActivos.ValueMember = "Id";
+            cmbActivos.DisplayMember = "Name";
+            cmbActivos.DataSource = assetService.GetAll().ToList();
 
-                cmbCobrador.ValueMember = "Id";
-                cmbCobrador.DisplayMember = "Name";
-                cmbCobrador.DataSource = producerService.GetCollectors().ToList();
-            }
-            public void InitializeGrdCuotas()
-            {
-                grdCuotas.DataSource = feeService.GetByPolicyId(policyId).ToList();
-                string policyNumber = grdCuotas.Rows[0].Cells["Nro_Póliza"].Value.ToString();
-                lblPolicyNumber.Text = string.IsNullOrEmpty(policyNumber) ? "Sin Nº" : policyNumber;
-                lblClient.Text = grdCuotas.Rows[0].Cells["Cliente"].Value.ToString();
-                FormatGridCuotas();
-                grdCuotas.Select();
-            }
-                private void FormatGridCuotas()
-                {
-                    grdCuotas.Columns["Id"].Visible = false;
-                    grdCuotas.Columns["Cliente"].Visible = false;
-                    grdCuotas.Columns["Nro_Póliza"].Visible = false;
-                    grdCuotas.Columns["PolicyId"].Visible = false;
-                    grdCuotas.Columns["FeeSelectionId"].Visible = false;
-                    grdCuotas.Columns["CompanyId"].Visible = false;
-                    grdCuotas.Columns["Annulated"].Visible = false;
-                    grdCuotas.Columns["EndorseId"].Visible = false;
-                    grdCuotas.Columns["Saldo"].DefaultCellStyle.Format = "c2";
-                    grdCuotas.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
-                    grdCuotas.Columns["Valor"].DefaultCellStyle.Format = "c2";
-                }
+            cmbCobrador.ValueMember = "Id";
+            cmbCobrador.DisplayMember = "Name";
+            cmbCobrador.DataSource = producerService.GetCollectors().ToList();
+        }
+        public void InitializeGrdCuotas()
+        {
+            grdCuotas.DataSource = feeService.GetByPolicyId(policyId).ToList();
+            string policyNumber = grdCuotas.Rows[0].Cells["Nro_Póliza"].Value.ToString();
+            lblPolicyNumber.Text = string.IsNullOrEmpty(policyNumber) ? "Sin Nº" : policyNumber;
+            lblClient.Text = grdCuotas.Rows[0].Cells["Cliente"].Value.ToString();
+            FormatGridCuotas();
+            grdCuotas.Select();
+        }
+        private void FormatGridCuotas()
+        {
+            grdCuotas.Columns["Id"].Visible = false;
+            grdCuotas.Columns["Cliente"].Visible = false;
+            grdCuotas.Columns["Nro_Póliza"].Visible = false;
+            grdCuotas.Columns["PolicyId"].Visible = false;
+            grdCuotas.Columns["FeeSelectionId"].Visible = false;
+            grdCuotas.Columns["CompanyId"].Visible = false;
+            grdCuotas.Columns["Annulated"].Visible = false;
+            grdCuotas.Columns["EndorseId"].Visible = false;
+            grdCuotas.Columns["Saldo"].DefaultCellStyle.Format = "c2";
+            grdCuotas.Columns["Pago_Cía"].DefaultCellStyle.Format = "c2";
+            grdCuotas.Columns["Valor"].DefaultCellStyle.Format = "c2";
+        }
 
         private void btnCobrar_Click(object sender, EventArgs e)
         {
@@ -102,9 +103,7 @@ namespace Seggu.Desktop.Forms
                             MessageBox.Show("Verifique el estado de la cuota anterior");
                     }
                     else
-                    {
                         CollectFee();
-                    }
                 }
                 else
                     MessageBox.Show("Verifique el estado de la cuota seleccionada");
@@ -112,73 +111,74 @@ namespace Seggu.Desktop.Forms
         }
 
         private void CollectFee()
+        {
+            if (currentFee.Saldo != 0)
             {
-                if (currentFee.Saldo != 0)
-                {
-                    decimal value = Convert.ToDecimal(txtImporte.Text);
-                    bool valueIsSameAsBalance = (currentFee.Saldo == value);
-                    bool existsNextRow = (grdCuotas.CurrentRow.Index + 1) < grdCuotas.Rows.Count;
-                    if (!existsNextRow && !valueIsSameAsBalance)
-                        MessageBox.Show("La última cuota debe pagarse el monto exacto" +
-                                " que figura en el saldo!\n $ " + currentFee.Saldo);
-                    else
-                    {
-                        if (currentFee.Estado == "Sin Cobertura")
-                            MessageBox.Show("Recuerde enviar Mantener Cubierto a la Compañía");
-                        UpdateFeeAndSaveCollection();
-                    }
-                }
+                cobro = Convert.ToDecimal(txtImporte.Text);
+                bool valueIsSameAsBalance = (currentFee.Saldo == cobro);
+                bool existsNextRow = (grdCuotas.CurrentRow.Index + 1) < grdCuotas.Rows.Count;
+                if (!existsNextRow && !valueIsSameAsBalance)
+                    MessageBox.Show("La última cuota debe pagarse el monto exacto" +
+                            " que figura en el saldo!\n $ " + currentFee.Saldo);
                 else
-                    MessageBox.Show("Verifique su acción, la cuota ya está pagada");
+                {
+                    if (currentFee.Estado == "Sin Cobertura")
+                        MessageBox.Show("Recuerde enviar Mantener Cubierto a la Compañía");
+                    UpdateFeeAndSaveCollection();
+                }
             }
-            private void UpdateFeeAndSaveCollection()
+            else
+                MessageBox.Show("Verifique su acción, la cuota ya está pagada");
+        }
+        private void UpdateFeeAndSaveCollection()
+        {
+            PrepareFeeToUpdate();
+            feeService.Update(currentFee);
+            SaveFeeInCashAccount(currentFee);            
+        }
+        private void PrepareFeeToUpdate()
+        {
+            if (cobro == currentFee.Saldo)
+                currentFee.Estado = "Pagado";
+            else
+                currentFee.Estado = "Observado";
+            currentFee.Saldo -= cobro;
+        }
+        private void SaveFeeInCashAccount(FeeDto fee)
+        {
+            AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
+            decimal AssetTotal = selectedAsset.Amount;
+
+            CashAccountDto obj = new CashAccountDto();
+            obj.Amount = cobro;
+            obj.AssetId = (int)cmbActivos.SelectedValue;
+            obj.Date = DateTime.Now;
+            obj.LedgerAccountId = ledgerAccountId;//"cobranza"
+            obj.Description = "Cuota #" + currentFee.Cuota + ", Póliza #" +
+                currentFee.Nro_Póliza;
+            obj.ReceiptNumber = txtNumeroRecibo.Text;
+            obj.ProducerId = (int)cmbCobrador.SelectedValue;
+            obj.Balance = selectedAsset.Amount;
+            obj.FeeId = fee.Id;
+
+            selectedAsset.Amount = AssetTotal + cobro;
+            try
             {
-                PrepareFeeToUpdate();
-                feeService.Update(currentFee);
-                SaveFeeInCashAccount(currentFee);            
+                assetService.Update(selectedAsset);
+                this.cashAccountService.Save(obj);
+                MessageBox.Show("La cobranza se ha guardado con éxito.");
+                grdCuotas.Refresh();
+                txtNumeroRecibo.Text = (cashAccountService.GetLastReceiptNumber() + 1).ToString();
             }
-                private void PrepareFeeToUpdate()
-                {
-                    if (cobro >= currentFee.Saldo)
-                        currentFee.Estado = "Pagado";
-                    else
-                        currentFee.Estado = "Observado";
-                    currentFee.Saldo -= cobro;
-                }
-                private void SaveFeeInCashAccount(FeeDto fee)
-                {
-                    AssetDto selectedAsset = (AssetDto)cmbActivos.SelectedItem;
-                    decimal AssetTotal = selectedAsset.Amount;
-
-                    CashAccountDto obj = new CashAccountDto();
-                    obj.Amount = cobro;
-                    obj.AssetId = (int)cmbActivos.SelectedValue;
-                    obj.Date = DateTime.Now;
-                    obj.LedgerAccountId = ledgerAccountId;//"cobranza"
-                    obj.Description = "Cuota #" + currentFee.Cuota + ", Póliza #" +
-                        currentFee.Nro_Póliza;
-                    obj.ReceiptNumber = txtNumeroRecibo.Text;
-                    obj.ProducerId = (int)cmbCobrador.SelectedValue;
-
-                    selectedAsset.Amount = AssetTotal + cobro;
-                    assetService.Update(selectedAsset);
-
-                    obj.Balance = selectedAsset.Amount;
-                    obj.FeeId = fee.Id;
-                    try
-                    {
-                        this.cashAccountService.Save(obj);
-                        MessageBox.Show("La cobranza se ha guardado con éxito.");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                            @"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo técnico." +
-                            ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
-                            ex.InnerException.Message + "\nStackTrace: " +
-                            ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    @"Una excepcion ha llegado a la aplicacion. Por favor copiar el siguiente mensaje y consultar al equipo técnico." +
+                    ex.Message + "\n" + ex.StackTrace + (ex.InnerException == null ? string.Empty : "\nInner Exception: " +
+                    ex.InnerException.Message + "\nStackTrace: " +
+                    ex.InnerException.StackTrace), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private FeeChargeDto ConvertCurrentFeeToFeeChargeDto(FeeDto currentFee, decimal value)
         {
@@ -212,12 +212,6 @@ namespace Seggu.Desktop.Forms
             };
             return dto;
         }
-        private void ClearForm()
-                    {
-                        txtImporte.Clear();
-                        txtNumeroRecibo.Clear();
-                        grdCuotas.Refresh();
-                    }
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
@@ -261,34 +255,6 @@ namespace Seggu.Desktop.Forms
         {
             currentFee = (FeeDto)grdCuotas.CurrentRow.DataBoundItem;
             txtImporte.Text = currentFee.Saldo.ToString("N2");
-
-            ////para multiseleccionar
-            //decimal value = 0;
-            //foreach (DataGridViewRow row in grdCuotas.SelectedRows)
-            //{
-            //    var fee = (FeeDto)row.DataBoundItem;
-            //    value += fee.Saldo;
-            //}
-            //txtImporte.Text = value.ToString("N2");
-
-            //string[] vencimiento_cuotas = new string[grdCuotas.SelectedRows.Count];
-            //decimal value = 0;
-            //int index = 0;
-            //foreach (DataGridViewRow row in grdCuotas.SelectedRows)
-            //{
-            //    var obj = (FeeDto)row.DataBoundItem;
-            //    value += obj.Valor;
-            //    vencimiento_cuotas[index] = obj.Venc_Cuota;
-            //    index++;
-            //}
-            ////para muliseleccionar sólo las de un mismo vencimiento
-            //foreach (string v in vencimiento_cuotas)
-            //    if (v != vencimiento_cuotas[0])
-            //    {
-            //        grdCuotas.ClearSelection();
-            //        return;
-            //    }
-            //txtImporte.Text = value.ToString();
         }
         
         #region Validaciones
@@ -332,26 +298,17 @@ namespace Seggu.Desktop.Forms
         }
         private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ValidarNumeros(e);
+            ValidarNumeros((TextBox)sender, e);
         }
-        public void ValidarNumeros(KeyPressEventArgs e)
+        public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
         {
-            if (char.IsDigit(e.KeyChar) == true)
+            var c = e.KeyChar;
+            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            if (c == 46 && sender.Text.IndexOf(decimalSeparator) != -1)
             {
+                e.Handled = true;
             }
-            //codigo Ascii para el guion 
-            else if (e.KeyChar == 45)
-            {
-            }
-            //Codigo Ascii para el Backspace
-            else if (e.KeyChar == '\b')
-            {
-            }
-            //Codigo Ascii para el Space
-            else if (e.KeyChar == 32)
-            {
-            }
-            else
+            else if (!char.IsDigit(c) && c != 8 && c != 46)
             {
                 e.Handled = true;
             }
@@ -359,7 +316,7 @@ namespace Seggu.Desktop.Forms
         private bool ReceiptExists()
         {
             var receipt = this.txtNumeroRecibo.Text;
-            return this.cashAccountService.ReceiptExists(receipt);//SegguContainer.Instance.CashAccounts.Any(x => x.ReceiptNumber == receipt);
+            return this.cashAccountService.ReceiptExists(receipt);
         }
         private bool ValidatePrevFeeState(FeeDto prevFee)
         {
@@ -479,7 +436,41 @@ namespace Seggu.Desktop.Forms
         //    nextFee.Saldo = nextFee.Valor;
         //    feeService.Update(nextFee);
         //}
+        //private void ClearForm()
+        //{
+        //    txtImporte.Clear();
+        //    txtNumeroRecibo.Clear();
+        //    grdCuotas.Refresh();
+        //}
 
+
+        ////para multiseleccionar
+        //decimal value = 0;
+        //foreach (DataGridViewRow row in grdCuotas.SelectedRows)
+        //{
+        //    var fee = (FeeDto)row.DataBoundItem;
+        //    value += fee.Saldo;
+        //}
+        //txtImporte.Text = value.ToString("N2");
+
+        //string[] vencimiento_cuotas = new string[grdCuotas.SelectedRows.Count];
+        //decimal value = 0;
+        //int index = 0;
+        //foreach (DataGridViewRow row in grdCuotas.SelectedRows)
+        //{
+        //    var obj = (FeeDto)row.DataBoundItem;
+        //    value += obj.Valor;
+        //    vencimiento_cuotas[index] = obj.Venc_Cuota;
+        //    index++;
+        //}
+        ////para muliseleccionar sólo las de un mismo vencimiento
+        //foreach (string v in vencimiento_cuotas)
+        //    if (v != vencimiento_cuotas[0])
+        //    {
+        //        grdCuotas.ClearSelection();
+        //        return;
+        //    }
+        //txtImporte.Text = value.ToString();
         #endregion
     }
 }
