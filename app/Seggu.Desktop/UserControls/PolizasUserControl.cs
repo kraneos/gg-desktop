@@ -1261,15 +1261,11 @@ namespace Seggu.Desktop.UserControls
             if (decimal.TryParse(txtNetoCobrar.Text, out netoCobrar))
             {
                 if (netoCobrar <= 0)
-                {
                     errorProvider1.SetError(txtNetoCobrar, "El valor neto a cobrar debe ser mayor a 0.");
-                    //e.Cancel = true;
-                }
             }
             else
             {
                 errorProvider1.SetError(txtNetoCobrar, "El valor neto a cobrar debe ser un numero valido.");
-                //e.Cancel = true;
             }
         }
         private void txtPaymentDay_Validated(object sender, EventArgs e)

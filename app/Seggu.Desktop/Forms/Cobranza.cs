@@ -1,5 +1,7 @@
 ﻿using Seggu.Dtos;
 using Seggu.Domain;
+using Seggu.Helpers;
+
 using Seggu.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ namespace Seggu.Desktop.Forms
 {
     public partial class Cobranza : Form
     {
+        private IClientService clientService;
         private IFeeService feeService;
         private IProducerService producerService;
         private ILedgerAccountService ledgerAccountService;
@@ -26,12 +29,13 @@ namespace Seggu.Desktop.Forms
         private int ledgerAccountId;
         private decimal cobro;
 
-        public Cobranza(IFeeService feeService, IProducerService producerService
+        public Cobranza(IClientService clientService, IFeeService feeService, IProducerService producerService
             , ILedgerAccountService ledgerAccountService, IAssetService assetService
             , ICashAccountService cashAccountService, IPrintService printService
             , ICollectionService collectionService, IVehicleService vehicleService
             , IPolicyService policyService, IRiskService riskService, int policyId)
         {
+            this.clientService = clientService;
             this.policyId = policyId;
             this.feeService = feeService;
             this.producerService = producerService;
@@ -212,6 +216,44 @@ namespace Seggu.Desktop.Forms
             };
             return dto;
         }
+        private FeeLifeDto CreateLifeDto()
+        {
+            var client = clientService.GetShortDtoById(currentFee.ClientId);
+            
+            var dto = new FeeLifeDto();
+            dto.BeneficiaryCUIT = "23452345234";
+            dto.BeneficiaryKinship = "hijo";
+            dto.BeneficiaryName = "Carlitos";
+            dto.BeneficiaryLastName = "way";
+            dto.BeneficiaryDNI = "979879";
+            dto.BeneficiaryPercent = "60%";
+
+            dto.ClientBirthDate = client.BirthDate;
+            dto.ClientCUIT = client.CUIT;
+            dto.ClientDNI = client.Dni;
+            dto.ClientEnsuranceValue = "222222";
+            dto.ClientLastName = client.Apellido;
+            dto.ClientName = client.Nombre;
+
+            dto.CollectType = "Directa";
+            dto.CompanyName = "telodebo";
+            dto.EmployerCompanyName = "empresa X";
+            dto.EmployerCUIT = "falopa cuit";
+            dto.EmployerDNI = "falopa dni";
+            dto.EmployerLastName = "falopa apellid";
+            dto.EmployerName = "falop Nombre";
+            string feesCount = this.feeService.GetByPolicyId(currentFee.PolicyId).Count().ToString();
+            dto.FeeCount = feesCount;
+            dto.FeeNumber = currentFee.Cuota;
+            dto.PolicyNumber = lblPolicyNumber.Text;
+            dto.Producer = cmbCobrador.Text;
+            dto.ProducerCode = "te lo debo";
+            dto.ProducerComission = "5%" ;
+            dto.ReceiptNumber = txtNumeroRecibo.Text;
+            dto.Value = currentFee.Valor.ToString();
+            dto.ValueInWords = Convert.ToDouble(currentFee.Valor).ToSpanishTextWithDecimals();
+            return dto;
+        }
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
@@ -234,14 +276,14 @@ namespace Seggu.Desktop.Forms
                         break;
 
                     case "Vida_colectivo_Otros":
-                        printService.LifeReceiptPDF(currentFee);
+                        printService.LifeReceiptPDF(CreateLifeDto());
                         break;
                     case "Otros":
-                        printService.LifeReceiptPDF(currentFee);
+                        printService.LifeReceiptPDF(CreateLifeDto());
                         break;
 
                     case "Vida_individual":
-                        printService.LifeReceiptPDF(currentFee);
+                        printService.LifeReceiptPDF(CreateLifeDto());
                         break;
 
                     case "Combinados_Integrales":

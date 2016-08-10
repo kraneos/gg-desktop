@@ -100,6 +100,7 @@
     <Compile Include="FeeChargeDto.cs" />
     <Compile Include="FeeDto.cs" />
     <Compile Include="FeeIndexDto.cs" />
+    <Compile Include="FeeLifeDto.cs" />
     <Compile Include="FeeSelectionDto.cs" />
     <Compile Include="IntegralDto.cs" />
     <Compile Include="KeyValueDto.cs" />

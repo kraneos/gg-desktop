@@ -73,49 +73,78 @@ namespace Seggu.Services
         #region Recibo
         public void VehicleReceipt(FeeChargeDto printFee)
         {
-            var producer = producerService.GetByIdAndCompanyId(printFee.PolicyId, printFee.CompanyId);
             string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, printFee.FullClientName);
             string PDFPath = Path.Combine(clientPath, printFee.VehiclePlate
                 + " Pol-" + printFee.Items.FirstOrDefault().PolicyNumber
                 + " cuota-" + printFee.Items.FirstOrDefault().FeeNumber + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Plantilla_Recibo_SeGGu);
-            PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
-            AcroFields form1 = stamp1.AcroFields;
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
 
-            PopulateVehicleReceiptHeader(printFee, form1);
-            PopulateVehicleReceipt(printFee, form1);
-            PopulateProducer(producer, form1);
+            PopulateVehicleReceiptHeader(printFee, form);
+            PopulateVehicleReceipt(printFee, form);
 
-            stamp1.Close();
+            stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
-        public void LifeReceiptPDF(FeeDto printFee)
+        public void LifeReceiptPDF(FeeLifeDto printFee)
         {
-            var policy = policyService.GetById(printFee.PolicyId);
-            ClientFullDto clientFull = clientService.GetById(policy.ClientId);
-            var producer = producerService.GetByIdAndCompanyId(printFee.PolicyId, printFee.CompanyId);
-            string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, clientFull.Apellido);
-            string PDFPath = Path.Combine(clientPath, "Vida-Pol-" + policy.Número
-                + " cuota-" + printFee.Cuota + ".pdf");
+            string clientPath = PathBuilder.ValidateClientPath("Recibos", currentDate, printFee.ClientLastName);
+            string PDFPath = Path.Combine(clientPath, "Vida-Pol-" + printFee.PolicyNumber
+                + " cuota-" + printFee.FeeNumber + ".pdf");
 
             PdfReader reader = new PdfReader(Resources.Recibo_Vida);
-            PdfStamper stamp1 = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
-            AcroFields form1 = stamp1.AcroFields;
+            PdfStamper stamp = new PdfStamper(reader, new FileStream(PDFPath, FileMode.Create));
+            AcroFields form = stamp.AcroFields;
 
-            PopulateReceiptHeader(printFee, form1);
-            PopulateLiveReceipt(policy, form1);
-            PopulateProducer(producer, form1);
+            form.SetField("fecha", currentDate);
+            form.SetField("Compañía", printFee.CompanyName);
+            form.SetField("Recibo", printFee.ReceiptNumber);
+            form.SetField("PolizaNum", printFee.PolicyNumber);
+            form.SetField("Cuota", printFee.FeeNumber);
+            form.SetField("Total", printFee.Value);
+            form.SetField("TotalLetras", printFee.ValueInWords);
 
-            stamp1.Close();
+            form.SetField("AsegApellido", printFee.ClientLastName);
+            form.SetField("AsegNombre", printFee.ClientName);
+            form.SetField("AsegDNI", printFee.ClientDNI);
+            form.SetField("AsegCUIT", printFee.ClientCUIT);
+            form.SetField("AsegNacimiento", printFee.ClientBirthDate);
+            form.SetField("AsegSuma", printFee.ClientEnsuranceValue);
+
+            form.SetField("EmpresaEmpleador", printFee.EmployerCompanyName);
+            form.SetField("ApellidoEmpleador", printFee.EmployerLastName);
+            form.SetField("NombreEmpleador", printFee.EmployerName);
+            form.SetField("DNIEmpleador", printFee.EmployerDNI);
+            form.SetField("CUITEmpleador", printFee.EmployerCUIT);
+
+            form.SetField("BenefApellido1", printFee.BeneficiaryLastName);
+            form.SetField("BenefNombre1", printFee.BeneficiaryName);
+            form.SetField("BenefDNI1", printFee.BeneficiaryDNI);
+            form.SetField("BenefCUIT1", printFee.BeneficiaryCUIT);
+            form.SetField("BenefParentesco1", printFee.BeneficiaryKinship);
+            form.SetField("Benef%1", printFee.BeneficiaryPercent);
+
+            form.SetField("Productor", printFee.Producer);
+            form.SetField("CódigoCia", printFee.ProducerCode);
+            form.SetField("Comisión", printFee.ProducerComission);
+            form.SetField("Cobranza", printFee.CollectType);
+            form.SetField("Cuotas", printFee.FeeCount);
+
+
+            //PopulateReceiptHeader(printFee, form);
+            //PopulateLiveReceipt(policy, form);
+            //PopulateProducer(producer, form);
+
+            stamp.Close();
             reader.Close();
             System.Diagnostics.Process.Start(PDFPath);
         }
 
-        private void PopulateReceiptHeader(FeeDto printFee, AcroFields form1)
+        private void PopulateReceiptHeader(PolicyFullDto pol, AcroFields form)
         {
-            throw new NotImplementedException();
         }
 
         public void IntegralReceiptPDF(FeeDto printFee)
@@ -124,22 +153,22 @@ namespace Seggu.Services
 
         }
 
-        private void PopulateVehicleReceiptHeader(FeeChargeDto printFee, AcroFields form1)
+        private void PopulateVehicleReceiptHeader(FeeChargeDto printFee, AcroFields form)
         {
             string feeExpirationDate = printFee.PolicyExpirationDate.Day.ToString()
                 + " de " + nextMonthString
                 + " de " + printFee.PolicyExpirationDate.Year.ToString();
             string amountInLetters = Convert.ToDouble(printFee.ChargeTotal).ToSpanishTextWithDecimals();
-            form1.SetField("Fecha", currentDate);
-            form1.SetField("Compañía", printFee.Company);
-            form1.SetField("Recibo", printFee.NºRecibo);
-            form1.SetField("RecibimosDe", printFee.FullClientName);
-            form1.SetField("TotalLetras", amountInLetters);
-            form1.SetField("PolizaNum", printFee.Items.FirstOrDefault().PolicyNumber);
-            form1.SetField("Cuota", printFee.Items.FirstOrDefault().FeeNumber);
-            form1.SetField("Cobertura", printFee.Coverage);
-            form1.SetField("VálidoHasta", feeExpirationDate);
-            form1.SetField("Total", printFee.ChargeTotal.ToString());
+            form.SetField("Fecha", currentDate);
+            form.SetField("Compañía", printFee.Company);
+            form.SetField("Recibo", printFee.NºRecibo);
+            form.SetField("RecibimosDe", printFee.FullClientName);
+            form.SetField("TotalLetras", amountInLetters);
+            form.SetField("PolizaNum", printFee.Items.FirstOrDefault().PolicyNumber);
+            form.SetField("Cuota", printFee.Items.FirstOrDefault().FeeNumber);
+            form.SetField("Cobertura", printFee.Coverage);
+            form.SetField("VálidoHasta", feeExpirationDate);
+            form.SetField("Total", printFee.ChargeTotal.ToString());
         }
         private void PopulateVehicleReceipt(FeeChargeDto printFee, AcroFields form1)
         {

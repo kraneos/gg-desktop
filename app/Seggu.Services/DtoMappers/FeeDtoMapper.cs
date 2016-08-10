@@ -13,6 +13,7 @@ namespace Seggu.Services.DtoMappers
 
             var dto = new FeeDto();
             dto.Cliente = x.Policy.Client.LastName + ", " + x.Policy.Client.FirstName;
+            dto.ClientId = (int)x.Policy.ClientId;
             dto.Nro_Póliza = x.Policy.Number;
             dto.Nro_Endoso = x.Endorse == null ? string.Empty : x.Endorse.Number;
             dto.CompanyId = (int)x.Policy.Risk.CompanyId;
