@@ -13,7 +13,7 @@ namespace Seggu.Services.DtoMappers
             dto.Id = (int)obj.Id;
             dto.Coverages = obj.Coverages.OrderBy(x => x.Name).Select(c => CoverageDtoMapper.GetDto(c)).ToList();
             dto.PolicyId = ((int?)obj.PolicyId) ?? default(int);
-            dto.EndorseId = ((int?)obj.EndorseId) ?? default(int);
+            dto.EndorseId = ((int?)obj.EndorseId);
             dto.locality = obj.Address.Locality.Name;
             return dto;
         }
