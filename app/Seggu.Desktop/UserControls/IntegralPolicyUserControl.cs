@@ -27,7 +27,7 @@ namespace Seggu.Desktop.UserControls
         private IEnumerable<LocalityDto> filteredLocalities;
 
         private List<IntegralDto> integralList = new List<IntegralDto>();
-        private IntegralDto currentIntegral;
+        private IntegralDto currentIntegral = new IntegralDto();
         private List<CoverageDto> coverages = new List<CoverageDto>();
 
         public string province;
