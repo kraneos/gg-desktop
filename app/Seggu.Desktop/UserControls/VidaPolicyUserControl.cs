@@ -33,7 +33,7 @@ namespace Seggu.Desktop.UserControls
             LoadCmbCoverages(riskId);
 
             currentPolicy = MainForm.currentPolicy;
-            if (MainForm.currentPolicy.Employees == null || !MainForm.currentPolicy.Employees.Any()) return;
+            //if (MainForm.currentPolicy.Employees == null || !MainForm.currentPolicy.Employees.Any()) return;
 
             LoadEmployeeGrid();
         }
@@ -43,7 +43,7 @@ namespace Seggu.Desktop.UserControls
 
             currentEndorse = MainForm.currentEndorse;
             currentPolicy = MainForm.currentPolicy;
-            if (MainForm.currentEndorse.Employees == null || !MainForm.currentEndorse.Employees.Any()) return;
+            //if (MainForm.currentEndorse.Employees == null || !MainForm.currentEndorse.Employees.Any()) return;
 
             LoadEmployeeGrid();
         }
