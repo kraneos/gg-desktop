@@ -100,9 +100,10 @@ namespace Seggu.Desktop.UserControls
         }
         public void PopulatePolicyIntegral()
         {
-            if ( MainForm.currentPolicy.Integrals == null || MainForm.currentPolicy.Integrals.Count() == 0 ) return;
+            if ( MainForm.currentPolicy.Integrals == null ) return;
 
-            integralList = MainForm.currentPolicy.Integrals.ToList();
+            integralList = MainForm.currentPolicy.Integrals
+                .Where(v => v.EndorseId==null).ToList();
             currentIntegral = integralList.FirstOrDefault();
             if (currentIntegral.Address != null)
                 PopulateAddress(currentIntegral.Address);
