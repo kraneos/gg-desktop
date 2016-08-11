@@ -61,6 +61,10 @@
             this.label55 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
             this.label60 = new System.Windows.Forms.Label();
+            this.tabPageArchivos = new System.Windows.Forms.TabPage();
+            this.btnEliminarFoto = new System.Windows.Forms.Button();
+            this.btnAgregarFoto = new System.Windows.Forms.Button();
+            this.listViewFotos = new System.Windows.Forms.ListView();
             this.tabPagePlanes = new System.Windows.Forms.TabPage();
             this.txtNetoPagar = new System.Windows.Forms.TextBox();
             this.txtTotalSaldo = new System.Windows.Forms.TextBox();
@@ -95,17 +99,13 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdbDistintos = new System.Windows.Forms.RadioButton();
             this.rdbIguales = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpbClientPayDay = new System.Windows.Forms.GroupBox();
             this.txtPaymentDay = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.lblPlanAsegurado = new System.Windows.Forms.Label();
             this.lblPlanCia = new System.Windows.Forms.Label();
             this.cmbPlanAsegurado = new System.Windows.Forms.ComboBox();
             this.cmbPlanCia = new System.Windows.Forms.ComboBox();
-            this.tabPageArchivos = new System.Windows.Forms.TabPage();
-            this.btnEliminarFoto = new System.Windows.Forms.Button();
-            this.btnAgregarFoto = new System.Windows.Forms.Button();
-            this.listViewFotos = new System.Windows.Forms.ListView();
             this.tabPageSiniestros = new System.Windows.Forms.TabPage();
             this.tctrlSiniestrosDatos = new System.Windows.Forms.TabControl();
             this.TabPage_Datos = new System.Windows.Forms.TabPage();
@@ -212,11 +212,11 @@
             this.folderBrowserFotos = new System.Windows.Forms.FolderBrowserDialog();
             this.tctrlPolizasDatos.SuspendLayout();
             this.tabPageDatos.SuspendLayout();
+            this.tabPageArchivos.SuspendLayout();
             this.tabPagePlanes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFees)).BeginInit();
             this.groupBox4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tabPageArchivos.SuspendLayout();
+            this.grpbClientPayDay.SuspendLayout();
             this.tabPageSiniestros.SuspendLayout();
             this.tctrlSiniestrosDatos.SuspendLayout();
             this.TabPage_Datos.SuspendLayout();
@@ -555,6 +555,46 @@
             this.label60.TabIndex = 27;
             this.label60.Text = "Compañia";
             // 
+            // tabPageArchivos
+            // 
+            this.tabPageArchivos.Controls.Add(this.btnEliminarFoto);
+            this.tabPageArchivos.Controls.Add(this.btnAgregarFoto);
+            this.tabPageArchivos.Controls.Add(this.listViewFotos);
+            this.tabPageArchivos.Location = new System.Drawing.Point(4, 22);
+            this.tabPageArchivos.Name = "tabPageArchivos";
+            this.tabPageArchivos.Size = new System.Drawing.Size(987, 393);
+            this.tabPageArchivos.TabIndex = 5;
+            this.tabPageArchivos.Text = "Fotos";
+            this.tabPageArchivos.UseVisualStyleBackColor = true;
+            // 
+            // btnEliminarFoto
+            // 
+            this.btnEliminarFoto.Location = new System.Drawing.Point(84, 3);
+            this.btnEliminarFoto.Name = "btnEliminarFoto";
+            this.btnEliminarFoto.Size = new System.Drawing.Size(75, 31);
+            this.btnEliminarFoto.TabIndex = 2;
+            this.btnEliminarFoto.Text = "Eliminar";
+            this.btnEliminarFoto.UseVisualStyleBackColor = true;
+            this.btnEliminarFoto.Click += new System.EventHandler(this.EliminarFoto);
+            // 
+            // btnAgregarFoto
+            // 
+            this.btnAgregarFoto.Location = new System.Drawing.Point(3, 3);
+            this.btnAgregarFoto.Name = "btnAgregarFoto";
+            this.btnAgregarFoto.Size = new System.Drawing.Size(75, 31);
+            this.btnAgregarFoto.TabIndex = 1;
+            this.btnAgregarFoto.Text = "Agregar";
+            this.btnAgregarFoto.UseVisualStyleBackColor = true;
+            this.btnAgregarFoto.Click += new System.EventHandler(this.AgregarFoto);
+            // 
+            // listViewFotos
+            // 
+            this.listViewFotos.Location = new System.Drawing.Point(3, 40);
+            this.listViewFotos.Name = "listViewFotos";
+            this.listViewFotos.Size = new System.Drawing.Size(981, 346);
+            this.listViewFotos.TabIndex = 0;
+            this.listViewFotos.UseCompatibleStateImageBehavior = false;
+            // 
             // tabPagePlanes
             // 
             this.tabPagePlanes.Controls.Add(this.txtNetoPagar);
@@ -588,7 +628,7 @@
             this.tabPagePlanes.Controls.Add(this.cmbPlanes);
             this.tabPagePlanes.Controls.Add(this.grdFees);
             this.tabPagePlanes.Controls.Add(this.groupBox4);
-            this.tabPagePlanes.Controls.Add(this.groupBox1);
+            this.tabPagePlanes.Controls.Add(this.grpbClientPayDay);
             this.tabPagePlanes.Controls.Add(this.lblPlanAsegurado);
             this.tabPagePlanes.Controls.Add(this.lblPlanCia);
             this.tabPagePlanes.Controls.Add(this.cmbPlanAsegurado);
@@ -633,7 +673,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(335, 358);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(73, 17);
+            this.label11.Size = new System.Drawing.Size(74, 17);
             this.label11.TabIndex = 54;
             this.label11.Text = "Total Saldo";
             // 
@@ -694,7 +734,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(590, 358);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.Size = new System.Drawing.Size(70, 17);
             this.label5.TabIndex = 49;
             this.label5.Text = "Total a Cía";
             // 
@@ -814,7 +854,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 77);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(26, 17);
+            this.label13.Size = new System.Drawing.Size(27, 17);
             this.label13.TabIndex = 27;
             this.label13.Text = "IVA";
             // 
@@ -823,7 +863,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 17);
+            this.label4.Size = new System.Drawing.Size(97, 17);
             this.label4.TabIndex = 25;
             this.label4.Text = "Premio con IVA";
             // 
@@ -859,7 +899,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(177, 358);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(92, 17);
+            this.label20.Size = new System.Drawing.Size(93, 17);
             this.label20.TabIndex = 67867;
             this.label20.Text = "Total a Cobrar";
             // 
@@ -945,16 +985,16 @@
             this.rdbIguales.UseVisualStyleBackColor = true;
             this.rdbIguales.CheckedChanged += new System.EventHandler(this.rdbIguales_CheckedChanged);
             // 
-            // groupBox1
+            // grpbClientPayDay
             // 
-            this.groupBox1.Controls.Add(this.txtPaymentDay);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Location = new System.Drawing.Point(810, 27);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 56);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "cobro al cliente";
+            this.grpbClientPayDay.Controls.Add(this.txtPaymentDay);
+            this.grpbClientPayDay.Controls.Add(this.label9);
+            this.grpbClientPayDay.Location = new System.Drawing.Point(810, 27);
+            this.grpbClientPayDay.Name = "grpbClientPayDay";
+            this.grpbClientPayDay.Size = new System.Drawing.Size(119, 56);
+            this.grpbClientPayDay.TabIndex = 10;
+            this.grpbClientPayDay.TabStop = false;
+            this.grpbClientPayDay.Text = "cobro al cliente";
             // 
             // txtPaymentDay
             // 
@@ -1042,53 +1082,13 @@
             this.cmbPlanCia.TabIndex = 8;
             this.cmbPlanCia.Visible = false;
             // 
-            // tabPageArchivos
-            // 
-            this.tabPageArchivos.Controls.Add(this.btnEliminarFoto);
-            this.tabPageArchivos.Controls.Add(this.btnAgregarFoto);
-            this.tabPageArchivos.Controls.Add(this.listViewFotos);
-            this.tabPageArchivos.Location = new System.Drawing.Point(4, 26);
-            this.tabPageArchivos.Name = "tabPageArchivos";
-            this.tabPageArchivos.Size = new System.Drawing.Size(987, 389);
-            this.tabPageArchivos.TabIndex = 5;
-            this.tabPageArchivos.Text = "Fotos";
-            this.tabPageArchivos.UseVisualStyleBackColor = true;
-            // 
-            // btnEliminarFoto
-            // 
-            this.btnEliminarFoto.Location = new System.Drawing.Point(84, 3);
-            this.btnEliminarFoto.Name = "btnEliminarFoto";
-            this.btnEliminarFoto.Size = new System.Drawing.Size(75, 31);
-            this.btnEliminarFoto.TabIndex = 2;
-            this.btnEliminarFoto.Text = "Eliminar";
-            this.btnEliminarFoto.UseVisualStyleBackColor = true;
-            this.btnEliminarFoto.Click += new System.EventHandler(this.EliminarFoto);
-            // 
-            // btnAgregarFoto
-            // 
-            this.btnAgregarFoto.Location = new System.Drawing.Point(3, 3);
-            this.btnAgregarFoto.Name = "btnAgregarFoto";
-            this.btnAgregarFoto.Size = new System.Drawing.Size(75, 31);
-            this.btnAgregarFoto.TabIndex = 1;
-            this.btnAgregarFoto.Text = "Agregar";
-            this.btnAgregarFoto.UseVisualStyleBackColor = true;
-            this.btnAgregarFoto.Click += new System.EventHandler(this.AgregarFoto);
-            // 
-            // listViewFotos
-            // 
-            this.listViewFotos.Location = new System.Drawing.Point(3, 40);
-            this.listViewFotos.Name = "listViewFotos";
-            this.listViewFotos.Size = new System.Drawing.Size(981, 346);
-            this.listViewFotos.TabIndex = 0;
-            this.listViewFotos.UseCompatibleStateImageBehavior = false;
-            // 
             // tabPageSiniestros
             // 
             this.tabPageSiniestros.Controls.Add(this.tctrlSiniestrosDatos);
-            this.tabPageSiniestros.Location = new System.Drawing.Point(4, 26);
+            this.tabPageSiniestros.Location = new System.Drawing.Point(4, 22);
             this.tabPageSiniestros.Name = "tabPageSiniestros";
             this.tabPageSiniestros.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSiniestros.Size = new System.Drawing.Size(987, 389);
+            this.tabPageSiniestros.Size = new System.Drawing.Size(987, 393);
             this.tabPageSiniestros.TabIndex = 4;
             this.tabPageSiniestros.Text = "Siniestros";
             this.tabPageSiniestros.UseVisualStyleBackColor = true;
@@ -1236,7 +1236,7 @@
             this.ckbTarjetaChofer.AutoSize = true;
             this.ckbTarjetaChofer.Location = new System.Drawing.Point(6, 68);
             this.ckbTarjetaChofer.Name = "ckbTarjetaChofer";
-            this.ckbTarjetaChofer.Size = new System.Drawing.Size(125, 21);
+            this.ckbTarjetaChofer.Size = new System.Drawing.Size(126, 21);
             this.ckbTarjetaChofer.TabIndex = 3;
             this.ckbTarjetaChofer.Text = "Tarj. Hab. Chofer";
             this.ckbTarjetaChofer.UseVisualStyleBackColor = true;
@@ -1246,7 +1246,7 @@
             this.ckbVerificacionTecnica.AutoSize = true;
             this.ckbVerificacionTecnica.Location = new System.Drawing.Point(6, 45);
             this.ckbVerificacionTecnica.Name = "ckbVerificacionTecnica";
-            this.ckbVerificacionTecnica.Size = new System.Drawing.Size(102, 21);
+            this.ckbVerificacionTecnica.Size = new System.Drawing.Size(104, 21);
             this.ckbVerificacionTecnica.TabIndex = 2;
             this.ckbVerificacionTecnica.Text = "Verif. Tecnica";
             this.ckbVerificacionTecnica.UseVisualStyleBackColor = true;
@@ -1572,7 +1572,7 @@
             this.ckbPresupuesto.AutoSize = true;
             this.ckbPresupuesto.Location = new System.Drawing.Point(6, 88);
             this.ckbPresupuesto.Name = "ckbPresupuesto";
-            this.ckbPresupuesto.Size = new System.Drawing.Size(147, 21);
+            this.ckbPresupuesto.Size = new System.Drawing.Size(148, 21);
             this.ckbPresupuesto.TabIndex = 3;
             this.ckbPresupuesto.Text = "Presupuesto Talleres";
             this.ckbPresupuesto.UseVisualStyleBackColor = true;
@@ -1674,7 +1674,7 @@
             this.label50.AutoSize = true;
             this.label50.Location = new System.Drawing.Point(525, 59);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(58, 17);
+            this.label50.Size = new System.Drawing.Size(59, 17);
             this.label50.TabIndex = 6;
             this.label50.Text = "Telefono";
             // 
@@ -1710,7 +1710,7 @@
             this.label58.AutoSize = true;
             this.label58.Location = new System.Drawing.Point(21, 87);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(56, 17);
+            this.label58.Size = new System.Drawing.Size(57, 17);
             this.label58.TabIndex = 2;
             this.label58.Text = "Vehiculo";
             // 
@@ -2055,7 +2055,7 @@
             this.label10.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(0, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(64, 25);
+            this.label10.Size = new System.Drawing.Size(65, 25);
             this.label10.TabIndex = 101;
             this.label10.Text = "Póliza";
             // 
@@ -2145,14 +2145,14 @@
             this.tctrlPolizasDatos.ResumeLayout(false);
             this.tabPageDatos.ResumeLayout(false);
             this.tabPageDatos.PerformLayout();
+            this.tabPageArchivos.ResumeLayout(false);
             this.tabPagePlanes.ResumeLayout(false);
             this.tabPagePlanes.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFees)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tabPageArchivos.ResumeLayout(false);
+            this.grpbClientPayDay.ResumeLayout(false);
+            this.grpbClientPayDay.PerformLayout();
             this.tabPageSiniestros.ResumeLayout(false);
             this.tctrlSiniestrosDatos.ResumeLayout(false);
             this.TabPage_Datos.ResumeLayout(false);
@@ -2261,7 +2261,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtSumaAsegurado;
         public System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpbClientPayDay;
         private System.Windows.Forms.TabPage tabPageSiniestros;
         private System.Windows.Forms.TabControl tctrlSiniestrosDatos;
         private System.Windows.Forms.TabPage TabPage_Rec;

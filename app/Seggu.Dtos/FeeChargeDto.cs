@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Seggu.Dtos
 {
     [Serializable]
     public class FeeChargeDto
     {
-
+        public string Company { get; set; }
+        public int CompanyId { get; set; }
+        public int PolicyId { get; set; }
         public string NºRecibo { get; set; }
         public DateTime CollectionDate { get; set; }
         public string FullClientName { get; set; }

@@ -357,7 +357,7 @@
             this.btnGrabar.ForeColor = System.Drawing.Color.Red;
             this.btnGrabar.Location = new System.Drawing.Point(897, 354);
             this.btnGrabar.Name = "btnGrabar";
-            this.btnGrabar.Size = new System.Drawing.Size(86, 38);
+            this.btnGrabar.Size = new System.Drawing.Size(75, 27);
             this.btnGrabar.TabIndex = 10;
             this.btnGrabar.Text = "Grabar";
             this.btnGrabar.UseVisualStyleBackColor = true;

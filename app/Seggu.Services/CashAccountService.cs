@@ -45,5 +45,12 @@ namespace Seggu.Services
             var cas = this.cashAccountDao.GetOverdue(time).ToList();
             return cas.Select(c => CashAccountDtoMapper.RcrView(c));
         }
+
+        public int GetLastReceiptNumber()
+        {
+            int number;
+            int.TryParse(this.cashAccountDao.GetAll().ToList().Last().ReceiptNumber, out number);
+            return number;
+        }
     }
 }

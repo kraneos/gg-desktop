@@ -142,6 +142,9 @@
   <data name="Plantilla_Solicitud_Póliza_Vida" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Plantilla_Solicitud_Póliza_Vida.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Recibo_Vida" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Recibo_Vida.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Solicitud_Inscripcion_Seguro_Colectivo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Solicitud-Inscripcion-Seguro-Colectivo-2.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

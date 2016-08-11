@@ -7,6 +7,7 @@ namespace Seggu.Dtos
     {
         public int CompanyId { get; set; }
         public string Cliente { get; set; }
+        public int ClientId { get; set; }
         public string Nro_Póliza { get; set; }
         public string Nro_Endoso { get; set; }
         public string Cuota { get; set; }
