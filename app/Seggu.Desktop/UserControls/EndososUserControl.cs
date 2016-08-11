@@ -15,8 +15,6 @@ namespace Seggu.Desktop.UserControls
     public partial class EndososUserControl : UserControl
     {
         private readonly IEndorseService endorseService;
-        //private IPolicyService policyService;
-        //private IClientService clientService;
         private readonly ICompanyService companyService;
         private readonly IRiskService riskService;
         private readonly IProducerService producerService;
@@ -35,8 +33,6 @@ namespace Seggu.Desktop.UserControls
         {
             InitializeComponent();
             this.endorseService = endorseService;
-            //this.policyService = polServ;
-            //this.clientService = cliServ;
             this.companyService = compServ;
             this.riskService = riskServ;
             this.masterDataService = masterDataServ;
@@ -62,22 +58,22 @@ namespace Seggu.Desktop.UserControls
             cmbCobrador.DisplayMember = "Name";
             cmbCobrador.DataSource = producerService.GetCollectors().ToList();
         }
-        public Layout MainForm => (Layout)this.FindForm();
+        public Layout LayoutForm => (Layout)this.FindForm();
 
         public void NewEndorse()
         {
-            if (MainForm.currentEndorse == null)
+            if (LayoutForm.currentEndorse == null)
                 ConvertPolicyToEndorse();
             else
                 ConvertCurrentEndorseToNewEndorse();
 
-            populateTextBoxesAndCombos(MainForm.currentEndorse);
+            populateTextBoxesAndCombos(LayoutForm.currentEndorse);
             cmbPlanes.Enabled = true;
         }
         private void ConvertPolicyToEndorse()
 {
             var ce = new EndorseFullDto();
-            var cp = MainForm.currentPolicy;
+            var cp = LayoutForm.currentPolicy;
             ce.Asegurado = cp.Asegurado;
             ce.ClientId = cp.ClientId;
             ce.CompanyId = cp.CompanyId;
@@ -103,25 +99,21 @@ namespace Seggu.Desktop.UserControls
             if (cp.Vehicles != null)
             {
                 ce.Vehicles = cp.Vehicles;
-                //foreach (var vehicle in ce.Vehicles) { }
-                //vehicle.Id = null;
             }
             else if (cp.Employees != null)
             {
                 ce.Employees = cp.Employees;
-                //foreach (var employee in ce.Employees) { }
-                //employee.Id = null;
             }
             else if (cp.Integrals != null)
             {
                 ce.Integrals = cp.Integrals;
             }
-            MainForm.currentEndorse = ce;
+            LayoutForm.currentEndorse = ce;
         }
         private void ConvertCurrentEndorseToNewEndorse()
         {
             var newEndorse = new EndorseFullDto();
-            var ce = MainForm.currentEndorse;
+            var ce = LayoutForm.currentEndorse;
             newEndorse.Asegurado = ce.Asegurado;
             newEndorse.ClientId = ce.ClientId;
             newEndorse.CompanyId = ce.CompanyId;
@@ -153,21 +145,18 @@ namespace Seggu.Desktop.UserControls
             {
                 var newEmployees = ce.Employees.ToList();
                 newEndorse.Employees = newEmployees;
-                //newEndorse.Employees = ce.Employees;
-                //foreach (var employee in newEndorse.Employees)
-                //    employee.Id = null;
             }
-            MainForm.currentEndorse = newEndorse;
+            LayoutForm.currentEndorse = newEndorse;
         }
 
         private void populateTextBoxesAndCombos(EndorseFullDto endorse)
         {
-            cmbCompania.SelectedValue = MainForm.currentPolicy.CompanyId;
+            cmbCompania.SelectedValue = LayoutForm.currentPolicy.CompanyId;
 
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
             //cmbProductor.DataSource = this.producerService.GetByCompanyIdCombobox(MainForm.currentPolicy.CompanyId).ToList();
-            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();
 
             cmbProductor.SelectedValue = endorse.ProducerId;
             cmbRiesgo.SelectedValue = endorse.RiskId == default(int) ? cmbRiesgo.SelectedValue : endorse.RiskId;
@@ -199,15 +188,15 @@ namespace Seggu.Desktop.UserControls
         {
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(MainForm.currentPolicy.CompanyId).ToList();
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();
 
-            populateTextBoxesAndCombos(MainForm.currentEndorse);
+            populateTextBoxesAndCombos(LayoutForm.currentEndorse);
             LoadFeeGrid();
         }
         private void LoadFeeGrid()
         {
             grdFees.Columns.Clear();
-            grdFees.DataSource = feeService.GetByEndorseId(MainForm.currentEndorse.Id).ToList();
+            grdFees.DataSource = feeService.GetByEndorseId(LayoutForm.currentEndorse.Id).ToList();
             cmbPlanes.SelectedIndex = grdFees.RowCount > 12 ? -1 : grdFees.RowCount - 1;
             if (grdFees.RowCount != 0)
             {
@@ -217,6 +206,154 @@ namespace Seggu.Desktop.UserControls
             }
             else
                 cmbPlanes.Enabled = true;
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            var endorse = LayoutForm.currentEndorse;
+
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
+            var riesgo = risk.RiskType;
+
+            switch (riesgo)
+            {
+                case RiskType.Automotores:
+                    if (endorse.Vehicles.Count() > 1)
+                    {
+                        //print flota
+                    }
+                    else
+                        printService.EndorseVehiclePDF(endorse);
+                    break;
+
+                case RiskType.Vida_colectivo_Otros:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+                case RiskType.Otros:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+
+                case RiskType.Vida_individual:
+                    printService.EndorseLifePDF(endorse);
+                    break;
+
+                case RiskType.Combinados_Integrales:
+                    printService.EndorseIntegralPDF(endorse, integral_uc.province, integral_uc.district);
+                    break;
+            }
+        }
+
+        #region Datos grales Tab
+        private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var CompanyId = (int)cmbCompania.SelectedValue;
+            cmbRiesgo.ValueMember = "Id";
+            cmbRiesgo.DisplayMember = "Name";
+            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
+        }
+
+        private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbRiesgo.SelectedIndex == -1) return;
+            FillInsuredObjectUserControl();
+        }
+        private void FillInsuredObjectUserControl()
+        {
+            integral_uc = null;
+            vehicle_uc = null;
+            vida_uc = null;
+
+            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
+            var riesgo = risk.RiskType;
+            if (riesgo == RiskType.Automotores)
+            {
+                vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
+                SetCoberturasTab(vehicle_uc);
+                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
+                if (LayoutForm.currentEndorse != null)
+                    vehicle_uc.PopulateEndorseVehicle();
+            }
+            else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
+            {
+                vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
+                SetCoberturasTab(vida_uc);
+                if (LayoutForm.currentEndorse != null)
+                {
+                    vida_uc.PopulateEndorseVida((int)this.cmbRiesgo.SelectedValue);
+                }
+
+            }
+            else
+            {
+                integral_uc = (IntegralPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(IntegralPolicyUserControl));
+                SetCoberturasTab(integral_uc);
+                integral_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
+                if (LayoutForm.currentEndorse != null)
+                    integral_uc.PopulateEndorseIntegral();
+            }
+        }
+        private void SetCoberturasTab(UserControl uc)
+        {
+            PanelCoverage.Controls.Clear();
+            PanelCoverage.Controls.Add(uc);
+        }
+        #endregion
+
+        #region Sumas y Planes de pago Tab
+
+        private void cmbPlanes_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cmbPlanes.SelectedIndex != -1 && txtNetoCobrar.Text != string.Empty && txtNetoCobrar.Text != "0")
+                generarPlanDeCobro();
+        }
+        private void generarPlanDeCobro()
+        {
+            int cuotas;
+            decimal[] importesCobrar;
+            decimal[] importesPagar;
+            DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
+            grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
+            FormatFeeGrid();
+            CalculateFeeTotals();
+        }
+        private void DivideValueInFees(out int cuotas, out decimal[] importesCobrar, out decimal[] importesPagar)
+        {
+            ////////////dividir el importe total en cuotas////////////////////////
+            cuotas = cmbPlanes.SelectedIndex + 1;
+            decimal netoCobrar = decimal.Parse(txtNetoCobrar.Text);
+            importesCobrar = new decimal[cuotas];
+            //decimal resto = netoCobrar % cuotas;
+            //netoCobrar -= resto;
+            for (int i = 0; i < cuotas; i++)
+                importesCobrar[i] = netoCobrar / cuotas;
+            //importesCobrar[cuotas - 1] += resto;
+
+            ////////////dividir el importe total en cuotas////////////////////////
+            decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
+            importesPagar = new decimal[cuotas];
+            //decimal resto2 = netoPagar % cuotas;
+            //netoPagar -= resto2;
+            for (int i = 0; i < cuotas; i++)
+                importesPagar[i] = netoPagar / cuotas;
+            //importesPagar[cuotas - 1] += resto2;
+        }
+        private List<FeeDto> CreateFeeObjectsList(int cuotas, decimal[] importesCobrar, decimal[] importesPagar)
+        {
+            List<FeeDto> fees = new List<FeeDto>();
+            for (int f = 0; f < cuotas; f++)
+            {
+                FeeDto fee = new FeeDto();
+                fee.Cuota = (f + 1).ToString();
+                fee.Venc_Cuota = dtpInicio.Value.AddMonths(f);
+                fee.Valor = importesCobrar[f];
+                fee.Annulated = false;
+                fee.Estado = "Debe";
+                fee.Pago_Cía = importesPagar[f];
+                fee.Saldo = fee.Valor;
+                fee.PolicyId = LayoutForm.currentPolicy.Id;
+                fees.Add(fee);
+            }
+            return fees;
         }
         private void FormatFeeGrid()
         {
@@ -245,59 +382,36 @@ namespace Seggu.Desktop.UserControls
             txtTotalPagar.Text = totpagar.ToString();
         }
 
-        private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
+        private void txtPremioIva_TextChanged(object sender, EventArgs e)
         {
-            if (cmbRiesgo.SelectedIndex == -1) return;
-            FillInsuredObjectUserControl();
+            if (txtPremioIva.Text == "-" || txtPremioIva.Text == "") return;
+            calcularNetoCobrar();
+            calcularNetoPagar();
+            txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString();
+            txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString();
         }
-        private void FillInsuredObjectUserControl()
+        private void calcularNetoPagar()
         {
-            integral_uc = null;
-            vehicle_uc = null;
-            vida_uc = null;
-
-            var risk = (RiskItemDto)cmbRiesgo.SelectedItem;
-            var riesgo = risk.RiskType;
-            if (riesgo == RiskType.Automotores)
-            {
-                vehicle_uc = (VehiculePolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VehiculePolicyUserControl));
-                SetCoberturasTab(vehicle_uc);
-                vehicle_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
-                if (MainForm.currentEndorse != null)
-                    vehicle_uc.PopulateEndorseVehicle();
-            }
-            else if (riesgo == RiskType.Vida_colectivo_Otros || riesgo == RiskType.Vida_individual || riesgo == RiskType.Otros)
-            {
-                vida_uc = (VidaPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(VidaPolicyUserControl));
-                SetCoberturasTab(vida_uc);
-                if (MainForm.currentEndorse != null)
-                {
-                    vida_uc.PopulateEndorseVida((int)this.cmbRiesgo.SelectedValue);
-                    //vida_uc.InitializeIndex((int)this.cmbRiesgo.SelectedValue);
-                }
-
-            }
-            else
-            {
-                integral_uc = (IntegralPolicyUserControl)DependencyResolver.Instance.Resolve(typeof(IntegralPolicyUserControl));
-                SetCoberturasTab(integral_uc);
-                integral_uc.InitializeComboboxes((int)cmbRiesgo.SelectedValue);
-                if (MainForm.currentEndorse != null)
-                    integral_uc.PopulateEndorseIntegral();
-            }
+            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+            decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+            decimal netoPagar = premioConIva - bonificacionPagaCia;
+            txtNetoPagar.Text = netoPagar.ToString();
         }
-        private void SetCoberturasTab(UserControl uc)
+        private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
         {
-            PanelCoverage.Controls.Clear();
-            PanelCoverage.Controls.Add(uc);
+            calcularNetoCobrar();
         }
-
-        private void cmbCompania_SelectionChangeCommitted(object sender, EventArgs e)
+        private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
         {
-            var CompanyId = (int)cmbCompania.SelectedValue;
-            cmbRiesgo.ValueMember = "Id";
-            cmbRiesgo.DisplayMember = "Name";
-            cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
+            calcularNetoCobrar();
+        }
+        private void calcularNetoCobrar()
+        {
+            decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
+            decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
+            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
+            decimal netoCobrar = premioConIva - bonificacionPagar + recargoPropio;
+            txtNetoCobrar.Text = netoCobrar.ToString();
         }
 
         private void btnGrabar_Click(object sender, EventArgs e)
@@ -384,13 +498,13 @@ namespace Seggu.Desktop.UserControls
         private EndorseFullDto GetFormInfo()
         {
             var endorse = new EndorseFullDto();
-            endorse.Id = MainForm.currentEndorse.Id;
+            endorse.Id = LayoutForm.currentEndorse.Id;
             endorse.AnnulationDate = null;
             endorse.Asegurado = txtAsegurado.Text;
 
             endorse.Motivo = txtMotivo.Text;
             endorse.CompanyId = (int)cmbCompania.SelectedValue;
-            endorse.ClientId = MainForm.currentEndorse.ClientId;
+            endorse.ClientId = LayoutForm.currentEndorse.ClientId;
 
             endorse.EmissionDate = dtpEmision.Value.ToShortDateString();
             endorse.EndDate = dtpFin.Value.ToShortDateString();
@@ -403,7 +517,7 @@ namespace Seggu.Desktop.UserControls
             endorse.Número = txtNroEndoso.Text;
             endorse.NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text);
 
-            endorse.PolicyId = MainForm.currentPolicy.Id;
+            endorse.PolicyId = LayoutForm.currentPolicy.Id;
             endorse.PolicyNumber = txtNroPoliza.Text;
             endorse.Prima = txtPrima.Text == "" ? 0 : decimal.Parse(txtPrima.Text);
             endorse.Premium = txtPremioIva.Text == "" ? 0 : decimal.Parse(txtPremioIva.Text);
@@ -422,103 +536,9 @@ namespace Seggu.Desktop.UserControls
 
             return endorse;
         }
+        #endregion
 
-        private void txtPremioIva_TextChanged(object sender, EventArgs e)
-        {
-            if (txtPremioIva.Text == "-" || txtPremioIva.Text == "") return;
-            calcularNetoCobrar();
-            calcularNetoPagar();
-            txtIva.Text = (double.Parse(txtPremioIva.Text) * (0.21)).ToString();
-            txtPrima.Text = (double.Parse(txtPremioIva.Text) * (0.79)).ToString();
-        }
-        private void calcularNetoPagar()
-        {
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal bonificacionPagaCia = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal netoPagar = premioConIva - bonificacionPagaCia;
-            txtNetoPagar.Text = netoPagar.ToString();
-        }
-
-        private void txtBonificacionPago_TextChanged(object sender, EventArgs e)
-        {
-            calcularNetoCobrar();
-        }
-        private void txtRecargoPropio_TextChanged(object sender, EventArgs e)
-        {
-            calcularNetoCobrar();
-        }
-        private void calcularNetoCobrar()
-        {
-            decimal recargoPropio = txtRecargoPropio.Text == string.Empty ? 0 : decimal.Parse(txtRecargoPropio.Text);
-            decimal bonificacionPagar = txtBonificacionPago.Text == string.Empty ? 0 : decimal.Parse(txtBonificacionPago.Text);
-            decimal premioConIva = txtPremioIva.Text == string.Empty ? 0 : decimal.Parse(txtPremioIva.Text);
-            decimal netoCobrar = premioConIva - bonificacionPagar + recargoPropio;
-            txtNetoCobrar.Text = netoCobrar.ToString();
-        }
-
-        private void cmbPlanes_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (cmbPlanes.SelectedIndex != -1 && txtNetoCobrar.Text != string.Empty && txtNetoCobrar.Text != "0")
-                generarPlanDeCobro();
-        }
-        private void generarPlanDeCobro()
-        {
-            int cuotas;
-            decimal[] importesCobrar;
-            decimal[] importesPagar;
-            DivideValueInFees(out cuotas, out importesCobrar, out importesPagar);
-            grdFees.DataSource = CreateFeeObjectsList(cuotas, importesCobrar, importesPagar);
-            FormatFeeGrid();
-            CalculateFeeTotals();
-        }
-        private void DivideValueInFees(out int cuotas, out decimal[] importesCobrar, out decimal[] importesPagar)
-        {
-            ////////////dividir el importe total en cuotas////////////////////////
-            cuotas = cmbPlanes.SelectedIndex + 1;
-            decimal netoCobrar = decimal.Parse(txtNetoCobrar.Text);
-            importesCobrar = new decimal[cuotas];
-            //decimal resto = netoCobrar % cuotas;
-            //netoCobrar -= resto;
-            for (int i = 0; i < cuotas; i++)
-                importesCobrar[i] = netoCobrar / cuotas;
-            //importesCobrar[cuotas - 1] += resto;
-
-            ////////////dividir el importe total en cuotas////////////////////////
-            decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
-            importesPagar = new decimal[cuotas];
-            //decimal resto2 = netoPagar % cuotas;
-            //netoPagar -= resto2;
-            for (int i = 0; i < cuotas; i++)
-                importesPagar[i] = netoPagar / cuotas;
-            //importesPagar[cuotas - 1] += resto2;
-        }
-        private List<FeeDto> CreateFeeObjectsList(int cuotas, decimal[] importesCobrar, decimal[] importesPagar)
-        {
-            List<FeeDto> fees = new List<FeeDto>();
-            for (int f = 0; f < cuotas; f++)
-            {
-                FeeDto fee = new FeeDto();
-                fee.Cuota = (f + 1).ToString();
-                fee.Venc_Cuota = dtpInicio.Value.AddMonths(f);
-                fee.Valor = importesCobrar[f];
-                fee.Annulated = false;
-                fee.Estado = "Debe";
-                fee.Pago_Cía = importesPagar[f];
-                fee.Saldo = fee.Valor;
-                fee.PolicyId = MainForm.currentPolicy.Id;
-                fees.Add(fee);
-            }
-            return fees;
-        }
-
-        private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
-        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidarNumeros((TextBox)sender, e);
-        }
+        #region Validaciones
         public void ValidarNumeros(TextBox sender, KeyPressEventArgs e)
         {
             var c = e.KeyChar;
@@ -533,9 +553,14 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
-        private void btnImprimir_Click(object sender, EventArgs e)
+        private void txtSumaAsegurado_KeyPress(object sender, KeyPressEventArgs e)
         {
-            printService.EndorsePDF(MainForm.currentEndorse, MainForm.currentClient, MainForm.currentPolicy);
+            ValidarNumeros((TextBox)sender, e);
         }
+        private void txtPremioIva_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumeros((TextBox)sender, e);
+        }
+        #endregion
     }
 }

@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using AutoMapper.Mappers;
 using Parse;
 using Seggu.Data;
 using Seggu.Domain;
 using Seggu.Service.Services.Interfaces;
 using Seggu.Service.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using AutoMapper.Mappers;
 
 namespace Seggu.Service.Services
 {
@@ -82,6 +78,14 @@ namespace Seggu.Service.Services
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Company, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<CompanyVM>(rr, ctx => (x.Company?.ObjectId != null) ? x.Company.ObjectId : AutoMapperExtensions.GetObjectId<Company>(ctx, x.CompanyId))));
 
+            innerConfigurationStore.CreateMap<Coverage, CoverageVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Risk, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<RiskVM>(rr, ctx => (x.Risk?.ObjectId != null) ? x.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, x.RiskId))));
+
+            innerConfigurationStore.CreateMap<CoveragesPack, CoveragesPackVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Risk, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<RiskVM>(rr, ctx => (x.Risk?.ObjectId != null) ? x.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, x.RiskId))));
+
             innerConfigurationStore.CreateMap<VehicleModel, VehicleModelVM>()
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Brand, y => y.ResolveUsing((rr, x) => AutoMapperExtensions.GetParseObject<BrandVM>(rr, ctx => (x.Brand?.ObjectId != null) ? x.Brand.ObjectId : AutoMapperExtensions.GetObjectId<Brand>(ctx, x.BrandId))))
@@ -121,6 +125,14 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.Use, y => y.ResolveUsing((rr, x) => x.Use == null ? null : AutoMapperExtensions.GetParseObject<UseVM>(rr, ctx => (x.Use?.ObjectId != null) ? x.Use.ObjectId : AutoMapperExtensions.GetObjectId<Use>(ctx, x.UseId))))
                 .ForMember(x => x.VehicleModel, y => y.ResolveUsing((rr, x) => x.VehicleModel == null ? null : AutoMapperExtensions.GetParseObject<VehicleModelVM>(rr, ctx => (x.VehicleModel?.ObjectId != null) ? x.VehicleModel.ObjectId : AutoMapperExtensions.GetObjectId<VehicleModel>(ctx, x.VehicleModelId))))
                 .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId))));
+
+            innerConfigurationStore.CreateMap<AttachedFile, AttachedFileVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId.Value))))
+                .ForMember(x => x.Endorse, y => y.ResolveUsing((rr, x) => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(rr, ctx => (x.Endorse?.ObjectId != null) ? x.Endorse.ObjectId : AutoMapperExtensions.GetObjectId<Endorse>(ctx, x.EndorseId.Value))))
+                .ForMember(x => x.Client, y => y.ResolveUsing((rr, x) => x.Client == null ? null : AutoMapperExtensions.GetParseObject<ClientVM>(rr, ctx => (x.Client?.ObjectId != null) ? x.Client.ObjectId : AutoMapperExtensions.GetObjectId<Client>(ctx, x.ClientId.Value))))
+                .ForMember(x => x.Casualty, y => y.ResolveUsing((rr, x) => x.Casualty == null ? null : AutoMapperExtensions.GetParseObject<CasualtyVM>(rr, ctx => (x.Casualty?.ObjectId != null) ? x.Casualty.ObjectId : AutoMapperExtensions.GetObjectId<Casualty>(ctx, x.CasualtyId.Value))))
+                .ForMember(x => x.CashAccount, y => y.ResolveUsing((rr, x) => x.CashAccount == null ? null : AutoMapperExtensions.GetParseObject<CashAccountVM>(rr, ctx => (x.CashAccount?.ObjectId != null) ? x.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, x.CashAccountId.Value))));
 
             innerConfigurationStore.CreateMap<Accessory, AccessoryVM>()
                 .GetCommonMappingExpressionToVM()
@@ -302,6 +314,36 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.CompanyId, y => y.ResolveUsing(
                     resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Companies.First(x => x.ObjectId == ((RiskVM)res.Value).Company.ObjectId).Id)));
             Mapper.CreateMap<Risk, Risk>().GetCommonMappingExpressionEntityToEntity();
+
+
+            Mapper.CreateMap<Coverage, CoverageVM>()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<Coverage, CoverageVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Risk?.ObjectId != null) ? entity.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, entity.RiskId)));
+            Mapper.CreateMap<CoverageVM, Coverage>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Risk, y => y.Ignore())
+                .ForMember(x => x.RiskId, y => y.ResolveUsing(
+                    resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Risks.First(x => x.ObjectId == ((CoverageVM)res.Value).Risk.ObjectId).Id)));
+            Mapper.CreateMap<Coverage, Coverage>().GetCommonMappingExpressionEntityToEntity();
+
+
+            Mapper.CreateMap<CoveragesPack, CoveragesPackVM>()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<CoveragesPack, CoveragesPackVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Risk?.ObjectId != null) ? entity.Risk.ObjectId : AutoMapperExtensions.GetObjectId<Risk>(ctx, entity.RiskId)));
+            Mapper.CreateMap<CoveragesPackVM, CoveragesPack>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Risk, y => y.Ignore())
+                .ForMember(x => x.RiskId, y => y.ResolveUsing(
+                    resolution => AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Risks.First(x => x.ObjectId == ((CoveragesPackVM)res.Value).Risk.ObjectId).Id)));
+            Mapper.CreateMap<CoveragesPack, CoveragesPack>().GetCommonMappingExpressionEntityToEntity();
 
 
             Mapper.CreateMap<VehicleModel, VehicleModelVM>()
@@ -508,6 +550,37 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.LedgerAccountId, y => y.ResolveUsing(
                     resolution => ((CashAccountVM)resolution.Value).LedgerAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.LedgerAccounts.First(x => x.ObjectId == ((CashAccountVM)res.Value).LedgerAccount.ObjectId).Id)));
             Mapper.CreateMap<CashAccount, CashAccount>().GetCommonMappingExpressionEntityToEntity();
+
+            Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<AttachedFile, AttachedFileVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) => (entity.Policy?.ObjectId != null) ? entity.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId.Value),
+                            (ctx, entity) => (entity.Endorse?.ObjectId != null) ? entity.Endorse.ObjectId : AutoMapperExtensions.GetObjectId<Endorse>(ctx, entity.EndorseId.Value),
+                            (ctx, entity) => (entity.CashAccount?.ObjectId != null) ? entity.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, entity.CashAccountId.Value), 
+                            (ctx, entity) => (entity.Client?.ObjectId != null) ? entity.Client.ObjectId : AutoMapperExtensions.GetObjectId<Client>(ctx, entity.ClientId.Value),
+                            (ctx, entity) => (entity.Casualty?.ObjectId != null) ? entity.Casualty.ObjectId : AutoMapperExtensions.GetObjectId<Casualty>(ctx, entity.CasualtyId.Value)));
+            Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Policy, y => y.Ignore())
+                .ForMember(x => x.Endorse, y => y.Ignore())
+                .ForMember(x => x.CashAccount, y => y.Ignore())
+                .ForMember(x => x.Client, y => y.Ignore())
+                .ForMember(x => x.Casualty, y => y.Ignore())
+                .ForMember(x => x.PolicyId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Policy == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Policies.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Policy.ObjectId).Id)))
+                .ForMember(x => x.EndorseId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Endorse == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Endorse.ObjectId).Id)))
+                .ForMember(x => x.CasualtyId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Casualty == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Casualties.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Casualty.ObjectId).Id)))
+                .ForMember(x => x.ClientId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).Client == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Clients.First(x => x.ObjectId == ((AttachedFileVM)res.Value).Client.ObjectId).Id)))
+                .ForMember(x => x.CashAccountId, y => y.ResolveUsing(
+                    resolution => ((AttachedFileVM)resolution.Value).CashAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.CashAccounts.First(x => x.ObjectId == ((AttachedFileVM)res.Value).CashAccount.ObjectId).Id)));
+            Mapper.CreateMap<AttachedFile, AttachedFile>().GetCommonMappingExpressionEntityToEntity();
+
         }
 
         public static void InitializeParseClasses()
@@ -532,6 +605,8 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<DistrictVM>();
             ParseObject.RegisterSubclass<LocalityVM>();
             ParseObject.RegisterSubclass<RiskVM>();
+            ParseObject.RegisterSubclass<CoverageVM>();
+            ParseObject.RegisterSubclass<CoveragesPackVM>();
             ParseObject.RegisterSubclass<VehicleModelVM>();
             ParseObject.RegisterSubclass<PolicyVM>();
             ParseObject.RegisterSubclass<EndorseVM>();
@@ -543,6 +618,7 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<IntegralVM>();
             ParseObject.RegisterSubclass<AddressVM>();
             ParseObject.RegisterSubclass<CashAccountVM>();
+            ParseObject.RegisterSubclass<AttachedFileVM>();
             ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
             // TODO: The rest...
 
@@ -573,6 +649,8 @@ namespace Seggu.Service.Services
                 SendEntitiesToParse<District, DistrictVM>();
                 SendEntitiesToParse<Locality, LocalityVM>();
                 SendEntitiesToParse<Risk, RiskVM>();
+                SendEntitiesToParse<Coverage, CoverageVM>();
+                SendEntitiesToParse<CoveragesPack, CoveragesPackVM>();
                 SendEntitiesToParse<VehicleModel, VehicleModelVM>();
                 SendEntitiesToParse<Policy, PolicyVM>();
                 SendEntitiesToParse<Endorse, EndorseVM>();
@@ -584,6 +662,8 @@ namespace Seggu.Service.Services
                 SendEntitiesToParse<Integral, IntegralVM>();
                 SendEntitiesToParse<Address, AddressVM>();
                 SendEntitiesToParse<CashAccount, CashAccountVM>();
+                SendEntitiesToParse<AttachedFile, AttachedFileVM>();//"Asset");
+                                                                    
                 // TODO: The rest...
 
             }

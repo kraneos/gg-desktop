@@ -6,6 +6,7 @@ var Parse = require('parse/node');
 // createNewSegguClientWithDefaults('Segurolandia');
 module.exports = {
     queryAndDestroyAllClasses: queryAndDestroyAllClasses,
+    queryAndDestroyAllClassesByUser: queryAndDestroyAllClassesByUser,
     createRole: createRole,
     fetchUsers: fetchUsers,
     createUser: createUser,
@@ -78,7 +79,25 @@ function queryAndDestroyAllClasses(serverUrl, appId, masterKey, roleId, userId) 
     Parse.initialize(appId, null, masterKey);
     Parse.Cloud.useMasterKey();
     Parse.serverURL = serverUrl;
-    
+
+    queryAndDestroy();
+}
+
+function queryAndDestroyAllClassesByUser(serverUrl, appId, username, password) {
+    Parse.initialize(appId, null, null);
+    Parse.serverURL = serverUrl;
+
+    if (Parse.User.current()) {
+        Parse.User.logOut();
+    }
+    Parse.User.logIn(username, password).then(queryAndDestroy, console.log);
+}
+
+function queryAndDestroy(something) {
+    console.log('In queryAndDestroy');
+    console.log(something);
+    console.log(Parse.User.current());
+    new Parse.Query('Vehicle').find(console.log);
     [
         'AccessoryType',
         'Asset',
@@ -116,13 +135,19 @@ function queryAndDestroyAllClasses(serverUrl, appId, masterKey, roleId, userId) 
     });
 
     function queryAndDestroy(className) {
-        new Parse.Query(className).find(function (objects) {
-            console.log("I'm gonna destroy " + objects.length + " objects in " + className);
-            Parse.Object.destroyAll(objects).then(null, console.log);
-            if (objects.length > 0) {
-                queryAndDestroy(className);
-            }
-        }, console.log);
+        console.log(Parse.User.current().sessionToken);
+        var options = {
+            success: function (objects) {
+                console.log("I'm gonna destroy " + objects.length + " objects in " + className);
+                Parse.Object.destroyAll(objects).then(null, console.log);
+                if (objects.length > 0) {
+                    queryAndDestroy(className);
+                }
+            },
+            error: console.log,
+            sessionToken: Parse.User.current() ? Parse.User.current().sessionToken : null
+        };
+        new Parse.Query(className).find(options);
     }
 }
 

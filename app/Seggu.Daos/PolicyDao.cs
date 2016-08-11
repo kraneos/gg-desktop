@@ -87,15 +87,31 @@ namespace Seggu.Daos
                                     .Include(x => x.Fees)
                                     .Single(c => c.Id == newPolicy.Id);
                 UpdatePolicyIntegral(newPolicy, dbPolicy);
-
             }
+
             UpdateFees(newPolicy);
-            //context.Entry(dbPolicy).State = EntityState.Modified;
-            //context.Entry(dbPolicy).CurrentValues.SetValues(newPolicy);
+            UpdateAttachedFiles(newPolicy);
             Mapper.Map<Policy, Policy>(newPolicy, dbPolicy);
 
             context.SaveChanges();
         }
+
+        private void UpdateAttachedFiles(Policy newPolicy)
+        {
+            var existingAttachedFiles = context.AttachedFiles.Where(x => newPolicy.Id == x.PolicyId);
+            var nonExistingAttachedFiles = new List<AttachedFile>();
+
+            foreach (var attachedFile in newPolicy.AttachedFiles)
+            {
+                var existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath);
+
+                if (existingAttachedFile == null)
+                {
+                    context.AttachedFiles.Add(attachedFile);
+                }
+            }
+        }
+
         private void UpdatePolicyVehicles(Policy newPolicy, Policy dbPolicy)
         {
             var vehiclesToRemove = new List<Vehicle>();
@@ -193,7 +209,7 @@ namespace Seggu.Daos
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
                     //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
-                    //context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                    context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
                     Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
 
                     foreach (var dbCoverage in dbIntegral.Coverages)

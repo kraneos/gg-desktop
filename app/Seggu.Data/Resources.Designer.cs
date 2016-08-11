@@ -93,6 +93,26 @@ namespace Seggu.Data {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] Plantilla_Solicitud_Endoso_Integral {
+            get {
+                object obj = ResourceManager.GetObject("Plantilla_Solicitud_Endoso_Integral", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Plantilla_Solicitud_Endoso_Vida {
+            get {
+                object obj = ResourceManager.GetObject("Plantilla_Solicitud_Endoso_Vida", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] Plantilla_Solicitud_Póliza {
             get {
                 object obj = ResourceManager.GetObject("Plantilla_Solicitud_Póliza", resourceCulture);
@@ -106,6 +126,16 @@ namespace Seggu.Data {
         public static byte[] Plantilla_Solicitud_Póliza_Integral {
             get {
                 object obj = ResourceManager.GetObject("Plantilla_Solicitud_Póliza_Integral", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Plantilla_Solicitud_Póliza_Vida {
+            get {
+                object obj = ResourceManager.GetObject("Plantilla_Solicitud_Póliza_Vida", resourceCulture);
                 return ((byte[])(obj));
             }
         }

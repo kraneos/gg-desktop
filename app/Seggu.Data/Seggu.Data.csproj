@@ -94,6 +94,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -118,9 +121,12 @@
     </None>
     <None Include="Resources\Comercial+e+Industria-Solicitud+de+Cobertura.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Endoso.pdf" />
+    <None Include="Resources\Plantilla_Solicitud_Endoso_Integral.pdf" />
+    <None Include="Resources\Plantilla_Solicitud_Endoso_Vida.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Póliza.pdf" />
     <None Include="Resources\plantilla_recibo_seggu.pdf" />
     <None Include="Resources\Plantilla_Solicitud_Póliza_Integral.pdf" />
+    <None Include="Resources\Plantilla_Solicitud_Póliza_Vida.pdf" />
     <None Include="Resources\Solicitud-Inscripcion-Seguro-Colectivo-2.pdf" />
     <None Include="Scripts\sqlite\001.SegguDataModel.edmx.sqlite" />
     <Content Include="Scripts\sqlite\002.FeeSelectionAssigmentTableType.sql" />

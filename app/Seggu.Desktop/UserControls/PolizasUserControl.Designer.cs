@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlPolizasDatos = new System.Windows.Forms.TabControl();
             this.tabPageDatos = new System.Windows.Forms.TabPage();
             this.chkOtherClient = new System.Windows.Forms.CheckBox();
@@ -237,8 +237,8 @@
             // tctrlPolizasDatos
             // 
             this.tctrlPolizasDatos.Controls.Add(this.tabPageDatos);
-            this.tctrlPolizasDatos.Controls.Add(this.tabPagePlanes);
             this.tctrlPolizasDatos.Controls.Add(this.tabPageArchivos);
+            this.tctrlPolizasDatos.Controls.Add(this.tabPagePlanes);
             this.tctrlPolizasDatos.Controls.Add(this.tabPageSiniestros);
             this.tctrlPolizasDatos.Enabled = false;
             this.tctrlPolizasDatos.Location = new System.Drawing.Point(5, 24);
@@ -894,8 +894,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -1735,10 +1735,10 @@
             // tabPageFiles
             // 
             this.tabPageFiles.Controls.Add(this.grdFiles);
-            this.tabPageFiles.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFiles.Location = new System.Drawing.Point(4, 22);
             this.tabPageFiles.Name = "tabPageFiles";
             this.tabPageFiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFiles.Size = new System.Drawing.Size(973, 353);
+            this.tabPageFiles.Size = new System.Drawing.Size(973, 357);
             this.tabPageFiles.TabIndex = 3;
             this.tabPageFiles.Text = "Archivos";
             this.tabPageFiles.UseVisualStyleBackColor = true;

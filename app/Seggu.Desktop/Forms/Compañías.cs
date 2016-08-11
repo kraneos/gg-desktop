@@ -530,6 +530,10 @@ namespace Seggu.Desktop.Forms
             {
                 MessageBox.Show("Ingrese una nueva Cobertura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            if (lsbRiesgos.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un riesgo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
 

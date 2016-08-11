@@ -1,4 +1,1 @@
-# gulp add-user-to-role --SERVERURL https://seggu-api-develop.herokuapp.com/parse/ --APPID seggu-api --MASTERKEY {B39EC4DE-2F1C-40AF-906E-9CDA7BA2BD7B} --ROLEID N7cFsWi1oP --USERID 0af5ZUPJ8U
-# 
-env  node-debug index.js
- SERVER_URL https://seggu-api-develop.herokuapp.com/parse
+El
