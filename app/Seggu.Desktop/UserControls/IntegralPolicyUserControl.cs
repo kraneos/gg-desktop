@@ -341,6 +341,30 @@ namespace Seggu.Desktop.UserControls
                 this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
             }
         }
+        private void cmbProvince_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbProvince.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbProvince, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbDistrict_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbDistrict.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbDistrict, "Este campo es obligatorio.");
+            }
+        }
+        private void cmbLocality_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbLocality.SelectedIndex < 0)
+            {
+                e.Cancel = true;
+                this.errorProvider1.SetError(this.cmbLocality, "Este campo es obligatorio.");
+            }
+        }
         #endregion
     }
 }
