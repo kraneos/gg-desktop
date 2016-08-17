@@ -265,12 +265,12 @@ namespace Seggu.Service.Services
                     x.x.ACL.GetWriteAccess(ParseUser.CurrentUser) ||
                     x.x.ACL.GetRoleWriteAccess(setting.UserRole)))
                 .ToDictionary(x => x.i, x => x.x);
-//#if DEBUG
-//            foreach(var x in parseObjects)
-//            {
-//                this.eventLog.WriteEntry("entidad " + typeof(TParseEntity).Name + " :: " + JsonConvert.SerializeObject(x), EventLogEntryType.Information);
-//            }
-//#endif
+#if DEBUG
+            foreach (var x in parseObjects)
+            {
+                this.eventLog.WriteEntry("entidad " + typeof(TParseEntity).Name + " :: " + JsonConvert.SerializeObject(x), EventLogEntryType.Information);
+            }
+#endif
             await parseObjects.Values.SaveAllAsync<TViewModel>();
 
             var count = entities.Count();

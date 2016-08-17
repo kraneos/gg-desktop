@@ -84,7 +84,7 @@ namespace Seggu.Desktop.Forms
             {
                 this.Close();
             }
-
+            feeService.UpdateFeeStates();
             btnLimpiar_Click(sender, e);
             //if (!ValidateRegistry())
             //{

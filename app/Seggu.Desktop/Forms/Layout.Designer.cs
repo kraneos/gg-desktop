@@ -341,11 +341,11 @@
             // tabExpired
             // 
             this.tabExpired.Controls.Add(this.grdExpired);
-            this.tabExpired.Location = new System.Drawing.Point(4, 26);
+            this.tabExpired.Location = new System.Drawing.Point(4, 22);
             this.tabExpired.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabExpired.Name = "tabExpired";
             this.tabExpired.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabExpired.Size = new System.Drawing.Size(247, 267);
+            this.tabExpired.Size = new System.Drawing.Size(247, 271);
             this.tabExpired.TabIndex = 1;
             this.tabExpired.Text = "Vencidas/anuladas";
             this.tabExpired.UseVisualStyleBackColor = true;
@@ -362,7 +362,7 @@
             this.grdExpired.ReadOnly = true;
             this.grdExpired.RowHeadersVisible = false;
             this.grdExpired.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdExpired.Size = new System.Drawing.Size(241, 263);
+            this.grdExpired.Size = new System.Drawing.Size(241, 267);
             this.grdExpired.TabIndex = 1;
             this.grdExpired.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdExpired_CellClick);
             // 
@@ -455,6 +455,7 @@
             this.usosToolStripMenuItem.Name = "usosToolStripMenuItem";
             this.usosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.usosToolStripMenuItem.Text = "Usos";
+            this.usosToolStripMenuItem.Visible = false;
             this.usosToolStripMenuItem.Click += new System.EventHandler(this.usosToolStripMenuItem_Click);
             // 
             // carroceríasToolStripMenuItem
@@ -462,6 +463,7 @@
             this.carroceríasToolStripMenuItem.Name = "carroceríasToolStripMenuItem";
             this.carroceríasToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.carroceríasToolStripMenuItem.Text = "Carrocerías";
+            this.carroceríasToolStripMenuItem.Visible = false;
             this.carroceríasToolStripMenuItem.Click += new System.EventHandler(this.carroceríasToolStripMenuItem_Click);
             // 
             // tiposDeVehiculosToolStripMenuItem
@@ -469,6 +471,7 @@
             this.tiposDeVehiculosToolStripMenuItem.Name = "tiposDeVehiculosToolStripMenuItem";
             this.tiposDeVehiculosToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.tiposDeVehiculosToolStripMenuItem.Text = "Tipos de Vehiculos";
+            this.tiposDeVehiculosToolStripMenuItem.Visible = false;
             this.tiposDeVehiculosToolStripMenuItem.Click += new System.EventHandler(this.tiposDeVehiculosToolStripMenuItem_Click);
             // 
             // bancosToolStripMenuItem
@@ -496,6 +499,7 @@
             this.cobranzasARealizarEntreFechasToolStripMenuItem.Name = "cobranzasARealizarEntreFechasToolStripMenuItem";
             this.cobranzasARealizarEntreFechasToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
             this.cobranzasARealizarEntreFechasToolStripMenuItem.Text = "Cobranzas  Realizadas entre fechas";
+            this.cobranzasARealizarEntreFechasToolStripMenuItem.Visible = false;
             this.cobranzasARealizarEntreFechasToolStripMenuItem.Click += new System.EventHandler(this.cobranzasARealizarEntreFechasToolStripMenuItem_Click);
             // 
             // cobranzasVencidasToolStripMenuItem
@@ -518,6 +522,7 @@
             this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Name = "pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem";
             this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
             this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Text = "Pólizas  entre fechas, por inicio de vigencia";
+            this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Visible = false;
             this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Click += new System.EventHandler(this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem_Click_1);
             // 
             // pólizasSinCobranzasNiLiquidacionesToolStripMenuItem
@@ -577,14 +582,14 @@
             // rORToolStripMenuItem
             // 
             this.rORToolStripMenuItem.Name = "rORToolStripMenuItem";
-            this.rORToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.rORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rORToolStripMenuItem.Text = "ROS";
             this.rORToolStripMenuItem.Click += new System.EventHandler(this.rORToolStripMenuItem_Click);
             // 
             // rCRToolStripMenuItem
             // 
             this.rCRToolStripMenuItem.Name = "rCRToolStripMenuItem";
-            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rCRToolStripMenuItem.Text = "RCR";
             this.rCRToolStripMenuItem.Click += new System.EventHandler(this.rCRToolStripMenuItem_Click);
             // 
