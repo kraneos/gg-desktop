@@ -1073,6 +1073,57 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
+        #region Archivos Siniestros
+
+        private void AgregarFotoSiniestros(object sender, EventArgs e)
+        {
+            folderBrowserFotos.Reset();
+            var fdlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = @"Seleccione las fotos que quiere agregar... ",
+                InitialDirectory = "C:\\",
+                Filter = @"All files|*.*",
+                RestoreDirectory = true
+            };
+            if (fdlg.ShowDialog() != DialogResult.OK) return;
+
+            //TODO: mover fotos a un directorio de seggu
+
+            foreach (var files in fdlg.FileNames)
+            {
+                try
+                {
+                    var image = Image.FromFile(files);
+                    if (!imageList1.Images.ContainsKey(files))
+                    {
+                        imageList1.Images.Add(files, image);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            ListViewFotosSiniestros.View = View.LargeIcon;
+            imageList1.ImageSize = new Size(130, 97);
+            ListViewFotosSiniestros.LargeImageList = imageList1;
+            ListViewFotosSiniestros.Items.Clear();
+            for (var j = 0; j < imageList1.Images.Count; j++)
+            {
+                var item = new ListViewItem { ImageIndex = j };
+                ListViewFotosSiniestros.Items.Add(item);
+            }
+        }
+        private void EliminarFotoSiniestros(object sender, EventArgs e)
+        {
+            if (ListViewFotosSiniestros.FocusedItem == null) return;
+            var focusedItem = ListViewFotosSiniestros.FocusedItem;
+            imageList1.Images.RemoveAt(focusedItem.ImageIndex);
+            ListViewFotosSiniestros.Items.Remove(ListViewFotosSiniestros.FocusedItem);
+        }
+        #endregion
         #endregion
 
         #region Files Tab
