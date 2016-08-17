@@ -731,14 +731,14 @@ namespace Seggu.Desktop.UserControls
                 {
                     if (c is TextBox)
                     {
-                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado || c == txtRecargoPropio || c == txtBonificacionPropia || c == txtBonificacionPago)
+                        if (c == txtAsegurado || c == txtPremioIva || c == txtSumaAsegurado || c == txtRecargoPropio || c == txtBonificacionPropia || c == txtBonificacionPago || c == txtNetoCobrar || c == txtNetoPagar)
                         {
                             if (c.Text == string.Empty)
                             {
                                 errorProvider1.SetError(c, "Campo vacio");
                                 ok = false;
                             }
-                            else if (c == txtPremioIva || c == txtSumaAsegurado)
+                            if (c == txtPremioIva || c == txtSumaAsegurado || c == txtNetoCobrar || c == txtNetoPagar)
                             {
                                 decimal x;
 
