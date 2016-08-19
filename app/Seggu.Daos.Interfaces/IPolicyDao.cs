@@ -6,11 +6,12 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IPolicyDao : IParseIdEntityDao<Policy>
     { 
-        IEnumerable<Policy> GetByPolicyNumber(string polNum);
-        IEnumerable<Policy> GetByVehiclePlate(string plate);
-        IEnumerable<Policy> GetValidsByClient(long clientId);
-        IEnumerable<Policy> GetNotValidsByClient(long clientId);
+        List<Policy> GetByPolicyNumber(string polNum);
+        List<Policy> GetByVehiclePlate(string plate);
+        List<Policy> GetValidsByClient(long clientId);
+        List<Policy> GetNotValidsByClient(long clientId);
         void Edit(Policy newPolicy);
-        IEnumerable<Policy> GetRosView(DateTime from, DateTime to);
+        List<Policy> GetRosView(DateTime from, DateTime to);
+        bool ExistsByProducer(int producerId);
     }
 }

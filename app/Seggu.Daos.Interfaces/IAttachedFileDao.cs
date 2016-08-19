@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IAttachedFileDao : IParseIdEntityDao<AttachedFile>
     {
-        IEnumerable<AttachedFile> GetByPolicyId(long guid);
+        List<AttachedFile> GetByPolicyId(long guid);
     }
 }

@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IAccessoryDao : IParseIdEntityDao<Accessory>
     {
-        IEnumerable<Accessory> GetByVehicleId(long id);
+        List<Accessory> GetByVehicleId(long id);
     }
 }

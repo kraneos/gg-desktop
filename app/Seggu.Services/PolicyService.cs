@@ -15,15 +15,17 @@ namespace Seggu.Services
         private IVehicleDao vehicleDao;
         private IFeeDao feeDao;
         private IAddressDao addressDao;
-        private IAttachedFileDao attachedFilesDao;
+        private readonly IAttachedFileDao attachedFilesDao;
+        private readonly ICoverageDao coverageDao;
 
-        public PolicyService(IPolicyDao policyDao, IVehicleDao vehicleDao, IFeeDao feeDao, IAddressDao addressDao, IAttachedFileDao attachedFilesDao)
+        public PolicyService(IPolicyDao policyDao, IVehicleDao vehicleDao, IFeeDao feeDao, IAddressDao addressDao, IAttachedFileDao attachedFilesDao, ICoverageDao coverageDao)
         {
             this.policyDao = policyDao;
             this.vehicleDao = vehicleDao;
             this.feeDao = feeDao;
             this.addressDao = addressDao;
             this.attachedFilesDao = attachedFilesDao;
+            this.coverageDao = coverageDao;
         }
         public PolicyFullDto GetById(long policyId)
         {
@@ -82,8 +84,8 @@ namespace Seggu.Services
             else
             {
                 var existingAttachedFiles = attachedFilesDao.GetByPolicyId(pol.Id);
-                var attachedFilesToRemove = existingAttachedFiles.Where(x => !policy.AttachedFiles.Any(y => y.FilePath == x.FilePath));
-                attachedFilesDao.DeleteMany(attachedFilesToRemove);
+                var attachedFilesToRemove = existingAttachedFiles.Where(x => policy.AttachedFiles.All(y => y.FilePath != x.FilePath));
+                attachedFilesDao.DeleteMany(attachedFilesToRemove.ToList());
                 if (policy.Vehicles != null)
                     foreach (var vehicle in policy.Vehicles)
                         vehicle.PolicyId = policy.Id;
@@ -100,24 +102,27 @@ namespace Seggu.Services
         {
             foreach (var integral in policy.Integrals)
             {
-                var coverages = integral.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
-                integral.Coverages = coverages;
+                var coverages = coverageDao.GetByIds(integral.Coverages.Select(x => x.Id).ToList());
+                //var coverages = integral.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
+                integral.Coverages = coverages.ToList();
             }
         }
         private void AddCoveragesToVehicles(Policy policy)
         {
             foreach (var vehicle in policy.Vehicles)
             {
-                var coverages = vehicle.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
-                vehicle.Coverages = coverages;
+                var coverages = coverageDao.GetByIds(vehicle.Coverages.Select(x => x.Id).ToList());
+                //var coverages = vehicle.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
+                vehicle.Coverages = coverages.ToList();
             }
         }
         private void AddCoveragesToEmployees(Policy policy)
         {
             foreach (var employee in policy.Employees)
             {
-                var coverages = employee.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
-                employee.Coverages = coverages;
+                var coverages = coverageDao.GetByIds(employee.Coverages.Select(x => x.Id).ToList());
+                //var coverages = employee.Coverages.Select(coverage => this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id)).ToList();
+                employee.Coverages = coverages.ToList();
             }
         }
         public IEnumerable<PolicyRosViewDto> GetRosView(DateTime from, DateTime to)

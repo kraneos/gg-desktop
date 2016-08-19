@@ -14,11 +14,11 @@ namespace Seggu.Daos
 
         }
 
-        public IEnumerable<District> GetByProvince(long provinceId)
+        public List<District> GetByProvince(long provinceId)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Districts.Where(x => x.ProvinceId == provinceId);
+                return context.Districts.Where(x => x.ProvinceId == provinceId).ToList();
             }
         }
 

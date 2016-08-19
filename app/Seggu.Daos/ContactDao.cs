@@ -15,11 +15,11 @@ namespace Seggu.Daos
 
         }
 
-        public IEnumerable<Contact> GetByCompany(int id)
+        public List<Contact> GetByCompany(int id)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Contacts.Where(x => x.CompanyId == id); 
+                return context.Contacts.Where(x => x.CompanyId == id).ToList();
             }
         }
 
@@ -29,7 +29,7 @@ namespace Seggu.Daos
             {
                 var orig = context.Contacts.Find(obj.Id);
                 Mapper.Map<Contact, Contact>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

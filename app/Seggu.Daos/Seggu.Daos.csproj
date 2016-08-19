@@ -85,6 +85,8 @@
     <Compile Include="CashAccountDao.cs" />
     <Compile Include="CasualtyDao.cs" />
     <Compile Include="CasualtyTypeDao.cs" />
+    <Compile Include="ChequeDao.cs" />
+    <Compile Include="ClientCreditCardDao.cs" />
     <Compile Include="ClientDao.cs" />
     <Compile Include="CompanyDao.cs" />
     <Compile Include="ContactDao.cs" />
@@ -126,6 +128,10 @@
     <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
       <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
       <Name>Seggu.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Dtos\Seggu.Dtos.csproj">
+      <Project>{8b0390d7-29c8-463b-a016-b22961c634a0}</Project>
+      <Name>Seggu.Dtos</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

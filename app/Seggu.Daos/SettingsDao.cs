@@ -13,12 +13,25 @@ namespace Seggu.Daos
 
         public Setting GetLastLogin()
         {
-            return context.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Settings.OrderByDescending(x => x.Id).FirstOrDefault(); 
+            }
         }
 
         public override void Update(Setting obj)
         {
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var inner = context.Settings.Find(obj.Id);
+                inner.ObjectId = obj.ObjectId;
+                inner.ClientsRole = obj.ClientsRole;
+                inner.Password = obj.Password;
+                inner.UserRole = obj.UserRole;
+                inner.Username = obj.Username;
+
+                context.SaveChanges(); 
+            }
         }
 
     }

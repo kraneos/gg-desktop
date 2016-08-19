@@ -7,8 +7,8 @@ namespace Seggu.Daos.Interfaces
     {
         bool GetByName(string name);
 
-        IEnumerable<Bodywork> GetByVehicleType(int vehicleTypeId);
+        List<Bodywork> GetByVehicleType(int vehicleTypeId);
 
-        void SaveChanges(VehicleType vehicleType, IEnumerable<Bodywork> bodyworks);
+        void SaveChanges(VehicleType vehicleType, List<Bodywork> bodyworks);
     }
 }

@@ -10,11 +10,13 @@ namespace Seggu.Services
 {
     public sealed class CoverageService : ICoverageService
     {
-        private ICoverageDao coverageDao;
+        private readonly ICoverageDao coverageDao;
+        private readonly ICoveragesPackDao coveragePackDao;
 
-        public CoverageService(ICoverageDao coverageDao)
+        public CoverageService(ICoverageDao coverageDao, ICoveragesPackDao coveragePackDao)
         {
             this.coverageDao = coverageDao;
+            this.coveragePackDao = coveragePackDao;
         }
 
         public IEnumerable<CoverageDto> GetAllByRiskId(int Id)
@@ -22,18 +24,18 @@ namespace Seggu.Services
             var coverage = this.coverageDao.GetAll();
             return coverage
                 .Where(c => c.RiskId == Id)
-                .Select(c => CoverageDtoMapper.GetDto(c))
+                .Select(CoverageDtoMapper.GetDto)
                 .OrderBy(x => x.Name);
         }
         public IEnumerable<CoverageDto> GetByPackId(int Id)
         {
             var id = Id;
-            var coverage = this.coverageDao.GetContainer().CoveragesPacks.Single(x => x.Id == id).Coverages.ToList();
+            var coverage = this.coveragePackDao.Find(id).Coverages;//this.coverageDao.GetContainer().CoveragesPacks.Single(x => x.Id == id).Coverages.ToList();
             //.Where(c => c.CoveragesPacks.Any(cp => cp.Id == new Guid(Id)))
             //.Select(c => CoverageDtoMapper.GetDto(c))
             //.OrderBy(x => x.Name)
             //.ToList();
-            return coverage.Select(c => CoverageDtoMapper.GetDto(c));
+            return coverage.Select(CoverageDtoMapper.GetDto);
         }
 
         public void Delete(int id)
@@ -47,7 +49,7 @@ namespace Seggu.Services
         }
         public void DeleteMany(IEnumerable<CoverageDto> coverageDtos)
         {
-            var coverages = coverageDtos.Select(c => CoverageDtoMapper.GetObject(c));
+            var coverages = coverageDtos.Select(CoverageDtoMapper.GetObject);
             foreach (var cov in coverages)
             {
                 coverageDao.Delete(cov.Id);

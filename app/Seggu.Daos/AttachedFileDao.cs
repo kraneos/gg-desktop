@@ -15,12 +15,12 @@ namespace Seggu.Daos
         {
         }
 
-        public IEnumerable<AttachedFile> GetByPolicyId(long guid)
+        public List<AttachedFile> GetByPolicyId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.AttachedFiles
-                        .Where(f => f.PolicyId == guid); 
+                        .Where(f => f.PolicyId == guid).ToList(); 
             }
         }
 

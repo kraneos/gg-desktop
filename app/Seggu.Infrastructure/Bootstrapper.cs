@@ -142,6 +142,8 @@ namespace Seggu.Infrastructure
             container.RegisterType<IIntegralDao, IntegralDao>();
             container.RegisterType<IImplementedVersionDao, ImplementedVersionDao>();
             container.RegisterType<ISettingsDao, SettingsDao>();
+            container.RegisterType<IChequeDao, ChequeDao>();
+            container.RegisterType<IClientCreditCardDao, ClientCreditCardDao>();
 
             // Service Services
             container.RegisterType<ISynchronizationService, SynchronizationService>();

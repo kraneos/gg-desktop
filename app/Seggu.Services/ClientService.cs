@@ -53,13 +53,13 @@ namespace Seggu.Services
         public IEnumerable<ClientIndexDto> GetByDNI(string str)
         {
             var clients = this.clientDao.GetByDni(str);
-            return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
+            return clients;
         }
 
         public IEnumerable<ClientIndexDto> GetByName(string str)
         {
             var clients = this.clientDao.GetByFullName(str);
-            return clients.Select(x => ClientDtoMapper.GetIndexDto(x));
+            return clients;//.Select(x => ClientDtoMapper.GetIndexDto(x));
         }
 
         public IEnumerable<ClientIndexDto> GetAll()
@@ -77,8 +77,8 @@ namespace Seggu.Services
         public ClientFullDto GetById(int clientId)
         {
             var id = clientId;
-            var client = this.clientDao.Get(id);
-            return ClientDtoMapper.GetDto(client);
+            var client = this.clientDao.GetFull(id);
+            return client;
         }
         public IEnumerable<ClientIndexDto> GetValids()
         {

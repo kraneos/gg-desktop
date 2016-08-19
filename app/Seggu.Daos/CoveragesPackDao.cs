@@ -16,11 +16,11 @@ namespace Seggu.Daos
 
         }
 
-        public IEnumerable<CoveragesPack> GetByRiskId(long riskId)
+        public List<CoveragesPack> GetByRiskId(long riskId)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId); 
+                return context.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId).ToList();
             }
         }
 
@@ -49,7 +49,7 @@ namespace Seggu.Daos
                     else
                         newCoveragesPack.Coverages.Remove(c);
                 }
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
 
@@ -57,7 +57,7 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.CoveragesPacks.Any(c => c.Name == name); 
+                return context.CoveragesPacks.Any(c => c.Name == name);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.CoveragesPacks.Any(c => c.RiskId == idRisk); 
+                return context.CoveragesPacks.Any(c => c.RiskId == idRisk);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.CoveragesPacks.Any(p => p.Name == name && p.RiskId == idRisk); 
+                return context.CoveragesPacks.Any(p => p.Name == name && p.RiskId == idRisk);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Seggu.Daos
                 {
                     return false;
                 }
-                return true; 
+                return true;
             }
         }
 
@@ -100,7 +100,7 @@ namespace Seggu.Daos
             {
                 var orig = context.CoveragesPacks.Find(obj.Id);
                 Mapper.Map<CoveragesPack, CoveragesPack>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

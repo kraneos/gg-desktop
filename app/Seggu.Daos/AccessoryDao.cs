@@ -14,12 +14,12 @@ namespace Seggu.Daos
         {
         }
 
-        public IEnumerable<Accessory> GetByVehicleId(long id)
+        public List<Accessory> GetByVehicleId(long id)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Accessories
-                        .Where(x => x.VehicleId == id); 
+                        .Where(x => x.VehicleId == id).ToList(); 
             }
         }
 

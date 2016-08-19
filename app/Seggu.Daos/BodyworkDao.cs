@@ -22,29 +22,26 @@ namespace Seggu.Daos
             }
         }
 
-        public IEnumerable<Bodywork> GetByVehicleType(int vehicleTypeId)
+        public List<Bodywork> GetByVehicleType(int vehicleTypeId)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.VehicleTypes.Find(vehicleTypeId).Bodyworks;
+                return context.VehicleTypes.Find(vehicleTypeId).Bodyworks.ToList();
             }
         }
 
-        public void SaveChanges(VehicleType vehicleType, IEnumerable<Bodywork> existing)
+        public void SaveChanges(VehicleType vehicleType, List<Bodywork> existing)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 vehicleType = context.VehicleTypes.Find(vehicleType.Id);
 
-                foreach (var obj in existing)
+                foreach (var obj in existing.Where(obj => vehicleType.Bodyworks.All(x => x.Id != obj.Id)))
                 {
-                    if (!vehicleType.Bodyworks.Any(x => x.Id == obj.Id))
-                    {
-                        vehicleType.Bodyworks.Add(obj);
-                    }
+                    vehicleType.Bodyworks.Add(obj);
                 }
 
-                var nonExisting = vehicleType.Bodyworks.Where(b => !existing.Any(x => x.Id == b.Id));
+                var nonExisting = vehicleType.Bodyworks.Where(b => existing.All(x => x.Id != b.Id));
                 while (nonExisting.Any())
                 {
                     vehicleType.Bodyworks.Remove(nonExisting.First());

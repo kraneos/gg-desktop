@@ -16,11 +16,11 @@ namespace Seggu.Daos
 
         }
 
-        public IEnumerable<Employee> GetByPolicyId(long policyId)
+        public List<Employee> GetByPolicyId(long policyId)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Employees.Where(x => x.PolicyId == policyId); 
+                return context.Employees.Where(x => x.PolicyId == policyId).ToList();
             }
         }
 

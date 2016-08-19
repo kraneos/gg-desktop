@@ -31,11 +31,11 @@ namespace Seggu.Daos
             //this.context = context;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual List<T> GetAll()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Set<T>(); 
+                return context.Set<T>().ToList();
             }
         }
 
@@ -43,7 +43,7 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Set<T>().Find(id); 
+                return context.Set<T>().Find(id);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Seggu.Daos
             using (var context = SegguDataModelContext.Create())
             {
                 context.Set<T>().Add(obj);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
             //    scope.Complete();
             //}
@@ -107,13 +107,13 @@ namespace Seggu.Daos
             {
                 var obj = context.Set<T>().Find(id);
                 context.Set<T>().Remove(obj);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
             //    scope.Complete();
             //}
         }
 
-        public virtual void SaveMany(IEnumerable<T> objs)
+        public virtual void SaveMany(List<T> objs)
         {
             //using (var scope = new TransactionScope())
             //{
@@ -122,7 +122,7 @@ namespace Seggu.Daos
             //}
         }
 
-        public virtual void UpdateMany(IEnumerable<T> objs)
+        public virtual void UpdateMany(List<T> objs)
         {
             //using (var scope = new TransactionScope())
             //{
@@ -131,7 +131,7 @@ namespace Seggu.Daos
             //}
         }
 
-        public virtual void DeleteMany(IEnumerable<T> objs)
+        public virtual void DeleteMany(List<T> objs)
         {
             //using (var scope = new TransactionScope())
             //{
@@ -140,15 +140,15 @@ namespace Seggu.Daos
             //}
         }
 
-        public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate)
+        public virtual List<T> Where(Expression<Func<T, bool>> predicate)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Set<T>().Where(predicate);
+                return context.Set<T>().Where(predicate).ToList();
             }
         }
 
-        private static void DoBulkAction(IEnumerable<T> objs, EntityState entityState)
+        private static void DoBulkAction(List<T> objs, EntityState entityState)
         {
             using (var context = SegguDataModelContext.Create())
             {

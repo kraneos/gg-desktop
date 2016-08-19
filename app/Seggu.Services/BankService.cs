@@ -11,11 +11,15 @@ namespace Seggu.Services
 {
     public sealed class BankService : IBankService
     {
-        private IBankDao bankDao;
+        private readonly IBankDao bankDao;
+        private readonly IChequeDao chequeDao;
+        private readonly IClientCreditCardDao clientCreditCardDao;
 
-        public BankService(IBankDao bankDao)
+        public BankService(IBankDao bankDao, IChequeDao chequeDao, IClientCreditCardDao clientCreditCardDao)
         {
             this.bankDao = bankDao;
+            this.chequeDao = chequeDao;
+            this.clientCreditCardDao = clientCreditCardDao;
         }
 
         public IEnumerable<BankDto> GetAll()
@@ -64,16 +68,12 @@ namespace Seggu.Services
 
         public bool HasAssociatedRecords(int id)
         {
-            if (id != default(int))
-            {
-                var guid = id;
-                var hasCheques = this.bankDao.GetContainer().Cheques.Any(x => x.BankId == guid);
-                var hasCreditCards = this.bankDao.GetContainer().ClientCreditCards.Any(x => x.BankId == guid);
+            if (id == default(int)) return false;
+            var guid = id;
+            var hasCheques = this.chequeDao.ExistsByBank(guid);//.GetContainer().Cheques.Any(x => x.BankId == guid);
+            var hasCreditCards = this.clientCreditCardDao.ExistsByBank(guid);//.GetContainer().ClientCreditCards.Any(x => x.BankId == guid);
 
-                return hasCheques || hasCreditCards;
-            }
-
-            return false;
+            return hasCheques || hasCreditCards;
         }
     }
 }

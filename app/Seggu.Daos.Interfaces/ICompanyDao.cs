@@ -6,9 +6,9 @@ namespace Seggu.Daos.Interfaces
 {
     public interface ICompanyDao : IParseIdEntityDao<Company>
     {
-        IEnumerable<Company> GetActive();
+        List<Company> GetActive();
 
-        IEnumerable<Company> GetOrderedActive();
+        List<Company> GetOrderedActive();
 
         Company GetById(long guid);
 

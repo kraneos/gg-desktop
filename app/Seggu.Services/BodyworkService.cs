@@ -48,9 +48,6 @@ namespace Seggu.Services
             var bodyworks = this.bodyworkDao.GetByVehicleType(vehicleTypeId);
             return bodyworks.Select(b => BodyworkDtoMapper.GetDto(b));
         }
-        public void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<BodyworkDto> existing)
-        {
-            this.bodyworkDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), existing.Select(x => BodyworkDtoMapper.GetObject(x)));
-        }
+        public void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<BodyworkDto> existing) => this.bodyworkDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), existing.Select(BodyworkDtoMapper.GetObject).ToList());
     }
 }

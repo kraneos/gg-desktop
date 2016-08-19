@@ -10,13 +10,15 @@ namespace Seggu.Services
 {
     public class ProducerService : IProducerService
     {
-        private IProducerCodeDao producerCodeDao;
-        private IProducerDao producerDao;
+        private readonly IProducerCodeDao producerCodeDao;
+        private readonly IProducerDao producerDao;
+        private readonly IPolicyDao policyDao;
 
-        public ProducerService(IProducerDao producerDao, IProducerCodeDao producerCodeDao)
+        public ProducerService(IProducerDao producerDao, IProducerCodeDao producerCodeDao, IPolicyDao policyDao)
         {
             this.producerCodeDao = producerCodeDao;
             this.producerDao = producerDao;
+            this.policyDao = policyDao;
         }
 
         public IEnumerable<ProducerDto> GetCollectors()
@@ -24,13 +26,13 @@ namespace Seggu.Services
             return this
                 .producerDao
                 .GetCollectors()
-                .Select(x => ProducerDtoMapper.GetDto(x));
+                .Select(ProducerDtoMapper.GetDto);
         }
 
         public IEnumerable<ProducerDto> GetProducers()
         {
             var list = this.producerDao.GetAll();
-            return list.OrderBy(x => x.Name).Select(p => ProducerDtoMapper.GetDto(p));
+            return list.OrderBy(x => x.Name).Select(ProducerDtoMapper.GetDto);
         }
 
         public ProducerCompanyDto GetByIdAndCompanyId(int producerId, int companyId)
@@ -39,7 +41,7 @@ namespace Seggu.Services
                 .producerCodeDao
                 .GetAll()
                 .Where(x => x.CompanyId == companyId && (x.ProducerId == producerId))
-                .Select(x => ProducerDtoMapper.GetProducerCompanyDto(x)).Single();
+                .Select(ProducerDtoMapper.GetProducerCompanyDto).Single();
             return one;
         }
 
@@ -88,20 +90,16 @@ namespace Seggu.Services
         public IEnumerable<ProducerCodeDto> GetProducerCodeByCompanyId(int companyId)
         {
             var list = producerCodeDao.GetByCompany(companyId);
-            return list.OrderBy(x => x.Code).Select(p => ProducerCodeDtoMapper.GetDto(p));
+            return list.OrderBy(x => x.Code).Select(ProducerCodeDtoMapper.GetDto);
 
         }
 
         public bool HasPolicies(int producerId)
         {
-            if (producerId != default(int))
-            {
-                var guid = producerId;
+            if (producerId == default(int)) return false;
+            var guid = producerId;
 
-                return this.producerCodeDao.GetContainer().Policies.Any(x => x.ProducerId == guid || x.CollectorId == guid);
-            }
-
-            return false;
+            return this.policyDao.ExistsByProducer(producerId);//.GetContainer().Policies.Any(x => x.ProducerId == guid || x.CollectorId == guid);
         }
 
         public IEnumerable<KeyValueDto> GetByCompanyIdCombobox(int companyId)

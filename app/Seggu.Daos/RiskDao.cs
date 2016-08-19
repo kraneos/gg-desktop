@@ -23,27 +23,27 @@ namespace Seggu.Daos
             }
         }
 
-        public IEnumerable<Risk> GetByCompany(long idCompany)
+        public List<Risk> GetByCompany(long idCompany)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return
+                return (
                     from r in context.Risks
                     where r.CompanyId == idCompany
                     orderby r.Name
-                    select r;
+                    select r).ToList();
             }
         }
 
-        public IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany)
+        public List<Risk> GetByCompanyWithCoveragePacks(long idCompany)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return
+                return (
                     from r in context.Risks.Include("CoveragesPacks.Coverages")
                     where r.CompanyId == idCompany
                     orderby r.Name
-                    select r;
+                    select r).ToList();
             }
         }
 
@@ -64,11 +64,11 @@ namespace Seggu.Daos
             }
         }
 
-        public IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType)
+        public List<Risk> GetByCompanyAndRiskType(long id, RiskType riskType)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
+                return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType).ToList();
             }
         }
 

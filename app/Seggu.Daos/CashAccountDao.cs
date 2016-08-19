@@ -8,14 +8,14 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class CashAccountDao : IdParseEntityDao<CashAccount> , ICashAccountDao
+    public sealed class CashAccountDao : IdParseEntityDao<CashAccount>, ICashAccountDao
     {
         public CashAccountDao()
             : base()
         {
         }
 
-        public IEnumerable<CashAccount> GetRcrView(DateTime from, DateTime to)
+        public List<CashAccount> GetRcrView(DateTime from, DateTime to)
         {
             using (var context = SegguDataModelContext.Create())
             {
@@ -24,11 +24,11 @@ namespace Seggu.Daos
                        .Include("Fee.Policy")
                        .Include("Fee.Policy.Risk")
                        .Include("Fee.Policy.Risk.Company")
-                       .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null); 
+                       .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null).ToList();
             }
         }
 
-        public IEnumerable<CashAccount> GetOverdue(DateTime time)
+        public List<CashAccount> GetOverdue(DateTime time)
         {
             using (var context = SegguDataModelContext.Create())
             {
@@ -37,7 +37,7 @@ namespace Seggu.Daos
                        .Include("Fee.Policy")
                        .Include("Fee.Policy.Risk")
                        .Include("Fee.Policy.Risk.Company")
-                       .Where(ca => ca.Date < time && ca.FeeId == null); 
+                       .Where(ca => ca.Date < time && ca.FeeId == null).ToList();
             }
         }
 
@@ -55,7 +55,7 @@ namespace Seggu.Daos
             {
                 var orig = context.CashAccounts.Find(obj.Id);
                 Mapper.Map<CashAccount, CashAccount>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

@@ -6,10 +6,10 @@ namespace Seggu.Daos.Interfaces
 {
     public interface ICashAccountDao : IParseIdEntityDao<CashAccount>
     {
-        IEnumerable<CashAccount> GetRcrView(System.DateTime from, System.DateTime to);
+        List<CashAccount> GetRcrView(System.DateTime from, System.DateTime to);
 
         bool ReceiptExists(string receipt);
 
-        IEnumerable<CashAccount> GetOverdue(DateTime time);
+        List<CashAccount> GetOverdue(DateTime time);
     }
 }

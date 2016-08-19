@@ -5,9 +5,9 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IProducerDao : IParseIdEntityDao<Producer>
     {
-        IEnumerable<Producer> GetCollectors();
+        List<Producer> GetCollectors();
         bool GetByRegistrationNumberId(string registrationNumber, long id);
         bool GetByRegistrationNumber(string registrationNumber);
-        IEnumerable<ProducerCode> GetByCompanyId(int id);
+        List<ProducerCode> GetByCompanyId(int id);
     }
 }

@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface ICasualtyDao : IParseIdEntityDao<Casualty>
     {
-        IEnumerable<Casualty> GetByPolicyId(long guid);
+        List<Casualty> GetByPolicyId(long guid);
     }
 }

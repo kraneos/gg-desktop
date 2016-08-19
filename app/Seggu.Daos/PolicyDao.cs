@@ -22,55 +22,55 @@ namespace Seggu.Daos
             this.integralDao = integralDao;
         }
 
-        public IEnumerable<Policy> GetValidsByClient(long clientId)
+        public List<Policy> GetValidsByClient(long clientId)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                from p in context.Policies.OrderBy(p => p.EndDate)
-                where
-                    p.ClientId == clientId
-                    && p.EndDate >= DateTime.Today
-                    && p.IsAnnulled == false
-                    && p.IsRemoved == false
-                orderby p.EndDate descending
-                select p;
+                (from p in context.Policies.OrderBy(p => p.EndDate)
+                 where
+                     p.ClientId == clientId
+                     && p.EndDate >= DateTime.Today
+                     && p.IsAnnulled == false
+                     && p.IsRemoved == false
+                 orderby p.EndDate descending
+                 select p).ToList();
             }
         }
-        public IEnumerable<Policy> GetNotValidsByClient(long clientId)
+        public List<Policy> GetNotValidsByClient(long clientId)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from p in context.Policies
-                    where
-                        p.ClientId == clientId && p.IsAnnulled == true
-                        || p.ClientId == clientId && p.IsRemoved == true
-                        || p.ClientId == clientId && p.EndDate < DateTime.Today
-                    orderby p.EndDate descending
-                    select p;
+                    (from p in context.Policies
+                     where
+                         p.ClientId == clientId && p.IsAnnulled == true
+                         || p.ClientId == clientId && p.IsRemoved == true
+                         || p.ClientId == clientId && p.EndDate < DateTime.Today
+                     orderby p.EndDate descending
+                     select p).ToList();
             }
         }
-        public IEnumerable<Policy> GetByVehiclePlate(string plate)
+        public List<Policy> GetByVehiclePlate(string plate)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from p in context.Policies
-                    join v in context.Vehicles
-                    on p.Id equals v.PolicyId
-                    where v.Plate == plate
-                    select p;
+                    (from p in context.Policies
+                     join v in context.Vehicles
+                     on p.Id equals v.PolicyId
+                     where v.Plate == plate
+                     select p).ToList();
             }
         }
-        public IEnumerable<Policy> GetByPolicyNumber(string polNum)
+        public List<Policy> GetByPolicyNumber(string polNum)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from p in context.Policies
-                    where p.Number.StartsWith(polNum)
-                    select p;
+                    (from p in context.Policies
+                     where p.Number.StartsWith(polNum)
+                     select p).ToList();
             }
         }
         public void Edit(Policy newPolicy)
@@ -189,9 +189,8 @@ namespace Seggu.Daos
                             else
                                 coveragesToRemove.Add(dbCoverage);
 
-                        foreach (var newCoverage in newEmployee.Coverages.Where(newCoverage => coveragesNotToAdd.All(x => x.Id != newCoverage.Id)))
+                        foreach (var dbCoverage in newEmployee.Coverages.Where(newCoverage => coveragesNotToAdd.All(x => x.Id != newCoverage.Id)).Select(newCoverage => context.Coverages.Single(x => x.Id == newCoverage.Id)))
                         {
-                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbEmployee.Coverages.Add(dbCoverage);
                         }
                         foreach (var coverageToRemove in coveragesToRemove)
@@ -220,7 +219,7 @@ namespace Seggu.Daos
                         var coveragesNotToAdd = new List<Coverage>();
                         //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
                         context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
-                        Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
+                        Mapper.Map(newIntegral, dbIntegral);
 
                         foreach (var dbCoverage in dbIntegral.Coverages)
                             if (newIntegral.Coverages.Any(x => x.Id == dbCoverage.Id))
@@ -231,12 +230,8 @@ namespace Seggu.Daos
                             else
                                 coveragesToRemove.Add(dbCoverage);
 
-                        foreach (var newCoverage in newIntegral.Coverages)
-                            if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
-                            {
-                                var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
-                                dbIntegral.Coverages.Add(dbCoverage);
-                            }
+                        foreach (var dbCoverage in from newCoverage in newIntegral.Coverages where coveragesNotToAdd.All(x => x.Id != newCoverage.Id) select context.Coverages.Single(x => x.Id == newCoverage.Id))
+                            dbIntegral.Coverages.Add(dbCoverage);
                         foreach (var coverageToRemove in coveragesToRemove)
                             dbIntegral.Coverages.Remove(coverageToRemove);
                     }
@@ -245,7 +240,7 @@ namespace Seggu.Daos
                 }
             }
         }
-        private void UpdateFees(Policy policy)
+        private static void UpdateFees(Policy policy)
         {
             using (var context = SegguDataModelContext.Create())
             {
@@ -260,11 +255,11 @@ namespace Seggu.Daos
                 context.Fees.AddRange(policy.Fees);
             }
         }
-        public IEnumerable<Policy> GetRosView(DateTime from, DateTime to)
+        public List<Policy> GetRosView(DateTime from, DateTime to)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Policies
+                return (context.Policies
                     .Include("Client")
                     .Include("Risk")
                     .Include("Risk.Company")
@@ -272,7 +267,15 @@ namespace Seggu.Daos
                     .Include("Client.Addresses.Locality")
                     .Include("Client.Addresses.Locality.District")
                     .Include("Client.Addresses.Locality.District.Province")
-                    .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null);
+                    .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null)).ToList();
+            }
+        }
+
+        public bool ExistsByProducer(int producerId)
+        {
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Policies.Any(x => x.ProducerId == producerId || x.CollectorId == producerId);
             }
         }
 

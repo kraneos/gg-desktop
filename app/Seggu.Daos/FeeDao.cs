@@ -16,87 +16,87 @@ namespace Seggu.Daos
         {
 
         }
-        public IEnumerable<Fee> GetByPolicyId(long guid)
+        public List<Fee> GetByPolicyId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Fees
-                    .Where(f => f.PolicyId == guid);
+                    .Where(f => f.PolicyId == guid).ToList();
             }
         }
-        public IEnumerable<Fee> GetByEndorseId(long guid)
+        public List<Fee> GetByEndorseId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Fees
-                    .Where(f => f.EndorseId == guid);
+                    .Where(f => f.EndorseId == guid).ToList();
             }
         }
-        public IEnumerable<Fee> GetByCompanyId(long guid, DateTime dateFrom, DateTime dateTo)
+        public List<Fee> GetByCompanyId(long guid, DateTime dateFrom, DateTime dateTo)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from f in context.Fees
-                    join p in context.Policies on f.PolicyId equals p.Id
-                    join r in context.Risks on p.Risk.Id equals r.Id
-                    join co in context.Companies on r.CompanyId equals co.Id
-                    where co.Id == guid
-                        && f.ExpirationDate >= dateFrom && f.ExpirationDate <= dateTo
-                        && f.Annulated == false
-                    select f;
+                    (from f in context.Fees
+                     join p in context.Policies on f.PolicyId equals p.Id
+                     join r in context.Risks on p.Risk.Id equals r.Id
+                     join co in context.Companies on r.CompanyId equals co.Id
+                     where co.Id == guid
+                         && f.ExpirationDate >= dateFrom && f.ExpirationDate <= dateTo
+                         && f.Annulated == false
+                     select f).ToList();
             }
             //return this.Set.Include("Policy.Coverage.Risk.Company")
             //    .Where(f => f.Policy.Coverage.Risk.CompanyId == guid);
         }
-        public IEnumerable<Fee> GetExpiredByCompanyId(long guid)
+        public List<Fee> GetExpiredByCompanyId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from f in context.Fees
-                    join p in context.Policies on f.PolicyId equals p.Id
-                    join r in context.Risks on p.Risk.Id equals r.Id
-                    join co in context.Companies on r.CompanyId equals co.Id
-                    where co.Id == guid
-                        && f.ExpirationDate < DateTime.Today
-                        && f.State == 0
-                        && f.Annulated == false
-                    select f;
+                    (from f in context.Fees
+                     join p in context.Policies on f.PolicyId equals p.Id
+                     join r in context.Risks on p.Risk.Id equals r.Id
+                     join co in context.Companies on r.CompanyId equals co.Id
+                     where co.Id == guid
+                         && f.ExpirationDate < DateTime.Today
+                         && f.State == 0
+                         && f.Annulated == false
+                     select f).ToList();
             }
         }
-        public IEnumerable<Fee> GetByFeeSelectionId(long guid)
+        public List<Fee> GetByFeeSelectionId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Fees
-                    .Where(f => f.FeeSelectionId == guid);
+                    .Where(f => f.FeeSelectionId == guid).ToList();
             }
         }
-        public IEnumerable<Fee> GetTodayFees()
+        public List<Fee> GetTodayFees()
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Fees
-                    .Where(f => f.ExpirationDate == DateTime.Today);
+                    .Where(f => f.ExpirationDate == DateTime.Today).ToList();
             }
         }
-        public IEnumerable<Fee> GetExpiredByCompanyId()
+        public List<Fee> GetExpiredByCompanyId()
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from f in context.Fees
-                    join p in context.Policies on f.PolicyId equals p.Id
-                    join r in context.Risks on p.Risk.Id equals r.Id
-                    join co in context.Companies on r.CompanyId equals co.Id
-                    where f.ExpirationDate < DateTime.Today
-                        && f.State == 0
-                        && f.Annulated == false
-                    select f;
+                    (from f in context.Fees
+                     join p in context.Policies on f.PolicyId equals p.Id
+                     join r in context.Risks on p.Risk.Id equals r.Id
+                     join co in context.Companies on r.CompanyId equals co.Id
+                     where f.ExpirationDate < DateTime.Today
+                         && f.State == 0
+                         && f.Annulated == false
+                     select f).ToList();
             }
         }
-        public void AssignFeeSelection(IEnumerable<Fee> fees)
+        public void AssignFeeSelection(List<Fee> fees)
         {
             using (var context = SegguDataModelContext.Create())
             {
@@ -111,18 +111,18 @@ namespace Seggu.Daos
                 context.SaveChanges();
             }
         }
-        public IEnumerable<Fee> GetOverdueEndorsesToday()
+        public List<Fee> GetOverdueEndorsesToday()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Fees.Where(x => x.ExpirationDate == DateTime.Today);
+                return context.Fees.Where(x => x.ExpirationDate == DateTime.Today).ToList();
             }
         }
-        public IEnumerable<Fee> GetOverduePoliciesToday()
+        public List<Fee> GetOverduePoliciesToday()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Fees.Where(x => x.ExpirationDate == DateTime.Today);
+                return context.Fees.Where(x => x.ExpirationDate == DateTime.Today).ToList();
             }
         }
 

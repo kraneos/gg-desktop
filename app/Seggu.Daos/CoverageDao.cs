@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
@@ -8,17 +9,11 @@ namespace Seggu.Daos
 {
     public sealed class CoverageDao : IdParseEntityDao<Coverage>, ICoverageDao
     {
-        public CoverageDao()
-            : base()
-        {
-
-        }
-
         public bool GetByName(string name)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Coverages.Any(c => c.Name == name); 
+                return context.Coverages.Any(c => c.Name == name);
             }
         }
 
@@ -26,7 +21,7 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Coverages.Any(c => c.RiskId == riskId); 
+                return context.Coverages.Any(c => c.RiskId == riskId);
             }
         }
 
@@ -43,7 +38,7 @@ namespace Seggu.Daos
                 {
                     return false;
                 }
-                return true; 
+                return true;
             }
         }
 
@@ -51,7 +46,15 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Coverages.Any(p => p.Name == name && p.RiskId == idRisk); 
+                return context.Coverages.Any(p => p.Name == name && p.RiskId == idRisk);
+            }
+        }
+
+        public List<Coverage> GetByIds(List<long> ids)
+        {
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Coverages.Where(x => ids.Contains(x.Id)).ToList();
             }
         }
 
@@ -60,8 +63,8 @@ namespace Seggu.Daos
             using (var context = SegguDataModelContext.Create())
             {
                 var orig = context.Coverages.Find(obj.Id);
-                Mapper.Map<Coverage, Coverage>(obj, orig);
-                context.SaveChanges(); 
+                Mapper.Map(obj, orig);
+                context.SaveChanges();
             }
         }
 

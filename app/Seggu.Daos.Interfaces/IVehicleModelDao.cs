@@ -7,6 +7,7 @@ namespace Seggu.Daos.Interfaces
     {
         bool GetByName(string name);
 
-        IEnumerable<VehicleModel> GetWithReferences();
+        List<VehicleModel> GetWithReferences();
+        bool ExistsByBrand(int brandId);
     }
 }

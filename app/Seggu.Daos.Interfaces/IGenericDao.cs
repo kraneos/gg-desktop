@@ -8,13 +8,13 @@ namespace Seggu.Daos.Interfaces
     public interface IGenericDao<T>
     {
         //SegguDataModelContext GetContainer();
-        IEnumerable<T> GetAll();
+        List<T> GetAll();
         T Get(object id);
         void Save(T obj);
         void Update(T obj);
-        void UpdateMany(IEnumerable<T> objs);
+        void UpdateMany(List<T> objs);
         void Delete(object id, T obj);
         void Delete(object id);
-        void DeleteMany(IEnumerable<T> objs);
+        void DeleteMany(List<T> objs);
     }
 }

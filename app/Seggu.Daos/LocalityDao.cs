@@ -14,12 +14,12 @@ namespace Seggu.Daos
 
         }
 
-        public IEnumerable<Locality> GetByDistrictId(long districId)
+        public List<Locality> GetByDistrictId(long districId)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    context.Localities.OrderBy(l => l.Name).Where(x => x.DistrictId == districId); 
+                    context.Localities.OrderBy(l => l.Name).Where(x => x.DistrictId == districId).ToList();
             }
         }
 

@@ -7,9 +7,9 @@ namespace Seggu.Daos.Interfaces
     public interface IRiskDao : IParseIdEntityDao<Risk>
     {
         bool GetByName(string name);
-        IEnumerable<Risk> GetByCompany(long idCompany);
-        IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany);
+        List<Risk> GetByCompany(long idCompany);
+        List<Risk> GetByCompanyWithCoveragePacks(long idCompany);
         bool GetByNameId(string name, long id);
-        IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType);
+        List<Risk> GetByCompanyAndRiskType(long id, RiskType riskType);
     }
 }

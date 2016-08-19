@@ -19,14 +19,14 @@ namespace Seggu.Daos
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;
         }
-        public IEnumerable<Endorse> GetByPolicyId(long Id)
+        public List<Endorse> GetByPolicyId(long Id)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from e in context.Endorses
-                    where e.PolicyId == Id
-                    select e;
+                    (from e in context.Endorses
+                     where e.PolicyId == Id
+                     select e).ToList();
             }
         }
         public void SaveEndorse(Endorse obj)

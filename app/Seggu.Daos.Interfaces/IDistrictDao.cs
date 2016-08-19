@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IDistrictDao : IParseIdEntityDao<District>
     {
-        IEnumerable<District> GetByProvince(long provinceId);
+        List<District> GetByProvince(long provinceId);
     }
 }

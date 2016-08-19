@@ -8,7 +8,7 @@ namespace Seggu.Daos.Interfaces
     {
         bool ProducerHasCompany(long id);
 
-        IEnumerable<ProducerCode> GetByCompany(long id);
+        List<ProducerCode> GetByCompany(long id);
 
         ProducerCode GetByCompanyProducer(long companyId, long producerId);
         

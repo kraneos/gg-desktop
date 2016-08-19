@@ -15,23 +15,25 @@ namespace Seggu.Services
 {
     public sealed class EndorseService : IEndorseService
     {
-        private IEndorseDao endorseDao;
-        private IPolicyDao policyDao;
-        public EndorseService(IEndorseDao endorseDao, IPolicyDao policyDao)
+        private readonly IEndorseDao endorseDao;
+        private readonly IPolicyDao policyDao;
+        private readonly ICoverageDao coverageDao;
+        public EndorseService(IEndorseDao endorseDao, IPolicyDao policyDao, ICoverageDao coverageDao)
         {
             this.endorseDao = endorseDao;
             this.policyDao = policyDao;
+            this.coverageDao = coverageDao;
         }
 
         public void Save(EndorseFullDto endorseFull)
         {
             var endorse = EndorseDtoMapper.GetObjectWithCover(endorseFull);
             SetChildrenToNull(endorse);
-            bool isNew = endorseFull.Id == default(int);
+            var isNew = endorseFull.Id == default(int);
 
-            bool isAnnulated = endorse.EndorseType == Seggu.Domain.EndorseType.Anulación;
+            var isAnnulated = endorse.EndorseType == EndorseType.Anulación;
             if (isAnnulated)
-                this.AnnulateEndorseChilds(endorse);
+                AnnulateEndorseChilds(endorse);
 
             if (isNew)
             {
@@ -41,7 +43,7 @@ namespace Seggu.Services
                     AddCoveragesToEmployees(endorse);
                 else if (endorse.Integrals != null)
                     AddCoveragesToIntegrals(endorse);
-                    endorseDao.Save(endorse);
+                endorseDao.Save(endorse);
             }
             else
             {
@@ -52,8 +54,8 @@ namespace Seggu.Services
                     foreach (var employee in endorse.Employees)
                         employee.EndorseId = endorse.Id;
                 else if (endorse.Integrals != null)
-                    foreach (var Integral in endorse.Integrals)
-                        Integral.EndorseId = Integral.Id;
+                    foreach (var integral in endorse.Integrals)
+                        integral.EndorseId = integral.Id;
                 endorseDao.Edit(endorse);
             }
         }
@@ -92,9 +94,7 @@ namespace Seggu.Services
         {
             foreach (var vehicle in endorse.Vehicles)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in vehicle.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                var coverages = vehicle.Coverages.Select(coverage => this.coverageDao.Find(coverage.Id)).ToList();
                 vehicle.Coverages = coverages;
             }
         }
@@ -102,20 +102,16 @@ namespace Seggu.Services
         {
             foreach (var employee in endorse.Employees)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in employee.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
+                var coverages = employee.Coverages.Select(coverage => this.coverageDao.Find(coverage.Id)).ToList();
                 employee.Coverages = coverages;
             }
         }
         private void AddCoveragesToIntegrals(Endorse endorse)
         {
-            foreach (var Integral in endorse.Integrals)
+            foreach (var integral in endorse.Integrals)
             {
-                var coverages = new List<Coverage>();
-                foreach (var coverage in Integral.Coverages)
-                    coverages.Add(this.policyDao.GetContainer().Coverages.Single(c => c.Id == coverage.Id));
-                Integral.Coverages = coverages;
+                var coverages = integral.Coverages.Select(coverage => this.coverageDao.Find(coverage.Id)).ToList();
+                integral.Coverages = coverages;
             }
         }
         private void AnnulateEndorseChilds(Endorse endorse)

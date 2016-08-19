@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public class ProducerCodeDao: GenericDao<ProducerCode>, IProducerCodeDao
+    public class ProducerCodeDao : GenericDao<ProducerCode>, IProducerCodeDao
     {
         public ProducerCodeDao()
             : base()
@@ -18,17 +18,17 @@ namespace Seggu.Daos
             using (var context = SegguDataModelContext.Create())
             {
                 var prod = context.ProducerCodes.Any(p => p.ProducerId == id);
-                return prod; 
+                return prod;
             }
         }
-        public IEnumerable<ProducerCode> GetByCompany(long id)
+        public List<ProducerCode> GetByCompany(long id)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return
-                    from p in context.ProducerCodes
-                    where p.CompanyId == id
-                    select p; 
+                    (from p in context.ProducerCodes
+                     where p.CompanyId == id
+                     select p).ToList();
             }
         }
         public ProducerCode GetByCompanyProducer(long companyId, long producerId)

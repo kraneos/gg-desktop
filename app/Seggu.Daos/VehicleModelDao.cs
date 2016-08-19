@@ -19,15 +19,23 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.VehicleModels.Any(c => c.Name == name); 
+                return context.VehicleModels.Any(c => c.Name == name);
             }
         }
 
-        public IEnumerable<VehicleModel> GetWithReferences()
+        public List<VehicleModel> GetWithReferences()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.VehicleModels.Include("Brand").Include("VehicleType"); 
+                return context.VehicleModels.Include("Brand").Include("VehicleType").ToList();
+            }
+        }
+
+        public bool ExistsByBrand(int brandId)
+        {
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.VehicleModels.Any(x => x.BrandId == brandId);
             }
         }
 
@@ -37,7 +45,7 @@ namespace Seggu.Daos
             {
                 var orig = context.VehicleModels.Find(obj.Id);
                 Mapper.Map<VehicleModel, VehicleModel>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

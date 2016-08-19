@@ -19,39 +19,36 @@ namespace Seggu.Daos
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Uses.Any(c => c.Name == name); 
+                return context.Uses.Any(c => c.Name == name);
             }
         }
 
-        public IEnumerable<Use> GetByVehicleType(int vehicleTypeId)
+        public List<Use> GetByVehicleType(int vehicleTypeId)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 var vehicleType = context.VehicleTypes.Find(vehicleTypeId);
-                return vehicleType.Uses; 
+                return vehicleType.Uses.ToList();
             }
         }
 
-        public void SaveChanges(VehicleType vehicleType, IEnumerable<Use> existing)
+        public void SaveChanges(VehicleType vehicleType, List<Use> existing)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 vehicleType = context.VehicleTypes.Find(vehicleType.Id);
-                foreach (var obj in existing)
+                foreach (var obj in existing.Where(obj => !vehicleType.Uses.Contains(obj)))
                 {
-                    if (!vehicleType.Uses.Contains(obj))
-                    {
-                        vehicleType.Uses.Add(obj);
-                    }
+                    vehicleType.Uses.Add(obj);
                 }
 
-                var nonExisting = vehicleType.Uses.Where(u => !existing.Any(x => x.Id == u.Id));
+                var nonExisting = vehicleType.Uses.Where(u => existing.All(x => x.Id != u.Id));
                 while (nonExisting.Any())
                 {
                     vehicleType.Uses.Remove(nonExisting.First());
                 }
 
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
 
@@ -61,7 +58,7 @@ namespace Seggu.Daos
             {
                 var orig = context.Uses.Find(obj.Id);
                 Mapper.Map<Use, Use>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

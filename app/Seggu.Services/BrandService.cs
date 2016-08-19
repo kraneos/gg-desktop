@@ -10,17 +10,19 @@ namespace Seggu.Services
 {
     public sealed class BrandService : IBrandService
     {
-        private IBrandDao brandDao;
+        private readonly IBrandDao brandDao;
+        private readonly IVehicleModelDao vehicleModelDao;
 
-        public BrandService(IBrandDao brandDao)
+        public BrandService(IBrandDao brandDao, IVehicleModelDao vehicleModelDao)
         {
             this.brandDao = brandDao;
+            this.vehicleModelDao = vehicleModelDao;
         }
 
         public IEnumerable<BrandDto> GetAll()
         {
             var brands = this.brandDao.GetAll();
-            return brands.OrderBy(x => x.Name).Select(b => BrandDtoMapper.GetDto(b));
+            return brands.OrderBy(x => x.Name).Select(BrandDtoMapper.GetDto);
         }
 
         public void Update(BrandDto brand)
@@ -60,14 +62,9 @@ namespace Seggu.Services
 
         public bool HasRelatedRecords(int id)
         {
-            if (id != default(int))
-            {
-                var container = this.brandDao.GetContainer();
-                var brandId = id;
-                return container.VehicleModels.Any(x => x.BrandId == brandId);
-            }
-
-            return false;
+            if (id == default(int)) return false;
+            var brandId = id;
+            return this.vehicleModelDao.ExistsByBrand(brandId);// container.VehicleModels.Any(x => x.BrandId == brandId);
         }
     }
 }

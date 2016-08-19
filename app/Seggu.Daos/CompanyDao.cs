@@ -14,11 +14,11 @@ namespace Seggu.Daos
         {
         }
 
-        public IEnumerable<Company> GetActive()
+        public List<Company> GetActive()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Companies.Where(c => c.Active);
+                return context.Companies.Where(c => c.Active).ToList();
             }
         }
 
@@ -38,14 +38,14 @@ namespace Seggu.Daos
             }
         }
 
-        public IEnumerable<Company> GetOrderedActive()
+        public List<Company> GetOrderedActive()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return from c in context.Companies
-                       where c.Active
-                       orderby c.Name
-                       select c;
+                return (from c in context.Companies
+                        where c.Active
+                        orderby c.Name
+                        select c).ToList();
             }
         }
 
@@ -55,7 +55,7 @@ namespace Seggu.Daos
             {
                 var orig = context.Companies.Find(obj.Id);
                 Mapper.Map<Company, Company>(obj, orig);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

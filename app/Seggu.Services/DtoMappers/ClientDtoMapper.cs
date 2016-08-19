@@ -11,55 +11,58 @@ namespace Seggu.Services.DtoMappers
     {
         public static Client GetObject(ClientFullDto dto)
         {
-            var obj = new Client();
-            obj.Id = dto.Id;
+            var obj = new Client
+            {
+                Id = dto.Id,
+                BankingCode = dto.BankingCode,
+                BirthDate = dto.BirthDate.ToNullableDateTime(),
+                CellPhone = dto.Tel_Móvil,
+                CollectionTimeRange = dto.CollectionTimeRange,
+                Cuit = dto.Cuit,
+                Document = dto.DNI,
+                DocumentType = IdTypeDtoMapper.ToEnum(dto.DocumentTypes),
+                FirstName = dto.Nombre,
+                IngresosBrutos = dto.IngresosBrutos,
+                IsSmoker = dto.IsSmoker,
+                IVA = IvaDtoMapper.ToEnum(dto.Iva),
+                LastName = dto.Apellido,
+                Mail = dto.Mail,
+                MaritalStatus = MaritalStatusDtoMapper.ToEnum(dto.MaritalStatus),
+                Notes = dto.Notes,
+                Occupation = dto.Occupation,
+                Sex = SexDtoMapper.ToEnum(dto.Sex)
+            };
 
-            obj.BankingCode = dto.BankingCode;
-            obj.BirthDate = dto.BirthDate.ToNullableDateTime();
-            obj.CellPhone = dto.Tel_Móvil;
             //obj.ClientCreditCards = dto.CreditCards.Select(cc => ClientCreditCardDtoMapper.GetObject(cc)).ToList();
-            obj.CollectionTimeRange = dto.CollectionTimeRange;
-            obj.Cuit = dto.Cuit;
-            obj.Document = dto.DNI;
-            obj.DocumentType = IdTypeDtoMapper.ToEnum(dto.DocumentTypes);
-            obj.FirstName = dto.Nombre;
-            obj.IngresosBrutos = dto.IngresosBrutos;
-            obj.IsSmoker = dto.IsSmoker;
-            obj.IVA = IvaDtoMapper.ToEnum(dto.Iva);
-            obj.LastName = dto.Apellido;
-            obj.Mail = dto.Mail;
-            obj.MaritalStatus = MaritalStatusDtoMapper.ToEnum(dto.MaritalStatus);
-            obj.Notes = dto.Notes;
-            obj.Occupation = dto.Occupation;
-            obj.Sex = SexDtoMapper.ToEnum(dto.Sex);
             return obj;
         }
 
         public static ClientIndexDto GetIndexDto(Client obj)
         {
-            var dto = new ClientIndexDto();
-            dto.Nombre_Completo = obj.LastName + ", " + obj.FirstName;
-            dto.Nombre = obj.FirstName;
-            dto.Id = (int)obj.Id;
-            dto.Apellido = obj.LastName;
-            dto.Mail = obj.Mail;
-            dto.Tel_Móvil = obj.CellPhone;
-            dto.Dni = obj.Document;
-            dto.PolicyCount = obj.Policy.Count();
-            dto.BirthDate = obj.BirthDate.ToString();
-            dto.CUIT = obj.Cuit;
+            var dto = new ClientIndexDto
+            {
+                Nombre_Completo = obj.LastName + ", " + obj.FirstName,
+                Nombre = obj.FirstName,
+                Id = (int)obj.Id,
+                Apellido = obj.LastName,
+                Mail = obj.Mail,
+                Tel_Móvil = obj.CellPhone,
+                Dni = obj.Document,
+                //PolicyCount = policies.Count,
+                BirthDate = obj.BirthDate.ToString(),
+                CUIT = obj.Cuit
+            };
             return dto;
         }
 
         public static ClientFullDto GetDto(Client obj)
         {
             var date = new DateTime(1753, 1, 1).ToShortDateString();
-            var dto = new ClientFullDto();
-            dto.Id = (int)obj.Id;
+            var dto = new ClientFullDto { Id = (int)obj.Id };
             SetHomeAddress(dto, obj);
             SetCollectionAddress(dto, obj);
             dto.BankingCode = obj.BankingCode;
-            dto.BirthDate = obj.BirthDate == null ? date : obj.BirthDate.Value.ToShortDateString();
+            dto.BirthDate = obj.BirthDate?.ToShortDateString() ?? date;
             dto.Tel_Móvil = obj.CellPhone;
             //dto.CreditCards = obj.ClientCreditCards.Select(ccc => ClientCreditCardDtoMapper.GetInformationDto(ccc));
             dto.CollectionTimeRange = obj.CollectionTimeRange;
@@ -82,38 +85,34 @@ namespace Seggu.Services.DtoMappers
         private static void SetCollectionAddress(ClientFullDto dto, Client obj)
         {
             var collectionAddress = obj.Addresses.FirstOrDefault(x => x.AddressType == AddressType.Collection);
-            if (collectionAddress != null)
-            {
-                dto.CollectionAddressId = (int)collectionAddress.Id;
-                dto.CollectionAppartment = collectionAddress.Appartment;
-                dto.CollectionFloor = collectionAddress.Floor;
-                dto.CollectionLocalityId = (int?)collectionAddress.LocalityId ?? default(int);
-                dto.CollectionDistrictId = (int)collectionAddress.Locality.DistrictId;
-                dto.CollectionProvinceId = (int)collectionAddress.Locality.District.ProvinceId;
-                dto.CollectionNumber = collectionAddress.Number;
-                dto.CollectionPhone = collectionAddress.Phone;
-                dto.CollectionPostalCode = collectionAddress.PostalCode;
-                dto.CollectionStreet = collectionAddress.Street;
-            }
+            if (collectionAddress == null) return;
+            dto.CollectionAddressId = (int)collectionAddress.Id;
+            dto.CollectionAppartment = collectionAddress.Appartment;
+            dto.CollectionFloor = collectionAddress.Floor;
+            dto.CollectionLocalityId = (int?)collectionAddress.LocalityId ?? default(int);
+            dto.CollectionDistrictId = (int)collectionAddress.Locality.DistrictId;
+            dto.CollectionProvinceId = (int)collectionAddress.Locality.District.ProvinceId;
+            dto.CollectionNumber = collectionAddress.Number;
+            dto.CollectionPhone = collectionAddress.Phone;
+            dto.CollectionPostalCode = collectionAddress.PostalCode;
+            dto.CollectionStreet = collectionAddress.Street;
         }
 
         private static void SetHomeAddress(ClientFullDto dto, Client obj)
         {
             var homeAddress = obj.Addresses.FirstOrDefault(x => x.AddressType == AddressType.Home);
-            if (homeAddress != null)
-            {
-                dto.HomeAddressId = (int)homeAddress.Id;
-                dto.HomeAppartment = homeAddress.Appartment;
-                dto.HomeFloor = homeAddress.Floor;
-                dto.HomeLocalityId = (int?)homeAddress.LocalityId ?? default(int);
-                dto.HomeLocality = homeAddress.Locality.Name;
-                dto.HomeDistrictId = (int)homeAddress.Locality.DistrictId;
-                dto.HomeProvinceId = (int)homeAddress.Locality.District.ProvinceId;
-                dto.HomeNumber = homeAddress.Number;
-                dto.HomePhone = homeAddress.Phone;
-                dto.HomePostalCode = homeAddress.PostalCode;
-                dto.HomeStreet = homeAddress.Street;
-            }
+            if (homeAddress == null) return;
+            dto.HomeAddressId = (int)homeAddress.Id;
+            dto.HomeAppartment = homeAddress.Appartment;
+            dto.HomeFloor = homeAddress.Floor;
+            dto.HomeLocalityId = (int?)homeAddress.LocalityId ?? default(int);
+            dto.HomeLocality = homeAddress.Locality.Name;
+            dto.HomeDistrictId = (int)homeAddress.Locality.DistrictId;
+            dto.HomeProvinceId = (int)homeAddress.Locality.District.ProvinceId;
+            dto.HomeNumber = homeAddress.Number;
+            dto.HomePhone = homeAddress.Phone;
+            dto.HomePostalCode = homeAddress.PostalCode;
+            dto.HomeStreet = homeAddress.Street;
         }
     }
 }

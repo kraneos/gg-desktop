@@ -6,7 +6,7 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IEndorseDao : IParseIdEntityDao<Endorse>
     {
-        IEnumerable<Endorse> GetByPolicyId(long Id);
+        List<Endorse> GetByPolicyId(long Id);
         void SaveEndorse(Endorse obj);
         void UpdateEndorse(Endorse obj);
         void Edit(Endorse newEndorse);

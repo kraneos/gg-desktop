@@ -109,6 +109,10 @@
       <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
       <Name>Seggu.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seggu.Dtos\Seggu.Dtos.csproj">
+      <Project>{8B0390D7-29C8-463B-A016-B22961C634A0}</Project>
+      <Name>Seggu.Dtos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seggu.Helpers\Seggu.Helpers.csproj">
       <Project>{2C292AE3-DA51-4417-A1AD-56A4E93E418F}</Project>
       <Name>Seggu.Helpers</Name>

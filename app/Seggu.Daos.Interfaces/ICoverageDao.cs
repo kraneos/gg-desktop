@@ -10,6 +10,7 @@ namespace Seggu.Daos.Interfaces
         bool BetByNameId(string name, long id, long riskId);
         bool RiskHasCoverage(long riskId);
         bool BetByNameRisk(string name, long idRisk);
-        
+
+        List<Coverage> GetByIds(List<long> ids);
     }
 }

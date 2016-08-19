@@ -6,6 +6,6 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IContactDao : IParseIdEntityDao<Contact>
     {
-        IEnumerable<Contact> GetByCompany(int id);
+        List<Contact> GetByCompany(int id);
     }
 }

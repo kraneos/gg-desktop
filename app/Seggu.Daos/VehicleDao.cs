@@ -23,11 +23,11 @@ namespace Seggu.Daos
                 return context.Vehicles.First(x => x.PolicyId == policyId); 
             }
         }
-        public IEnumerable<Vehicle> GetByPlate(string plate)
+        public List<Vehicle> GetByPlate(string plate)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context.Vehicles.Where(x => x.Plate == plate);
+                return context.Vehicles.Where(x => x.Plate == plate).ToList();
             }
         }
         public void SaveVehicle(Vehicle newVehicle)

@@ -9,24 +9,18 @@ namespace Seggu.Daos
 {
     public class ProducerDao : IdParseEntityDao<Producer>, IProducerDao
     {
-        public ProducerDao()
-            : base()
-        {
-
-        }
-
-        public IEnumerable<Producer> GetCollectors()
+        public List<Producer> GetCollectors()
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return
+                return (
                     from p in context.Producers
                     where p.IsCollector
-                    select p; 
+                    select p).ToList();
             }
         }
 
-        public bool GetByRegistrationNumberId(string registrationNumber, long id )
+        public bool GetByRegistrationNumberId(string registrationNumber, long id)
         {
             using (var context = SegguDataModelContext.Create())
             {
@@ -39,7 +33,7 @@ namespace Seggu.Daos
                 {
                     return false;
                 }
-                return true; 
+                return true;
             }
         }
 
@@ -52,18 +46,18 @@ namespace Seggu.Daos
                 {
                     return false;
                 }
-                return true; 
+                return true;
             }
         }
 
-        public IEnumerable<ProducerCode> GetByCompanyId(int id)
+        public List<ProducerCode> GetByCompanyId(int id)
         {
             using (var context = SegguDataModelContext.Create())
             {
-                return context
+                return (context
                     .ProducerCodes
                     .Include("Producer")
-                    .Where(pc => pc.CompanyId == id); 
+                    .Where(pc => pc.CompanyId == id)).ToList();
             }
         }
 
@@ -72,8 +66,8 @@ namespace Seggu.Daos
             using (var context = SegguDataModelContext.Create())
             {
                 var orig = context.Producers.Find(obj.Id);
-                Mapper.Map<Producer, Producer>(obj, orig);
-                context.SaveChanges(); 
+                Mapper.Map(obj, orig);
+                context.SaveChanges();
             }
         }
     }

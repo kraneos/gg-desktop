@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Seggu.Domain;
 
 namespace Seggu.Services
 {
@@ -61,7 +62,8 @@ namespace Seggu.Services
 
         public void SaveChanges(VehicleTypeDto vehicleTypeDto, IEnumerable<UseDto> existing)
         {
-            this.useDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), existing.Select(x => UseDtoMapper.GetUse(x)));
+            var list = existing.Select(UseDtoMapper.GetUse).ToList();
+            this.useDao.SaveChanges(VehicleTypeDtoMapper.GetObject(vehicleTypeDto), list);
         }
     }
 }

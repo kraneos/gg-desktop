@@ -14,12 +14,12 @@ namespace Seggu.Daos
         {
         }
 
-        public IEnumerable<Casualty> GetByPolicyId(long guid)
+        public List<Casualty> GetByPolicyId(long guid)
         {
             using (var context = SegguDataModelContext.Create())
             {
                 return context.Casualties
-                    .Where(c => c.PolicyId == guid);
+                    .Where(c => c.PolicyId == guid).ToList();
             }
         }
 

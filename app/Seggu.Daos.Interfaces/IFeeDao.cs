@@ -6,18 +6,18 @@ namespace Seggu.Daos.Interfaces
 {
     public interface IFeeDao : IParseIdEntityDao<Fee>
     {
-        IEnumerable<Fee> GetByPolicyId(long guid);
-        IEnumerable<Fee> GetByEndorseId(long guid);
-        IEnumerable<Fee> GetByFeeSelectionId(long guid);
-        IEnumerable<Fee> GetByCompanyId(long companyId, DateTime dateFrom, DateTime dateTo);
-        IEnumerable<Fee> GetExpiredByCompanyId(long guid);
-        //void DeleteMany(IEnumerable<Fee> feesToDelete);
-        IEnumerable<Fee> GetTodayFees();
-        IEnumerable<Fee> GetExpiredByCompanyId();
-        void AssignFeeSelection(IEnumerable<Fee> fees);
+        List<Fee> GetByPolicyId(long guid);
+        List<Fee> GetByEndorseId(long guid);
+        List<Fee> GetByFeeSelectionId(long guid);
+        List<Fee> GetByCompanyId(long companyId, DateTime dateFrom, DateTime dateTo);
+        List<Fee> GetExpiredByCompanyId(long guid);
+        //void DeleteMany(List<Fee> feesToDelete);
+        List<Fee> GetTodayFees();
+        List<Fee> GetExpiredByCompanyId();
+        void AssignFeeSelection(List<Fee> fees);
 
-        IEnumerable<Fee> GetOverdueEndorsesToday();
+        List<Fee> GetOverdueEndorsesToday();
 
-        IEnumerable<Fee> GetOverduePoliciesToday();
+        List<Fee> GetOverduePoliciesToday();
     }
 }
