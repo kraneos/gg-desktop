@@ -14,18 +14,27 @@ namespace Seggu.Daos
 
         public bool GetByName(string name)
          {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Banks.Any(c => c.Name == name); 
+            }
         }
         
         public bool GetByNumber(string number)
         {
-            return this.Set.Any(c => c.Number == number);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Banks.Any(c => c.Number == number); 
+            }
         }
         public override void Update(Bank obj)
         {
-            var orig = context.Banks.Find(obj.Id);
-            Mapper.Map<Bank, Bank>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Banks.Find(obj.Id);
+                Mapper.Map<Bank, Bank>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

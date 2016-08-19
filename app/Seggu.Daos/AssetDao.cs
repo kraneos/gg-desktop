@@ -13,9 +13,12 @@ namespace Seggu.Daos
         }
         public override void Update(Asset obj)
         {
-            var orig = context.Assets.Find(obj.Id);
-            Mapper.Map<Asset, Asset>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Assets.Find(obj.Id);
+                Mapper.Map<Asset, Asset>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

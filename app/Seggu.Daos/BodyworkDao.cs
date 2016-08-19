@@ -16,40 +16,52 @@ namespace Seggu.Daos
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Bodyworks.Any(c => c.Name == name); 
+            }
         }
 
         public IEnumerable<Bodywork> GetByVehicleType(int vehicleTypeId)
         {
-            return this.context.VehicleTypes.Find(vehicleTypeId).Bodyworks;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.VehicleTypes.Find(vehicleTypeId).Bodyworks;
+            }
         }
 
         public void SaveChanges(VehicleType vehicleType, IEnumerable<Bodywork> existing)
         {
-            vehicleType = this.context.VehicleTypes.Find(vehicleType.Id);
-
-            foreach (var obj in existing)
+            using (var context = SegguDataModelContext.Create())
             {
-                if (!vehicleType.Bodyworks.Any(x => x.Id == obj.Id))
+                vehicleType = context.VehicleTypes.Find(vehicleType.Id);
+
+                foreach (var obj in existing)
                 {
-                    vehicleType.Bodyworks.Add(obj);
+                    if (!vehicleType.Bodyworks.Any(x => x.Id == obj.Id))
+                    {
+                        vehicleType.Bodyworks.Add(obj);
+                    }
                 }
-            }
 
-            var nonExisting = vehicleType.Bodyworks.Where(b => !existing.Any(x => x.Id == b.Id));
-            while (nonExisting.Any())
-            {
-                vehicleType.Bodyworks.Remove(nonExisting.First());
-            }
+                var nonExisting = vehicleType.Bodyworks.Where(b => !existing.Any(x => x.Id == b.Id));
+                while (nonExisting.Any())
+                {
+                    vehicleType.Bodyworks.Remove(nonExisting.First());
+                }
 
-            this.context.SaveChanges();
+                context.SaveChanges(); 
+            }
         }
 
         public override void Update(Bodywork obj)
         {
-            var orig = context.Bodyworks.Find(obj.Id);
-            Mapper.Map<Bodywork, Bodywork>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Bodyworks.Find(obj.Id);
+                Mapper.Map<Bodywork, Bodywork>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

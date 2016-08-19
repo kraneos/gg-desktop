@@ -17,34 +17,46 @@ namespace Seggu.Daos
 
         public IEnumerable<CashAccount> GetRcrView(DateTime from, DateTime to)
         {
-            return this.context.CashAccounts
-                .Include("Fee")
-                .Include("Fee.Policy")
-                .Include("Fee.Policy.Risk")
-                .Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CashAccounts
+                       .Include("Fee")
+                       .Include("Fee.Policy")
+                       .Include("Fee.Policy.Risk")
+                       .Include("Fee.Policy.Risk.Company")
+                       .Where(ca => ca.Date > from && ca.Date < to && ca.FeeId != null); 
+            }
         }
 
         public IEnumerable<CashAccount> GetOverdue(DateTime time)
         {
-            return this.context.CashAccounts
-                .Include("Fee")
-                .Include("Fee.Policy")
-                .Include("Fee.Policy.Risk")
-                .Include("Fee.Policy.Risk.Company")
-                .Where(ca => ca.Date < time && ca.FeeId == null);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CashAccounts
+                       .Include("Fee")
+                       .Include("Fee.Policy")
+                       .Include("Fee.Policy.Risk")
+                       .Include("Fee.Policy.Risk.Company")
+                       .Where(ca => ca.Date < time && ca.FeeId == null); 
+            }
         }
 
         public bool ReceiptExists(string receiptNumber)
         {
-            return this.Set.Any(x => x.ReceiptNumber == receiptNumber);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CashAccounts.Any(x => x.ReceiptNumber == receiptNumber);
+            }
         }
 
         public override void Update(CashAccount obj)
         {
-            var orig = context.CashAccounts.Find(obj.Id);
-            Mapper.Map<CashAccount, CashAccount>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.CashAccounts.Find(obj.Id);
+                Mapper.Map<CashAccount, CashAccount>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

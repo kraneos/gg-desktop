@@ -16,32 +16,47 @@ namespace Seggu.Daos
 
         public IEnumerable<Company> GetActive()
         {
-            return this.context.Companies.Where(c => c.Active);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Companies.Where(c => c.Active);
+            }
         }
 
         public Company GetById(long guid)
         {
-            return this.Set.First(c => c.Id == guid);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Companies.First(c => c.Id == guid);
+            }
         }
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Companies.Any(c => c.Name == name);
+            }
         }
 
         public IEnumerable<Company> GetOrderedActive()
         {
-            return from c in this.context.Companies
-                   where c.Active
-                   orderby c.Name
-                   select c;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return from c in context.Companies
+                       where c.Active
+                       orderby c.Name
+                       select c;
+            }
         }
 
         public override void Update(Company obj)
         {
-            var orig = context.Companies.Find(obj.Id);
-            Mapper.Map<Company, Company>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Companies.Find(obj.Id);
+                Mapper.Map<Company, Company>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

@@ -14,9 +14,12 @@ namespace Seggu.Daos
 
         public override void Update(CasualtyType obj)
         {
-            var orig = context.CasualtyTypes.Find(obj.Id);
-            Mapper.Map<CasualtyType, CasualtyType>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.CasualtyTypes.Find(obj.Id);
+                Mapper.Map<CasualtyType, CasualtyType>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }
