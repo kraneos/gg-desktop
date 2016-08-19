@@ -11,10 +11,10 @@ namespace Seggu.Daos
 {
     public sealed class PolicyDao : IdParseEntityDao<Policy>, IPolicyDao
     {
-        private IVehicleDao vehicleDao;
-        private IEmployeeDao employeeDao;
-        private IIntegralDao integralDao;
-        public PolicyDao(SegguDataModelContext context, IVehicleDao vehicleDao, IEmployeeDao employeeDao, IIntegralDao integralDao)
+        private readonly IVehicleDao vehicleDao;
+        private readonly IEmployeeDao employeeDao;
+        private readonly IIntegralDao integralDao;
+        public PolicyDao(IVehicleDao vehicleDao, IEmployeeDao employeeDao, IIntegralDao integralDao)
             : base()
         {
             this.vehicleDao = vehicleDao;
@@ -24,8 +24,10 @@ namespace Seggu.Daos
 
         public IEnumerable<Policy> GetValidsByClient(long clientId)
         {
-            return
-                from p in this.Set.OrderBy(p => p.EndDate)
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                from p in context.Policies.OrderBy(p => p.EndDate)
                 where
                     p.ClientId == clientId
                     && p.EndDate >= DateTime.Today
@@ -33,79 +35,90 @@ namespace Seggu.Daos
                     && p.IsRemoved == false
                 orderby p.EndDate descending
                 select p;
+            }
         }
         public IEnumerable<Policy> GetNotValidsByClient(long clientId)
         {
-            return
-                from p in this.Set
-                where
-                    p.ClientId == clientId && p.IsAnnulled == true
-                    || p.ClientId == clientId && p.IsRemoved == true
-                    || p.ClientId == clientId && p.EndDate < DateTime.Today
-                orderby p.EndDate descending
-                select p;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from p in context.Policies
+                    where
+                        p.ClientId == clientId && p.IsAnnulled == true
+                        || p.ClientId == clientId && p.IsRemoved == true
+                        || p.ClientId == clientId && p.EndDate < DateTime.Today
+                    orderby p.EndDate descending
+                    select p;
+            }
         }
         public IEnumerable<Policy> GetByVehiclePlate(string plate)
         {
-            return
-            from p in this.Set
-            join v in this.context.Vehicles
-            on p.Id equals v.PolicyId
-            where v.Plate == plate
-            select p;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from p in context.Policies
+                    join v in context.Vehicles
+                    on p.Id equals v.PolicyId
+                    where v.Plate == plate
+                    select p;
+            }
         }
         public IEnumerable<Policy> GetByPolicyNumber(string polNum)
         {
-            return
-                from p in this.Set
-                where p.Number.StartsWith(polNum)
-                select p;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from p in context.Policies
+                    where p.Number.StartsWith(polNum)
+                    select p;
+            }
         }
         public void Edit(Policy newPolicy)
         {
-            Policy dbPolicy = new Policy();
-            if (newPolicy.Vehicles != null)
+            using (var context = SegguDataModelContext.Create())
             {
-                dbPolicy = context.Policies
-                                    .Include("Vehicles.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyVehicles(newPolicy, dbPolicy);
-            }
-            else if (newPolicy.Employees != null)
-            {
-                dbPolicy = context.Policies
-                                    .Include("Employees.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyEmployees(newPolicy, dbPolicy);
-            }
-            else if (newPolicy.Integrals != null)
-            {
-                dbPolicy = context.Policies
-                                    .Include("Integrals.Coverages")
-                                    .Include(x => x.Fees)
-                                    .Single(c => c.Id == newPolicy.Id);
-                UpdatePolicyIntegral(newPolicy, dbPolicy);
-            }
+                var dbPolicy = new Policy();
+                if (newPolicy.Vehicles != null)
+                {
+                    dbPolicy = context.Policies
+                        .Include("Vehicles.Coverages")
+                        .Include(x => x.Fees)
+                        .Single(c => c.Id == newPolicy.Id);
+                    UpdatePolicyVehicles(newPolicy, dbPolicy);
+                }
+                else if (newPolicy.Employees != null)
+                {
+                    dbPolicy = context.Policies
+                        .Include("Employees.Coverages")
+                        .Include(x => x.Fees)
+                        .Single(c => c.Id == newPolicy.Id);
+                    UpdatePolicyEmployees(newPolicy, dbPolicy);
+                }
+                else if (newPolicy.Integrals != null)
+                {
+                    dbPolicy = context.Policies
+                        .Include("Integrals.Coverages")
+                        .Include(x => x.Fees)
+                        .Single(c => c.Id == newPolicy.Id);
+                    UpdatePolicyIntegral(newPolicy, dbPolicy);
+                }
 
-            UpdateFees(newPolicy);
-            UpdateAttachedFiles(newPolicy);
-            Mapper.Map<Policy, Policy>(newPolicy, dbPolicy);
+                UpdateFees(newPolicy);
+                UpdateAttachedFiles(newPolicy);
+                Mapper.Map<Policy, Policy>(newPolicy, dbPolicy);
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
-        private void UpdateAttachedFiles(Policy newPolicy)
+        private static void UpdateAttachedFiles(Policy newPolicy)
         {
-            var existingAttachedFiles = context.AttachedFiles.Where(x => newPolicy.Id == x.PolicyId);
-            var nonExistingAttachedFiles = new List<AttachedFile>();
-
-            foreach (var attachedFile in newPolicy.AttachedFiles)
+            using (var context = SegguDataModelContext.Create())
             {
-                var existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath);
+                var existingAttachedFiles = context.AttachedFiles.Where(x => newPolicy.Id == x.PolicyId);
+                var nonExistingAttachedFiles = new List<AttachedFile>();
 
-                if (existingAttachedFile == null)
+                foreach (var attachedFile in from attachedFile in newPolicy.AttachedFiles let existingAttachedFile = existingAttachedFiles.FirstOrDefault(x => x.FilePath == attachedFile.FilePath) where existingAttachedFile == null select attachedFile)
                 {
                     context.AttachedFiles.Add(attachedFile);
                 }
@@ -114,156 +127,163 @@ namespace Seggu.Daos
 
         private void UpdatePolicyVehicles(Policy newPolicy, Policy dbPolicy)
         {
-            var vehiclesToRemove = new List<Vehicle>();
-            foreach (var dbVehicle in dbPolicy.Vehicles.ToList())
-                if (!newPolicy.Vehicles.Any(s => s.Id == dbVehicle.Id))
-                    vehiclesToRemove.Add(dbVehicle);
-
-            context.Vehicles.RemoveRange(vehiclesToRemove);
-            foreach (var newVehicle in newPolicy.Vehicles)
+            using (var context = SegguDataModelContext.Create())
             {
-                var dbVehicle = dbPolicy.Vehicles.SingleOrDefault(s => s.Id == newVehicle.Id);
-                if (dbVehicle != null)
-                {
-                    var coveragesToRemove = new List<Coverage>();
-                    var coveragesNotToAdd = new List<Coverage>();
-                    //context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
-                    Mapper.Map<Vehicle, Vehicle>(newVehicle, dbVehicle);
+                var vehiclesToRemove = dbPolicy.Vehicles.ToList().Where(dbVehicle => newPolicy.Vehicles.All(s => s.Id != dbVehicle.Id)).ToList();
 
-                    foreach (var dbCoverage in dbVehicle.Coverages)
-                        if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
+                context.Vehicles.RemoveRange(vehiclesToRemove);
+                foreach (var newVehicle in newPolicy.Vehicles)
+                {
+                    var dbVehicle = dbPolicy.Vehicles.SingleOrDefault(s => s.Id == newVehicle.Id);
+                    if (dbVehicle != null)
+                    {
+                        var coveragesToRemove = new List<Coverage>();
+                        var coveragesNotToAdd = new List<Coverage>();
+                        //context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                        Mapper.Map<Vehicle, Vehicle>(newVehicle, dbVehicle);
+
+                        foreach (var dbCoverage in dbVehicle.Coverages)
+                            if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
+                            {
+                                var newCoverage = newVehicle.Coverages.First(x => x.Id == dbCoverage.Id);
+                                coveragesNotToAdd.Add(newCoverage);
+                            }
+                            else
+                                coveragesToRemove.Add(dbCoverage);
+                        foreach (var dbCoverage in newVehicle.Coverages.Where(newCoverage => coveragesNotToAdd.All(x => x.Id != newCoverage.Id)).Select(newCoverage => context.Coverages.Single(x => x.Id == newCoverage.Id)))
                         {
-                            var newCoverage = newVehicle.Coverages.First(x => x.Id == dbCoverage.Id);
-                            coveragesNotToAdd.Add(newCoverage);
-                        }
-                        else
-                            coveragesToRemove.Add(dbCoverage);
-                    foreach (var newCoverage in newVehicle.Coverages)
-                        if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
-                        {
-                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbVehicle.Coverages.Add(dbCoverage);
                         }
-                    foreach (var coverageToRemove in coveragesToRemove)
-                        dbVehicle.Coverages.Remove(coverageToRemove);
+                        foreach (var coverageToRemove in coveragesToRemove)
+                            dbVehicle.Coverages.Remove(coverageToRemove);
+                    }
+                    else
+                        this.vehicleDao.SaveVehicle(newVehicle);
                 }
-                else
-                    this.vehicleDao.SaveVehicle(newVehicle);
             }
         }
         private void UpdatePolicyEmployees(Policy newPolicy, Policy dbPolicy)
         {
-            var employeesToRemove = new List<Employee>();
-            foreach (var dbEmployee in dbPolicy.Employees.ToList())
-                if (!newPolicy.Employees.Any(s => s.Id == dbEmployee.Id))
-                    employeesToRemove.Add(dbEmployee);
-
-            context.Employees.RemoveRange(employeesToRemove);
-
-            foreach (var newEmployee in newPolicy.Employees)
+            using (var context = SegguDataModelContext.Create())
             {
-                var dbEmployee = dbPolicy.Employees.SingleOrDefault(s => s.Id == newEmployee.Id);
-                if (dbEmployee != null)
+                var employeesToRemove = dbPolicy.Employees.ToList().Where(dbEmployee => newPolicy.Employees.All(s => s.Id != dbEmployee.Id)).ToList();
+
+                context.Employees.RemoveRange(employeesToRemove);
+
+                foreach (var newEmployee in newPolicy.Employees)
                 {
-                    var coveragesToRemove = new List<Coverage>();
-                    var coveragesNotToAdd = new List<Coverage>();
-                    //context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
-                    Mapper.Map<Employee, Employee>(newEmployee, dbEmployee);
+                    var dbEmployee = dbPolicy.Employees.SingleOrDefault(s => s.Id == newEmployee.Id);
+                    if (dbEmployee != null)
+                    {
+                        var coveragesToRemove = new List<Coverage>();
+                        var coveragesNotToAdd = new List<Coverage>();
+                        //context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                        Mapper.Map<Employee, Employee>(newEmployee, dbEmployee);
 
-                    foreach (var dbCoverage in dbEmployee.Coverages)
-                        if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
-                        {
-                            var newCoverage = newEmployee.Coverages.First(x => x.Id == dbCoverage.Id);
-                            coveragesNotToAdd.Add(newCoverage);
-                        }
-                        else
-                            coveragesToRemove.Add(dbCoverage);
+                        foreach (var dbCoverage in dbEmployee.Coverages)
+                            if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
+                            {
+                                var newCoverage = newEmployee.Coverages.First(x => x.Id == dbCoverage.Id);
+                                coveragesNotToAdd.Add(newCoverage);
+                            }
+                            else
+                                coveragesToRemove.Add(dbCoverage);
 
-                    foreach (var newCoverage in newEmployee.Coverages)
-                        if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
+                        foreach (var newCoverage in newEmployee.Coverages.Where(newCoverage => coveragesNotToAdd.All(x => x.Id != newCoverage.Id)))
                         {
                             var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbEmployee.Coverages.Add(dbCoverage);
                         }
-                    foreach (var coverageToRemove in coveragesToRemove)
-                        dbEmployee.Coverages.Remove(coverageToRemove);
+                        foreach (var coverageToRemove in coveragesToRemove)
+                            dbEmployee.Coverages.Remove(coverageToRemove);
+                    }
+                    else
+                        this.employeeDao.SaveEmployee(newEmployee);
                 }
-                else
-                    this.employeeDao.SaveEmployee(newEmployee);
+
             }
         }
         private void UpdatePolicyIntegral(Policy newPolicy, Policy dbPolicy)
         {
-            var integralsToRemove = new List<Integral>();
-            foreach (var dbIntegral in dbPolicy.Integrals.ToList())
-                if (!newPolicy.Integrals.Any(s => s.Id == dbIntegral.Id))
-                    integralsToRemove.Add(dbIntegral);
-
-            context.Integrals.RemoveRange(integralsToRemove);
-
-            foreach (var newIntegral in newPolicy.Integrals)
+            using (var context = SegguDataModelContext.Create())
             {
-                var dbIntegral = dbPolicy.Integrals.SingleOrDefault(s => s.Id == newIntegral.Id);
-                if (dbIntegral != null)
+                var integralsToRemove = dbPolicy.Integrals.ToList().Where(dbIntegral => newPolicy.Integrals.All(s => s.Id != dbIntegral.Id)).ToList();
+
+                context.Integrals.RemoveRange(integralsToRemove);
+
+                foreach (var newIntegral in newPolicy.Integrals)
                 {
-                    var coveragesToRemove = new List<Coverage>();
-                    var coveragesNotToAdd = new List<Coverage>();
-                    //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
-                    context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
-                    Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
+                    var dbIntegral = dbPolicy.Integrals.SingleOrDefault(s => s.Id == newIntegral.Id);
+                    if (dbIntegral != null)
+                    {
+                        var coveragesToRemove = new List<Coverage>();
+                        var coveragesNotToAdd = new List<Coverage>();
+                        //context.Entry(dbIntegral).CurrentValues.SetValues(newIntegral);
+                        context.Entry(dbIntegral.Address).CurrentValues.SetValues(newIntegral.Address);
+                        Mapper.Map<Integral, Integral>(newIntegral, dbIntegral);
 
-                    foreach (var dbCoverage in dbIntegral.Coverages)
-                        if (newIntegral.Coverages.Any(x => x.Id == dbCoverage.Id))
-                        {
-                            var newCoverage = newIntegral.Coverages.First(x => x.Id == dbCoverage.Id);
-                            coveragesNotToAdd.Add(newCoverage);
-                        }
-                        else
-                            coveragesToRemove.Add(dbCoverage);
+                        foreach (var dbCoverage in dbIntegral.Coverages)
+                            if (newIntegral.Coverages.Any(x => x.Id == dbCoverage.Id))
+                            {
+                                var newCoverage = newIntegral.Coverages.First(x => x.Id == dbCoverage.Id);
+                                coveragesNotToAdd.Add(newCoverage);
+                            }
+                            else
+                                coveragesToRemove.Add(dbCoverage);
 
-                    foreach (var newCoverage in newIntegral.Coverages)
-                        if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
-                        {
-                            var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
-                            dbIntegral.Coverages.Add(dbCoverage);
-                        }
-                    foreach (var coverageToRemove in coveragesToRemove)
-                        dbIntegral.Coverages.Remove(coverageToRemove);
+                        foreach (var newCoverage in newIntegral.Coverages)
+                            if (!coveragesNotToAdd.Any(x => x.Id == newCoverage.Id))
+                            {
+                                var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
+                                dbIntegral.Coverages.Add(dbCoverage);
+                            }
+                        foreach (var coverageToRemove in coveragesToRemove)
+                            dbIntegral.Coverages.Remove(coverageToRemove);
+                    }
+                    else
+                        this.integralDao.SaveIntegral(newIntegral);
                 }
-                else
-                    this.integralDao.SaveIntegral(newIntegral);
             }
         }
         private void UpdateFees(Policy policy)
         {
-            foreach (var fee in policy.Fees)
+            using (var context = SegguDataModelContext.Create())
             {
-                fee.PolicyId = policy.Id;
+                foreach (var fee in policy.Fees)
+                {
+                    fee.PolicyId = policy.Id;
+                }
+
+                var feesToDelete = context.Fees.Where(f => f.PolicyId == policy.Id);
+                context.Fees.RemoveRange(feesToDelete);
+
+                context.Fees.AddRange(policy.Fees);
             }
-
-            var feesToDelete = this.context.Fees.Where(f => f.PolicyId == policy.Id);
-            this.context.Fees.RemoveRange(feesToDelete);
-
-            this.context.Fees.AddRange(policy.Fees);
         }
         public IEnumerable<Policy> GetRosView(DateTime from, DateTime to)
         {
-            return this.context.Policies
-                .Include("Client")
-                .Include("Risk")
-                .Include("Risk.Company")
-                .Include("Client.Addresses")
-                .Include("Client.Addresses.Locality")
-                .Include("Client.Addresses.Locality.District")
-                .Include("Client.Addresses.Locality.District.Province")
-                .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Policies
+                    .Include("Client")
+                    .Include("Risk")
+                    .Include("Risk.Company")
+                    .Include("Client.Addresses")
+                    .Include("Client.Addresses.Locality")
+                    .Include("Client.Addresses.Locality.District")
+                    .Include("Client.Addresses.Locality.District.Province")
+                    .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null);
+            }
         }
 
         public override void Update(Policy obj)
         {
-            var orig = context.Policies.Find(obj.Id);
-            Mapper.Map<Policy, Policy>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Policies.Find(obj.Id);
+                Mapper.Map<Policy, Policy>(obj, orig);
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Seggu.Daos
 {
-    public sealed class RiskDao : IdParseEntityDao<Risk> , IRiskDao
+    public sealed class RiskDao : IdParseEntityDao<Risk>, IRiskDao
     {
         public RiskDao()
             : base()
@@ -17,51 +17,69 @@ namespace Seggu.Daos
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Risks.Any(c => c.Name == name); 
+            }
         }
 
         public IEnumerable<Risk> GetByCompany(long idCompany)
         {
-            return
-                from r in this.Set
-                where r.CompanyId == idCompany
-                orderby r.Name
-                select r;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from r in context.Risks
+                    where r.CompanyId == idCompany
+                    orderby r.Name
+                    select r;
+            }
         }
 
         public IEnumerable<Risk> GetByCompanyWithCoveragePacks(long idCompany)
         {
-            return
-                from r in this.Set.Include("CoveragesPacks.Coverages")
-                where r.CompanyId == idCompany
-                orderby r.Name
-                select r;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from r in context.Risks.Include("CoveragesPacks.Coverages")
+                    where r.CompanyId == idCompany
+                    orderby r.Name
+                    select r;
+            }
         }
 
         public bool GetByNameId(string name, long id)
         {
-            var prod = this.Set.FirstOrDefault(p => p.Name == name);
-            if (prod == null)
+            using (var context = SegguDataModelContext.Create())
             {
-                return false;
+                var prod = context.Risks.FirstOrDefault(p => p.Name == name);
+                if (prod == null)
+                {
+                    return false;
+                }
+                else if (prod.Id == id)
+                {
+                    return false;
+                }
+                return true;
             }
-            else if (prod.Id == id)
-            {
-                return false;
-            }
-            return true;
         }
 
         public IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType)
         {
-            return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
+            }
         }
 
         public override void Update(Risk obj)
         {
-            var orig = context.Risks.Find(obj.Id);
-            Mapper.Map<Risk, Risk>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Risks.Find(obj.Id);
+                Mapper.Map<Risk, Risk>(obj, orig);
+                context.SaveChanges();
+            }
         }
     }
 }

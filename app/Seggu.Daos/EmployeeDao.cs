@@ -18,35 +18,36 @@ namespace Seggu.Daos
 
         public IEnumerable<Employee> GetByPolicyId(long policyId)
         {
-            return this.Set.Where(x => x.PolicyId == policyId);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Employees.Where(x => x.PolicyId == policyId); 
+            }
         }
 
         public void SaveEmployee(Employee employee)
         {
-            var coverages = new List<Coverage>(employee.Coverages).ToList();
-            var dbEmployee = context.Employees
-                                    .Include("Coverages")
-                                    .FirstOrDefault(c => c.Id == employee.Id) ?? employee;
-
-            dbEmployee.Coverages.Clear();
-            context.Entry(dbEmployee).State = EntityState.Added;
-
-            employee.Id = dbEmployee.Id;
-            Mapper.Map<Employee, Employee>(employee, dbEmployee);
-
-            //context.Entry(dbEmployee).CurrentValues.SetValues(employee);
-
-            foreach (var dbCover in context.Coverages)
+            using (var context = SegguDataModelContext.Create())
             {
-                if (coverages.Any(cov => cov.Id == dbCover.Id))
+                var coverages = new List<Coverage>(employee.Coverages).ToList();
+                var dbEmployee = context.Employees
+                                        .Include("Coverages")
+                                        .FirstOrDefault(c => c.Id == employee.Id) ?? employee;
+
+                dbEmployee.Coverages.Clear();
+                context.Entry(dbEmployee).State = EntityState.Added;
+
+                employee.Id = dbEmployee.Id;
+                Mapper.Map<Employee, Employee>(employee, dbEmployee);
+
+                //context.Entry(dbEmployee).CurrentValues.SetValues(employee);
+
+                foreach (var dbCover in context.Coverages.Where(dbCover => coverages.Any(cov => cov.Id == dbCover.Id)))
                 {
                     context.Coverages.Attach(dbCover);
                     dbEmployee.Coverages.Add(dbCover);
                 }
-                //else
-                //dbVehicle.Coverages.Remove(dbCover);
+                context.SaveChanges();
             }
-            context.SaveChanges();
         }
 
         public override void Update(Employee obj)

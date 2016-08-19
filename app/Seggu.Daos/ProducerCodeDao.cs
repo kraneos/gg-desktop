@@ -15,23 +15,32 @@ namespace Seggu.Daos
 
         public bool ProducerHasCompany(long id)
         {
-            var prod = this.Set.Any(p => p.ProducerId == id);
-            return prod;
+            using (var context = SegguDataModelContext.Create())
+            {
+                var prod = context.ProducerCodes.Any(p => p.ProducerId == id);
+                return prod; 
+            }
         }
         public IEnumerable<ProducerCode> GetByCompany(long id)
         {
-            return
-                from p in this.Set
-                where p.CompanyId == id
-                select p;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from p in context.ProducerCodes
+                    where p.CompanyId == id
+                    select p; 
+            }
         }
         public ProducerCode GetByCompanyProducer(long companyId, long producerId)
         {
-            var producerCode = (from p in this.Set
-                 where p.CompanyId == companyId && p.ProducerId == producerId
-                select p).SingleOrDefault();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var producerCode = (from p in context.ProducerCodes
+                                    where p.CompanyId == companyId && p.ProducerId == producerId
+                                    select p).SingleOrDefault();
 
-            return producerCode;          
+                return producerCode;
+            }
         }
 
         public override void Update(ProducerCode obj)

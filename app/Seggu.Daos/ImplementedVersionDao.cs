@@ -15,7 +15,10 @@ namespace Seggu.Daos
 
         public bool Exists(string versionName)
         {
-            return this.Set.Any(v => v.Name == versionName);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return false;//context..Any(v => v.Name == versionName); 
+            }
         }
 
         public override void Update(ImplementedVersion obj)

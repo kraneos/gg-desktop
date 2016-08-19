@@ -26,27 +26,36 @@ namespace Seggu.Daos
         //    }
         //}
 
-        public GenericDao()
+        protected GenericDao()
         {
             //this.context = context;
         }
 
         public virtual IEnumerable<T> GetAll()
         {
-            return this.context.Set<T>();
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Set<T>(); 
+            }
         }
 
         public virtual T Get(object id)
         {
-            return this.Set.Find(id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Set<T>().Find(id); 
+            }
         }
 
         public virtual void Save(T obj)
         {
             //using (var scope = new TransactionScope())
             //{
-                this.Set.Add(obj);
-                this.context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                context.Set<T>().Add(obj);
+                context.SaveChanges(); 
+            }
             //    scope.Complete();
             //}
         }
@@ -76,12 +85,16 @@ namespace Seggu.Daos
         //    //}
         //}
 
-        public virtual void Delete(T obj)
+        public virtual void Delete(object id, T obj)
         {
             //using (var scope = new TransactionScope())
             //{
-                this.Set.Remove(obj);
-                this.context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var innerObj = context.Set<T>().Find(id);
+                context.Set<T>().Remove(innerObj);
+                context.SaveChanges();
+            }
             //    scope.Complete();
             //}
         }
@@ -90,9 +103,12 @@ namespace Seggu.Daos
         {
             //using (var scope = new TransactionScope())
             //{
-                var obj = this.Set.Find(id);
-                this.Set.Remove(obj);
-                this.context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var obj = context.Set<T>().Find(id);
+                context.Set<T>().Remove(obj);
+                context.SaveChanges(); 
+            }
             //    scope.Complete();
             //}
         }
@@ -101,7 +117,7 @@ namespace Seggu.Daos
         {
             //using (var scope = new TransactionScope())
             //{
-                this.DoBulkAction(objs, EntityState.Added);
+            DoBulkAction(objs, EntityState.Added);
             //    scope.Complete();
             //}
         }
@@ -110,7 +126,7 @@ namespace Seggu.Daos
         {
             //using (var scope = new TransactionScope())
             //{
-                this.DoBulkAction(objs, EntityState.Modified);
+            DoBulkAction(objs, EntityState.Modified);
             //    scope.Complete();
             //}
         }
@@ -119,46 +135,50 @@ namespace Seggu.Daos
         {
             //using (var scope = new TransactionScope())
             //{
-                this.DoBulkAction(objs, EntityState.Deleted);
+            DoBulkAction(objs, EntityState.Deleted);
             //    scope.Complete();
             //}
         }
 
         public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return this.context.Set<T>().Where(predicate);
-        }
-
-        private void DoBulkAction(IEnumerable<T> objs, EntityState entityState)
-        {
-            var count = 100;
-            var i = 0;
-            var objList = objs.ToList();
-
-            foreach (var obj in objs)
+            using (var context = SegguDataModelContext.Create())
             {
-
-                var entry = this.context.Entry(obj);
-                entry.State = entityState;
-
-                //this.DoAction(objList[i], entityState);
-                i++;
-                if (i % count == 0)
-                    this.context.SaveChanges();
+                return context.Set<T>().Where(predicate);
             }
-            if (i % count != 0)
-                this.context.SaveChanges();
         }
 
-        private void DoAction(T obj, EntityState entityState)
+        private static void DoBulkAction(IEnumerable<T> objs, EntityState entityState)
         {
-            var entry = this.context.Entry(obj);
-            entry.State = entityState;
+            using (var context = SegguDataModelContext.Create())
+            {
+                const int count = 100;
+                var i = 0;
+                var objList = objs.ToList();
+
+                foreach (var entry in objs.Select(obj => context.Entry(obj)))
+                {
+                    entry.State = entityState;
+
+                    //this.DoAction(objList[i], entityState);
+                    i++;
+                    if (i % count == 0)
+                        context.SaveChanges();
+                }
+                if (i % count != 0)
+                    context.SaveChanges();
+            }
         }
 
-        public SegguDataModelContext GetContainer()
-        {
-            return this.context;
-        }
+        //private void DoAction(T obj, EntityState entityState)
+        //{
+        //    var entry = this.context.Entry(obj);
+        //    entry.State = entityState;
+        //}
+
+        //public SegguDataModelContext GetContainer()
+        //{
+        //    return this.context;
+        //}
     }
 }

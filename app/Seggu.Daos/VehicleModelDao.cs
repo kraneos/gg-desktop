@@ -17,19 +17,28 @@ namespace Seggu.Daos
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.VehicleModels.Any(c => c.Name == name); 
+            }
         }
 
         public IEnumerable<VehicleModel> GetWithReferences()
         {
-            return this.Set.Include("Brand").Include("VehicleType");
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.VehicleModels.Include("Brand").Include("VehicleType"); 
+            }
         }
 
         public override void Update(VehicleModel obj)
         {
-            var orig = context.VehicleModels.Find(obj.Id);
-            Mapper.Map<VehicleModel, VehicleModel>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.VehicleModels.Find(obj.Id);
+                Mapper.Map<VehicleModel, VehicleModel>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

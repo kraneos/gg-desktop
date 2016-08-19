@@ -17,49 +17,64 @@ namespace Seggu.Daos
 
         public IEnumerable<Producer> GetCollectors()
         {
-            return
-                from p in this.Set
-                where p.IsCollector
-                select p;
+            using (var context = SegguDataModelContext.Create())
+            {
+                return
+                    from p in context.Producers
+                    where p.IsCollector
+                    select p; 
+            }
         }
 
         public bool GetByRegistrationNumberId(string registrationNumber, long id )
         {
-           var prod = this.Set.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
-           if (prod == null)
-           {
-               return false;
-           }
-           else if (prod.Id == id)
-           {
-               return false;
-           }
-           return true;
+            using (var context = SegguDataModelContext.Create())
+            {
+                var prod = context.Producers.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
+                if (prod == null)
+                {
+                    return false;
+                }
+                else if (prod.Id == id)
+                {
+                    return false;
+                }
+                return true; 
+            }
         }
 
         public bool GetByRegistrationNumber(string registrationNumber)
         {
-            var prod = this.Set.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
-            if (prod == null)
+            using (var context = SegguDataModelContext.Create())
             {
-                return false;
+                var prod = context.Producers.FirstOrDefault(p => p.RegistrationNumber == registrationNumber);
+                if (prod == null)
+                {
+                    return false;
+                }
+                return true; 
             }
-            return true;
         }
 
         public IEnumerable<ProducerCode> GetByCompanyId(int id)
         {
-            return context
-                .ProducerCodes
-                .Include("Producer")
-                .Where(pc => pc.CompanyId == id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context
+                    .ProducerCodes
+                    .Include("Producer")
+                    .Where(pc => pc.CompanyId == id); 
+            }
         }
 
         public override void Update(Producer obj)
         {
-            var orig = context.Producers.Find(obj.Id);
-            Mapper.Map<Producer, Producer>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Producers.Find(obj.Id);
+                Mapper.Map<Producer, Producer>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

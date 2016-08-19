@@ -17,40 +17,52 @@ namespace Seggu.Daos
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Uses.Any(c => c.Name == name); 
+            }
         }
 
         public IEnumerable<Use> GetByVehicleType(int vehicleTypeId)
         {
-            var vehicleType = this.context.VehicleTypes.Find(vehicleTypeId);
-            return vehicleType.Uses;
+            using (var context = SegguDataModelContext.Create())
+            {
+                var vehicleType = context.VehicleTypes.Find(vehicleTypeId);
+                return vehicleType.Uses; 
+            }
         }
 
         public void SaveChanges(VehicleType vehicleType, IEnumerable<Use> existing)
         {
-            vehicleType = this.context.VehicleTypes.Find(vehicleType.Id);
-            foreach (var obj in existing)
+            using (var context = SegguDataModelContext.Create())
             {
-                if (!vehicleType.Uses.Contains(obj))
+                vehicleType = context.VehicleTypes.Find(vehicleType.Id);
+                foreach (var obj in existing)
                 {
-                    vehicleType.Uses.Add(obj);
+                    if (!vehicleType.Uses.Contains(obj))
+                    {
+                        vehicleType.Uses.Add(obj);
+                    }
                 }
-            }
 
-            var nonExisting = vehicleType.Uses.Where(u => !existing.Any(x => x.Id == u.Id));
-            while (nonExisting.Any())
-            {
-                vehicleType.Uses.Remove(nonExisting.First());
-            }
+                var nonExisting = vehicleType.Uses.Where(u => !existing.Any(x => x.Id == u.Id));
+                while (nonExisting.Any())
+                {
+                    vehicleType.Uses.Remove(nonExisting.First());
+                }
 
-            this.context.SaveChanges();
+                context.SaveChanges(); 
+            }
         }
 
         public override void Update(Use obj)
         {
-            var orig = context.Uses.Find(obj.Id);
-            Mapper.Map<Use, Use>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Uses.Find(obj.Id);
+                Mapper.Map<Use, Use>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Seggu.Daos
 {
     public abstract class IdParseEntityDao<T> : GenericDao<T>, IParseIdEntityDao<T> where T : IdParseEntity
     {
-        public IdParseEntityDao()
+        protected IdParseEntityDao()
             : base()
         {
         }
@@ -25,13 +25,16 @@ namespace Seggu.Daos
 
         public T Find(long id)
         {
-            return base.Set.Find(id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Set<T>().Find(id); 
+            }
         }
     }
 
     public abstract class IdEntityDao<T> : GenericDao<T>, IIdEntityDao<T> where T : IdEntity
     {
-        public IdEntityDao()
+        protected IdEntityDao()
             : base()
         {
         }
@@ -50,7 +53,10 @@ namespace Seggu.Daos
 
         public T Find(long id)
         {
-            return base.Set.Find(id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Set<T>().Find(id); 
+            }
         }
     }
 }

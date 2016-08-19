@@ -16,16 +16,22 @@ namespace Seggu.Daos
 
         public void Create(Liquidation obj, long id)
         {
-            var entry = this.context.Entry(obj);
-            entry.State = EntityState.Added;
-            this.context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var entry = context.Entry(obj);
+                entry.State = EntityState.Added;
+                context.SaveChanges(); 
+            }
         }
 
         public override void Update(Liquidation obj)
         {
-            var orig = context.Liquidations.Find(obj.Id);
-            Mapper.Map<Liquidation, Liquidation>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Liquidations.Find(obj.Id);
+                Mapper.Map<Liquidation, Liquidation>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }
