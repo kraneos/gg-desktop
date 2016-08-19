@@ -18,69 +18,90 @@ namespace Seggu.Daos
 
         public IEnumerable<CoveragesPack> GetByRiskId(long riskId)
         {
-            return this.context.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Set<CoveragesPack>().Include("Coverages").Where(x => x.RiskId == riskId); 
+            }
         }
 
         public void UpdateCoveragesPack(CoveragesPack coveragesPack)
         {
-            var coverages = new List<Coverage>(coveragesPack.Coverages).ToList();
-            var newCoveragesPack = context.CoveragesPacks
-                                    .Include("Coverages")
-                                    .FirstOrDefault(c => c.Id == coveragesPack.Id) ?? coveragesPack;
-
-            newCoveragesPack.Coverages.Clear();
-            context.Entry(newCoveragesPack).State = EntityState.Modified;
-
-            coveragesPack.Id = newCoveragesPack.Id;
-            context.Entry(newCoveragesPack).CurrentValues.SetValues(coveragesPack);
-
-            foreach (var c in context.Coverages)
+            using (var context = SegguDataModelContext.Create())
             {
-                if (coverages.Any(cpack => cpack.Id == c.Id))
+                var coverages = new List<Coverage>(coveragesPack.Coverages).ToList();
+                var newCoveragesPack = context.CoveragesPacks
+                                        .Include("Coverages")
+                                        .FirstOrDefault(c => c.Id == coveragesPack.Id) ?? coveragesPack;
+
+                newCoveragesPack.Coverages.Clear();
+                context.Entry(newCoveragesPack).State = EntityState.Modified;
+
+                coveragesPack.Id = newCoveragesPack.Id;
+                context.Entry(newCoveragesPack).CurrentValues.SetValues(coveragesPack);
+
+                foreach (var c in context.Coverages)
                 {
-                    context.Coverages.Attach(c);
-                    newCoveragesPack.Coverages.Add(c);
+                    if (coverages.Any(cpack => cpack.Id == c.Id))
+                    {
+                        context.Coverages.Attach(c);
+                        newCoveragesPack.Coverages.Add(c);
+                    }
+                    else
+                        newCoveragesPack.Coverages.Remove(c);
                 }
-                else
-                    newCoveragesPack.Coverages.Remove(c);
+                context.SaveChanges(); 
             }
-            context.SaveChanges();
         }
 
         public bool GetByName(string name)
         {
-            return this.Set.Any(c => c.Name == name);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CoveragesPacks.Any(c => c.Name == name); 
+            }
         }
 
         public bool HasRiskPackege(long idRisk)
         {
-            return this.Set.Any(c => c.RiskId == idRisk);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CoveragesPacks.Any(c => c.RiskId == idRisk); 
+            }
         }
 
         public bool GetByNameRisk(string name, long idRisk)
         {
-            return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.CoveragesPacks.Any(p => p.Name == name && p.RiskId == idRisk); 
+            }
         }
 
         public bool GetByNameId(string name, long id, long riskId)
         {
-            var prod = this.Set.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
-            if (prod == null)
+            using (var context = SegguDataModelContext.Create())
             {
-                return false;
+                var prod = context.CoveragesPacks.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
+                if (prod == null)
+                {
+                    return false;
+                }
+                else if (prod.Id == id)
+                {
+                    return false;
+                }
+                return true; 
             }
-            else if (prod.Id == id)
-            {
-                return false;
-            }
-            return true;
         }
 
         public override void Update(CoveragesPack obj)
         {
-            var orig = context.CoveragesPacks.Find(obj.Id);
-            Mapper.Map<CoveragesPack, CoveragesPack>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.CoveragesPacks.Find(obj.Id);
+                Mapper.Map<CoveragesPack, CoveragesPack>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

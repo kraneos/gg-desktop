@@ -17,14 +17,20 @@ namespace Seggu.Daos
 
         public IEnumerable<Contact> GetByCompany(int id)
         {
-            return context.Contacts.Where(x => x.CompanyId == id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Contacts.Where(x => x.CompanyId == id); 
+            }
         }
 
         public override void Update(Contact obj)
         {
-            var orig = context.Contacts.Find(obj.Id);
-            Mapper.Map<Contact, Contact>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Contacts.Find(obj.Id);
+                Mapper.Map<Contact, Contact>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

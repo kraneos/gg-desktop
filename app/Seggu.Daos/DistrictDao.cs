@@ -16,7 +16,10 @@ namespace Seggu.Daos
 
         public IEnumerable<District> GetByProvince(long provinceId)
         {
-            return this.context.Districts.Where(x => x.ProvinceId == provinceId);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Districts.Where(x => x.ProvinceId == provinceId); 
+            }
         }
 
         public override void Update(District obj)

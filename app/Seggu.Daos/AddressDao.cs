@@ -13,9 +13,12 @@ namespace Seggu.Daos
         }
         public override void Update(Address obj)
         {
-            var orig = context.Addresses.Find(obj.Id);
-            Mapper.Map<Address, Address>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Addresses.Find(obj.Id);
+                Mapper.Map<Address, Address>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

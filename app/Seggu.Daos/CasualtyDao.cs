@@ -16,15 +16,21 @@ namespace Seggu.Daos
 
         public IEnumerable<Casualty> GetByPolicyId(long guid)
         {
-            return this.Set
-                .Where(c => c.PolicyId == guid);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Casualties
+                    .Where(c => c.PolicyId == guid);
+            }
         }
 
         public override void Update(Casualty obj)
         {
-            var orig = context.Casualties.Find(obj.Id);
-            Mapper.Map<Casualty, Casualty>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Casualties.Find(obj.Id);
+                Mapper.Map<Casualty, Casualty>(obj, orig);
+                context.SaveChanges();
+            }
         }
     }
 }

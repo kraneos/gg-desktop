@@ -17,15 +17,21 @@ namespace Seggu.Daos
 
         public IEnumerable<AttachedFile> GetByPolicyId(long guid)
         {
-            return this.Set
-                .Where(f => f.PolicyId == guid);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.AttachedFiles
+                        .Where(f => f.PolicyId == guid); 
+            }
         }
 
         public override void Update(AttachedFile obj)
         {
-            var orig = context.AttachedFiles.Find(obj.Id);
-            Mapper.Map<AttachedFile, AttachedFile>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.AttachedFiles.Find(obj.Id);
+                Mapper.Map<AttachedFile, AttachedFile>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }
