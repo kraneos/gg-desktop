@@ -1,8 +1,5 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
-using System;
-using System.IO;
-using System.Linq;
 
 namespace Seggu.Services.DtoMappers
 {
@@ -35,18 +32,5 @@ namespace Seggu.Services.DtoMappers
             return obj;
         }
 
-        public static AttachedFile GetObject(string dto)
-        {
-            var obj = new AttachedFile();
-
-            //obj.Id = dto.Id;
-            //obj.FilePath = dto.FilePath;
-            //obj.EndorseId = dto.EndorseId;
-            //obj.PolicyId = dto.PolicyId;
-            //obj.CashAccountId = dto.CashAccountId;
-            //obj.CasualtyId = dto.CasualtyId;
-
-            return obj;
-        }
     }
 }

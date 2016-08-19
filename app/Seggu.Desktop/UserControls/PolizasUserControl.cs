@@ -17,16 +17,16 @@ namespace Seggu.Desktop.UserControls
 
     public partial class PolizasUserControl : UserControl
     {
-        private readonly IPolicyService policyService;
-        private readonly IClientService clientService;
-        private readonly ICompanyService companyService;
-        private readonly IRiskService riskService;
-        private readonly IProducerService producerService;
-        private readonly IMasterDataService masterDataService;
-        private readonly IFeeService feeService;
-        private readonly IPrintService printService;
+        private readonly IPolicyService _policyService;
+        private readonly IClientService _clientService;
+        private readonly ICompanyService _companyService;
+        private readonly IRiskService _riskService;
+        private readonly IProducerService _producerService;
+        private readonly IMasterDataService _masterDataService;
+        private readonly IFeeService _feeService;
+        private readonly IPrintService _printService;
 
-        private IAttachedFileService attachedFileService;
+        private IAttachedFileService _attachedFileService;
         private ClientIndexDto currentClient;
 
         private VehiculePolicyUserControl vehicle_uc;
@@ -34,10 +34,10 @@ namespace Seggu.Desktop.UserControls
         private IntegralPolicyUserControl integral_uc;
 
         #region Siniestros Vars
-        private readonly ICasualtyService casualtyService;
-        private readonly ICasualtyTypeService casualtyTypeService;
+        private readonly ICasualtyService _casualtyService;
+        private readonly ICasualtyTypeService _casualtyTypeService;
 
-        private CasualtyDto currentCasualty;
+        private CasualtyDto _currentCasualty;
         private List<CasualtyDto> casualties;
 
         #endregion
@@ -48,18 +48,18 @@ namespace Seggu.Desktop.UserControls
             ICasualtyTypeService casualtyTypeService, ICasualtyService casualtyService)
         {
             InitializeComponent();
-            policyService = polServ;
-            clientService = cliServ;
-            companyService = compServ;
-            riskService = riskServ;
-            masterDataService = masterDataServ;
-            producerService = prodServ;
-            this.feeService = feeService;
-            this.printService = printService;
-            this.attachedFileService = attachedFileService;
+            _policyService = polServ;
+            _clientService = cliServ;
+            _companyService = compServ;
+            _riskService = riskServ;
+            _masterDataService = masterDataServ;
+            _producerService = prodServ;
+            _feeService = feeService;
+            _printService = printService;
+            _attachedFileService = attachedFileService;
 
-            this.casualtyService = casualtyService;
-            this.casualtyTypeService = casualtyTypeService;
+            _casualtyService = casualtyService;
+            _casualtyTypeService = casualtyTypeService;
 
             chkOtherClient.Visible = false;
             InitializeDetailComboBoxes();
@@ -67,11 +67,11 @@ namespace Seggu.Desktop.UserControls
 
         private void InitializeDetailComboBoxes()
         {
-            cmbPeriodo.DataSource = masterDataService.GetPeriods().ToList();
+            cmbPeriodo.DataSource = _masterDataService.GetPeriods().ToList();
 
             cmbCompania.ValueMember = "Id";
             cmbCompania.DisplayMember = "Name";
-            cmbCompania.DataSource = companyService.GetAllCombobox().ToList();
+            cmbCompania.DataSource = _companyService.GetAllCombobox().ToList();
 
             cmbProductor.ValueMember = "Id";
             cmbProductor.DisplayMember = "Name";
@@ -81,7 +81,7 @@ namespace Seggu.Desktop.UserControls
 
             cmbCobrador.ValueMember = "Id";
             cmbCobrador.DisplayMember = "Name";
-            cmbCobrador.DataSource = producerService.GetCollectors().ToList();
+            cmbCobrador.DataSource = _producerService.GetCollectors().ToList();
 
             cmbCompania.SelectedIndex = cmbCompania.Items.Count > 0 ? 0 : -1;
 
@@ -229,8 +229,8 @@ namespace Seggu.Desktop.UserControls
             currentClient = LayoutForm.currentClient;
 
             NavigateToDetalle();
-            cmbProductor.DataSource = producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
-            cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
+            cmbProductor.DataSource = _producerService.GetByCompanyIdCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Producers;
+            cmbRiesgo.DataSource = _riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();// selectedCompany.Risks;
             BindTextBoxesAndCombos(LayoutForm.currentPolicy);
             LoadFeeGrid();
             if (LayoutForm.currentPolicy.AttachedFiles != null)
@@ -304,7 +304,7 @@ namespace Seggu.Desktop.UserControls
         {
             grdFees.Columns.Clear();
             var fees = LayoutForm.currentPolicy.Id == default(int) ?
-                null : feeService.GetByPolicyId(LayoutForm.currentPolicy.Id).ToList();
+                null : _feeService.GetByPolicyId(LayoutForm.currentPolicy.Id).ToList();
             grdFees.DataSource = fees;
             cmbPlanes.SelectedIndex = grdFees.RowCount > 12 ? -1 : grdFees.RowCount - 1;
             if (grdFees.RowCount != 0)
@@ -350,22 +350,22 @@ namespace Seggu.Desktop.UserControls
                         //print flota
                     }
                     else
-                        printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
+                        _printService.PolicyVehiclePDF(pol, vehicle_uc.GetSelectedPlate());
                     break;
 
                 case RiskType.Vida_colectivo_Otros:
-                    printService.PolicyLifePDF(pol);
+                    _printService.PolicyLifePDF(pol);
                     break;
                 case RiskType.Otros:
-                    printService.PolicyLifePDF(pol);
+                    _printService.PolicyLifePDF(pol);
                     break;
 
                 case RiskType.Vida_individual:
-                    printService.PolicyLifePDF(pol);
+                    _printService.PolicyLifePDF(pol);
                     break;
 
                 case RiskType.Combinados_Integrales:
-                    printService.PolicyIntegralPDF(pol, integral_uc.province, integral_uc.district);
+                    _printService.PolicyIntegralPDF(pol, integral_uc.province, integral_uc.district);
                     break;
             }
         }
@@ -417,8 +417,8 @@ namespace Seggu.Desktop.UserControls
             if (cmbCompania.SelectedValue != null)
             {
                 var companyId = (int)cmbCompania.SelectedValue;
-                cmbRiesgo.DataSource = riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
-                cmbProductor.DataSource = producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
+                cmbRiesgo.DataSource = _riskService.GetByCompanyCombobox(companyId).ToList();// selectedCompany.Risks;
+                cmbProductor.DataSource = _producerService.GetByCompanyIdCombobox(companyId).ToList();// selectedCompany.Producers;
                 cmbCobrador.SelectedIndex = 0;
             }
         }
@@ -482,7 +482,7 @@ namespace Seggu.Desktop.UserControls
         {
             cmbClient.ValueMember = "Id";
             cmbClient.DisplayMember = "FullName";
-            cmbClient.DataSource = clientService.GetAll().ToList();
+            cmbClient.DataSource = _clientService.GetAll().ToList();
             cmbClient.Visible = chkOtherClient.Checked;
 
         }
@@ -701,7 +701,7 @@ namespace Seggu.Desktop.UserControls
                         policy.Integrals = integral_uc.GetIntegral();
                     else
                         return;
-                    policyService.SavePolicy(policy);
+                    _policyService.SavePolicy(policy);
 
                     MessageBox.Show("La póliza se ha guardado con éxito.");
                     //limpiar layout
@@ -849,7 +849,7 @@ namespace Seggu.Desktop.UserControls
         {
             cmbType.ValueMember = "Id";
             cmbType.DisplayMember = "Name";
-            cmbType.DataSource = casualtyTypeService.GetAll().ToList();
+            cmbType.DataSource = _casualtyTypeService.GetAll().ToList();
 
             cmbNumber.DataSource = null;
             cmbNumber.ValueMember = "Id";
@@ -861,7 +861,7 @@ namespace Seggu.Desktop.UserControls
         private void cmbNumber_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbNumber.SelectedItem == null) return;
-            currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
+            _currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
             ClearSiniestrosDataBindings();
             BindControls();
         }
@@ -878,9 +878,9 @@ namespace Seggu.Desktop.UserControls
         }
         private void BindControls()
         {
-            txtDescripcionSiniestro.DataBindings.Add("Text", currentCasualty, "Notes");
-            txtIndemnizacionDef.DataBindings.Add("Text", currentCasualty, "DefinedCompensation");
-            txtIndemnizacionEst.DataBindings.Add("Text", currentCasualty, "EstimatedCompensation");
+            txtDescripcionSiniestro.DataBindings.Add("Text", _currentCasualty, "Notes");
+            txtIndemnizacionDef.DataBindings.Add("Text", _currentCasualty, "DefinedCompensation");
+            txtIndemnizacionEst.DataBindings.Add("Text", _currentCasualty, "EstimatedCompensation");
             #region Faltan esos campos en la BD
             //txtAbogados.DataBindings.Add();
             //txtActa.DataBindings.Add();
@@ -909,11 +909,11 @@ namespace Seggu.Desktop.UserControls
             //dtpProximaGestion.DataBindings.Add();
             //dtpRechazoCia.DataBindings.Add();
             #endregion
-            chkbNuestroCargo.DataBindings.Add("Checked", currentCasualty, "OurCharge");
-            cmbType.DataBindings.Add("SelectedValue", currentCasualty, "CasualtyTypeId");
-            dtpDenunciaPolicial.DataBindings.Add("Value", currentCasualty, "PoliceReportDate");
-            dtpOcurrio.DataBindings.Add("Value", currentCasualty, "OccurredDate");
-            dtpRecibido.DataBindings.Add("Value", currentCasualty, "ReceiveDate");
+            chkbNuestroCargo.DataBindings.Add("Checked", _currentCasualty, "OurCharge");
+            cmbType.DataBindings.Add("SelectedValue", _currentCasualty, "CasualtyTypeId");
+            dtpDenunciaPolicial.DataBindings.Add("Value", _currentCasualty, "PoliceReportDate");
+            dtpOcurrio.DataBindings.Add("Value", _currentCasualty, "OccurredDate");
+            dtpRecibido.DataBindings.Add("Value", _currentCasualty, "ReceiveDate");
         }
 
         private void btnGrabarSiniestro_Click(object sender, EventArgs e)
@@ -925,7 +925,7 @@ namespace Seggu.Desktop.UserControls
                     CasualtyDto casualty = GetSiniestroInfo();
                     //var injuries = (List<FeeDto>)this.grdInjuries.DataSource;
                     //CasualtyDto submitCasualtyFormDto = this.ConvertToSubmitForm(casualty, injuries);
-                    casualtyService.Save(casualty);
+                    _casualtyService.Save(casualty);
                     MessageBox.Show("Guardó OK, refresque los datos con doble click en la póliza deseada");
                 }
                 catch (Exception ex)
@@ -949,17 +949,20 @@ namespace Seggu.Desktop.UserControls
         }
         private CasualtyDto GetSiniestroInfo()
         {
-            currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
-            currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
-            currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
-            currentCasualty.Notes = txtDescripcionSiniestro.Text;
+            _currentCasualty.CasualtyTypeId = (int)cmbType.SelectedValue;
+            _currentCasualty.DefinedCompensation = decimal.Parse(txtIndemnizacionDef.Text);
+            _currentCasualty.EstimatedCompensation = decimal.Parse(txtIndemnizacionEst.Text);
+            _currentCasualty.Notes = txtDescripcionSiniestro.Text;
             //currentCasualty.Number = ;
-            currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
-            currentCasualty.OurCharge = chkbNuestroCargo.Checked;
-            currentCasualty.PoliceReportDate = dtpDenunciaPolicial.Value.ToShortDateString();
-            currentCasualty.PolicyId = LayoutForm.currentPolicy.Id;
-            currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
-            return currentCasualty;
+            _currentCasualty.OccurredDate = dtpOcurrio.Value.ToShortDateString();
+            _currentCasualty.OurCharge = chkbNuestroCargo.Checked;
+            _currentCasualty.PoliceReportDate = dtpDenunciaPolicial.Value.ToShortDateString();
+            _currentCasualty.PolicyId = LayoutForm.currentPolicy.Id;
+            _currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
+            _currentCasualty.AttachedFiles =
+                imageList1.Images.Keys.Cast<string>()
+                    .Select(x => new AttachedFileDto {FilePath = x, CasualtyId = _currentCasualty?.Id ?? default(int)});
+            return _currentCasualty;
         }
         private bool ValidateSiniestrosControls()
         {
@@ -1025,7 +1028,7 @@ namespace Seggu.Desktop.UserControls
             var casualtiesCount = cmbNumber.Items.Count;
             lblNumber.Text = (casualtiesCount + 1).ToString();
 
-            currentCasualty = new CasualtyDto
+            _currentCasualty = new CasualtyDto
             {
                 Number = (casualtiesCount + 1).ToString(),
                 OccurredDate = DateTime.Today.ToShortDateString(),
