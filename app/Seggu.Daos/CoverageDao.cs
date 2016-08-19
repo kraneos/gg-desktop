@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public sealed class CoverageDao : IdParseEntityDao<Coverage>, ICoverageDao
     {
-        public CoverageDao(SegguDataModelContext context)
-            : base(context)
+        public CoverageDao()
+            : base()
         {
 
         }

@@ -10,8 +10,8 @@ namespace Seggu.Daos
 {
     public sealed class AttachedFileDao : IdParseEntityDao<AttachedFile>, IAttachedFileDao
     {
-        public AttachedFileDao(SegguDataModelContext context)
-            : base(context)
+        public AttachedFileDao()
+            : base()
         {
         }
 

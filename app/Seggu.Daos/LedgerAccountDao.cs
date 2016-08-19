@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public sealed class LedgerAccountDao : IdParseEntityDao<LedgerAccount>, ILedgerAccountDao
     {
-        public LedgerAccountDao(SegguDataModelContext context)
-            : base(context)
+        public LedgerAccountDao()
+            : base()
         {
 
         }

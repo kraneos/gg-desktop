@@ -6,8 +6,8 @@ namespace Seggu.Daos
 {
     public abstract class IdParseEntityDao<T> : GenericDao<T>, IParseIdEntityDao<T> where T : IdParseEntity
     {
-        public IdParseEntityDao(SegguDataModelContext context)
-            : base(context)
+        public IdParseEntityDao()
+            : base()
         {
         }
 
@@ -31,8 +31,8 @@ namespace Seggu.Daos
 
     public abstract class IdEntityDao<T> : GenericDao<T>, IIdEntityDao<T> where T : IdEntity
     {
-        public IdEntityDao(SegguDataModelContext context)
-            : base(context)
+        public IdEntityDao()
+            : base()
         {
         }
 

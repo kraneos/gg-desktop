@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public class AddressDao : IdParseEntityDao<Address>, IAddressDao
     {
-        public AddressDao(SegguDataModelContext context)
-            : base(context)
+        public AddressDao()
+            : base()
         {
         }
         public override void Update(Address obj)

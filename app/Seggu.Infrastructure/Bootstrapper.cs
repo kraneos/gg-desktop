@@ -36,7 +36,6 @@ namespace Seggu.Infrastructure
             return container;
         }
 
-
         internal static IUnityContainer InitialisePerThread()
         {
             var container = new UnityContainer();
@@ -56,7 +55,7 @@ namespace Seggu.Infrastructure
             var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
 
             // Entity Framework Context
-            container.RegisterType<SegguDataModelContext>(new PerThreadLifetimeManager(), new InjectionConstructor(connectionString));
+            //container.RegisterType<SegguDataModelContext>(new PerThreadLifetimeManager(), new InjectionConstructor(connectionString));
         }
 
         private static void RegisterDbContext(IUnityContainer container)
@@ -64,7 +63,7 @@ namespace Seggu.Infrastructure
             var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
 
             // Entity Framework Context
-            container.RegisterType<SegguDataModelContext>(new ContainerControlledLifetimeManager(), new InjectionConstructor(connectionString));
+            //container.RegisterType<SegguDataModelContext>(new ContainerControlledLifetimeManager(), new InjectionConstructor(connectionString));
         }
 
         public static void RegisterTypes(IUnityContainer container)

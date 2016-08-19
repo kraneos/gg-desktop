@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public sealed class LocalityDao : IdParseEntityDao<Locality>, ILocalityDao
     {
-        public LocalityDao(SegguDataModelContext context)
-            : base(context)
+        public LocalityDao()
+            : base()
         {
 
         }

@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public sealed class AssetDao : IdParseEntityDao<Asset> , IAssetDao
     {
-        public AssetDao(SegguDataModelContext context)
-            : base(context)
+        public AssetDao()
+            : base()
         {
         }
         public override void Update(Asset obj)

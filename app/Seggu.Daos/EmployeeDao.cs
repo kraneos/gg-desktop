@@ -10,8 +10,8 @@ namespace Seggu.Daos
 {
     public sealed class EmployeeDao : IdParseEntityDao<Employee>, IEmployeeDao
     {
-        public EmployeeDao(SegguDataModelContext context)
-            : base(context)
+        public EmployeeDao()
+            : base()
         {
 
         }

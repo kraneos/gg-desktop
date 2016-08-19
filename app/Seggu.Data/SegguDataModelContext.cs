@@ -22,6 +22,12 @@
             this.Database.Log = Console.Write;
         }
 
+        public static SegguDataModelContext Create()
+        {
+            var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
+            return new SegguDataModelContext(connectionString);
+        }
+
         public static DbConnection GetConnection(string connectionString)
         {
             var dbConnection = new SQLiteConnection(connectionString);

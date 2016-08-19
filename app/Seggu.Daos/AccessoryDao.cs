@@ -9,22 +9,28 @@ namespace Seggu.Daos
 {
     public sealed class AccessoryDao : IdParseEntityDao<Accessory>, IAccessoryDao
     {
-        public AccessoryDao(SegguDataModelContext context)
-            : base(context)
+        public AccessoryDao()
+            : base()
         {
         }
 
         public IEnumerable<Accessory> GetByVehicleId(long id)
         {
-            return this.Set
-                .Where(x => x.VehicleId == id);
+            using (var context = SegguDataModelContext.Create())
+            {
+                return context.Accessories
+                        .Where(x => x.VehicleId == id); 
+            }
         }
 
         public override void Update(Accessory obj)
         {
-            var orig = context.Accessories.Find(obj.Id);
-            Mapper.Map<Accessory, Accessory>(obj, orig);
-            context.SaveChanges();
+            using (var context = SegguDataModelContext.Create())
+            {
+                var orig = context.Accessories.Find(obj.Id);
+                Mapper.Map<Accessory, Accessory>(obj, orig);
+                context.SaveChanges(); 
+            }
         }
     }
 }

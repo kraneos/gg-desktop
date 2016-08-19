@@ -15,7 +15,7 @@ namespace Seggu.Daos
         private IEmployeeDao employeeDao;
         private IIntegralDao integralDao;
         public PolicyDao(SegguDataModelContext context, IVehicleDao vehicleDao, IEmployeeDao employeeDao, IIntegralDao integralDao)
-            : base(context)
+            : base()
         {
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;

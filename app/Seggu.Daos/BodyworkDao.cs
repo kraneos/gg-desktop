@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class BodyworkDao : IdParseEntityDao<Bodywork>, IBodyworkDao
     {
-        public BodyworkDao(SegguDataModelContext context)
-            : base(context)
+        public BodyworkDao()
+            : base()
         {
         }
 

@@ -7,7 +7,7 @@ namespace Seggu.Daos
 {
     public class SettingsDao : GenericDao<Setting>, ISettingsDao
     {
-        public SettingsDao(SegguDataModelContext context) : base(context)
+        public SettingsDao() : base()
         {
         }
 

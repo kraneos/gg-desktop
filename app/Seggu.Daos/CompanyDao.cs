@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class CompanyDao : IdParseEntityDao<Company>, ICompanyDao
     {
-        public CompanyDao(SegguDataModelContext context)
-            : base(context)
+        public CompanyDao()
+            : base()
         {
         }
 

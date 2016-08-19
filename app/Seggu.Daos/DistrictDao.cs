@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public sealed class DistrictDao : IdParseEntityDao<District>, IDistrictDao
     {
-        public DistrictDao(SegguDataModelContext context)
-            : base(context)
+        public DistrictDao()
+            : base()
         {
 
         }

@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class UseDao : IdParseEntityDao<Use>, IUseDao
     {
-        public UseDao(SegguDataModelContext context)
-            : base(context)
+        public UseDao()
+            : base()
         {
 
         }

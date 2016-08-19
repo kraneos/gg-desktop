@@ -10,8 +10,8 @@ namespace Seggu.Daos
 {
     public sealed class CoveragesPackDao : IdParseEntityDao<CoveragesPack>, ICoveragesPackDao
     {
-        public CoveragesPackDao(SegguDataModelContext context)
-            : base(context)
+        public CoveragesPackDao()
+            : base()
         {
 
         }

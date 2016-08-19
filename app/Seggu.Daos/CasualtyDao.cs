@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class CasualtyDao : IdParseEntityDao<Casualty>, ICasualtyDao
     {
-        public CasualtyDao(SegguDataModelContext context)
-            : base(context)
+        public CasualtyDao()
+            : base()
         {
         }
 

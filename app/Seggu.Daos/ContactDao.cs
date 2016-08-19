@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class ContactDao : IdParseEntityDao<Contact>, IContactDao
     {
-        public ContactDao(SegguDataModelContext context)
-            : base(context)
+        public ContactDao()
+            : base()
         {
 
         }

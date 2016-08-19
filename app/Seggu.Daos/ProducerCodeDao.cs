@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public class ProducerCodeDao: GenericDao<ProducerCode>, IProducerCodeDao
     {
-        public ProducerCodeDao(SegguDataModelContext context)
-            : base(context)
+        public ProducerCodeDao()
+            : base()
         {
         }
 

@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class RiskDao : IdParseEntityDao<Risk> , IRiskDao
     {
-        public RiskDao(SegguDataModelContext context)
-            : base(context)
+        public RiskDao()
+            : base()
         {
 
         }

@@ -11,8 +11,8 @@ namespace Seggu.Daos
 {
     public sealed class FeeDao : IdParseEntityDao<Fee>, IFeeDao
     {
-        public FeeDao(SegguDataModelContext context)
-            : base(context)
+        public FeeDao()
+            : base()
         {
 
         }

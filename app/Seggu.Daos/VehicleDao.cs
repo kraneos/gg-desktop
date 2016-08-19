@@ -10,8 +10,8 @@ namespace Seggu.Daos
 {
     public sealed class VehicleDao : IdParseEntityDao<Vehicle>, IVehicleDao
     {
-        public VehicleDao(SegguDataModelContext context)
-            : base(context)
+        public VehicleDao()
+            : base()
         {
 
         }

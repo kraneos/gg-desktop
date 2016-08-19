@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public class ProducerDao : IdParseEntityDao<Producer>, IProducerDao
     {
-        public ProducerDao(SegguDataModelContext context)
-            : base(context)
+        public ProducerDao()
+            : base()
         {
 
         }

@@ -14,7 +14,7 @@ namespace Seggu.Daos
         private IEmployeeDao employeeDao;
 
         public EndorseDao(SegguDataModelContext context, IVehicleDao vehicleDao, IEmployeeDao employeeDao)
-            : base(context)
+            : base()
         {
             this.vehicleDao = vehicleDao;
             this.employeeDao = employeeDao;

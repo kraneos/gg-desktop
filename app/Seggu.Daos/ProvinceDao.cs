@@ -6,8 +6,8 @@ namespace Seggu.Daos
 {
     public sealed class ProvinceDao : IdParseEntityDao<Province>, IProvinceDao
     {
-        public ProvinceDao(SegguDataModelContext context)
-            : base(context)
+        public ProvinceDao()
+            : base()
         {
 
         }

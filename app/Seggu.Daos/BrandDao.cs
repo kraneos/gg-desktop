@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public sealed class BrandDao : IdParseEntityDao<Brand>, IBrandDao
     {
-        public BrandDao(SegguDataModelContext context)
-            : base(context)
+        public BrandDao()
+            : base()
         {
         }
 

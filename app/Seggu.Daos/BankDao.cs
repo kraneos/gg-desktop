@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public sealed class BankDao : IdParseEntityDao<Bank>, IBankDao
     {
-        public BankDao(SegguDataModelContext context)
-            : base(context)
+        public BankDao()
+            : base()
         {
         }
 

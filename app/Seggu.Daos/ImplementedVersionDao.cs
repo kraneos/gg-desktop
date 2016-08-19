@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public class ImplementedVersionDao : IdEntityDao<ImplementedVersion>, IImplementedVersionDao
     {
-        public ImplementedVersionDao(SegguDataModelContext context)
-            : base(context)
+        public ImplementedVersionDao()
+            : base()
         {
 
         }

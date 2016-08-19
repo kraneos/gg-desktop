@@ -9,8 +9,8 @@ namespace Seggu.Daos
 {
     public sealed class IntegralDao : IdParseEntityDao<Integral>, IIntegralDao
     {
-        public IntegralDao(SegguDataModelContext context)
-            : base(context)
+        public IntegralDao()
+            : base()
         {
 
         }

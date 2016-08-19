@@ -7,8 +7,8 @@ namespace Seggu.Daos
 {
     public sealed class AccessoryTypeDao : IdParseEntityDao<AccessoryType>, IAccessoryTypeDao
     {
-        public AccessoryTypeDao(SegguDataModelContext context)
-            : base(context)
+        public AccessoryTypeDao()
+            : base()
         {
         }
 

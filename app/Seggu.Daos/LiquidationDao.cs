@@ -8,8 +8,8 @@ namespace Seggu.Daos
 {
     public sealed class LiquidationDao : IdParseEntityDao<Liquidation>, ILiquidationDao
     {
-        public LiquidationDao(SegguDataModelContext context)
-            : base(context)
+        public LiquidationDao()
+            : base()
         {
 
         }

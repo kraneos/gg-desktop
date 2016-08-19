@@ -10,8 +10,8 @@ namespace Seggu.Daos
 {
     public sealed class CashAccountDao : IdParseEntityDao<CashAccount> , ICashAccountDao
     {
-        public CashAccountDao(SegguDataModelContext context)
-            : base(context)
+        public CashAccountDao()
+            : base()
         {
         }
 

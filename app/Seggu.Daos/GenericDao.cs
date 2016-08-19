@@ -10,7 +10,7 @@ namespace Seggu.Daos
 {
     public abstract class GenericDao<T> : IGenericDao<T> where T : class
     {
-        protected SegguDataModelContext context;
+        //protected SegguDataModelContext context;
         //{
         //    get
         //    {
@@ -18,17 +18,17 @@ namespace Seggu.Daos
         //    }
         //}
 
-        public DbSet<T> Set
-        {
-            get
-            {
-                return this.context.Set<T>();
-            }
-        }
+        //public DbSet<T> Set
+        //{
+        //    get
+        //    {
+        //        return this.context.Set<T>();
+        //    }
+        //}
 
-        public GenericDao(SegguDataModelContext context)
+        public GenericDao()
         {
-            this.context = context;
+            //this.context = context;
         }
 
         public virtual IEnumerable<T> GetAll()
