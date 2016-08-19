@@ -36,10 +36,11 @@ namespace Seggu.Desktop.Forms
         #region Security
         private static bool ValidateRegistry()
         {
-            var keyRoot = "HKEY_CURRENT_USER";
+            var keyRoot = "HKEY_LOCAL_MACHINE";
             var keyName = keyRoot + "\\SOFTWARE\\Seggu";
 
             var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
+
             if (!string.IsNullOrEmpty(installationDate))
             {
                 var date = DateTime.MinValue;
@@ -50,6 +51,11 @@ namespace Seggu.Desktop.Forms
                         return true;
                     }
                 }
+            }
+            else
+            {
+                Registry.SetValue(keyName, "d", DateTime.Now.ToString());
+                return true;
             }
 
             return false;
@@ -84,13 +90,13 @@ namespace Seggu.Desktop.Forms
             {
                 this.Close();
             }
+            if (!ValidateRegistry())
+            {
+                MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
+                this.Close();
+            }
             feeService.UpdateFeeStates();
             btnLimpiar_Click(sender, e);
-            //if (!ValidateRegistry())
-            //{
-            //    MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
-            //    this.Close();
-            //}
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
             //{
