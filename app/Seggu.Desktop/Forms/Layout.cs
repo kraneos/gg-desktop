@@ -14,10 +14,10 @@ namespace Seggu.Desktop.Forms
 {
     public partial class Layout : Form
     {
-        private IPolicyService policyService;
-        private IClientService clientService;
-        private IFeeService feeService;
-        private ICompanyService companyService;
+        private IPolicyService _policyService;
+        private IClientService _clientService;
+        private IFeeService _feeService;
+        private ICompanyService _companyService;
         public EndorseFullDto currentEndorse { get; set; }
         public PolicyFullDto currentPolicy { get; set; }
         public ClientIndexDto currentClient { get; set; }
@@ -27,10 +27,10 @@ namespace Seggu.Desktop.Forms
         public Layout(ICompanyService companyService, IFeeService feeService, IBankService bankService, IPolicyService policyService, IClientService clientService)
         {
             InitializeComponent();
-            this.policyService = policyService;
-            this.clientService = clientService;
-            this.feeService = feeService;
-            this.companyService = companyService;
+            _policyService = policyService;
+            _clientService = clientService;
+            _feeService = feeService;
+            _companyService = companyService;
         }
 
         #region Security
@@ -95,7 +95,7 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
                 this.Close();
             }
-            feeService.UpdateFeeStates();
+            _feeService.UpdateFeeStates();
             btnLimpiar_Click(sender, e);
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
@@ -126,6 +126,8 @@ namespace Seggu.Desktop.Forms
         }
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            InitiateContextServices();
+
             LblApellido.Text = "Apellido";
             LblNombre.Text = "Nombre";
             lblDNI.Text = "DNI";
@@ -140,6 +142,14 @@ namespace Seggu.Desktop.Forms
             this.txtBuscar.Focus();
         }
 
+        public void InitiateContextServices()
+        {
+            _policyService = DependencyResolver.Instance.Resolve<IPolicyService>();
+            _clientService = DependencyResolver.Instance.Resolve<IClientService>();
+            _feeService = DependencyResolver.Instance.Resolve<IFeeService>();
+            _companyService = DependencyResolver.Instance.Resolve<ICompanyService>();
+        }
+
         public void SetButtonsPrincipal()
         {
             btnCobranzas.Enabled = false;
@@ -150,6 +160,7 @@ namespace Seggu.Desktop.Forms
         }
         public void CleanLeftPanel()
         {
+            InitiateContextServices();
             grdEndorses.Visible = false;
             grdPolicies.Visible = false;
             tabCtrlPolicies.Visible = false;
@@ -242,14 +253,14 @@ namespace Seggu.Desktop.Forms
         }
         private void SearchByPolicyNumber(string str)
         {
-            grdPolicies.DataSource = policyService.GetByPolicyNumber(str).ToList();
+            grdPolicies.DataSource = _policyService.GetByPolicyNumber(str).ToList();
 
             FormatPoliciesGrid();
             SetPoliciesSearchResultCtrls();
         }
         private void SearchByVehiclePlate(string str)
         {
-            grdPolicies.DataSource = policyService.GetByPlate(str).ToList();
+            grdPolicies.DataSource = _policyService.GetByPlate(str).ToList();
 
             FormatPoliciesGrid();
             SetPoliciesSearchResultCtrls();
@@ -321,10 +332,10 @@ namespace Seggu.Desktop.Forms
         }
         private void LoadPoliciesGrids()
         {
-            grdExpired.DataSource = policyService.GetNotValidsByClient(currentClient.Id).ToList();
+            grdExpired.DataSource = _policyService.GetNotValidsByClient(currentClient.Id).ToList();
             FormatExpiredGrid();
 
-            grdValids.DataSource = policyService.GetValidsByClient(currentClient.Id).ToList();
+            grdValids.DataSource = _policyService.GetValidsByClient(currentClient.Id).ToList();
             FormatValidGrid();
 
             this.splitContainer1.Panel2.Controls.Clear();
@@ -380,7 +391,7 @@ namespace Seggu.Desktop.Forms
         {
             ShowDetails((DataGridView)sender);
             SetPoliciesSearchResultCtrls();
-            currentClient = clientService.GetShortDtoById(currentPolicy.ClientId);
+            currentClient = _clientService.GetShortDtoById(currentPolicy.ClientId);
             LoadClientSideBar(currentClient);
         }
 
@@ -388,7 +399,7 @@ namespace Seggu.Desktop.Forms
         {
             currentEndorse = null;
             var currentItemPolicy = (PolicyGridItemDto)grid.CurrentRow.DataBoundItem;
-            this.currentPolicy = this.policyService.GetById(currentItemPolicy.Id);
+            this.currentPolicy = this._policyService.GetById(currentItemPolicy.Id);
             policyUc = (PolizasUserControl)DependencyResolver.Instance.Resolve(typeof(PolizasUserControl));
             SetPanelControl(policyUc);
             policyUc.btnRenovar.Enabled = true;
