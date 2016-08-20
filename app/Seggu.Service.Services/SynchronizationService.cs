@@ -126,6 +126,27 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.VehicleModel, y => y.ResolveUsing((rr, x) => x.VehicleModel == null ? null : AutoMapperExtensions.GetParseObject<VehicleModelVM>(rr, ctx => (x.VehicleModel?.ObjectId != null) ? x.VehicleModel.ObjectId : AutoMapperExtensions.GetObjectId<VehicleModel>(ctx, x.VehicleModelId))))
                 .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId))));
 
+            innerConfigurationStore.CreateMap<Casualty, CasualtyVM>()
+                .GetCommonMappingExpressionToVM()
+                .ForMember(x => x.Policy,
+                    y =>
+                        y.ResolveUsing(
+                            (rr, x) =>
+                                x.Policy == null
+                                    ? null
+                                    : AutoMapperExtensions.GetParseObject<PolicyVM>(rr,
+                                        ctx =>
+                                            x.Policy?.ObjectId ?? AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId))))
+                .ForMember(x => x.CasualtyType,
+                    y =>
+                        y.ResolveUsing(
+                            (rr, x) =>
+                                x.CasualtyType == null
+                                    ? null
+                                    : AutoMapperExtensions.GetParseObject<CasualtyTypeVM>(rr,
+                                        ctx =>
+                                            x.CasualtyType?.ObjectId ?? AutoMapperExtensions.GetObjectId<CasualtyType>(ctx, x.CasualtyTypeId))));
+
             innerConfigurationStore.CreateMap<AttachedFile, AttachedFileVM>()
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId.Value))))
@@ -551,6 +572,44 @@ namespace Seggu.Service.Services
                     resolution => ((CashAccountVM)resolution.Value).LedgerAccount == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.LedgerAccounts.First(x => x.ObjectId == ((CashAccountVM)res.Value).LedgerAccount.ObjectId).Id)));
             Mapper.CreateMap<CashAccount, CashAccount>().GetCommonMappingExpressionEntityToEntity();
 
+            Mapper.CreateMap<Casualty, CasualtyVM>().GetCommonMappingExpressionToVM()
+                .ConvertUsing(
+                    (rc, e) =>
+                        AutoMapperExtensions.ValidateAndMap<Casualty, CasualtyVM>(
+                            rc,
+                            e,
+                            innerMappingEngine,
+                            (ctx, entity) =>
+                                (entity.Policy?.ObjectId != null)
+                                    ? entity.Policy.ObjectId
+                                    : AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId),
+                            (ctx, entity) =>
+                                (entity.CasualtyType?.ObjectId != null)
+                                    ? entity.CasualtyType.ObjectId
+                                    : AutoMapperExtensions.GetObjectId<CasualtyType>(ctx, entity.CasualtyTypeId)));
+
+            Mapper.CreateMap<CasualtyVM, Casualty>().GetCommonMappingExpressionToEntity()
+                .ForMember(x => x.Policy, y => y.Ignore())
+                .ForMember(x => x.CasualtyType, y => y.Ignore())
+                .ForMember(x => x.PolicyId, y => y.ResolveUsing(
+                    resolution =>
+                        ((CasualtyVM) resolution.Value).Policy == null
+                            ? null
+                            : AutoMapperExtensions.ResolveWithOptions(resolution,
+                                (ctx, sett, meth, res) =>
+                                    ctx.Policies.First(x => x.ObjectId == ((CasualtyVM) res.Value).Policy.ObjectId)
+                                        .Id)))
+                .ForMember(x => x.CasualtyTypeId, y => y.ResolveUsing(
+                    resolution =>
+                        ((CasualtyVM) resolution.Value).CasualtyType == null
+                            ? null
+                            : AutoMapperExtensions.ResolveWithOptions(resolution,
+                                (ctx, sett, meth, res) =>
+                                    ctx.CasualtyTypes.First(
+                                        x => x.ObjectId == ((CasualtyVM) res.Value).CasualtyType.ObjectId).Id)));
+
+            Mapper.CreateMap<Casualty, Casualty>().GetCommonMappingExpressionEntityToEntity();
+
             Mapper.CreateMap<AttachedFile, AttachedFileVM>().GetCommonMappingExpressionToVM()
                 .ConvertUsing(
                     (rc, e) =>
@@ -563,6 +622,7 @@ namespace Seggu.Service.Services
                             (ctx, entity) => (entity.CashAccount?.ObjectId != null) ? entity.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, entity.CashAccountId.Value), 
                             (ctx, entity) => (entity.Client?.ObjectId != null) ? entity.Client.ObjectId : AutoMapperExtensions.GetObjectId<Client>(ctx, entity.ClientId.Value),
                             (ctx, entity) => (entity.Casualty?.ObjectId != null) ? entity.Casualty.ObjectId : AutoMapperExtensions.GetObjectId<Casualty>(ctx, entity.CasualtyId.Value)));
+
             Mapper.CreateMap<AttachedFileVM, AttachedFile>().GetCommonMappingExpressionToEntity()
                 .ForMember(x => x.Policy, y => y.Ignore())
                 .ForMember(x => x.Endorse, y => y.Ignore())
@@ -618,6 +678,7 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<IntegralVM>();
             ParseObject.RegisterSubclass<AddressVM>();
             ParseObject.RegisterSubclass<CashAccountVM>();
+            ParseObject.RegisterSubclass<CasualtyVM>();
             ParseObject.RegisterSubclass<AttachedFileVM>();
             ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
             // TODO: The rest...
@@ -662,6 +723,7 @@ namespace Seggu.Service.Services
                 SendEntitiesToParse<Integral, IntegralVM>();
                 SendEntitiesToParse<Address, AddressVM>();
                 SendEntitiesToParse<CashAccount, CashAccountVM>();
+                SendEntitiesToParse<Casualty, CasualtyVM>();
                 SendEntitiesToParse<AttachedFile, AttachedFileVM>();//"Asset");
                                                                     
                 // TODO: The rest...

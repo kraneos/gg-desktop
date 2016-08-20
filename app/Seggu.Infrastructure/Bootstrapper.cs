@@ -64,7 +64,7 @@ namespace Seggu.Infrastructure
             var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
 
             // Entity Framework Context
-            container.RegisterType<SegguDataModelContext>(new ContainerControlledLifetimeManager(), new InjectionConstructor(connectionString));
+            container.RegisterType<SegguDataModelContext>(new PerResolveLifetimeManager(), new InjectionConstructor(connectionString));
         }
 
         public static void RegisterTypes(IUnityContainer container)
