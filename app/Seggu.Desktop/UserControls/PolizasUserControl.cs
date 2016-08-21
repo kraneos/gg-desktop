@@ -864,6 +864,8 @@ namespace Seggu.Desktop.UserControls
             _currentCasualty = (CasualtyDto)cmbNumber.SelectedItem;
             ClearSiniestrosDataBindings();
             BindControls();
+            LoadFotosSiniestros();
+
         }
         private void ClearSiniestrosDataBindings()
         {
@@ -915,6 +917,21 @@ namespace Seggu.Desktop.UserControls
             dtpOcurrio.DataBindings.Add("Value", _currentCasualty, "OccurredDate");
             dtpRecibido.DataBindings.Add("Value", _currentCasualty, "ReceiveDate");
         }
+        private void LoadFotosSiniestros()
+        {
+            ListViewFotosSiniestros.Clear();
+            ListViewFotosSiniestros.View = View.LargeIcon;
+            imageList2.ImageSize = new Size(130, 97);
+            ListViewFotosSiniestros.LargeImageList = imageList2;
+            foreach (var AttachedFile in _currentCasualty.AttachedFiles)
+            {
+                imageList2.Images.Add(AttachedFile.FilePath, Image.FromFile(AttachedFile.FilePath));
+            }
+            for (var i = 0; imageList2.Images.Count > i; i++)
+            {
+                ListViewFotosSiniestros.Items.Add(new ListViewItem { ImageIndex = i });
+            }
+        }
 
         private void btnGrabarSiniestro_Click(object sender, EventArgs e)
         {
@@ -944,8 +961,11 @@ namespace Seggu.Desktop.UserControls
                         MessageBoxIcon.Error);
                 }
             }
-            else
-                MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            var mainForm = (Layout)FindForm();
+            mainForm.CleanLeftPanel();
+            Dispose();
         }
         private CasualtyDto GetSiniestroInfo()
         {
@@ -960,7 +980,7 @@ namespace Seggu.Desktop.UserControls
             _currentCasualty.PolicyId = LayoutForm.currentPolicy.Id;
             _currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
             _currentCasualty.AttachedFiles =
-                imageList1.Images.Keys.Cast<string>()
+                imageList2.Images.Keys.Cast<string>()
                     .Select(x => new AttachedFileDto {FilePath = x, CasualtyId = _currentCasualty?.Id ?? default(int)});
             return _currentCasualty;
         }
@@ -1076,6 +1096,7 @@ namespace Seggu.Desktop.UserControls
             }
         }
 
+
         #region Archivos Siniestros
 
         private void AgregarFotoSiniestros(object sender, EventArgs e)
@@ -1098,9 +1119,9 @@ namespace Seggu.Desktop.UserControls
                 try
                 {
                     var image = Image.FromFile(files);
-                    if (!imageList1.Images.ContainsKey(files))
+                    if (!imageList2.Images.ContainsKey(files))
                     {
-                        imageList1.Images.Add(files, image);
+                        imageList2.Images.Add(files, image);
                     }
                 }
                 catch (Exception ex)
@@ -1110,10 +1131,10 @@ namespace Seggu.Desktop.UserControls
             }
 
             ListViewFotosSiniestros.View = View.LargeIcon;
-            imageList1.ImageSize = new Size(130, 97);
-            ListViewFotosSiniestros.LargeImageList = imageList1;
+            imageList2.ImageSize = new Size(130, 97);
+            ListViewFotosSiniestros.LargeImageList = imageList2;
             ListViewFotosSiniestros.Items.Clear();
-            for (var j = 0; j < imageList1.Images.Count; j++)
+            for (var j = 0; j < imageList2.Images.Count; j++)
             {
                 var item = new ListViewItem { ImageIndex = j };
                 ListViewFotosSiniestros.Items.Add(item);
@@ -1123,7 +1144,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (ListViewFotosSiniestros.FocusedItem == null) return;
             var focusedItem = ListViewFotosSiniestros.FocusedItem;
-            imageList1.Images.RemoveAt(focusedItem.ImageIndex);
+            imageList2.Images.RemoveAt(focusedItem.ImageIndex);
             ListViewFotosSiniestros.Items.Remove(ListViewFotosSiniestros.FocusedItem);
         }
         #endregion
