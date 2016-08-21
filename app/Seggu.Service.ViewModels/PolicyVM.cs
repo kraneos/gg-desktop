@@ -42,6 +42,12 @@ namespace Seggu.Service.ViewModels
         public bool IsAnnulled { get { return GetProperty<bool>(); } set { SetProperty<bool>(value); } }
         [ParseFieldName("annulationDate")]
         public Nullable<DateTime> AnnulationDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
+        [ParseFieldName("paymentDay")]
+        public Nullable<int> PaymentDay { get { return GetProperty<Nullable<int>> (); } set { SetProperty<Nullable<int>>(value); } }
+        [ParseFieldName("paymentBonus")]
+        public Nullable<double> PaymentBonus { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("netCharge")]
+        public Nullable<double> NetCharge { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
         [ParseFieldName("isRemoved")]
         public bool IsRemoved { get { return GetProperty<bool>(); } set { SetProperty<bool>(value); } }
         [ParseFieldName("producer")]

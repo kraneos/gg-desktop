@@ -163,6 +163,7 @@ namespace Seggu.Service.Services
             innerConfigurationStore.CreateMap<Integral, IntegralVM>()
                 .GetCommonMappingExpressionToVM()
                 .ForMember(x => x.Endorse, y => y.ResolveUsing((rr, x) => x.Endorse == null ? null : AutoMapperExtensions.GetParseObject<EndorseVM>(rr, ctx => (x.Endorse?.ObjectId != null) ? x.Endorse.ObjectId : AutoMapperExtensions.GetObjectId<Endorse>(ctx, x.EndorseId.Value))))
+                .ForMember(x => x.Address, y => y.ResolveUsing((rr, x) => x.Address == null ? null : AutoMapperExtensions.GetParseObject<AddressVM>(rr, ctx => (x.Address?.ObjectId != null) ? x.Address.ObjectId : AutoMapperExtensions.GetObjectId<Address>(ctx, x.Address.Id))))
                 .ForMember(x => x.Policy, y => y.ResolveUsing((rr, x) => x.Policy == null ? null : AutoMapperExtensions.GetParseObject<PolicyVM>(rr, ctx => (x.Policy?.ObjectId != null) ? x.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, x.PolicyId.Value))));
 
             innerConfigurationStore.CreateMap<Address, AddressVM>()
@@ -530,8 +531,11 @@ namespace Seggu.Service.Services
             Mapper.CreateMap<IntegralVM, Integral>().GetCommonMappingExpressionToEntity()
                 .ForMember(x => x.Endorse, y => y.Ignore())
                 .ForMember(x => x.Policy, y => y.Ignore())
+                //.ForMember(x => x.Address, y => y.Ignore())
                 .ForMember(x => x.EndorseId, y => y.ResolveUsing(
                     resolution => ((IntegralVM)resolution.Value).Endorse == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Endorses.First(x => x.ObjectId == ((IntegralVM)res.Value).Endorse.ObjectId).Id)))
+                .ForMember(x => x.Address, y => y.ResolveUsing(
+                    resolution => ((IntegralVM)resolution.Value).Address == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Addresses.First(x => x.ObjectId == ((IntegralVM)res.Value).Address.ObjectId))))
                 .ForMember(x => x.PolicyId, y => y.ResolveUsing(
                     resolution => ((IntegralVM)resolution.Value).Policy == null ? null : AutoMapperExtensions.ResolveWithOptions(resolution, (ctx, sett, meth, res) => ctx.Policies.First(x => x.ObjectId == ((IntegralVM)res.Value).Policy.ObjectId).Id)));
             Mapper.CreateMap<Integral, Integral>().GetCommonMappingExpressionEntityToEntity();
