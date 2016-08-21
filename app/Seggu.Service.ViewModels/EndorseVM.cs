@@ -37,6 +37,14 @@ namespace Seggu.Service.ViewModels
         public Nullable<double> Surcharge { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
         [ParseFieldName("value")]
         public Nullable<double> Value { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("bonus")]
+        public Nullable<double> Bonus { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("paymentBonus")]
+        public Nullable<double> PaymentBonus { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("netCharge")]
+        public Nullable<double> NetCharge { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("paymentDay")]
+        public Nullable<long> PaymentDay { get { return GetProperty<Nullable<long>>(); } set { SetProperty<Nullable<long>>(value); } }
         [ParseFieldName("notes")]
         public string Notes { get { return GetProperty<string>(); } set { SetProperty<string>(value); } }
         [ParseFieldName("isAnnulled")]
