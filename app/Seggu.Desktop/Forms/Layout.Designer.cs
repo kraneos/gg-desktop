@@ -78,6 +78,7 @@
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_archivo_salir = new System.Windows.Forms.ToolStripMenuItem();
             this.byKr4neosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -384,7 +385,8 @@
             this.informesToolStripMenuItem,
             this.utilidadesToolStripMenuItem,
             this.reportesToolStripMenuItem,
-            this.archivoToolStripMenuItem});
+            this.archivoToolStripMenuItem,
+            this.logoutToolStripMenuItem});
             this.mainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.mainMenuBar.Name = "mainMenuBar";
             this.mainMenuBar.Size = new System.Drawing.Size(1268, 24);
@@ -582,14 +584,14 @@
             // rORToolStripMenuItem
             // 
             this.rORToolStripMenuItem.Name = "rORToolStripMenuItem";
-            this.rORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rORToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.rORToolStripMenuItem.Text = "ROS";
             this.rORToolStripMenuItem.Click += new System.EventHandler(this.rORToolStripMenuItem_Click);
             // 
             // rCRToolStripMenuItem
             // 
             this.rCRToolStripMenuItem.Name = "rCRToolStripMenuItem";
-            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rCRToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.rCRToolStripMenuItem.Text = "RCR";
             this.rCRToolStripMenuItem.Click += new System.EventHandler(this.rCRToolStripMenuItem_Click);
             // 
@@ -615,6 +617,13 @@
             this.byKr4neosToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.byKr4neosToolStripMenuItem.Text = "by Kr4neos";
             this.byKr4neosToolStripMenuItem.Click += new System.EventHandler(this.byKr4neosToolStripMenuItem_Click);
+            // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // Layout
             // 
@@ -705,5 +714,6 @@
         private System.Windows.Forms.ToolStripMenuItem controlDeCajaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem agendaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byKr4neosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
     }
 }

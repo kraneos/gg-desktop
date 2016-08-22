@@ -36,7 +36,7 @@ namespace Seggu.Desktop.Forms
             }
             catch (Exception)
             {
-                MessageBox.Show("El usuario y la contrasena son incorrectos.");
+                MessageBox.Show("El usuario y la contraseña son incorrectos.");
             }
         }
 

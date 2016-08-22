@@ -79,5 +79,13 @@ namespace Seggu.Services
             };
             settingsDao.Save(setting);
         }
+
+        public void Logout()
+        {
+            if (ParseUser.CurrentUser != null)
+            {
+                ParseUser.LogOut();
+            }
+        }
     }
 }

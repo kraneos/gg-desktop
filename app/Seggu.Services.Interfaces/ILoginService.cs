@@ -11,6 +11,7 @@ namespace Seggu.Services.Interfaces
     {
         void ManageLoginRegisters(ParseUser parseUser, string password);
         bool HasValidSetting();
+        void Logout();
 
         //IEnumerable<BankDto> GetAll();
         //void Save(BankDto bank);

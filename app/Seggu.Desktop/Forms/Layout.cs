@@ -18,19 +18,21 @@ namespace Seggu.Desktop.Forms
         private IClientService _clientService;
         private IFeeService _feeService;
         private ICompanyService _companyService;
+        private ILoginService _loginService;
         public EndorseFullDto currentEndorse { get; set; }
         public PolicyFullDto currentPolicy { get; set; }
         public ClientIndexDto currentClient { get; set; }
         private PolizasUserControl policyUc;
         private AseguradosUserControl clientUC;
 
-        public Layout(ICompanyService companyService, IFeeService feeService, IBankService bankService, IPolicyService policyService, IClientService clientService)
+        public Layout(ICompanyService companyService, IFeeService feeService, IBankService bankService, IPolicyService policyService, IClientService clientService, ILoginService loginService)
         {
             InitializeComponent();
             _policyService = policyService;
             _clientService = clientService;
             _feeService = feeService;
             _companyService = companyService;
+            _loginService = loginService;
         }
 
         #region Security
@@ -498,12 +500,6 @@ namespace Seggu.Desktop.Forms
 
         #region Menus
 
-        private void menu_archivo_salir_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
         private void todosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnLimpiar_Click(sender, e);
@@ -617,7 +613,14 @@ namespace Seggu.Desktop.Forms
             agenda.Show();
         }
 
-
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿está seguro de salir?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                _loginService.Logout();
+                this.Close();
+            }
+        }
         private void byKr4neosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://seggu.com.ar");
@@ -638,6 +641,5 @@ namespace Seggu.Desktop.Forms
             new RosReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
         }
         #endregion
-
     }
 }
