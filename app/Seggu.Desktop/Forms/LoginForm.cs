@@ -46,13 +46,13 @@ namespace Seggu.Desktop.Forms
             }
         }
 
-        private async void OnLoad(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
             if (ParseUser.CurrentUser == null || !LoginService.HasValidSetting()) return;
 
             try
             {
-                await LoginService.ManageLoginRegisters(string.Empty);
+                //LoginService.ManageLoginRegisters(string.Empty);
                 DialogResult = DialogResult.OK;
                 Close();
             }
