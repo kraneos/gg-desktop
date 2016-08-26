@@ -11,12 +11,6 @@ namespace Seggu.Helpers
             if (!(Directory.Exists(basePath)))
                 Directory.CreateDirectory(basePath);
 
-            if (!(Directory.Exists(categoryPath)))
-                Directory.CreateDirectory(categoryPath);
-
-            if (!(Directory.Exists(dateFolderPath)))
-                Directory.CreateDirectory(dateFolderPath);
-
             string clientNamePath = Path.Combine(basePath, categoryPath, dateFolderPath, clientName);
             if (!(Directory.Exists(clientNamePath)))
                 Directory.CreateDirectory(clientNamePath);
