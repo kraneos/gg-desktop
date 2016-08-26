@@ -130,7 +130,7 @@ namespace Seggu.Services
             form.SetField("Productor", printFee.Producer);
             form.SetField("CódigoCia", printFee.ProducerCode);
             form.SetField("Comisión", printFee.ProducerComission);
-            form.SetField("Cobranza", printFee.CollectType);
+            form.SetField("Cobranza", "Directa");// printFee.CollectType);
             form.SetField("Cuotas", printFee.FeeCount);
 
 
