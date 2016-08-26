@@ -16,7 +16,6 @@ namespace Seggu.Desktop.Forms
 
             InitializeComponent();
             DialogResult = DialogResult.No;
-
         }
 
         private async void Login(object sender, EventArgs e)
@@ -50,17 +49,13 @@ namespace Seggu.Desktop.Forms
         {
             if (ParseUser.CurrentUser == null || !LoginService.HasValidSetting()) return;
 
-            try
-            {
-                //LoginService.ManageLoginRegisters(string.Empty);
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-            catch (ParseLoginException ex)
-            {
-                MessageBox.Show(ex.Message);
-                ParseUser.LogOut();
-            }
+            DialogResult = DialogResult.OK;
+            Close();            
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://seggu.com.ar/register");
         }
     }
 }

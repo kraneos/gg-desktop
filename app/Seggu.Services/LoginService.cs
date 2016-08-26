@@ -2,7 +2,6 @@
 using Seggu.Daos.Interfaces;
 using Seggu.Domain;
 using Seggu.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,39 +34,17 @@ namespace Seggu.Services
             var currentUser = ParseUser.CurrentUser;
             var lastLogin = settingsDao.GetLastLogin();
 
-            var segguClient =
-                await ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            var segguClient = await ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
             var role = await ParseRole.Query.WhereContains("name", segguClient.Get<string>("name")).FindAsync();
             var userRole = await ParseRole.Query.WhereEqualTo("users", currentUser).FirstAsync();
-            if (!role.Any())
-            {
-                throw new ParseLoginException("El usuario no tiene ROLES");
-            }
 
-            if (lastLogin == null)
-            {
+            if (!role.Any())
+                throw new ParseLoginException("El usuario no tiene ROLES");
+
+            if (lastLogin == null) 
                 CreateSetting(password, currentUser, role, userRole);
-            }
-            else
-            {
-                if (userRole.Name != lastLogin.UserRole)
-                {
-                     throw new ParseLoginException("El usuario no pertenece a esta empresa");
-                }
-                if ( lastLogin.Username == currentUser.Username)
-                {
-                    //update()
-                    lastLogin.Password = string.IsNullOrWhiteSpace(password) ? lastLogin.Password : password;
-                    lastLogin.ObjectId = currentUser.ObjectId;
-                    lastLogin.UserRole = userRole.Name;
-                    lastLogin.ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name;
-                    settingsDao.Update(lastLogin);
-                }
-                else
-                {
-                    CreateSetting(password, currentUser, role, userRole);
-                }
-            } 
+            else if (userRole.Name != lastLogin.UserRole)
+                throw new ParseLoginException("El usuario no pertenece a "+ lastLogin.UserRole);             
         }
 
         private void CreateSetting(string password, ParseUser currentUser, IEnumerable<ParseRole> role, ParseRole userRole)
