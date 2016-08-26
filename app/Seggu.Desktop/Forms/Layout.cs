@@ -38,7 +38,7 @@ namespace Seggu.Desktop.Forms
         #region Security
         private static bool ValidateRegistry()
         {
-            var keyRoot = "HKEY_LOCAL_MACHINE";
+            var keyRoot = "HKEY_CURRENT_USER";
             var keyName = keyRoot + "\\SOFTWARE\\Seggu";
 
             var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
