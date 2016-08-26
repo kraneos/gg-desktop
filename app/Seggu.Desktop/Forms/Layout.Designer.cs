@@ -609,7 +609,6 @@
             this.menu_archivo_salir.Name = "menu_archivo_salir";
             this.menu_archivo_salir.Size = new System.Drawing.Size(132, 22);
             this.menu_archivo_salir.Text = "Salir";
-            this.menu_archivo_salir.Click += new System.EventHandler(this.menu_archivo_salir_Click);
             // 
             // byKr4neosToolStripMenuItem
             // 

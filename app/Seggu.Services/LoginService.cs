@@ -2,12 +2,11 @@
 using Seggu.Daos.Interfaces;
 using Seggu.Domain;
 using Seggu.Services.Interfaces;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Seggu.Helpers.Exceptions;
 
 namespace Seggu.Services
 {
@@ -15,7 +14,6 @@ namespace Seggu.Services
     {
         private ISettingsDao settingsDao;
 
-        //private 
         public LoginService(ISettingsDao settingsDao)
         {
             this.settingsDao = settingsDao;
@@ -27,11 +25,14 @@ namespace Seggu.Services
             return lastLogin != null && !string.IsNullOrWhiteSpace(lastLogin.Username) && !string.IsNullOrWhiteSpace(lastLogin.Password);
         }
 
-        public async void ManageLoginRegisters(ParseUser parseUser, string password)
+        public async Task Login(string username, string password)
+        {
+            await ParseUser.LogInAsync(username, password);
+        }
+
+        public async Task ManageLoginRegisters(string password)
         {
             var currentUser = ParseUser.CurrentUser;
-            var name = currentUser.Username;
-
             var lastLogin = settingsDao.GetLastLogin();
 
             var segguClient =
@@ -40,9 +41,8 @@ namespace Seggu.Services
             var userRole = await ParseRole.Query.WhereEqualTo("users", currentUser).FirstAsync();
             if (!role.Any())
             {
-                throw new Exception("El usuario no tiene ROLES");
+                throw new ParseLoginException("El usuario no tiene ROLES");
             }
-
 
             if (lastLogin == null)
             {
@@ -50,7 +50,11 @@ namespace Seggu.Services
             }
             else
             {
-                if (lastLogin.Username == currentUser.Username)
+                if (userRole.Name != lastLogin.UserRole)
+                {
+                     throw new ParseLoginException("El usuario no pertenece a esta empresa");
+                }
+                if ( lastLogin.Username == currentUser.Username)
                 {
                     //update()
                     lastLogin.Password = string.IsNullOrWhiteSpace(password) ? lastLogin.Password : password;
@@ -63,8 +67,7 @@ namespace Seggu.Services
                 {
                     CreateSetting(password, currentUser, role, userRole);
                 }
-            }
-
+            } 
         }
 
         private void CreateSetting(string password, ParseUser currentUser, IEnumerable<ParseRole> role, ParseRole userRole)
@@ -83,9 +86,7 @@ namespace Seggu.Services
         public void Logout()
         {
             if (ParseUser.CurrentUser != null)
-            {
                 ParseUser.LogOut();
-            }
         }
     }
 }

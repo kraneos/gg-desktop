@@ -94,11 +94,12 @@ namespace Seggu.Desktop.Forms
             }
             if (!ValidateRegistry())
             {
-                MessageBox.Show("El periodo de pruebas ha finalizado. La aplicacion se cerrara.");
+                MessageBox.Show("El período de pruebas ha finalizado. La aplicación se cerrará.");
                 this.Close();
             }
             _feeService.UpdateFeeStates();
             btnLimpiar_Click(sender, e);
+
             //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
             //if (loginForm.ShowDialog() == DialogResult.OK)
             //{
