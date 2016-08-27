@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Timers;
 
+
 namespace Seggu.Service
 {
     partial class SegguService : ServiceBase
