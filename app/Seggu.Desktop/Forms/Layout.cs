@@ -17,7 +17,6 @@ namespace Seggu.Desktop.Forms
         private IPolicyService _policyService;
         private IClientService _clientService;
         private IFeeService _feeService;
-        private ICompanyService _companyService;
         private ILoginService _loginService;
         public EndorseFullDto currentEndorse { get; set; }
         public PolicyFullDto currentPolicy { get; set; }
@@ -25,13 +24,12 @@ namespace Seggu.Desktop.Forms
         private PolizasUserControl policyUc;
         private AseguradosUserControl clientUC;
 
-        public Layout(ICompanyService companyService, IFeeService feeService, IBankService bankService, IPolicyService policyService, IClientService clientService, ILoginService loginService)
+        public Layout( IFeeService feeService, IBankService bankService, IPolicyService policyService, IClientService clientService, ILoginService loginService)
         {
             InitializeComponent();
             _policyService = policyService;
             _clientService = clientService;
             _feeService = feeService;
-            _companyService = companyService;
             _loginService = loginService;
         }
 
@@ -70,7 +68,7 @@ namespace Seggu.Desktop.Forms
             _policyService = DependencyResolver.Instance.Resolve<IPolicyService>();
             _clientService = DependencyResolver.Instance.Resolve<IClientService>();
             _feeService = DependencyResolver.Instance.Resolve<IFeeService>();
-            _companyService = DependencyResolver.Instance.Resolve<ICompanyService>();
+            CompanyService = DependencyResolver.Instance.Resolve<ICompanyService>();
         }
 
         public void SetButtonsPrincipal()
