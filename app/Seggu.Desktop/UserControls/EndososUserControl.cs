@@ -68,6 +68,7 @@ namespace Seggu.Desktop.UserControls
                 ConvertCurrentEndorseToNewEndorse();
 
             populateTextBoxesAndCombos(LayoutForm.currentEndorse);
+            FillInsuredObjectUserControl();
             cmbPlanes.Enabled = true;
         }
         private void ConvertPolicyToEndorse()
@@ -191,6 +192,7 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(LayoutForm.currentPolicy.CompanyId).ToList();
 
             populateTextBoxesAndCombos(LayoutForm.currentEndorse);
+            FillInsuredObjectUserControl();
             LoadFeeGrid();
         }
         private void LoadFeeGrid()
@@ -250,12 +252,6 @@ namespace Seggu.Desktop.UserControls
             cmbRiesgo.ValueMember = "Id";
             cmbRiesgo.DisplayMember = "Name";
             cmbRiesgo.DataSource = this.riskService.GetByCompanyCombobox(CompanyId).ToList(); // selectedCompany.Risks;
-        }
-
-        private void cmbRiesgo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbRiesgo.SelectedIndex == -1) return;
-            FillInsuredObjectUserControl();
         }
         private void FillInsuredObjectUserControl()
         {

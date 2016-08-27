@@ -711,7 +711,6 @@
             this.cmbRiesgo.Name = "cmbRiesgo";
             this.cmbRiesgo.Size = new System.Drawing.Size(244, 25);
             this.cmbRiesgo.TabIndex = 6;
-            this.cmbRiesgo.SelectedIndexChanged += new System.EventHandler(this.cmbRiesgo_SelectedIndexChanged);
             // 
             // cmbCompania
             // 
@@ -820,9 +819,9 @@
             this.tabPagePlanes.Controls.Add(this.lblPlanes);
             this.tabPagePlanes.Controls.Add(this.grdFees);
             this.tabPagePlanes.Controls.Add(this.groupBox4);
-            this.tabPagePlanes.Location = new System.Drawing.Point(4, 26);
+            this.tabPagePlanes.Location = new System.Drawing.Point(4, 22);
             this.tabPagePlanes.Name = "tabPagePlanes";
-            this.tabPagePlanes.Size = new System.Drawing.Size(987, 389);
+            this.tabPagePlanes.Size = new System.Drawing.Size(987, 393);
             this.tabPagePlanes.TabIndex = 3;
             this.tabPagePlanes.Text = "Sumas y Planes de Cobranza";
             this.tabPagePlanes.UseVisualStyleBackColor = true;
