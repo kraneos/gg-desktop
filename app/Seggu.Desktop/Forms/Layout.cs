@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Seggu.Desktop.UserControls;
+﻿using Seggu.Desktop.UserControls;
 using Seggu.Dtos;
 using Seggu.Helpers;
 using Seggu.Infrastructure;
@@ -68,7 +67,6 @@ namespace Seggu.Desktop.Forms
             _policyService = DependencyResolver.Instance.Resolve<IPolicyService>();
             _clientService = DependencyResolver.Instance.Resolve<IClientService>();
             _feeService = DependencyResolver.Instance.Resolve<IFeeService>();
-            CompanyService = DependencyResolver.Instance.Resolve<ICompanyService>();
         }
 
         public void SetButtonsPrincipal()
