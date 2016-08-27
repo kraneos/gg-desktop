@@ -35,55 +35,6 @@ namespace Seggu.Desktop.Forms
             _loginService = loginService;
         }
 
-        #region Security
-        private static bool ValidateRegistry()
-        {
-            var keyRoot = "HKEY_CURRENT_USER";
-            var keyName = keyRoot + "\\SOFTWARE\\Seggu";
-
-            var installationDate = (string)Registry.GetValue(keyName, "d", string.Empty);
-
-            if (!string.IsNullOrEmpty(installationDate))
-            {
-                var date = DateTime.MinValue;
-                if (DateTime.TryParse(installationDate, out date))
-                {
-                    if (DateTime.Now - date < TimeSpan.FromDays(15))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                Registry.SetValue(keyName, "d", DateTime.Now.ToString());
-                return true;
-            }
-
-            return false;
-        }
-        private void ConfigureCashierVisibility()
-        {
-            //this.splitContainer1.Visible = false;
-            //this.txtBuscar.Visible = false;
-            //this.btnLimpiar.Visible = false;
-            //this.btnPolizas.Visible = false;
-            this.btnNotifications.Visible = false;
-            this.archivoToolStripMenuItem.Visible = false;
-            this.entidadesToolStripMenuItem.Visible = false;
-            this.utilidadesToolStripMenuItem.Visible = false;
-            this.reportesToolStripMenuItem.Visible = false;
-            this.polizasVigentesToolStripMenuItem.Visible = false;
-            this.pólizasYSolicitudesEntreFechasPorInicioDeVigenciaToolStripMenuItem.Visible = false;
-            this.pólizasSinCobranzasNiLiquidacionesToolStripMenuItem.Visible = false;
-            this.pólizasARenovarToolStripMenuItem.Visible = false;
-        }
-        private void ConfigureConsultantVisibility()
-        {
-            this.btnCobranzas.Visible = false;
-        }
-        #endregion
-
         private void Layout_Load(object sender, EventArgs e)
         {
             var loginForm = DependencyResolver.Instance.Resolve<LoginForm>();
@@ -92,40 +43,9 @@ namespace Seggu.Desktop.Forms
             {
                 this.Close();
             }
-            if (!ValidateRegistry())
-            {
-                MessageBox.Show("El período de pruebas ha finalizado. La aplicación se cerrará.");
-                this.Close();
-            }
+
             _feeService.UpdateFeeStates();
             btnLimpiar_Click(sender, e);
-
-            //var loginForm = (Login)DependencyResolver.Instance.Resolve(typeof(Login));
-            //if (loginForm.ShowDialog() == DialogResult.OK)
-            //{
-            //SetButtonsPrincipal();
-            //txtBuscar.Focus();
-            //    switch ((Role)SegguExecutionContext.Instance.CurrentUser.Role)
-            //    {
-            //        case Role.Administrador:
-            //            ConfigureUserAdministratorVisibility();
-            //            break;
-            //        case Role.Asesor:
-            //            ConfigureConsultantVisibility();
-            //            break;
-            //        case Role.Cajero:
-            //            ConfigureCashierVisibility();
-            //            break;
-            //        default:
-            //            MessageBox.Show("El usuario no posee un rol soportado por el sistema.");
-            //            this.Close();
-            //            break;
-            //    }
-            //}
-            //else
-            //{
-            //    this.Close();
-            //}
         }
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
@@ -195,7 +115,7 @@ namespace Seggu.Desktop.Forms
                 MessageBox.Show("No se ha seleccionado ninguna poliza", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                Forms.Cobranza Cobranzas = (Cobranza)DependencyResolver
+                Cobranza Cobranzas = (Cobranza)DependencyResolver
                     .Instance.Resolve(typeof(Cobranza)
                     , new Dictionary<string, object>() { { "policyId", this.currentPolicy.Id } });
                 Cobranzas.Show();
@@ -422,7 +342,7 @@ namespace Seggu.Desktop.Forms
                 btnCobranzas.Enabled = false;
             }
 
-            if (currentPolicy.Endorses.Count() > 0)
+            if (currentPolicy.Endorses.Any())
                 LoadEndorseGrid();
             else
                 grdEndorses.Visible = false;
@@ -520,47 +440,47 @@ namespace Seggu.Desktop.Forms
 
         private void compañíasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Compañías compañias = (Compañías)DependencyResolver
+            Compañías compañias = (Compañías)DependencyResolver
                  .Instance.Resolve(typeof(Compañías));
             compañias.Show();
         }
 
         private void productoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Productores productores = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));
+            Productores productores = (Productores)DependencyResolver.Instance.Resolve(typeof(Productores));
             productores.Show();
         }
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.ModelosVehiculos modelos = (ModelosVehiculos)DependencyResolver.Instance.Resolve(typeof(ModelosVehiculos));
+            ModelosVehiculos modelos = (ModelosVehiculos)DependencyResolver.Instance.Resolve(typeof(ModelosVehiculos));
             modelos.Show();
         }
 
         private void usosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Usos usos = (Usos)DependencyResolver
+            Usos usos = (Usos)DependencyResolver
                 .Instance.Resolve(typeof(Usos));
             usos.Show();
         }
 
         private void carroceríasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Carrocerias carrocerias = (Carrocerias)DependencyResolver
+            Carrocerias carrocerias = (Carrocerias)DependencyResolver
                 .Instance.Resolve(typeof(Carrocerias));
             carrocerias.Show();
         }
 
         private void tiposDeVehiculosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.TiposVehiculos vehiclestypes = (TiposVehiculos)DependencyResolver
+            TiposVehiculos vehiclestypes = (TiposVehiculos)DependencyResolver
                 .Instance.Resolve(typeof(TiposVehiculos));
             vehiclestypes.Show();
         }
 
         private void BanksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Bancos bancos = ((Bancos)DependencyResolver.Instance.Resolve(typeof(Bancos)));
+            Bancos bancos = ((Bancos)DependencyResolver.Instance.Resolve(typeof(Bancos)));
             bancos.Show();
         }
 
@@ -604,13 +524,13 @@ namespace Seggu.Desktop.Forms
 
         private void controlDeCajaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
+            ControlCaja controlCaja = (ControlCaja)DependencyResolver.Instance.Resolve(typeof(ControlCaja));
             controlCaja.Show();
         }
 
         private void agendaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.Agenda agenda = (Agenda)DependencyResolver.Instance.Resolve(typeof(Agenda));
+            Agenda agenda = (Agenda)DependencyResolver.Instance.Resolve(typeof(Agenda));
             agenda.Show();
         }
 
@@ -633,12 +553,10 @@ namespace Seggu.Desktop.Forms
         private void rORToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DependencyResolver.Instance.ResolveGeneric<RcrReportForm>().Show();
-
         }
 
         private void rCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             new RosReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
         }
         #endregion
