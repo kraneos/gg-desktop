@@ -397,7 +397,7 @@ namespace Seggu.Desktop.Forms
         }
         private bool ValidateCurrentFeeState(FeeDto currentFee)
         {
-            bool ok = true;
+            var ok = true;
             switch (currentFee.Estado)
             {
                 case "Debe":

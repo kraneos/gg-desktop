@@ -525,36 +525,26 @@ namespace Seggu.Desktop.UserControls
             cuotas = cmbPlanes.SelectedIndex + 1;
             decimal netoCobrar = decimal.Parse(txtNetoCobrar.Text);
             importesCobrar = new decimal[cuotas];
-            //decimal resto = netoCobrar % cuotas;
-            //netoCobrar -= resto;
             for (int i = 0; i < cuotas; i++)
-            {
                 importesCobrar[i] = Math.Round(netoCobrar / cuotas, 2);
-            }
 
             if (importesCobrar.Sum() != netoCobrar)
             {
                 var resto = netoCobrar - importesCobrar.Sum();
                 importesCobrar[importesCobrar.Length - 1] += resto;
             }
-            //importesCobrar[cuotas - 1] += resto;
 
             ////////////dividir el importe total en cuotas////////////////////////
             decimal netoPagar = decimal.Parse(txtNetoPagar.Text);
             importesPagar = new decimal[cuotas];
-            //decimal resto2 = netoPagar % cuotas;
-            //netoPagar -= resto2;
             for (int i = 0; i < cuotas; i++)
-            {
                 importesPagar[i] = Math.Round(netoPagar / (decimal)cuotas, 2);
-            }
 
             if (importesPagar.Sum() != netoPagar)
             {
                 var resto = netoPagar - importesPagar.Sum();
                 importesPagar[importesPagar.Length - 1] += resto;
             }
-            //importesPagar[cuotas - 1] += resto2;
         }
         private List<FeeDto> CreateFeeObjectsList(int cuotas, decimal[] importesCobrar, decimal[] importesPagar)
         {
