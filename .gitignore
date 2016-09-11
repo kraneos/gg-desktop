@@ -19,3 +19,5 @@ typings/
 Seggu.msi
 /app/Seggu.Setup/Release/setup.exe
 /InstallUtil.InstallLog
+*.DS_Store
+/deploy/output
