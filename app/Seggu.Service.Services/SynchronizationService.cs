@@ -33,7 +33,6 @@ namespace Seggu.Service.Services
             //    ContractResolver = new CamelCasePropertyNamesContractResolver()
             //};
         }
-
         public static MappingEngine InitializeInternalMappingEngine()
         {
             var innerConfigurationStore = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
@@ -181,7 +180,6 @@ namespace Seggu.Service.Services
             var internalMappingEngine = new MappingEngine(innerConfigurationStore);
             return internalMappingEngine;
         }
-
         public static void Initialize()
         {
             Mapper.CreateMap<decimal, double>().ConvertUsing(x => Convert.ToDouble(x.SourceValue));
@@ -646,7 +644,6 @@ namespace Seggu.Service.Services
             Mapper.CreateMap<AttachedFile, AttachedFile>().GetCommonMappingExpressionEntityToEntity();
 
         }
-
         public static void InitializeParseClasses()
         {
             ParseObject.RegisterSubclass<AccessoryTypeVM>();
@@ -684,59 +681,80 @@ namespace Seggu.Service.Services
             ParseObject.RegisterSubclass<CashAccountVM>();
             ParseObject.RegisterSubclass<CasualtyVM>();
             ParseObject.RegisterSubclass<AttachedFileVM>();
-            ////// TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
+            ////// TODO: SinchronizeParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
             // TODO: The rest...
 
         }
 
         public void SynchronizeParseEntities()
         {
-            if (ParseUser.CurrentUser != null && client.HasSetting())
+            if (ParseUser.CurrentUser != null && client.HasSetting() && IsPaid())
             {
-                SendEntitiesToParse<AccessoryType, AccessoryTypeVM>();// "AccessoryType");
-                SendEntitiesToParse<Asset, AssetVM>();//"Asset");
-                SendEntitiesToParse<Bank, BankVM>();//"Bank");
-                SendEntitiesToParse<Bodywork, BodyworkVM>();
-                SendEntitiesToParse<Brand, BrandVM>();
-                SendEntitiesToParse<CasualtyType, CasualtyTypeVM>();
-                SendEntitiesToParse<Client, ClientVM>();
-                SendEntitiesToParse<Company, CompanyVM>();
-                SendEntitiesToParse<CreditCard, CreditCardVM>();
-                SendEntitiesToParse<LedgerAccount, LedgerAccountVM>();
-                SendEntitiesToParse<Producer, ProducerVM>();
-                SendEntitiesToParse<Province, ProvinceVM>();
-                SendEntitiesToParse<Use, UseVM>();
-                SendEntitiesToParse<VehicleType, VehicleTypeVM>();
-                SendEntitiesToParse<Cheque, ChequeVM>();
-                SendEntitiesToParse<Contact, ContactVM>();
-                SendEntitiesToParse<Liquidation, LiquidationVM>();
-                // TODO: SendEntitiesToParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
-                SendEntitiesToParse<District, DistrictVM>();
-                SendEntitiesToParse<Locality, LocalityVM>();
-                SendEntitiesToParse<Risk, RiskVM>();
-                SendEntitiesToParse<Coverage, CoverageVM>();
-                SendEntitiesToParse<CoveragesPack, CoveragesPackVM>();
-                SendEntitiesToParse<VehicleModel, VehicleModelVM>();
-                SendEntitiesToParse<Policy, PolicyVM>();
-                SendEntitiesToParse<Endorse, EndorseVM>();
-                SendEntitiesToParse<Employee, EmployeeVM>();
-                SendEntitiesToParse<FeeSelection, FeeSelectionVM>();
-                SendEntitiesToParse<Fee, FeeVM>();
-                SendEntitiesToParse<Vehicle, VehicleVM>();
-                SendEntitiesToParse<Accessory, AccessoryVM>();
-                SendEntitiesToParse<Integral, IntegralVM>();
-                SendEntitiesToParse<Address, AddressVM>();
-                SendEntitiesToParse<CashAccount, CashAccountVM>();
-                SendEntitiesToParse<Casualty, CasualtyVM>();
-                SendEntitiesToParse<AttachedFile, AttachedFileVM>();//"Asset");
+                SinchronizeParse<AccessoryType, AccessoryTypeVM>();// "AccessoryType");
+                SinchronizeParse<Asset, AssetVM>();//"Asset");
+                SinchronizeParse<Bank, BankVM>();//"Bank");
+                SinchronizeParse<Bodywork, BodyworkVM>();
+                SinchronizeParse<Brand, BrandVM>();
+                SinchronizeParse<CasualtyType, CasualtyTypeVM>();
+                SinchronizeParse<Client, ClientVM>();
+                SinchronizeParse<Company, CompanyVM>();
+                SinchronizeParse<CreditCard, CreditCardVM>();
+                SinchronizeParse<LedgerAccount, LedgerAccountVM>();
+                SinchronizeParse<Producer, ProducerVM>();
+                SinchronizeParse<Province, ProvinceVM>();
+                SinchronizeParse<Use, UseVM>();
+                SinchronizeParse<VehicleType, VehicleTypeVM>();
+                SinchronizeParse<Cheque, ChequeVM>();
+                SinchronizeParse<Contact, ContactVM>();
+                SinchronizeParse<Liquidation, LiquidationVM>();
+                // TODO: SinchronizeParse<ProducerCode, ProducerCodeVM>("ProducerCodes");
+                SinchronizeParse<District, DistrictVM>();
+                SinchronizeParse<Locality, LocalityVM>();
+                SinchronizeParse<Risk, RiskVM>();
+                SinchronizeParse<Coverage, CoverageVM>();
+                SinchronizeParse<CoveragesPack, CoveragesPackVM>();
+                SinchronizeParse<VehicleModel, VehicleModelVM>();
+                SinchronizeParse<Policy, PolicyVM>();
+                SinchronizeParse<Endorse, EndorseVM>();
+                SinchronizeParse<Employee, EmployeeVM>();
+                SinchronizeParse<FeeSelection, FeeSelectionVM>();
+                SinchronizeParse<Fee, FeeVM>();
+                SinchronizeParse<Vehicle, VehicleVM>();
+                SinchronizeParse<Accessory, AccessoryVM>();
+                SinchronizeParse<Integral, IntegralVM>();
+                SinchronizeParse<Address, AddressVM>();
+                SinchronizeParse<CashAccount, CashAccountVM>();
+                SinchronizeParse<Casualty, CasualtyVM>();
+                SinchronizeParse<AttachedFile, AttachedFileVM>();//"Asset");
                                                                     
                 // TODO: The rest...
-
+            }
+            else
+            {
+                throw new Exception("o no hay current user o no hay setting o no pagó");
             }
         }
 
-        public void SendEntitiesToParse<TParseEntity, TViewModel>()
-            //string parseEntityName)
+        private bool IsPaid()
+        {
+            //check if Parse user has date < 30 días
+            bool ok = false;
+            var currentUser = ParseUser.CurrentUser;
+            var segguClientQueryTask =
+                ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            segguClientQueryTask.Wait();
+            var segguClient = segguClientQueryTask.Result;
+            var paidAt = segguClient.Get<DateTime>("paidAt");
+
+            if (!string.IsNullOrEmpty(paidAt.ToString()))
+                ok = DateTime.Now - paidAt < TimeSpan.FromDays(1);
+            else
+                ok = false;
+
+            return ok;
+        }
+
+        public void SinchronizeParse<TParseEntity, TViewModel>()
             where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
         {
@@ -761,7 +779,6 @@ namespace Seggu.Service.Services
                 WriteEntryInnerEx(ex);
             }
         }
-
         private async Task ApiToEntities<TParseEntity, TViewModel>()//string parseEntityName)
             where TParseEntity : IdParseEntity, new()
             where TViewModel : ViewModel
@@ -780,7 +797,6 @@ namespace Seggu.Service.Services
             }
             context.SaveChanges();
         }
-
         private async Task EntitiesToApi<TParseEntity, TViewModel>()//string parseEntityName)
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
@@ -800,10 +816,5 @@ namespace Seggu.Service.Services
                 WriteEntryInnerEx(ex.InnerException);
             }
         }
-
-        //public TViewModel Map<TEntity, TViewModel>(TEntity e)
-        //{
-        //    return Mapper.Map<TEntity, TViewModel>(e);
-        //}
     }
 }

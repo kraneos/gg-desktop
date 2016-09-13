@@ -8,5 +8,6 @@ namespace Seggu.Services.Interfaces
         bool HasValidSetting();
         void Logout();
         Task Login(string username, string password);
+        bool IsPaid();
     }
 }
