@@ -45,6 +45,10 @@ namespace Seggu.Service.Services
             {
                 ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
             }
+            else if (setting?.ObjectId != ParseUser.CurrentUser?.ObjectId && !string.IsNullOrWhiteSpace(setting.Username) && !string.IsNullOrWhiteSpace(setting.Password))
+            {
+                ParseUser.LogInAsync(setting.Username, setting.Password);
+            }
         }
 
         //private IEnumerable<T> SerializeCollectionResponse<T>(string content) where T : new()

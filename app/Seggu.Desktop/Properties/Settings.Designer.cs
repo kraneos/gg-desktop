@@ -35,7 +35,7 @@ namespace Seggu.Desktop.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("seggu-api")]
+        [global::System.Configuration.DefaultSettingValueAttribute("myAppId")]
         public string ParseAppId {
             get {
                 return ((string)(this["ParseAppId"]));
@@ -44,10 +44,19 @@ namespace Seggu.Desktop.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://seggu-api-develop.herokuapp.com/parse/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.211.55.2:1337/parse/")]
         public string ParseBaseUrl {
             get {
                 return ((string)(this["ParseBaseUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.211.55.2:1337/register")]
+        public string ParseRegisterUrl {
+            get {
+                return ((string)(this["ParseRegisterUrl"]));
             }
         }
     }

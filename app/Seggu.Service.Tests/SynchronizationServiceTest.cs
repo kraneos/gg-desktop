@@ -78,7 +78,7 @@ namespace Seggu.Service.Tests
             //var ServiceName = "SegguService";
             ((System.ComponentModel.ISupportInitialize)(eventLog)).EndInit();
 
-            using (var context = new SegguDataModelContext(@"Data Source=C:\Users\poloagustin\Documents\git\seggu\seggu-desktop\app\Seggu.Desktop\bin\Debug\seggu.sqlite;"))
+            using (var context = new SegguDataModelContext($"Data Source={Properties.Settings.Default.DatabasePath};"))
             {
                 var syncService = new SynchronizationService(context, eventLog);
                 

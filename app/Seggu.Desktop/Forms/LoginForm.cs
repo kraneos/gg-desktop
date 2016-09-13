@@ -55,7 +55,7 @@ namespace Seggu.Desktop.Forms
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://seggu.com.ar/register");
+            System.Diagnostics.Process.Start(Properties.Settings.Default.ParseRegisterUrl);
         }
     }
 }
