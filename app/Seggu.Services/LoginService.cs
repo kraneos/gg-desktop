@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Seggu.Helpers.Exceptions;
+using System;
 
 namespace Seggu.Services
 {
@@ -64,6 +65,24 @@ namespace Seggu.Services
         {
             if (ParseUser.CurrentUser != null)
                 ParseUser.LogOut();
+        }
+
+        public bool IsPaid()
+        {
+            //check if Parse user has date < 30 días
+            bool ok = false;
+            var currentUser = ParseUser.CurrentUser;
+            var segguClientQueryTask = ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            segguClientQueryTask.Wait();
+            var segguClient = segguClientQueryTask.Result;
+            var paidAt = segguClient.Get<DateTime>("paidAt");
+
+            if (!string.IsNullOrEmpty(paidAt.ToString()))
+                ok = DateTime.Now - paidAt < TimeSpan.FromDays(1);
+            else
+                ok = false;
+
+            return ok;
         }
     }
 }
