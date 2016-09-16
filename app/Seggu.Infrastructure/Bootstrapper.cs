@@ -106,6 +106,7 @@ namespace Seggu.Infrastructure
             container.RegisterType<ICoveragesPackService, CoveragesPackService>();
             container.RegisterType<IVersionService, VersionService>();
             container.RegisterType<ILoginService, LoginService>();
+            container.RegisterType<IEmailService, EmailService>();
             // Daos
             container.RegisterType<IAddressDao, AddressDao>();
             container.RegisterType<IClientDao, ClientDao>();

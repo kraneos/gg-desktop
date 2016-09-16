@@ -14,10 +14,10 @@
       <Value Profile="(Default)">myAppId</Value>
     </Setting>
     <Setting Name="ParseBaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://10.211.55.2:1337/parse/</Value>
+      <Value Profile="(Default)">http://localhost:1337/parse/</Value>
     </Setting>
     <Setting Name="ParseRegisterUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://10.211.55.2:1337/register</Value>
+      <Value Profile="(Default)">http://localhost:4200/pas-register</Value>
     </Setting>
   </Settings>
 </SettingsFile>

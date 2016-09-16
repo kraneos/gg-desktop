@@ -4,6 +4,8 @@ using Seggu.Services.DtoMappers;
 using Seggu.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Net.Mail;
 
 namespace Seggu.Services
 {
@@ -11,11 +13,15 @@ namespace Seggu.Services
     {
         private IClientDao clientDao;
         private IAddressDao addressDao;
+        private IEmailService emailService;
+        private ISettingsDao settingsDao;
 
-        public ClientService(IClientDao clientDao, IAddressDao addressDao)
+        public ClientService(IClientDao clientDao, IAddressDao addressDao, IEmailService emailService, ISettingsDao settingsDao)
         {
             this.clientDao = clientDao;
             this.addressDao = addressDao;
+            this.emailService = emailService;
+            this.settingsDao = settingsDao;
         }
 
         public void Save(ClientFullDto clientInformation)
@@ -23,9 +29,14 @@ namespace Seggu.Services
             var isNew = clientInformation.Id == default(int);
             var client = ClientDtoMapper.GetObject(clientInformation);
             if (isNew)
-                this.clientDao.Save(client);
+            {
+                var clientId = this.clientDao.Save(client);
+                SendNewClientEmail(clientId, clientInformation);
+            }
             else
+            {
                 this.clientDao.Update(client);
+            }
 
             clientInformation.Id = (int)client.Id;
 
@@ -48,6 +59,19 @@ namespace Seggu.Services
                 this.addressDao.Update(collectionAddress);
 
             #endregion
+        }
+
+        private void SendNewClientEmail(long clientId, ClientFullDto clientInformation)
+        {
+            var setting = this.settingsDao.GetLastLogin();
+            var message = new MailMessage();
+            //message.From = new MailAddress(setting.Email);
+            message.To.Add(clientInformation.Mail);
+            message.Subject = "Nuevo usuario Seggu";
+            message.Body =
+                $@"Puede entrar a este link para comenzar a ver sus polizas en su celular.
+{Properties.Settings.Default.AppSegguUrl}/seggu-clients/{setting.SegguClientId}/register";
+            this.emailService.Send(message);
         }
 
         public IEnumerable<ClientIndexDto> GetByDNI(string str)

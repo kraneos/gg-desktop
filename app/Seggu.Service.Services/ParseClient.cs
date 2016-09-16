@@ -47,6 +47,10 @@ namespace Seggu.Service.Services
             }
             else if (setting?.ObjectId != ParseUser.CurrentUser?.ObjectId && !string.IsNullOrWhiteSpace(setting.Username) && !string.IsNullOrWhiteSpace(setting.Password))
             {
+                if (ParseUser.CurrentUser != null)
+                {
+                    ParseUser.LogOut();
+                }
                 ParseUser.LogInAsync(setting.Username, setting.Password);
             }
         }
@@ -264,7 +268,7 @@ namespace Seggu.Service.Services
                             opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode)))
                 .Select((x, i) => new { x, i })
                 .Where(x =>
-                    x != null && (
+                    x?.x != null && (
                     x.x.ACL.PublicWriteAccess ||
                     x.x.ACL.GetWriteAccess(ParseUser.CurrentUser) ||
                     x.x.ACL.GetRoleWriteAccess(setting.UserRole)))

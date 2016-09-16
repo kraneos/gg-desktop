@@ -151,6 +151,7 @@
     <Compile Include="DtoMappers\VehicleDtoMapper.cs" />
     <Compile Include="DtoMappers\VehicleModelDtoMapper.cs" />
     <Compile Include="DtoMappers\VehicleTypeDtoMapper.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="EndorseService.cs" />
     <Compile Include="FeeSelectionService.cs" />

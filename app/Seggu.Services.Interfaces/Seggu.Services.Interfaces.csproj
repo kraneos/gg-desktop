@@ -106,6 +106,7 @@
     <Compile Include="ICoverageService.cs" />
     <Compile Include="ICoveragesPackService.cs" />
     <Compile Include="IDistrictService.cs" />
+    <Compile Include="IEmailService.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="IEndorseService.cs" />
     <Compile Include="IFeeSelectionService.cs" />

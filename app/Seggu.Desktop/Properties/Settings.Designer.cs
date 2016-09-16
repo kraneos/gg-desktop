@@ -44,7 +44,7 @@ namespace Seggu.Desktop.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://10.211.55.2:1337/parse/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1337/parse/")]
         public string ParseBaseUrl {
             get {
                 return ((string)(this["ParseBaseUrl"]));
@@ -53,7 +53,7 @@ namespace Seggu.Desktop.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://10.211.55.2:1337/register")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:4200/pas-register")]
         public string ParseRegisterUrl {
             get {
                 return ((string)(this["ParseRegisterUrl"]));

@@ -42,10 +42,14 @@ namespace Seggu.Services
             if (!role.Any())
                 throw new ParseLoginException("El usuario no tiene ROLES");
 
-            if (lastLogin == null) 
+            if (lastLogin == null)
+            {
                 CreateSetting(password, currentUser, role, userRole);
+            }
             else if (userRole.Name != lastLogin.UserRole)
-                throw new ParseLoginException("El usuario no pertenece a "+ lastLogin.UserRole);             
+            {
+                throw new ParseLoginException("El usuario no pertenece a " + lastLogin.UserRole);
+            }
         }
 
         private void CreateSetting(string password, ParseUser currentUser, IEnumerable<ParseRole> role, ParseRole userRole)
@@ -56,7 +60,9 @@ namespace Seggu.Services
                 Password = password,
                 ObjectId = currentUser.ObjectId,
                 UserRole = userRole.Name,
-                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name
+                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name,
+                Email = currentUser.Email,
+                SegguClientId = currentUser.Get<ParseObject>("segguClient").ObjectId
             };
             settingsDao.Save(setting);
         }
