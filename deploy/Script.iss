@@ -37,14 +37,21 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: ..\app\Seggu.Desktop\bin\Release\*; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ..\app\Seggu.Desktop\bin\Release\*; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;
 Source: ..\app\Seggu.Desktop\bin\Release\seggu.sqlite; DestDir: "{app}"; Permissions: everyone-full; Flags: ignoreversion 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+Filename: {dotnet40}\installutil.exe; Parameters: Seggu.Service.exe; WorkingDir: {app}; StatusMsg: "Service install"; Flags: ShellExec RunHidden; 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+[UninstallRun] 
+Filename: {dotnet40}\installutil.exe; Parameters: "/u Seggu.Service.exe"; WorkingDir: {app}; StatusMsg: "Service install"; Flags: ShellExec RunHidden;
+
+
 
