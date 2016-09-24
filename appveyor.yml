@@ -6,5 +6,5 @@ build:
   project: app\Seggu.sln
 test:
   categories:
-    exclude:
-      - SincronizacionLocal
+    except:
+    - SincronizacionLocal
