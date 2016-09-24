@@ -4,3 +4,7 @@ before_build:
 build:
   verbosity: minimal
   project: app\Seggu.sln
+test:
+  categories:
+    exclude:
+      - SincronizacionLocal
