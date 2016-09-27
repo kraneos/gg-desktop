@@ -30,6 +30,9 @@ namespace Seggu.Desktop.UserControls
         private IntegralDto currentIntegral = new IntegralDto();
         private List<CoverageDto> coverages = new List<CoverageDto>();
 
+        public string province;
+        public string district;
+
         public Layout MainForm
         {
             get
@@ -97,10 +100,10 @@ namespace Seggu.Desktop.UserControls
         }
         public void PopulatePolicyIntegral()
         {
-            if (MainForm.currentPolicy.Integrals == null) return;
+            if ( MainForm.currentPolicy.Integrals == null ) return;
 
             integralList = MainForm.currentPolicy.Integrals
-                .Where(v => v.EndorseId == default(int)).ToList();
+                .Where(v => v.EndorseId==null).ToList();
             currentIntegral = integralList.FirstOrDefault();
             if (currentIntegral.Address != null)
                 PopulateAddress(currentIntegral.Address);
@@ -115,7 +118,9 @@ namespace Seggu.Desktop.UserControls
             txtHomePostal.Text = address.PostalCode;
             txtHomeStreet.Text = address.Street;
             cmbProvince.SelectedValue = address.ProvinceId;
+            province = cmbProvince.Text;
             cmbDistrict.SelectedValue = address.DistrictId;
+            district = cmbDistrict.Text;
             cmbLocality.SelectedValue = address.LocalityId;
         }
 
@@ -157,10 +162,18 @@ namespace Seggu.Desktop.UserControls
             address.Number = txtHomeNumber.Text;
             address.PostalCode = this.txtHomePostal.Text;
             address.Street = this.txtHomeStreet.Text;
-            currentIntegral.Address = address;
-            currentIntegral.Coverages = coverages;
 
-            currentIntegral.PolicyId = MainForm.currentPolicy.Id;
+            IntegralDto integral = new IntegralDto();
+            integral.Address = address;
+            integral.Coverages = coverages;
+            integral.district = cmbDistrict.Text;
+            integral.EndorseId = MainForm.currentEndorse == null ? null : (int?)MainForm.currentEndorse.Id;
+            integral.Id = currentIntegral == null ? default(int) : currentIntegral.Id;
+            integral.locality = cmbLocality.Text;
+            integral.PolicyId = MainForm.currentPolicy.Id;
+            integral.province = cmbProvince.Text;
+            currentIntegral = integral;
+
             integralList.Clear();
             integralList.Add(currentIntegral);
             return integralList;
@@ -174,6 +187,8 @@ namespace Seggu.Desktop.UserControls
             cmbDistrict.ValueMember = "Id";
             cmbDistrict.DisplayMember = "Name";
             cmbDistrict.DataSource = filteredDistricts;
+
+            province = cmbProvince.Text;//for printing
         }
         private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -181,6 +196,8 @@ namespace Seggu.Desktop.UserControls
             cmbLocality.DisplayMember = "Name";
             cmbLocality.ValueMember = "Id";
             cmbLocality.DataSource = filteredLocalities;
+
+            district = cmbDistrict.Text;
         }
 
 
@@ -221,22 +238,39 @@ namespace Seggu.Desktop.UserControls
             {
                 if (c is TextBox)
                 {
-                    if (c == txtHomeNumber || c == txtHomeStreet)
+                    if (c == txtHomeNumber || c == txtHomeStreet || c == txtHomePostal)
                         if (c.Text == string.Empty)
                         {
-                            errorProvider1.SetError(c, "Campo vacío");
+                            errorProvider1.SetError(c, "Campo vacío. Este campo es obligatorio.");
                             ok = false;
                         }
+                    if(c == txtHomePostal)
+                    {
+                        if(c.Text.Length <4)
+                        {
+                            errorProvider1.SetError(c, "El codigo postal no es valido.");
+                            ok = false;
+                        }
+                    }
                 }
 
                 if (c is ComboBox)
                 {
                     if (c == cmbLocality || c == cmbDistrict || c == cmbProvince)
-                        if ((c as ComboBox).SelectedIndex == -1 || (c as ComboBox).SelectedIndex == 0)
+                        if ((c as ComboBox).SelectedIndex == -1 )
                         {
                             errorProvider1.SetError(c, "Debe seleccionar un elemento");
                             ok = false;
                         }
+                }
+
+                if(c is DataGridView)
+                {
+                    if(c == grdCoverages && (c as DataGridView).RowCount == 0)
+                    {
+                        errorProvider1.SetError(c, "Debe asignar coberturas a la poliza.");
+                        ok = false;
+                    }
                 }
 
             }
@@ -255,8 +289,22 @@ namespace Seggu.Desktop.UserControls
                 e.Handled = true;
             }
         }
+        public void ValidarSpecial(object sender, KeyPressEventArgs e)
+        {
+            var c = e.KeyChar;
+
+            if (!char.IsLetterOrDigit(c) && c != 8 && c != 46)
+            {
+                e.Handled = true;
+            }
+        }
         private void txtHomePostal_Validating(object sender, CancelEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(this.txtHomePostal.Text))
+            {
+                //e.Cancel = true;
+                this.errorProvider1.SetError(this.txtHomePostal, "Este campo es obligatorio.");
+            }
             //var regex = @"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$";
             //var re = new Regex(regex);
             //var match = re.Match(this.txtHomePostal.Text);
@@ -265,26 +313,33 @@ namespace Seggu.Desktop.UserControls
             //    this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
             //    e.Cancel = true;
             //}
-            if (this.txtHomePostal.Text.Length != 4)
-            {
-                this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");
-            }
+            //if (this.txtHomePostal.Text.Length != 4)
+            //{
+            //    this.errorProvider1.SetError(this.txtHomePostal, "El codigo postal no es valido.");o
+            //}
         }
         private void txtHomeStreet_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeStreet.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 this.errorProvider1.SetError(this.txtHomeStreet, "Este campo es obligatorio.");
-
             }
         }
         private void txtHomeNumber_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.txtHomeNumber.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 this.errorProvider1.SetError(this.txtHomeNumber, "Este campo es obligatorio.");
+            }
+        }
+        private void grdCoverages_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.coverages.Count == 0)
+            {
+                //e.Cancel = true;
+                this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
             }
         }
         private void cmbProvince_Validating(object sender, CancelEventArgs e)
@@ -309,14 +364,6 @@ namespace Seggu.Desktop.UserControls
             {
                 e.Cancel = true;
                 this.errorProvider1.SetError(this.cmbLocality, "Este campo es obligatorio.");
-            }
-        }
-        private void grdCoverages_Validating(object sender, CancelEventArgs e)
-        {
-            if (this.coverages.Count == 0)
-            {
-                e.Cancel = true;
-                this.errorProvider1.SetError(this.grdCoverages, "Debe asignar coberturas a la poliza.");
             }
         }
         #endregion

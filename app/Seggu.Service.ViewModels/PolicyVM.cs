@@ -13,15 +13,15 @@ namespace Seggu.Service.ViewModels
         [ParseFieldName("period")]
         public int Period { get { return GetProperty<int>(); } set { SetProperty<int>(value); } }
         [ParseFieldName("startDate")]
-        public System.DateTime StartDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
+        public DateTime StartDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
         [ParseFieldName("endDate")]
-        public System.DateTime EndDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
+        public DateTime EndDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
         [ParseFieldName("requestDate")]
-        public System.DateTime RequestDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
+        public DateTime RequestDate { get { return GetProperty<DateTime>(); } set { SetProperty<DateTime>(value); } }
         [ParseFieldName("receptionDate")]
-        public Nullable<System.DateTime> ReceptionDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
+        public Nullable<DateTime> ReceptionDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
         [ParseFieldName("emissionDate")]
-        public Nullable<System.DateTime> EmissionDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
+        public Nullable<DateTime> EmissionDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
         [ParseFieldName("prima")]
         public double Prima { get { return GetProperty<double>(); } set { SetProperty<double>(value); } }
         [ParseFieldName("premium")]
@@ -41,7 +41,13 @@ namespace Seggu.Service.ViewModels
         [ParseFieldName("isAnnulled")]
         public bool IsAnnulled { get { return GetProperty<bool>(); } set { SetProperty<bool>(value); } }
         [ParseFieldName("annulationDate")]
-        public Nullable<System.DateTime> AnnulationDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
+        public Nullable<DateTime> AnnulationDate { get { return GetProperty<Nullable<System.DateTime>>(); } set { SetProperty<Nullable<System.DateTime>>(value); } }
+        [ParseFieldName("paymentDay")]
+        public Nullable<int> PaymentDay { get { return GetProperty<Nullable<int>> (); } set { SetProperty<Nullable<int>>(value); } }
+        [ParseFieldName("paymentBonus")]
+        public Nullable<double> PaymentBonus { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
+        [ParseFieldName("netCharge")]
+        public Nullable<double> NetCharge { get { return GetProperty<Nullable<double>>(); } set { SetProperty<Nullable<double>>(value); } }
         [ParseFieldName("isRemoved")]
         public bool IsRemoved { get { return GetProperty<bool>(); } set { SetProperty<bool>(value); } }
         [ParseFieldName("producer")]

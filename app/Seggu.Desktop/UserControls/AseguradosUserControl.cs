@@ -285,7 +285,7 @@ namespace Seggu.Desktop.UserControls
             cmbLocalityCollector.SelectedValue = currentClient.CollectionLocalityId == default(int) ? cmbLocalityCollector.SelectedValue : currentClient.CollectionLocalityId;
 
             ckbFumador.Checked = currentClient.IsSmoker;
-            dtpBirthDate.Text = currentClient.BirthDate;
+            dtpBirthDate.Value = currentClient.BirthDate.ToDateTime();
             // = currentClient.CreditCards;
             currentHomeAddressId = currentClient.HomeAddressId;
             currentCollectionAddressId = currentClient.CollectionAddressId;

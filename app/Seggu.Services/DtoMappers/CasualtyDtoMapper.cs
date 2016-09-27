@@ -27,6 +27,7 @@ namespace Seggu.Services.DtoMappers
             dto.Producer = obj.Policy.Producer.Name;
             //dto.Client = ClientDtoMapper.GetDto(obj.Policy.Client);
             //dto.Vehicles = obj.Policy.Vehicles.Select(x => VehicleDtoMapper.GetDto(x)).ToList();
+            dto.AttachedFiles = obj.AttachedFiles?.Select(AttachedFileDtoMapper.GetDto).ToList();
 
             return dto;
         }
@@ -45,7 +46,7 @@ namespace Seggu.Services.DtoMappers
             obj.PoliceReportDate = DateTime.Parse(dto.PoliceReportDate);
             obj.PolicyId = dto.PolicyId;
             obj.ReceiveDate = DateTime.Parse(dto.ReceiveDate);
-            
+            obj.AttachedFiles = dto.AttachedFiles.Select(x => AttachedFileDtoMapper.GetObject(new AttachedFileDto { FilePath = x.FilePath, CasualtyId = x.CasualtyId })).ToList();
             return obj;
         }
     }

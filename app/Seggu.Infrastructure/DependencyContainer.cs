@@ -20,7 +20,7 @@ namespace Seggu.Infrastructure
                 {
                     if (instance == null)
                     {
-                        instance = new DependencyResolver();
+                        instance = new DependencyResolver(false);
                     }
                 }
 
@@ -28,9 +28,32 @@ namespace Seggu.Infrastructure
             }
         }
 
-        private DependencyResolver()
+        public static DependencyResolver PerThreadInstance
         {
-            this.unityContainer = Bootstrapper.Initialise();
+            get
+            {
+                lock (lockObject)
+                {
+                    if (instance == null)
+                    {
+                        instance = new DependencyResolver(true);
+                    }
+                }
+
+                return instance;
+            }
+        }
+
+        private DependencyResolver(bool perThread)
+        {
+            if (perThread)
+            {
+                this.unityContainer = Bootstrapper.InitialisePerThread();
+            }
+            else
+            {
+                this.unityContainer = Bootstrapper.Initialise();
+            }
         }
 
         private IUnityContainer unityContainer;

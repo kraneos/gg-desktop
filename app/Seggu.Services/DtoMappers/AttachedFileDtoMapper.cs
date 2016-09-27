@@ -1,8 +1,5 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
-using System;
-using System.IO;
-using System.Linq;
 
 namespace Seggu.Services.DtoMappers
 {
@@ -34,5 +31,6 @@ namespace Seggu.Services.DtoMappers
 
             return obj;
         }
+
     }
 }

@@ -233,7 +233,7 @@ namespace Seggu.Desktop.UserControls
             string fileName = "P-" + MainForm.currentPolicy.Número + " D-";// + currentCasualty.Number;
             string policeReportFilePath = Path.Combine(policeReportDirectoryPath, fileName);
 
-            string tempPath = System.IO.Path.GetTempFileName();
+            string tempPath = Path.GetTempFileName();
             FileInfo tempFile = new FileInfo(tempPath);
             System.IO.File.WriteAllBytes(tempPath, Properties.Resources.PlantillaDenunciaSiniestro);
 
@@ -269,8 +269,8 @@ namespace Seggu.Desktop.UserControls
         //    VehicleDto vehicle = currentCasualty.Vehicles.First();
         //    var client = currentCasualty.Client;
         //    xlWorkSheet.Cells[5, 3] = currentCasualty.Producer;
-        //    xlWorkSheet.Cells[6, 3] = MainForm.currentPolicy.Compañía;
-        //    xlWorkSheet.Cells[6, 13] = MainForm.currentPolicy.Número;
+        //    xlWorkSheet.Cells[6, 3] = LayoutForm.currentPolicy.Compañía;
+        //    xlWorkSheet.Cells[6, 13] = LayoutForm.currentPolicy.Número;
         //    xlWorkSheet.Cells[6, 18] = currentCasualty.Number;
         //    xlWorkSheet.Cells[8, 2] = currentCasualty.OccurredDate;
         //    xlWorkSheet.Cells[27, 5] = client.Apellido + ", " + client.Nombre;

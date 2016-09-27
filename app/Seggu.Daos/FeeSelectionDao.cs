@@ -1,9 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
-using System.Data.Entity;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -15,5 +13,11 @@ namespace Seggu.Daos
 
         }
 
+        public override void Update(FeeSelection obj)
+        {
+            var orig = context.FeeSelections.Find(obj.Id);
+            Mapper.Map<FeeSelection, FeeSelection>(obj, orig);
+            context.SaveChanges();
+        }
     }
 }

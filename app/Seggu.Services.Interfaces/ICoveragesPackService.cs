@@ -14,7 +14,7 @@ namespace Seggu.Services.Interfaces
         IEnumerable<CoveragesPackDto> GetById(int selectedCovPackid);
         int GetPackIdByCoverageId(int id, int riskId);
         void Update(CoveragesPackDto coveragesPack);
-        void Delete(int id);
+        void Delete(long id);
         bool ExistName(string name);
         bool ExistNameRisk(string name, int idRisk);
         bool ExistNameId(string name, int id, int riskId);

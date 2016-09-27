@@ -1,10 +1,8 @@
 ﻿using Seggu.Daos.Interfaces;
-using Seggu.Domain;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Transactions;
 using Seggu.Data;
+using Seggu.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Seggu.Daos
 {
@@ -33,9 +31,11 @@ namespace Seggu.Daos
                  where p.CompanyId == companyId && p.ProducerId == producerId
                 select p).SingleOrDefault();
 
-            return producerCode;
-                
-                
+            return producerCode;          
+        }
+
+        public override void Update(ProducerCode obj)
+        {
         }
     }
 }

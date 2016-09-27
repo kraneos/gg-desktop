@@ -32,7 +32,7 @@ namespace Seggu.Services.DtoMappers
             obj.Registered = dto.Registered;
             obj.ReceptionDate = dto.Recepción == null ? date : DateTime.Parse(dto.Recepción);
             obj.Notes = dto.Notas;
-            obj.Total = int.Parse(dto.Total.ToString());
+            obj.Total = decimal.Parse(dto.Total.ToString());
             return obj;
         }
     }

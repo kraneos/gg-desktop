@@ -15,7 +15,7 @@ namespace Seggu.Services.DtoMappers
             dto.Apellido = obj.LastName;
             dto.CUIT = obj.CUIT;
             dto.DNI = obj.DNI;
-            dto.EndorseId = (int?)obj.EndorseId ?? default(int);
+            dto.EndorseId = (int?)obj.EndorseId;
             //dto.Fecha_Nacimiento = obj.BirthDate == null ? date : obj.BirthDate.Value.ToShortDateString();
             dto.Fecha_Nacimiento = obj.BirthDate;
             dto.Id = (int)obj.Id;

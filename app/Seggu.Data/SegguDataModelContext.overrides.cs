@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 
 namespace Seggu.Data
@@ -31,29 +32,26 @@ namespace Seggu.Data
                 .ToList();
 
             // If Parse Entity
-            if (Properties.Settings.Default.SyncWithParse)
+            if (!Properties.Settings.Default.SyncWithParse) return base.SaveChanges();
             {
                 var modifiedEntries = entries.Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
-                if (modifiedEntries.Any())
+                if (!modifiedEntries.Any()) return base.SaveChanges();
                 {
                     var setting = this.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
-                    if (setting != null)
+                    if (setting == null) return base.SaveChanges();
+                    try
                     {
-
-                        try
+                        foreach (var entry in modifiedEntries)
                         {
-                            foreach (var entry in modifiedEntries)
-                            {
-                                GetParseObject(entry, setting);
-                            }
+                            GetParseObject(entry, setting);
                         }
-                        catch (Exception)
+                    }
+                    catch (Exception)
+                    {
+                        foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
                         {
-                            foreach (var modified in modifiedEntries.Where(e => e.State == EntityState.Modified))
-                            {
-                                modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
-                            }
-                        } 
+                            modified.CurrentValues["LocallyUpdatedAt"] = DateTime.Now.ToUniversalTime();
+                        }
                     }
                 }
             }
@@ -65,21 +63,27 @@ namespace Seggu.Data
         {
             var type = parseEntities.Any(x => x == entry.Entity.GetType()) ? entry.Entity.GetType() : entry.Entity.GetType().BaseType;
             var entityName = type.Name;
-            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type).DestinationType;
-            var isNew = ((ParseEntity) entry.Entity).ObjectId == null;
+            var destType = Mapper.GetAllTypeMaps().First(x => x.SourceType == type && x.DestinationType != type).DestinationType;
+            var objId = entry.State == EntityState.Added ? null : entry.GetDatabaseValues()["ObjectId"];
+            var isNew = objId == null;
+            //var isNew = ((ParseEntity)entry.Entity).ObjectId == null;
             var parseObject = (ParseObject)Mapper.Map(entry.Entity, type, destType, opts =>
             {
+                opts.Items["DbContext"] = this;
                 opts.Items["Setting"] = setting;
-                opts.Items["HttpMethod"] = isNew ? "POST": "PUT";
+                opts.Items["HttpMethod"] = isNew ? "POST" : "PUT";
+                if (!isNew)
+                {
+                    opts.Items["ObjectId"] = objId;
+                }
             });
+            if (parseObject == null) return;
             parseObject.SaveAsync().Wait();
-            if (isNew)
-            {
-                entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
-                entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
-                entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
-                entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
-            }
+            if (!isNew) return;
+            entry.CurrentValues["ObjectId"] = parseObject.ObjectId;
+            entry.CurrentValues["CreatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["UpdatedAt"] = parseObject.CreatedAt;
+            entry.CurrentValues["LocallyUpdatedAt"] = parseObject.CreatedAt;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Seggu.Services
                 from d in this.localityDao.GetByDistrictId(Id)
                 select LocalityDtoMapper.GetDto(d);
         }
+
         public IEnumerable<LocalityDto> GetAll()
         {
             return localityDao.GetAll().Select(x => LocalityDtoMapper.GetDto(x));

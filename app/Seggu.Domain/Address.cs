@@ -13,7 +13,6 @@ namespace Seggu.Domain
         public Nullable<long> LocalityId { get; set; }
         public string PostalCode { get; set; }
         public AddressType AddressType { get; set; }
-        public Nullable<long> IntegralId { get; set; }
         public Nullable<long> ClientId { get; set; }
 
         public virtual Locality Locality { get; set; }

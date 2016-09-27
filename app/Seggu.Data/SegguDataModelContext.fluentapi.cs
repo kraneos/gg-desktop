@@ -17,7 +17,7 @@ namespace Seggu.Data
             ConfigureEmployeeCoverages(modelBuilder);
         }
 
-        private void ConfigureVehicleCoverages(DbModelBuilder modelBuilder)
+        private static void ConfigureVehicleCoverages(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<Vehicle>()
@@ -32,7 +32,7 @@ namespace Seggu.Data
                 });
         }
 
-        private void ConfigureIntegralCoverages(DbModelBuilder modelBuilder)
+        private static void ConfigureIntegralCoverages(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<Integral>()
@@ -47,7 +47,7 @@ namespace Seggu.Data
                 });
         }
 
-        private void ConfigureEmployeeCoverages(DbModelBuilder modelBuilder)
+        private static void ConfigureEmployeeCoverages(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<Employee>()
@@ -62,7 +62,7 @@ namespace Seggu.Data
                 });
         }
 
-        private void ConfigureVehicleTypeUse(DbModelBuilder modelBuilder)
+        private static void ConfigureVehicleTypeUse(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<VehicleType>()
@@ -77,7 +77,7 @@ namespace Seggu.Data
                 });
         }
 
-        private void ConfigureBodyworkVehicleTypeEntity(DbModelBuilder modelBuilder)
+        private static void ConfigureBodyworkVehicleTypeEntity(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<Bodywork>()
@@ -92,17 +92,17 @@ namespace Seggu.Data
                 });
         }
 
-        private void ConfigurePolicyEntity(DbModelBuilder modelBuilder)
+        private static void ConfigurePolicyEntity(DbModelBuilder modelBuilder)
         {
             // Collector Property
             modelBuilder
                 .Entity<Policy>()
-                .HasOptional<Producer>(x => x.Collector)
+                .HasOptional(x => x.Collector)
                 .WithMany(x => x.Policies)
                 .HasForeignKey(x => x.CollectorId);
         }
 
-        private void ConfigureIntegralEntity(DbModelBuilder modelBuilder)
+        private static void ConfigureIntegralEntity(DbModelBuilder modelBuilder)
         {
             // Integral Address One to One
             modelBuilder
@@ -112,7 +112,7 @@ namespace Seggu.Data
                 .Map(x => x.MapKey("AddressId"));
         }
 
-        private void ConfigureProducerCodeEntity(DbModelBuilder modelBuilder)
+        private static void ConfigureProducerCodeEntity(DbModelBuilder modelBuilder)
         {
             // ProducerCodes Primary Key
             modelBuilder

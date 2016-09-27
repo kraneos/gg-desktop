@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +38,7 @@ namespace Seggu.Daos
                 select r;
         }
 
-        public bool BetByNameId(string name, long id)
+        public bool GetByNameId(string name, long id)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name);
             if (prod == null)
@@ -52,9 +52,16 @@ namespace Seggu.Daos
             return true;
         }
 
-        public IEnumerable<Risk> GetByCompanyAndRiskType(int id, RiskType riskType)
+        public IEnumerable<Risk> GetByCompanyAndRiskType(long id, RiskType riskType)
         {
             return context.Risks.Where(r => r.CompanyId == id && r.RiskType == riskType);
+        }
+
+        public override void Update(Risk obj)
+        {
+            var orig = context.Risks.Find(obj.Id);
+            Mapper.Map<Risk, Risk>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

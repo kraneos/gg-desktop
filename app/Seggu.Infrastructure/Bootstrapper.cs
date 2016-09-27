@@ -31,8 +31,40 @@ namespace Seggu.Infrastructure
 
             // e.g. container.RegisterType<ITestService, TestService>();    
             RegisterTypes(container);
+            RegisterDbContext(container);
 
             return container;
+        }
+
+
+        internal static IUnityContainer InitialisePerThread()
+        {
+            var container = new UnityContainer();
+
+            // register all your components with the container here
+            // it is NOT necessary to register your controllers
+
+            // e.g. container.RegisterType<ITestService, TestService>();    
+            RegisterTypes(container);
+            RegisterDbContextPerThread(container);
+
+            return container;
+        }
+
+        private static void RegisterDbContextPerThread(UnityContainer container)
+        {
+            var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
+
+            // Entity Framework Context
+            container.RegisterType<SegguDataModelContext>(new PerThreadLifetimeManager(), new InjectionConstructor(connectionString));
+        }
+
+        private static void RegisterDbContext(IUnityContainer container)
+        {
+            var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
+
+            // Entity Framework Context
+            container.RegisterType<SegguDataModelContext>(new PerResolveLifetimeManager(), new InjectionConstructor(connectionString));
         }
 
         public static void RegisterTypes(IUnityContainer container)
@@ -74,6 +106,7 @@ namespace Seggu.Infrastructure
             container.RegisterType<ICoveragesPackService, CoveragesPackService>();
             container.RegisterType<IVersionService, VersionService>();
             container.RegisterType<ILoginService, LoginService>();
+            container.RegisterType<IEmailService, EmailService>();
             // Daos
             container.RegisterType<IAddressDao, AddressDao>();
             container.RegisterType<IClientDao, ClientDao>();
@@ -118,10 +151,6 @@ namespace Seggu.Infrastructure
             // Version Manager
             container.RegisterType<IVersionManager, VersionManager.VersionManager>();
 
-            var connectionString = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite";
-            
-            // Entity Framework Context
-            container.RegisterType<SegguDataModelContext>(new ContainerControlledLifetimeManager(), new InjectionConstructor(connectionString));
         }
     }
 }

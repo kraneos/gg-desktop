@@ -203,7 +203,7 @@ namespace Seggu.Desktop.Forms
             lblNuevaCompañia.Visible = false;
             btnAgregarCompañia.UseVisualStyleBackColor = true;
 
-            if (ValidateControls())
+            if (ControlsAreValidated())
             {
                 CompanyDto company;
                 if (isNew)
@@ -229,7 +229,7 @@ namespace Seggu.Desktop.Forms
                 InitializeIndex();
             }
         }
-        private bool ValidateControls()
+        private bool ControlsAreValidated()
         {
             bool ok = true;
             errorProvider1.Clear();
@@ -529,6 +529,10 @@ namespace Seggu.Desktop.Forms
             if (txtCoberturas.Text == string.Empty)
             {
                 MessageBox.Show("Ingrese una nueva Cobertura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (lsbRiesgos.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un riesgo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

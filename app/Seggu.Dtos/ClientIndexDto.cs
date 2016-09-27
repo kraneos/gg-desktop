@@ -10,5 +10,7 @@ namespace Seggu.Dtos
         public string Mail { get; set; }
         public string Dni { get; set; }
         public int PolicyCount { get; set; }
+        public string CUIT { get; set; }
+        public string BirthDate { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +24,6 @@ namespace Seggu.Daos
             return this.Set.First(c => c.Id == guid);
         }
 
-
         public bool GetByName(string name)
         {
             return this.Set.Any(c => c.Name == name);
@@ -36,6 +35,13 @@ namespace Seggu.Daos
                    where c.Active
                    orderby c.Name
                    select c;
+        }
+
+        public override void Update(Company obj)
+        {
+            var orig = context.Companies.Find(obj.Id);
+            Mapper.Map<Company, Company>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

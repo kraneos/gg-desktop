@@ -1,8 +1,7 @@
-﻿using System;
-using Seggu.Daos.Interfaces;
+﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System.Linq;
-using Seggu.Data;
 
 namespace Seggu.Daos
 {
@@ -15,6 +14,11 @@ namespace Seggu.Daos
         public Setting GetLastLogin()
         {
             return context.Settings.OrderByDescending(x => x.Id).FirstOrDefault();
+        }
+
+        public override void Update(Setting obj)
+        {
+            context.SaveChanges();
         }
 
     }

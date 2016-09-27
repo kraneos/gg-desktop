@@ -34,6 +34,24 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LocalParse|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\LocalParse\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\Staging\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
@@ -57,20 +75,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AccessoryTypeVM.cs" />
     <Compile Include="AccessoryVM.cs" />
     <Compile Include="AddressVM.cs" />
     <Compile Include="AssetVM.cs" />
+    <Compile Include="AttachedFileVM.cs" />
     <Compile Include="BankVM.cs" />
     <Compile Include="BatchElementResponseVM.cs" />
     <Compile Include="BodyworkVM.cs" />
     <Compile Include="BrandVM.cs" />
     <Compile Include="CashAccountVM.cs" />
     <Compile Include="CasualtyTypeVM.cs" />
+    <Compile Include="CasualtyVM.cs" />
     <Compile Include="ChequeVM.cs" />
     <Compile Include="ClientVM.cs" />
     <Compile Include="CompanyVM.cs" />
     <Compile Include="ContactVM.cs" />
+    <Compile Include="CoveragesPackVM.cs" />
+    <Compile Include="CoverageVM.cs" />
     <Compile Include="CreditCardVM.cs" />
     <Compile Include="DateVM.cs" />
     <Compile Include="DistrictVM.cs" />

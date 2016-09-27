@@ -10,10 +10,12 @@ namespace Seggu.Domain
         public Nullable<long> PolicyId { get; set; }
         public Nullable<long> CasualtyId { get; set; }
         public Nullable<long> CashAccountId { get; set; }
+        public long? ClientId { get; set; }
     
         public virtual Endorse Endorse { get; set; }
         public virtual Policy Policy { get; set; }
         public virtual Casualty Casualty { get; set; }
         public virtual CashAccount CashAccount { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

@@ -89,7 +89,6 @@
             this.cmbProvince.Size = new System.Drawing.Size(222, 25);
             this.cmbProvince.TabIndex = 7;
             this.cmbProvince.SelectionChangeCommitted += new System.EventHandler(this.cmbProvince_SelectionChangeCommitted);
-            this.cmbProvince.Validating += new System.ComponentModel.CancelEventHandler(this.cmbProvince_Validating);
             // 
             // cmbLocality
             // 
@@ -101,7 +100,6 @@
             this.cmbLocality.Size = new System.Drawing.Size(222, 25);
             this.cmbLocality.TabIndex = 9;
             this.cmbLocality.ValueMember = "Id";
-            this.cmbLocality.Validating += new System.ComponentModel.CancelEventHandler(this.cmbLocality_Validating);
             // 
             // label17
             // 
@@ -132,7 +130,6 @@
             this.cmbDistrict.TabIndex = 8;
             this.cmbDistrict.ValueMember = "Id";
             this.cmbDistrict.SelectionChangeCommitted += new System.EventHandler(this.cmbDistrict_SelectionChangeCommitted);
-            this.cmbDistrict.Validating += new System.ComponentModel.CancelEventHandler(this.cmbDistrict_Validating);
             // 
             // label9
             // 
@@ -218,6 +215,7 @@
             this.txtHomeAppart.Name = "txtHomeAppart";
             this.txtHomeAppart.Size = new System.Drawing.Size(65, 25);
             this.txtHomeAppart.TabIndex = 5;
+            this.txtHomeAppart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarSpecial);
             // 
             // txtHomeNumber
             // 
@@ -234,6 +232,7 @@
             this.txtHomePostal.Name = "txtHomePostal";
             this.txtHomePostal.Size = new System.Drawing.Size(49, 25);
             this.txtHomePostal.TabIndex = 6;
+            this.txtHomePostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ValidarSpecial);
             this.txtHomePostal.Validating += new System.ComponentModel.CancelEventHandler(this.txtHomePostal_Validating);
             // 
             // txtHomeFloor

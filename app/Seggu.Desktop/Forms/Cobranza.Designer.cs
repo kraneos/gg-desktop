@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cobranza));
             this.btnCobrar = new System.Windows.Forms.Button();
@@ -46,7 +47,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblClient = new System.Windows.Forms.Label();
             this.lblPolicyNumber = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.grdCuotas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCobrar
@@ -217,6 +220,10 @@
             this.lblPolicyNumber.Size = new System.Drawing.Size(0, 21);
             this.lblPolicyNumber.TabIndex = 44;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Cobranza
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -247,6 +254,7 @@
             this.Text = "Cobranza";
             this.Load += new System.EventHandler(this.Cobranza_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdCuotas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,5 +278,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblClient;
         private System.Windows.Forms.Label lblPolicyNumber;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

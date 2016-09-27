@@ -63,7 +63,7 @@ namespace Seggu.Service.Tests
         //
         #endregion
 
-        [TestMethod]
+        [TestMethod, TestCategory("SincronizacionLocal")]
         public void SynchronizationServiceShouldExecuteWithoutErrors()
         {
             //Thread.Sleep(30000);
@@ -78,10 +78,10 @@ namespace Seggu.Service.Tests
             //var ServiceName = "SegguService";
             ((System.ComponentModel.ISupportInitialize)(eventLog)).EndInit();
 
-            using (var context = new SegguDataModelContext(@"Data Source=C:\Users\poloagustin\git\seggu\app\Seggu.Desktop\bin\Debug\seggu.sqlite;"))
+            using (var context = new SegguDataModelContext($"Data Source={Properties.Settings.Default.DatabasePath};"))
             {
                 var syncService = new SynchronizationService(context, eventLog);
-                
+
                 syncService.SynchronizeParseEntities();
             }
         }

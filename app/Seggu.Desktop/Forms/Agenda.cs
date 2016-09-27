@@ -50,7 +50,7 @@ namespace Seggu.Desktop.Forms
         private DataTable GetContactDataTable()
         {
             var table = new DataTable();
-            table.Columns.Add("Id", typeof(string));
+            table.Columns.Add("Id", typeof(int));
             table.Columns.Add("Nombre", typeof(string));
             table.Columns.Add("Apellido", typeof(string));
             table.Columns.Add("Empresa", typeof(string));
@@ -140,14 +140,35 @@ namespace Seggu.Desktop.Forms
 
         private void Guardar(object sender, EventArgs e)
         {
-            var isNew = string.IsNullOrEmpty(lblCurrentId.Text);
-            var contact = this.GetContactFormInfo();
+            if (ControlsAreValidated())
+            {
+                var isNew = string.IsNullOrEmpty(lblCurrentId.Text);
+                var contact = this.GetContactFormInfo();
 
-            if (isNew)
-                this.contactService.Create(contact);
-            else
-                this.contactService.Update(contact);
-            this.InitializeIndex();
+                if (isNew)
+                    this.contactService.Create(contact);
+                else
+                    this.contactService.Update(contact);
+                this.InitializeIndex();
+            }
+        }
+        private bool ControlsAreValidated()
+        {
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (Control control in this.Controls)
+            {
+                if (control == txtNombre || control == txtTelefono
+                    || control == txtMail || control == txtApellido)
+                {
+                    if (control.Text == string.Empty)
+                    {
+                        errorProvider1.SetError(control, "Campo vacío");
+                        ok = false;
+                    }
+                }
+            }
+            return ok;
         }
         private ContactFullDto GetContactFormInfo()
         {
@@ -173,20 +194,29 @@ namespace Seggu.Desktop.Forms
             return contact;
         }
 
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            var Id = (int)grdContactos.SelectedCells[0].Value;
-            contactService.Delete(Id);
-            InitializeIndex();
+            if (grdContactos.SelectedRows.Count < 1) return;
+            DialogResult dialogResult = MessageBox.Show("¿está seguro de eliminar este contacto?", "Eliminar Contacto", MessageBoxButtons.OKCancel);
+            if (dialogResult == DialogResult.OK)
+            {
+                int Id =  (int)grdContactos.SelectedCells[0].Value;
+                contactService.Delete(Id);
+                InitializeIndex();
+            }
         }
-
         private void chkCompany_CheckedChanged(object sender, EventArgs e)
         {
             if (chkCompany.Checked)
+            {
                 cmbEmpresa.Visible = true;
+                txtEmpresa.Visible = false;
+            }
             else
+            {
                 cmbEmpresa.Visible = false;
+                txtEmpresa.Visible = true;
+            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)

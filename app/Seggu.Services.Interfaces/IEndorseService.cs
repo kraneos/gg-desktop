@@ -5,7 +5,6 @@ namespace Seggu.Services.Interfaces
 {
     public interface IEndorseService
     {
-        IEnumerable<EndorseDto> GetByPolicyId(int Id);
         void Save(EndorseFullDto pol);
     }
 }

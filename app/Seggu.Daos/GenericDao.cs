@@ -1,12 +1,10 @@
 ﻿using Seggu.Daos.Interfaces;
 using Seggu.Data;
-using Seggu.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -45,83 +43,85 @@ namespace Seggu.Daos
 
         public virtual void Save(T obj)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 this.Set.Add(obj);
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
-        public virtual void Update(T obj)
-        {
-            using (var scope = new TransactionScope())
-            {
-                var entry = this.context.Entry<T>(obj);
-                var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
-                if (entry.State == EntityState.Detached)
-                {
-                    T attachedEntity = this.Set.Find(pkey);  // access the key
-                    if (attachedEntity != null)
-                    {
-                        var attachedEntry = this.context.Entry(attachedEntity);
-                        attachedEntry.CurrentValues.SetValues(obj);
-                    }
-                    else
-                        entry.State = EntityState.Modified; // attach the entity
-                }
-                
-                this.context.SaveChanges();
-                scope.Complete();
-            }
-        }
+        public abstract void Update(T obj);
+
+        //public virtual void Update(T obj)
+        //{
+        //    //using (var scope = new TransactionScope())
+        //    //{
+        //        var entry = this.context.Entry<T>(obj);
+        //        var pkey = (long)typeof(T).GetProperty("Id").GetValue(obj, null);
+        //        if (entry.State == EntityState.Detached)
+        //        {
+        //            T attachedEntity = this.Set.Find(pkey);  // access the key
+        //            if (attachedEntity != null)
+        //            {
+        //                var attachedEntry = this.context.Entry(attachedEntity);
+        //                attachedEntry.CurrentValues.SetValues(obj);
+        //            }
+        //            else
+        //                entry.State = EntityState.Modified; // attach the entity
+        //        }
+
+        //        this.context.SaveChanges();
+        //    //    scope.Complete();
+        //    //}
+        //}
 
         public virtual void Delete(T obj)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 this.Set.Remove(obj);
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
         public void Delete(object id)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 var obj = this.Set.Find(id);
                 this.Set.Remove(obj);
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
         public virtual void SaveMany(IEnumerable<T> objs)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 this.DoBulkAction(objs, EntityState.Added);
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
         public virtual void UpdateMany(IEnumerable<T> objs)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 this.DoBulkAction(objs, EntityState.Modified);
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
         public virtual void DeleteMany(IEnumerable<T> objs)
         {
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 this.DoBulkAction(objs, EntityState.Deleted);
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
 
         public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate)

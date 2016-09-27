@@ -13,5 +13,7 @@ namespace Seggu.Service.ViewModels
         public ParseObject Policy { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
         [ParseFieldName("endorse")]
         public ParseObject Endorse { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
+        [ParseFieldName("address")]
+        public ParseObject Address { get { return GetProperty<ParseObject>(); } set { SetProperty<ParseObject>(value); } }
     }
 }
