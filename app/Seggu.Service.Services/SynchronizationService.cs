@@ -595,20 +595,20 @@ namespace Seggu.Service.Services
                 .ForMember(x => x.CasualtyType, y => y.Ignore())
                 .ForMember(x => x.PolicyId, y => y.ResolveUsing(
                     resolution =>
-                        ((CasualtyVM) resolution.Value).Policy == null
+                        ((CasualtyVM)resolution.Value).Policy == null
                             ? null
                             : AutoMapperExtensions.ResolveWithOptions(resolution,
                                 (ctx, sett, meth, res) =>
-                                    ctx.Policies.First(x => x.ObjectId == ((CasualtyVM) res.Value).Policy.ObjectId)
+                                    ctx.Policies.First(x => x.ObjectId == ((CasualtyVM)res.Value).Policy.ObjectId)
                                         .Id)))
                 .ForMember(x => x.CasualtyTypeId, y => y.ResolveUsing(
                     resolution =>
-                        ((CasualtyVM) resolution.Value).CasualtyType == null
+                        ((CasualtyVM)resolution.Value).CasualtyType == null
                             ? null
                             : AutoMapperExtensions.ResolveWithOptions(resolution,
                                 (ctx, sett, meth, res) =>
                                     ctx.CasualtyTypes.First(
-                                        x => x.ObjectId == ((CasualtyVM) res.Value).CasualtyType.ObjectId).Id)));
+                                        x => x.ObjectId == ((CasualtyVM)res.Value).CasualtyType.ObjectId).Id)));
 
             Mapper.CreateMap<Casualty, Casualty>().GetCommonMappingExpressionEntityToEntity();
 
@@ -621,7 +621,7 @@ namespace Seggu.Service.Services
                             innerMappingEngine,
                             (ctx, entity) => (entity.Policy?.ObjectId != null) ? entity.Policy.ObjectId : AutoMapperExtensions.GetObjectId<Policy>(ctx, entity.PolicyId.Value),
                             (ctx, entity) => (entity.Endorse?.ObjectId != null) ? entity.Endorse.ObjectId : AutoMapperExtensions.GetObjectId<Endorse>(ctx, entity.EndorseId.Value),
-                            (ctx, entity) => (entity.CashAccount?.ObjectId != null) ? entity.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, entity.CashAccountId.Value), 
+                            (ctx, entity) => (entity.CashAccount?.ObjectId != null) ? entity.CashAccount.ObjectId : AutoMapperExtensions.GetObjectId<CashAccount>(ctx, entity.CashAccountId.Value),
                             (ctx, entity) => (entity.Client?.ObjectId != null) ? entity.Client.ObjectId : AutoMapperExtensions.GetObjectId<Client>(ctx, entity.ClientId.Value),
                             (ctx, entity) => (entity.Casualty?.ObjectId != null) ? entity.Casualty.ObjectId : AutoMapperExtensions.GetObjectId<Casualty>(ctx, entity.CasualtyId.Value)));
 
@@ -726,7 +726,7 @@ namespace Seggu.Service.Services
                 SinchronizeParse<CashAccount, CashAccountVM>();
                 SinchronizeParse<Casualty, CasualtyVM>();
                 SinchronizeParse<AttachedFile, AttachedFileVM>();//"Asset");
-                                                                    
+
                 // TODO: The rest...
             }
             else
@@ -770,12 +770,12 @@ namespace Seggu.Service.Services
                     //TODO: Something.
                 }
 
-                this.eventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
+                this.eventLog.WriteEntry(ex.Message + "\n" + ex.StackTrace, EventLogEntryType.Error);
                 WriteEntryInnerEx(ex);
             }
             catch (Exception ex)
             {
-                this.eventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
+                this.eventLog.WriteEntry(ex.Message + "\n" + ex.StackTrace, EventLogEntryType.Error);
                 WriteEntryInnerEx(ex);
             }
         }
@@ -812,7 +812,7 @@ namespace Seggu.Service.Services
         {
             if (ex.InnerException != null)
             {
-                this.eventLog.WriteEntry(ex.InnerException.Message, EventLogEntryType.Error);
+                this.eventLog.WriteEntry(ex.InnerException.Message + "\n" + ex.InnerException.StackTrace, EventLogEntryType.Error);
                 WriteEntryInnerEx(ex.InnerException);
             }
         }
