@@ -302,16 +302,36 @@ namespace Seggu.Desktop.UserControls
                             }
                         }
                     }
-                    else
+   
+                    if (c is ComboBox)
                     {
-                        if (c is ComboBox)
-                            if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
-                                || c == cmbOrigen || c == cmbTipoVehiculo)
-                                if ((c as ComboBox).SelectedIndex == -1)
-                                {
-                                    errorProvider1.SetError(c, "Debe seleccionar un elemento");
-                                    ok = false;
-                                }
+                        if (c == cmbBodyworks || c == cmbCoberturas || c == cmbMarcas || c == cmbModelos
+                            || c == cmbOrigen || c == cmbTipoVehiculo)
+                        {
+                            if ((c as ComboBox).SelectedIndex == -1)
+                            {
+                                errorProvider1.SetError(c, "Debe seleccionar un elemento");
+                                ok = false;
+                            }
+                        }
+
+                    }
+                }
+            }
+            return ok;
+        }
+        public bool ValidateFlota()
+        {
+            bool ok = true;
+            errorProvider1.Clear();
+            foreach (TabPage tabPage in this.tabControl1.TabPages)
+            {
+                foreach (Control c in tabPage.Controls)
+                {
+                    if(c is DataGridView && c == grdVehicles && (c as DataGridView).RowCount == 0)
+                    {
+                        errorProvider1.SetError(c, "Debe asignar coberturas a la poliza.");
+                        ok = false;
                     }
                 }
             }
@@ -465,7 +485,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (string.IsNullOrWhiteSpace(this.txtMotor.Text))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtMotor, "Este campo es obligatorio.");
             }
         }
@@ -473,7 +493,7 @@ namespace Seggu.Desktop.UserControls
         {
             if (!this.txtChasis.Text.IsVIN())
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtChasis, "Este campo debe tener un formato de chasis válido.");
             }
         }
@@ -481,13 +501,22 @@ namespace Seggu.Desktop.UserControls
         {
             if (txtAnio.Text.Length != 4)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtAnio, "El año debe ser de cuatro digitos");
             }
             else if ((int.Parse(txtAnio.Text) < 1950) || (int.Parse(txtAnio.Text) > DateTime.Today.Year))
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtAnio, "El año debe estar entre 1950 y el actual");
+            }
+        }
+        private void txtAnio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                errorProvider1.SetError(this.txtAnio, "Solo se permiten números");
+                e.Handled = true;
+                return;
             }
         }
         private void cmbModelos_Validating(object sender, CancelEventArgs e)
@@ -530,14 +559,31 @@ namespace Seggu.Desktop.UserControls
                 errorProvider1.SetError(this.cmbOrigen, "Este campo es obligatorio.");
             }
         }
+        private void cmbCoberturas_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.cmbCoberturas.SelectedValue == null)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(this.cmbCoberturas, "Este campo es obligatorio.");
+            }
+        }
         private void txtPatente_Validating(object sender, CancelEventArgs e)
         {
             if (!this.txtPatente.Text.IsPlateNumber())
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 errorProvider1.SetError(this.txtPatente, "Este campo debe tener un formato de patente válido.");
             }
         }
+        private void grdVehicles_Validating(object sender, CancelEventArgs e)
+        {
+            if (this.grdVehicles.RowCount == 0)
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(this.grdVehicles, "Debe guardar los cambios del vehículo");
+            }
+        }
         #endregion
+
     }
 }

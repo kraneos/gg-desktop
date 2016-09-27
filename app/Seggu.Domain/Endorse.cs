@@ -34,6 +34,7 @@ namespace Seggu.Domain
         public Nullable<bool> IsRemoved { get; set; }
         public Nullable<decimal> PaymentBonus { get; set; }
         public Nullable<int> PaymentDay { get; set; }
+        public decimal? NetCharge { get; set; }
 
         public virtual Policy Policy { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }

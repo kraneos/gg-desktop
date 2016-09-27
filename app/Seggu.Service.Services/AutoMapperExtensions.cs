@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Seggu.Data;
+using Seggu.Helpers;
 
 namespace Seggu.Service.Services
 {
@@ -15,12 +16,44 @@ namespace Seggu.Service.Services
     {
         public static IMappingExpression<TE, TVM> GetCommonMappingExpressionToVM<TE, TVM>(this IMappingExpression<TE, TVM> mappingExpression)
             where TE : IdParseEntity
-            where TVM : ViewModel
+            where TVM : ViewModel, new()
         {
             return mappingExpression
+                .ConstructUsing(rc =>
+                {
+                    if (rc.Options.Items.ContainsKey("ObjectId"))
+                    {
+                        var task = new ParseQuery<TVM>().GetAsync((string)rc.Options.Items["ObjectId"]);
+                        task.Wait();
+                        return task.Result;
+                    }
+                    else if (((IdParseEntity)rc.SourceValue).ObjectId != null)
+                    {
+                        var task = new ParseQuery<TVM>().GetAsync(((IdParseEntity)rc.SourceValue).ObjectId);
+                        task.Wait();
+                        return task.Result;
+                    }
+                    else
+                    {
+                        return new TVM();
+                    }
+                })
+                .ForMember(x => x.ObjectId, y => y.ResolveUsing(x =>
+                {
+                    return x.Context.Options.Items.ContainsKey("ObjectId") ? x.Context.Options.Items["ObjectId"] : ((IdParseEntity)x.Value).ObjectId;
+                }))
                 .ForMember(x => x.CreatedAt, y => y.Ignore())
                 .ForMember(x => x.UpdatedAt, y => y.Ignore())
-                .ForMember(x => x.ACL, y => y.ResolveUsing(GetAcl));
+                .ForMember(x => x.ACL, y =>
+                {
+                    y.PreCondition(GetObjectIdPreCondition);
+                    y.ResolveUsing(GetAcl);
+                });
+        }
+
+        private static bool GetObjectIdPreCondition(ResolutionContext rc)
+        {
+            return !rc.Options.Items.ContainsKey("ObjectId") && ((IdParseEntity)rc.SourceValue).ObjectId == null;
         }
 
         public static IMappingExpression<TViewModel, TParseEntity> GetCommonMappingExpressionToEntity<TViewModel, TParseEntity>(this IMappingExpression<TViewModel, TParseEntity> expression)
@@ -29,6 +62,22 @@ namespace Seggu.Service.Services
         {
             return expression
                 .ForMember(x => x.LocallyUpdatedAt, y => y.MapFrom(x => x.UpdatedAt));
+        }
+
+        public static IMappingExpression<TSourceParseEntity, TDestinationParseEntity> GetCommonMappingExpressionEntityToEntity
+            <TSourceParseEntity, TDestinationParseEntity>(this IMappingExpression<TSourceParseEntity, TDestinationParseEntity> expression)
+            where TSourceParseEntity : IdParseEntity
+            where TDestinationParseEntity : IdParseEntity
+        {
+            expression = typeof(TSourceParseEntity)
+                .GetNonVirtualProperties()
+                .Aggregate(expression, (current, property) => current.ForMember(property.Name, x => x.Ignore()));
+            return expression
+                .ForMember(x => x.ObjectId, x => x.Ignore())
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.CreatedAt, x => x.Ignore())
+                .ForMember(x => x.LocallyUpdatedAt, x => x.Ignore())
+                .ForMember(x => x.UpdatedAt, x => x.Ignore());
         }
 
         private static object GetAcl(ResolutionResult res)
@@ -73,9 +122,90 @@ namespace Seggu.Service.Services
 
         public static T GetParseObject<T>(string objectId) where T : ViewModel
         {
-            var awaitable = new ParseQuery<T>().GetAsync(objectId);
-            awaitable.Wait();
-            return awaitable.Result;
+            if (!string.IsNullOrWhiteSpace(objectId))
+            {
+                var awaitable = new ParseQuery<T>().GetAsync(objectId);
+                awaitable.Wait();
+                return awaitable.Result;
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static T GetParseObject<T>(ResolutionResult resolutionResult, Func<SegguDataModelContext, string> predicate) where T : ViewModel
+        {
+            var dbContext = (SegguDataModelContext)resolutionResult.Context.Options.Items["DbContext"];
+            var objectId = predicate.Invoke(dbContext);
+            return GetParseObject<T>(objectId);
+        }
+
+        public static object GetParseObject<T, TVm>(ResolutionContext rc, Func<T, string> predFunc)
+            where TVm : ViewModel
+            where T : IdParseEntity
+        {
+            string objectId;
+
+            if (rc.Options.Items.ContainsKey("DbContext"))
+            {
+                var ctx = (SegguDataModelContext)rc.Options.Items["DbContext"];
+                var obj = ctx.Set<T>().Find(((IdParseEntity)rc.SourceValue).Id);
+                objectId = predFunc.Invoke(obj);
+            }
+            else
+            {
+                objectId = predFunc.Invoke((T)rc.SourceValue);
+            }
+            return GetParseObject<TVm>(objectId);
+        }
+
+        public static object GetParseObject<TVm>(ResolutionContext rc, Func<SegguDataModelContext, string> predFunc)
+            where TVm : ViewModel
+        {
+            var ctx = (SegguDataModelContext)rc.Options.Items["DbContext"];
+            var objectId = predFunc.Invoke(ctx);
+            return GetParseObject<TVm>(objectId);
+        }
+
+        public static void AssignOptions<T, TVM>(ResolutionContext rc, IMappingOperationOptions<T, TVM> opts)
+        {
+            foreach (var item in rc.Options.Items)
+            {
+                opts.Items.Add(item);
+            }
+        }
+
+        public static TVM ValidateAndMap<T, TVM>(
+            ResolutionContext rc,
+            T e, MappingEngine me,
+            params Func<SegguDataModelContext, T, string>[] objectIdRetrievals
+            )
+            where T : IdParseEntity
+            where TVM : ViewModel
+        {
+            var dbContext = (SegguDataModelContext)rc.Options.Items["DbContext"];
+            return objectIdRetrievals
+                .Select(objectIdRetrieval => objectIdRetrieval.Invoke(dbContext, e))
+                .Any(string.IsNullOrWhiteSpace) ? null : me.Map<T, TVM>(
+                    e, 
+                    opts => AutoMapperExtensions.AssignOptions(rc, opts));
+        }
+
+        public static string GetObjectId<T>(SegguDataModelContext ctx, long id)
+            where T : IdParseEntity
+        {
+            if (id != 0)
+            {
+                var q = ctx.Set<T>().Where(x => x.Id == id).Select(x => x.ObjectId).First();
+                return q;
+
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

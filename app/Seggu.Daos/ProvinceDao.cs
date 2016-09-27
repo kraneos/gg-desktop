@@ -12,5 +12,9 @@ namespace Seggu.Daos
 
         }
 
+        public override void Update(Province obj)
+        {
+         //provincias no se editan 
+        }
     }
 }

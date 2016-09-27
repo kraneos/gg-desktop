@@ -31,5 +31,50 @@ namespace Seggu.Services.Properties {
                 return ((string)(this["FileServerPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smtp.zoho.com")]
+        public string SmtpServerHost {
+            get {
+                return ((string)(this["SmtpServerHost"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        public int SmtpServerPort {
+            get {
+                return ((int)(this["SmtpServerPort"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseSsl {
+            get {
+                return ((bool)(this["UseSsl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:4200")]
+        public string AppSegguUrl {
+            get {
+                return ((string)(this["AppSegguUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("info@seggu.com.ar")]
+        public string SmtpAddressFrom {
+            get {
+                return ((string)(this["SmtpAddressFrom"]));
+            }
+        }
     }
 }

@@ -2,12 +2,11 @@
 using Seggu.Daos.Interfaces;
 using Seggu.Domain;
 using Seggu.Services.Interfaces;
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Seggu.Helpers.Exceptions;
+using System;
 
 namespace Seggu.Services
 {
@@ -15,48 +14,42 @@ namespace Seggu.Services
     {
         private ISettingsDao settingsDao;
 
-        //private 
         public LoginService(ISettingsDao settingsDao)
         {
             this.settingsDao = settingsDao;
         }
 
-        public async void ManageLoginRegisters(ParseUser parseUser, string password)
+        public bool HasValidSetting()
+        {
+            var lastLogin = settingsDao.GetLastLogin();
+            return lastLogin != null && !string.IsNullOrWhiteSpace(lastLogin.Username) && !string.IsNullOrWhiteSpace(lastLogin.Password);
+        }
+
+        public async Task Login(string username, string password)
+        {
+            await ParseUser.LogInAsync(username, password);
+        }
+
+        public async Task ManageLoginRegisters(string password)
         {
             var currentUser = ParseUser.CurrentUser;
-            var name = currentUser.Username;
-
             var lastLogin = settingsDao.GetLastLogin();
 
-            var role = await ParseRole.Query.WhereContains("name", currentUser.Get<ParseObject>("segguClient").ObjectId).FindAsync();
+            var segguClient = await ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            var role = await ParseRole.Query.WhereContains("name", segguClient.Get<string>("name")).FindAsync();
             var userRole = await ParseRole.Query.WhereEqualTo("users", currentUser).FirstAsync();
-            if (!role.Any())
-            {
-                throw new Exception("El usuario no tiene ROLES");
-            }
 
+            if (!role.Any())
+                throw new ParseLoginException("El usuario no tiene ROLES");
 
             if (lastLogin == null)
             {
                 CreateSetting(password, currentUser, role, userRole);
             }
-            else
+            else if (userRole.Name != lastLogin.UserRole)
             {
-                if (lastLogin.Username == currentUser.Username)
-                {
-                    //update()
-                    lastLogin.Password = password;
-                    lastLogin.ObjectId = currentUser.ObjectId;
-                    lastLogin.UserRole = userRole.Name;
-                    lastLogin.ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name;
-                    settingsDao.Update(lastLogin);
-                }
-                else
-                {
-                    CreateSetting(password, currentUser, role, userRole);
-                }
+                throw new ParseLoginException("El usuario no pertenece a " + lastLogin.UserRole);
             }
-
         }
 
         private void CreateSetting(string password, ParseUser currentUser, IEnumerable<ParseRole> role, ParseRole userRole)
@@ -67,9 +60,35 @@ namespace Seggu.Services
                 Password = password,
                 ObjectId = currentUser.ObjectId,
                 UserRole = userRole.Name,
-                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name
+                ClientsRole = role.First(r => r.ObjectId != userRole.ObjectId).Name,
+                Email = currentUser.Email,
+                SegguClientId = currentUser.Get<ParseObject>("segguClient").ObjectId
             };
             settingsDao.Save(setting);
+        }
+
+        public void Logout()
+        {
+            if (ParseUser.CurrentUser != null)
+                ParseUser.LogOut();
+        }
+
+        public bool IsPaid()
+        {
+            //check if Parse user has date < 30 días
+            bool ok = false;
+            var currentUser = ParseUser.CurrentUser;
+            var segguClientQueryTask = ParseObject.GetQuery("SegguClient").GetAsync(currentUser.Get<ParseObject>("segguClient").ObjectId);
+            segguClientQueryTask.Wait();
+            var segguClient = segguClientQueryTask.Result;
+            var paidAt = segguClient.Get<DateTime>("paidAt");
+
+            if (!string.IsNullOrEmpty(paidAt.ToString()))
+                ok = DateTime.Now - paidAt < TimeSpan.FromDays(1);
+            else
+                ok = false;
+
+            return ok;
         }
     }
 }

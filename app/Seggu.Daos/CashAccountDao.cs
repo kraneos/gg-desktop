@@ -1,4 +1,5 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 using System;
@@ -34,9 +35,16 @@ namespace Seggu.Daos
                 .Where(ca => ca.Date < time && ca.FeeId == null);
         }
 
-        public bool ReceiptExists(string receipt)
+        public bool ReceiptExists(string receiptNumber)
         {
-            return this.Set.Any(x => x.ReceiptNumber == receipt);
+            return this.Set.Any(x => x.ReceiptNumber == receiptNumber);
+        }
+
+        public override void Update(CashAccount obj)
+        {
+            var orig = context.CashAccounts.Find(obj.Id);
+            Mapper.Map<CashAccount, CashAccount>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

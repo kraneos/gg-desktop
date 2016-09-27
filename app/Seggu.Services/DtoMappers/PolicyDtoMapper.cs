@@ -1,6 +1,5 @@
 ﻿using Seggu.Domain;
 using Seggu.Dtos;
-using Seggu.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,32 +32,32 @@ namespace Seggu.Services.DtoMappers
             dto.IsAnnulled = obj.IsAnnulled;
             dto.IsRemoved = obj.IsRemoved;
             dto.IsRenovated = obj.IsRenovated;
-            
+
             dto.Notes = obj.Notes;
             dto.Número = obj.Number;
-            
+
             dto.Period = PeriodDtoMapper.ToString(obj.Period);
             dto.Premium = obj.Premium;
             dto.PreviousNumber = obj.PreviousNumber;
             dto.Prima = obj.Prima;
             dto.ProducerId = (int)obj.ProducerId;
-            
+
             dto.RequestDate = obj.RequestDate.ToShortDateString();
             dto.ReceptionDate = obj.ReceptionDate == null ? date : obj.ReceptionDate.Value.ToShortDateString();
             dto.RiskId = (int)obj.RiskId;
-            
+
             dto.Surcharge = obj.Surcharge;
             dto.PaymentDay = obj.PaymentDay;
             dto.PaymentBonus = obj.PaymentBonus;
             dto.StartDate = obj.StartDate.ToShortDateString();
-            
+
             dto.TipoRiesgo = RiskTypeDtoMapper.ToString(obj.Risk.RiskType);
-            
+
             dto.Value = obj.Value;
-            if(obj.Vehicles !=null)
+            if (obj.Vehicles != null)
                 if (obj.Vehicles.Count() > 0)
                 {
-                    dto.Vehicles = obj.Vehicles.Where(v=> v.EndorseId == null)
+                    dto.Vehicles = obj.Vehicles.Where(v => v.EndorseId == null)
                         .Select(v => VehicleDtoMapper.GetDto(v)).ToList();
                     dto.Patente = obj.Vehicles.First().Plate;
                     dto.Objeto = obj.Vehicles.First().VehicleModel.Name; //¿para impresión?
@@ -75,6 +74,7 @@ namespace Seggu.Services.DtoMappers
                     dto.Integrals = obj.Integrals.Where(v => v.EndorseId == null)
                         .Select(v => IntegralDtoMapper.GetDto(v)).ToList();
                 }
+            dto.AttachedFiles = obj.AttachedFiles?.Select(x => AttachedFileDtoMapper.GetDto(x)).ToList();
 
             return dto;
         }
@@ -110,11 +110,11 @@ namespace Seggu.Services.DtoMappers
             obj.Value = dto.Value;
             obj.NetCharge = dto.NetCharge;
 
-            obj.Fees = dto.Fees == null ? null : dto.Fees.Select(f => FeeDtoMapper.GetObject(f)).ToList();
-            obj.Vehicles = dto.Vehicles == null ? null : dto.Vehicles.Select(v => VehicleDtoMapper.GetObjectWithCover(v)).ToList();
-            obj.Employees = dto.Employees == null ? null : dto.Employees.Select(e => EmployeeDtoMapper.GetObjectWithCover(e)).ToList();
-            obj.Integrals = dto.Integrals == null ? null : dto.Integrals.Select(i => IntegralDtoMapper.GetObjectWithCover(i)).ToList();
-            //obj.AttachedFiles = dto.AttFiles == null ? null : dto.AttFiles.Select(at => AttachedFileDtoMapper.GetObject(at)).ToList();
+            obj.Fees = dto.Fees?.Select(FeeDtoMapper.GetObject).ToList();
+            obj.Vehicles = dto.Vehicles?.Select(VehicleDtoMapper.GetObjectWithCover).ToList();
+            obj.Employees = dto.Employees?.Select(EmployeeDtoMapper.GetObjectWithCover).ToList();
+            obj.Integrals = dto.Integrals?.Select(IntegralDtoMapper.GetObjectWithCover).ToList();
+            obj.AttachedFiles = dto.AttachedFiles.Select(x => AttachedFileDtoMapper.GetObject(new AttachedFileDto { FilePath = x.FilePath, PolicyId = x.PolicyId })).ToList();
             return obj;
         }
         public static PolicyRosViewDto GetRosView(Policy obj)

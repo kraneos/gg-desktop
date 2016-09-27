@@ -1,4 +1,5 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
@@ -42,6 +43,13 @@ namespace Seggu.Daos
             }
 
             this.context.SaveChanges();
+        }
+
+        public override void Update(Bodywork obj)
+        {
+            var orig = context.Bodyworks.Find(obj.Id);
+            Mapper.Map<Bodywork, Bodywork>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

@@ -5,18 +5,18 @@ namespace Seggu.Services.Interfaces
 {
     public interface IRiskService
     {
-        void Delete(int id);
+        void Delete(long id);
 
-        IEnumerable<RiskCompanyDto> GetByCompany(int Id);
+        IEnumerable<RiskCompanyDto> GetByCompany(long Id);
 
         void Create(RiskCompanyDto risk);
 
         void Update(RiskCompanyDto risk);
         bool ExistName(string name);
-        bool ExistNameId(string name, int id);
-        bool HasCoverages(int id);
-        bool HasPackages(int id);
-        IEnumerable<RiskItemDto> GetByCompanyCombobox(int companyId);
-        IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(int id, string riskType);
+        bool ExistNameId(string name, long id);
+        bool HasCoverages(long id);
+        bool HasPackages(long id);
+        IEnumerable<RiskItemDto> GetByCompanyCombobox(long companyId);
+        IEnumerable<RiskCompanyDto> GetByCompanyAndRiskType(long id, string riskType);
     }
 }

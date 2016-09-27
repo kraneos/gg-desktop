@@ -41,9 +41,17 @@ namespace Seggu.Service.Services
             //{
             //    Parse.ParseUser.LogOut();
             //}
-            if (setting != null)
+            if (setting != null && ParseUser.CurrentUser == null && !string.IsNullOrWhiteSpace(setting.Username) && !string.IsNullOrWhiteSpace(setting.Password))
             {
                 ParseUser.LogInAsync(setting.Username, setting.Password).Wait();
+            }
+            else if (setting?.ObjectId != ParseUser.CurrentUser?.ObjectId && !string.IsNullOrWhiteSpace(setting.Username) && !string.IsNullOrWhiteSpace(setting.Password))
+            {
+                if (ParseUser.CurrentUser != null)
+                {
+                    ParseUser.LogOut();
+                }
+                ParseUser.LogInAsync(setting.Username, setting.Password);
             }
         }
 
@@ -253,16 +261,35 @@ namespace Seggu.Service.Services
             where TParseEntity : IdParseEntity
             where TViewModel : ViewModel
         {
-            var parseObjects = entities.Select(x => Mapper.Map<TParseEntity, TViewModel>(x, opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode))).ToList();
-
-            await parseObjects.SaveAllAsync<TViewModel>();
+            var parseObjects = entities
+                .Select(
+                    x =>
+                        Mapper.Map<TParseEntity, TViewModel>(x,
+                            opt => AutoMapperExtensions.SetOptions(opt, setting, context, statusCode)))
+                .Select((x, i) => new { x, i })
+                .Where(x =>
+                    x?.x != null && (
+                    x.x.ACL.PublicWriteAccess ||
+                    x.x.ACL.GetWriteAccess(ParseUser.CurrentUser) ||
+                    x.x.ACL.GetRoleWriteAccess(setting.UserRole)))
+                .ToDictionary(x => x.i, x => x.x);
+#if DEBUG
+            foreach (var x in parseObjects)
+            {
+                this.eventLog.WriteEntry("entidad " + typeof(TParseEntity).Name + " :: " + JsonConvert.SerializeObject(x), EventLogEntryType.Information);
+            }
+#endif
+            await parseObjects.Values.SaveAllAsync<TViewModel>();
 
             var count = entities.Count();
             for (int i = 0; i < count; i++)
             {
-                var vm = parseObjects.ElementAt(i);
-                var e = entities.ElementAt(i);
-                callback.Invoke(e, vm);
+                if (parseObjects.ContainsKey(i))
+                {
+                    var vm = parseObjects[i];
+                    var e = entities.ElementAt(i);
+                    callback.Invoke(e, vm);
+                }
             }
 
             return entities;
@@ -391,6 +418,11 @@ namespace Seggu.Service.Services
         {
             e.UpdatedAt = vm.UpdatedAt;
             e.LocallyUpdatedAt = vm.UpdatedAt;
+        }
+
+        internal bool HasSetting()
+        {
+            return setting != null;
         }
 
         #endregion

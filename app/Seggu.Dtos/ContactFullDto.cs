@@ -11,6 +11,6 @@ namespace Seggu.Dtos
         public string Phone { get; set; }
         public string Mail { get; set; }
         public string Notes { get; set; }
-        public int CompanyId { get; set; }
+        public long CompanyId { get; set; }
     }
 }

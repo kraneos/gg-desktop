@@ -1,12 +1,10 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -59,12 +57,12 @@ namespace Seggu.Daos
             return this.Set.Any(c => c.RiskId == idRisk);
         }
 
-        public bool BetByNameRisk(string name, long idRisk)
+        public bool GetByNameRisk(string name, long idRisk)
         {
             return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
         }
 
-        public bool BetByNameId(string name, long id, long riskId)
+        public bool GetByNameId(string name, long id, long riskId)
         {
             var prod = this.Set.FirstOrDefault(p => p.Name == name && p.RiskId == riskId);
             if (prod == null)
@@ -76,6 +74,13 @@ namespace Seggu.Daos
                 return false;
             }
             return true;
+        }
+
+        public override void Update(CoveragesPack obj)
+        {
+            var orig = context.CoveragesPacks.Find(obj.Id);
+            Mapper.Map<CoveragesPack, CoveragesPack>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

@@ -66,9 +66,9 @@ namespace Seggu.Desktop.Forms
             table.Columns.Add("Fecha", typeof(DateTime));
             table.Columns.Add("Activo");
             table.Columns.Add("Balance", typeof(decimal));
+            table.Columns.Add("Valor", typeof(decimal));
             table.Columns.Add("Cuenta");
             table.Columns.Add("Descripción");
-            table.Columns.Add("Valor", typeof(decimal));
 
             var index = cashAccountService.GetAll();
 

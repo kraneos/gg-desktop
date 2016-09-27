@@ -1,9 +1,8 @@
 ﻿using Seggu.Daos.Interfaces;
+using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Seggu.Data;
 
 namespace Seggu.Daos
 {
@@ -19,6 +18,11 @@ namespace Seggu.Daos
         {
             return 
                 this.Set.OrderBy(l => l.Name).Where(x => x.DistrictId == districId);
+        }
+
+        public override void Update(Locality obj)
+        {
+            //localidades no son editables
         }
     }
 }

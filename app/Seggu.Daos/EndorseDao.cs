@@ -1,11 +1,10 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -30,8 +29,8 @@ namespace Seggu.Daos
         public void SaveEndorse(Endorse obj)
         {
             //obj.Id = Guid.NewGuid();
-            using (var scope = new TransactionScope())
-            {
+            //using (var scope = new TransactionScope())
+            //{
                 if (obj.Vehicles != null)
                     foreach (var vehicle in obj.Vehicles) { }
                 //vehicle.Id = Guid.NewGuid();
@@ -45,32 +44,27 @@ namespace Seggu.Daos
                 var entry = this.context.Entry(obj);
                 entry.State = EntityState.Added;
                 this.context.SaveChanges();
-                scope.Complete();
-            }
+            //    scope.Complete();
+            //}
         }
         public void UpdateEndorse(Endorse obj)
         {
-            using (var scope = new TransactionScope())
-            {
-                var endorse = this.Set.Find(obj.Id);
-                var endorseEntry = this.context.Entry<Endorse>(endorse);
-                endorseEntry.CurrentValues.SetValues(obj);
+            var endorse = this.Set.Find(obj.Id);
+            Mapper.Map<Endorse, Endorse>(obj, endorse);
 
-                if (obj.Vehicles != null)
+            if (obj.Vehicles != null)
+            {
+                if (obj.Vehicles.Count > 0)
                 {
-                    if (obj.Vehicles.Count > 0)
-                    {
-                        var firstVehicle = obj.Vehicles.ElementAt(0);
-                        var vehicle = this.context.Vehicles.Find(firstVehicle.Id);
-                        var vehicleEntry = this.context.Entry<Vehicle>(vehicle);
-                        vehicleEntry.CurrentValues.SetValues(firstVehicle);
-                    }
+                    var firstVehicle = obj.Vehicles.ElementAt(0);
+                    var vehicle = this.context.Vehicles.Find(firstVehicle.Id);
+                    Mapper.Map<Vehicle, Vehicle>(vehicle, firstVehicle);
                 }
-                if (obj.Fees.Count > 0)
-                    this.UpdateFees(obj);
-                this.context.SaveChanges();
-                scope.Complete();
             }
+            if (obj.Fees.Count > 0)
+                this.UpdateFees(obj);
+            this.context.SaveChanges();
+
         }
         public void Edit(Endorse newEndorse)
         {
@@ -92,7 +86,8 @@ namespace Seggu.Daos
                 UpdateEndorseEmployees(newEndorse, dbEndorse);
             }
             UpdateFees(newEndorse);
-            context.Entry(dbEndorse).CurrentValues.SetValues(newEndorse);
+            //context.Entry(dbEndorse).CurrentValues.SetValues(newEndorse);
+            Mapper.Map<Endorse, Endorse>(newEndorse, dbEndorse);
             context.SaveChanges();
         }
         private void UpdateEndorseVehicles(Endorse newEndorse, Endorse dbEndorse)
@@ -110,7 +105,9 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    //context.Entry(dbVehicle).CurrentValues.SetValues(newVehicle);
+                    Mapper.Map<Vehicle, Vehicle>(newVehicle, dbVehicle);
+
                     foreach (var dbCoverage in dbVehicle.Coverages)
                         if (newVehicle.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -148,7 +145,9 @@ namespace Seggu.Daos
                 {
                     var coveragesToRemove = new List<Coverage>();
                     var coveragesNotToAdd = new List<Coverage>();
-                    context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    //context.Entry(dbEmployee).CurrentValues.SetValues(newEmployee);
+                    Mapper.Map<Employee, Employee>(newEmployee, dbEmployee);
+
                     foreach (var dbCoverage in dbEmployee.Coverages)
                         if (newEmployee.Coverages.Any(x => x.Id == dbCoverage.Id))
                         {
@@ -164,6 +163,7 @@ namespace Seggu.Daos
                             var dbCoverage = context.Coverages.Single(x => x.Id == newCoverage.Id);
                             dbEmployee.Coverages.Add(dbCoverage);
                         }
+
                     foreach (var coverageToRemove in coveragesToRemove)
                         dbEmployee.Coverages.Remove(coverageToRemove);
                 }
@@ -175,14 +175,19 @@ namespace Seggu.Daos
         {
             foreach (var fee in endorse.Fees)
             {
-                //if (fee.Id == Guid.Empty)
-                //    fee.Id = Guid.NewGuid();
                 fee.EndorseId = endorse.Id;
             }
 
             var feesToDelete = this.context.Fees.Where(f => f.EndorseId == endorse.Id);
             this.context.Fees.RemoveRange(feesToDelete);
             this.context.Fees.AddRange(endorse.Fees);
+        }
+
+        public override void Update(Endorse obj)
+        {
+            //var orig = context.Endorses.Find(obj.Id);
+            //Mapper.Map<Endorse, Endorse>(obj, orig);
+            //context.SaveChanges();
         }
     }
 }

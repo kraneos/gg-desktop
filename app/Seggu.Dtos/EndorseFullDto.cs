@@ -23,7 +23,7 @@ namespace Seggu.Dtos
         public string Notes { get; set; }
         public string Número { get; set; }
 
-        public int PolicyId { get; set; }
+        public long PolicyId { get; set; }
         public string PolicyNumber { get; set; }
         public decimal? Prima { get; set; }
         public decimal? Premium { get; set; }
@@ -39,12 +39,12 @@ namespace Seggu.Dtos
         public string TipoRiesgo { get; set; }
 
         public decimal? Value { get; set; }
+        public decimal? NetCharge { get; set; }
 
         public IEnumerable<FeeDto> Fees { get; set; }
         public IEnumerable<VehicleDto> Vehicles { get; set; }
         public IEnumerable<EmployeeDto> Employees { get; set; }
         public IEnumerable<IntegralDto> Integrals { get; set; }
         public IEnumerable<AttachedFileDto> AttachedFiles { get; set; }
-
     }
 }

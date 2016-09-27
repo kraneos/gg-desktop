@@ -21,7 +21,7 @@ namespace Seggu.Services
         public IEnumerable<CashAccountDto> GetAll()
         {
             var cashAccounts = this.cashAccountDao.GetAll();
-            return cashAccounts.OrderByDescending(x => x.Date).Select(b => CashAccountDtoMapper.GetDto(b));
+            return cashAccounts.OrderByDescending(x => x.Id).Select(b => CashAccountDtoMapper.GetDto(b));
         }
         
         public void Save(CashAccountDto x)
@@ -44,6 +44,13 @@ namespace Seggu.Services
         {
             var cas = this.cashAccountDao.GetOverdue(time).ToList();
             return cas.Select(c => CashAccountDtoMapper.RcrView(c));
+        }
+
+        public int GetLastReceiptNumber()
+        {
+            int number;
+            int.TryParse(this.cashAccountDao.GetAll().ToList().Last().ReceiptNumber, out number);
+            return number;
         }
     }
 }

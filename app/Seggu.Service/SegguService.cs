@@ -1,19 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Seggu.Data;
-using Seggu.Domain;
-using Seggu.Infrastructure;
+﻿using Seggu.Infrastructure;
 using Seggu.Service.Services;
 using Seggu.Service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Timers;
 
 namespace Seggu.Service
@@ -21,6 +12,7 @@ namespace Seggu.Service
     partial class SegguService : ServiceBase
     {
         private Timer myTimer;
+        private static volatile bool isRunning;
 
         public SegguService()
         {
@@ -49,9 +41,12 @@ namespace Seggu.Service
 
         private void Process(object sender, System.EventArgs e)
         {
+            if (isRunning) return;
+            isRunning = true;
+
             this.eventLog.WriteEntry("Begin process.");
 
-            var syncService = DependencyResolver.Instance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
+            var syncService = DependencyResolver.PerThreadInstance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
 
             try
             {
@@ -60,6 +55,10 @@ namespace Seggu.Service
             catch (Exception ex)
             {
                 HandleException(ex);
+            }
+            finally
+            {
+                isRunning = false;
             }
         }
 

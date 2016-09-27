@@ -46,6 +46,8 @@ namespace Seggu.Services.DtoMappers
             dto.Tel_Móvil = obj.CellPhone;
             dto.Dni = obj.Document;
             dto.PolicyCount = obj.Policy.Count();
+            dto.BirthDate = obj.BirthDate.ToString();
+            dto.CUIT = obj.Cuit;
             return dto;
         }
 

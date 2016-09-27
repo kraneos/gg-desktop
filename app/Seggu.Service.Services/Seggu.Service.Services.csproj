@@ -34,6 +34,24 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LocalParse|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\LocalParse\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\Staging\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
@@ -82,6 +100,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AutoMapperExtensions.cs" />
     <Compile Include="BatchElement.cs" />
     <Compile Include="BatchRequest.cs" />
@@ -105,6 +126,10 @@
     <ProjectReference Include="..\Seggu.Domain\Seggu.Domain.csproj">
       <Project>{3c5e7da4-2020-4998-a843-8cefdbb78933}</Project>
       <Name>Seggu.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seggu.Helpers\Seggu.Helpers.csproj">
+      <Project>{2C292AE3-DA51-4417-A1AD-56A4E93E418F}</Project>
+      <Name>Seggu.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seggu.Service.Services.Interfaces\Seggu.Service.Services.Interfaces.csproj">
       <Project>{bfaf01b1-0798-405d-bbb3-6280928ae802}</Project>

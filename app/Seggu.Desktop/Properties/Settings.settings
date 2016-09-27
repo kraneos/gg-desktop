@@ -11,10 +11,13 @@
       <Value Profile="(Default)">Data Source=POLOAGUSTINASUS;Initial Catalog=Seggu;Integrated Security=True</Value>
     </Setting>
     <Setting Name="ParseAppId" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">seggu-api</Value>
+      <Value Profile="(Default)">myAppId</Value>
     </Setting>
     <Setting Name="ParseBaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://seggu-api-test.herokuapp.com/parse/</Value>
+      <Value Profile="(Default)">http://localhost:1337/parse/</Value>
+    </Setting>
+    <Setting Name="ParseRegisterUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:4200/pas-register</Value>
     </Setting>
   </Settings>
 </SettingsFile>

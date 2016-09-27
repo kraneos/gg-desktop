@@ -1,4 +1,5 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 using System.Collections.Generic;
@@ -19,10 +20,16 @@ namespace Seggu.Daos
             return this.Set.Any(c => c.Name == name);
         }
 
-
         public IEnumerable<VehicleModel> GetWithReferences()
         {
             return this.Set.Include("Brand").Include("VehicleType");
+        }
+
+        public override void Update(VehicleModel obj)
+        {
+            var orig = context.VehicleModels.Find(obj.Id);
+            Mapper.Map<VehicleModel, VehicleModel>(obj, orig);
+            context.SaveChanges();
         }
     }
 }

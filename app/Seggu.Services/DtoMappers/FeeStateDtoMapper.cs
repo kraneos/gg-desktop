@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Seggu.Domain;
+﻿using Seggu.Domain;
 
 namespace Seggu.Services.DtoMappers
 {

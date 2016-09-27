@@ -1,11 +1,8 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Transactions;
 
 namespace Seggu.Daos
 {
@@ -45,5 +42,13 @@ namespace Seggu.Daos
         {
             return this.Set.Any(p => p.Name == name && p.RiskId == idRisk);
         }
+
+        public override void Update(Coverage obj)
+        {
+            var orig = context.Coverages.Find(obj.Id);
+            Mapper.Map<Coverage, Coverage>(obj, orig);
+            context.SaveChanges();
+        }
+
     }
 }

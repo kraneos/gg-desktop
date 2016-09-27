@@ -1,4 +1,5 @@
-﻿using Seggu.Daos.Interfaces;
+﻿using AutoMapper;
+using Seggu.Daos.Interfaces;
 using Seggu.Data;
 using Seggu.Domain;
 
@@ -11,5 +12,11 @@ namespace Seggu.Daos
         {
         }
 
+        public override void Update(CasualtyType obj)
+        {
+            var orig = context.CasualtyTypes.Find(obj.Id);
+            Mapper.Map<CasualtyType, CasualtyType>(obj, orig);
+            context.SaveChanges();
+        }
     }
 }
