@@ -508,15 +508,9 @@ namespace Seggu.Desktop.Forms
                     if (selectedFullCompany.Producers != null)
                         FillGrdProductores();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    string a = ex.Message;
                     MessageBox.Show("Error al agregar el productor a la compañía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                finally
-                {
-
                 }
             }
             else

@@ -10,6 +10,8 @@ using Seggu.VersionManager.Interfaces;
 using System;
 using System.Configuration;
 using System.Data.Common;
+using System.IO;
+using System.Reflection;
 
 namespace Seggu.Infrastructure
 {
@@ -147,7 +149,6 @@ namespace Seggu.Infrastructure
 
             // Service Services
             container.RegisterType<ISynchronizationService, SynchronizationService>();
-
             // Version Manager
             container.RegisterType<IVersionManager, VersionManager.VersionManager>();
 
