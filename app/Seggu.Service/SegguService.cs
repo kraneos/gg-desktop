@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Timers;
+using Seggu.Data;
 
 namespace Seggu.Service
 {
@@ -46,8 +47,9 @@ namespace Seggu.Service
 
             this.eventLog.WriteEntry("Begin process.");
 
-            var syncService = DependencyResolver.PerThreadInstance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
-
+            //var syncService = DependencyResolver.PerThreadInstance.Resolve<ISynchronizationService>(new Dictionary<string, object> { { "eventLog", this.eventLog } });
+            var context = new SegguDataModelContext("Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "seggu.sqlite");
+            var syncService = new SynchronizationService(context, this.eventLog);
             try
             {
                 syncService.SynchronizeParseEntities();
@@ -64,7 +66,7 @@ namespace Seggu.Service
 
         private void HandleException(Exception ex)
         {
-            this.eventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
+            this.eventLog.WriteEntry(ex.Message + "\n" + ex.StackTrace, EventLogEntryType.Error);
             if (ex.InnerException != null)
             {
                 HandleException(ex.InnerException);
