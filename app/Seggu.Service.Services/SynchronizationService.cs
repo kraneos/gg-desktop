@@ -23,7 +23,7 @@ namespace Seggu.Service.Services
         {
             this.context = context;
             this.eventLog = eventLog;
-
+            this.eventLog.WriteEntry("Initializing Syncronization Service");
             // ApiClient configuration.
             this.client = new ParseClient(context, eventLog);
 
@@ -731,6 +731,7 @@ namespace Seggu.Service.Services
             }
             else
             {
+                ParseUser.LogOut();
                 throw new Exception("o no hay current user o no hay setting o no pagó");
             }
         }
