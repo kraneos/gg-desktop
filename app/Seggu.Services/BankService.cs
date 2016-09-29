@@ -38,15 +38,8 @@ namespace Seggu.Services
 
         public void Delete(int id)
         {
-            try
-            {
-                var guid = id;
-                bankDao.Delete(guid);
-            }
-            catch
-            {
-                throw;
-            }
+            var guid = id;
+            bankDao.Delete(guid);
         }
 
 
