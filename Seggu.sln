@@ -65,8 +65,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Global", "_Global", "{FA59
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Services.Tests", "Seggu.Services.Tests\Seggu.Services.Tests.csproj", "{ED8D8CBA-BBB4-4930-B57E-00E1AC7F7CF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seggu.Desktop.Tests", "Seggu.Desktop.Tests\Seggu.Desktop.Tests.csproj", "{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Deploy", "_Deploy", "{74D2B805-5350-4846-8656-2F8E89A01A33}"
 	ProjectSection(SolutionItems) = preProject
 		deploy\Script instalador.iss = deploy\Script instalador.iss
@@ -406,24 +404,6 @@ Global
 		{ED8D8CBA-BBB4-4930-B57E-00E1AC7F7CF2}.Staging|Mixed Platforms.Build.0 = Release|Any CPU
 		{ED8D8CBA-BBB4-4930-B57E-00E1AC7F7CF2}.Staging|x86.ActiveCfg = Release|Any CPU
 		{ED8D8CBA-BBB4-4930-B57E-00E1AC7F7CF2}.Staging|x86.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Debug|x86.Build.0 = Debug|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|x86.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Release|x86.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|Any CPU.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|Any CPU.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|Mixed Platforms.Build.0 = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|x86.ActiveCfg = Release|Any CPU
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50}.Staging|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -451,7 +431,6 @@ Global
 		{DA590930-AA8A-45A8-82F8-3865F953D121} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 		{7D097E25-0184-42D0-A55E-FD928E079E0E} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 		{ED8D8CBA-BBB4-4930-B57E-00E1AC7F7CF2} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
-		{3E2E8D6F-E4F6-4995-BAA8-F795B5906B50} = {A6159589-4FB9-4EA8-8F8F-72C0310E23E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
