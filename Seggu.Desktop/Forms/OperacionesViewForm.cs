@@ -12,6 +12,8 @@ using System.Xml.Linq;
 using Seggu.Services.Interfaces;
 using Seggu.Dtos;
 using Seggu.Desktop.XmlModels.Operaciones;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Seggu.Desktop.Forms
 {
@@ -84,14 +86,14 @@ namespace Seggu.Desktop.Forms
                     CPAProponente = x.ClientAddressPostalCode,
                     FechaRegistro = x.EmissionDate,
                     Flota = "0",
-                    ObsProponente = null,
+                    ObsProponente = "N/A",
                     // Organizador = OPCIONAL
                     Poliza = x.Number,
                     Ramo = x.SsnRamoId,
                     SumaAsegurada = x.Value.ToString(),
                     SumaAseguradaTipo = "1",
                     TipoContacto = "1",
-                    TipoOperacion = "1"
+                    TipoOperacion = "1",
                 }).ToArray()
             };
             //ssn.Cabecera = new SSNCabecera();
@@ -253,12 +255,14 @@ namespace Seggu.Desktop.Forms
         {
             try
             {
-                var document = new XDocument(new XDeclaration("1.0", "utf-16", "yes"));
-                var ssn = GetSsnElement(from, to, producer);
-                document.Add(ssn);
                 string tempPath = System.IO.Path.GetTempPath();
                 tempPath = System.IO.Path.Combine(tempPath, "RCR-" + DateTime.Today.ToString("yyyy-MM-dd") + ".xml");
-                document.Save(tempPath, SaveOptions.None);
+                var ssn = GetSsnElement(from, to, producer);
+                var serializer = new XmlSerializer(ssn.GetType());
+                using (var stream = new StreamWriter(tempPath))
+                {
+                    serializer.Serialize(stream, ssn);
+                }
                 System.Diagnostics.Process.Start(tempPath);
                 this.Close();
 
