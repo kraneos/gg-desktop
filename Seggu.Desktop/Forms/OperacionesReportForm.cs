@@ -15,11 +15,11 @@ using System.Xml.Linq;
 
 namespace Seggu.Desktop.Forms
 {
-    public partial class RcrReportForm : Form
+    public partial class OperacionesReportForm : Form
     {
         private IProducerService producerService;
         private IPolicyService policyService;
-        public RcrReportForm(IProducerService producerService, IPolicyService policyService)
+        public OperacionesReportForm(IProducerService producerService, IPolicyService policyService)
         {
             InitializeComponent();
             this.producerService = producerService;
@@ -51,7 +51,7 @@ namespace Seggu.Desktop.Forms
                     tempPath = System.IO.Path.Combine(tempPath, "RCR-" + DateTime.Today.ToString("yyyy-MM-dd") + ".xml");
                     document.Save(tempPath, SaveOptions.None);
                     System.Diagnostics.Process.Start(tempPath);*/
-                    RcrViewForm frm = DependencyResolver.Instance.ResolveGeneric<RcrViewForm>();
+                    OperacionesViewForm frm = DependencyResolver.Instance.ResolveGeneric<OperacionesViewForm>();
                     frm.Initialize(from, to, producer);
                     frm.Show();
                     this.Close();
@@ -69,16 +69,6 @@ namespace Seggu.Desktop.Forms
             from = from.Date;
             to = to.Date.AddDays(1);
             var records = this.policyService.GetRosView(from, to).ToArray();
-            //var records = SegguContainer.Instance.Policies
-            //    .Include("Client")
-            //    .Include("Risk")
-            //    .Include("Risk.Company")
-            //    .Include("Client.Addresses")
-            //    .Include("Client.Addresses.Locality")
-            //    .Include("Client.Addresses.Locality.District")
-            //    .Include("Client.Addresses.Locality.District.Province")
-            //    .Where(ca => ca.EmissionDate > from && ca.EmissionDate < to && ca.EmissionDate != null)
-            //.ToArray();
 
             var ssn = new XElement("SSN");
             var cabecera = new XElement("Cabecera");

@@ -16,12 +16,12 @@ using System.Xml.Linq;
 
 namespace Seggu.Desktop.Forms
 {
-    public partial class RosReportForm : Form
+    public partial class CobranzasReportForm : Form
     {
         private IProducerService producerService;
         private ICashAccountService cashAccountService;
 
-        public RosReportForm(IProducerService producerService, ICashAccountService cashAccountService)
+        public CobranzasReportForm(IProducerService producerService, ICashAccountService cashAccountService)
         {
             InitializeComponent();
             this.producerService = producerService;
@@ -58,7 +58,7 @@ namespace Seggu.Desktop.Forms
                      tempPath = System.IO.Path.Combine(tempPath, "ROS-" + DateTime.Today.ToString("yyyy-MM-dd") + ".xml");
                      document.Save(tempPath, SaveOptions.None);
                      System.Diagnostics.Process.Start(tempPath);*/
-                    RosViewForm frm = new RosViewForm(
+                    CobranzasViewForm frm = new CobranzasViewForm(
                         from,
                         to,
                         producer,

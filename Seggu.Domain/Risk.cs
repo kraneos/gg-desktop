@@ -14,7 +14,8 @@ namespace Seggu.Domain
     
         public RiskType RiskType { get; set; }
         public long CompanyId { get; set; }
-    
+        public long? SsnId { get; set; }
+
         public virtual Company Company { get; set; }
         public virtual ICollection<CoveragesPack> CoveragesPacks { get; set; }
         public virtual ICollection<Policy> Policy { get; set; }

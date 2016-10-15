@@ -1,6 +1,6 @@
 ﻿namespace Seggu.Desktop.Forms
 {
-    partial class RosViewForm
+    partial class CobranzasViewForm
     {
         /// <summary>
         /// Required designer variable.

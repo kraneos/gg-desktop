@@ -336,23 +336,23 @@
     <Compile Include="Forms\Productores.Designer.cs">
       <DependentUpon>Productores.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RcrViewForm.cs">
+    <Compile Include="Forms\OperacionesViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\RcrViewForm.Designer.cs">
-      <DependentUpon>RcrViewForm.cs</DependentUpon>
+    <Compile Include="Forms\OperacionesViewForm.Designer.cs">
+      <DependentUpon>OperacionesViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RosReportForm.cs">
+    <Compile Include="Forms\CobranzasReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\RosReportForm.Designer.cs">
-      <DependentUpon>RosReportForm.cs</DependentUpon>
+    <Compile Include="Forms\CobranzasReportForm.Designer.cs">
+      <DependentUpon>CobranzasReportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RcrReportForm.cs">
+    <Compile Include="Forms\OperacionesReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\RcrReportForm.Designer.cs">
-      <DependentUpon>RcrReportForm.cs</DependentUpon>
+    <Compile Include="Forms\OperacionesReportForm.Designer.cs">
+      <DependentUpon>OperacionesReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\TipoVehiculoUso.cs">
       <SubType>Form</SubType>
@@ -372,11 +372,11 @@
     <Compile Include="Forms\Usos.Designer.cs">
       <DependentUpon>Usos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RosViewForm.cs">
+    <Compile Include="Forms\CobranzasViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\RosViewForm.Designer.cs">
-      <DependentUpon>RosViewForm.cs</DependentUpon>
+    <Compile Include="Forms\CobranzasViewForm.Designer.cs">
+      <DependentUpon>CobranzasViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -446,6 +446,8 @@
     <Compile Include="UserControls\VehiculePolicyUserControl.Designer.cs">
       <DependentUpon>VehiculePolicyUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="XmlModels\cobranzas.cs" />
+    <Compile Include="XmlModels\operaciones.cs" />
     <EmbeddedResource Include="Forms\Agenda.resx">
       <DependentUpon>Agenda.cs</DependentUpon>
     </EmbeddedResource>
@@ -504,14 +506,14 @@
     <EmbeddedResource Include="Forms\Productores.resx">
       <DependentUpon>Productores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RcrViewForm.resx">
-      <DependentUpon>RcrViewForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\OperacionesViewForm.resx">
+      <DependentUpon>OperacionesViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RosReportForm.resx">
-      <DependentUpon>RosReportForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CobranzasReportForm.resx">
+      <DependentUpon>CobranzasReportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RcrReportForm.resx">
-      <DependentUpon>RcrReportForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\OperacionesReportForm.resx">
+      <DependentUpon>OperacionesReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipoVehiculoUso.resx">
       <DependentUpon>TipoVehiculoUso.cs</DependentUpon>
@@ -522,8 +524,8 @@
     <EmbeddedResource Include="Forms\Usos.resx">
       <DependentUpon>Usos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RosViewForm.resx">
-      <DependentUpon>RosViewForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CobranzasViewForm.resx">
+      <DependentUpon>CobranzasViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -604,6 +606,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Seggu.Desktop_2_TemporaryKey.pfx" />
+    <None Include="SSN-XSD\cobranzas.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SSN-XSD\operaciones.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Seggu.Daos.Interfaces\Seggu.Daos.Interfaces.csproj">
