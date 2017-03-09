@@ -1,9 +1,9 @@
 configuration: Release
 before_build:
-  - nuget restore .\app\Seggu.sln
+  - nuget restore .\Seggu.sln
 build:
   verbosity: minimal
-  project: app\Seggu.sln
+  project: Seggu.sln
 test:
   categories:
     except:
