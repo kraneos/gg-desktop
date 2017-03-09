@@ -119,17 +119,23 @@ namespace Seggu.Services.DtoMappers
         }
         public static PolicyRosViewDto GetRosView(Policy obj)
         {
-            var dto = new PolicyRosViewDto();
-            dto.EmissionDate = obj.EmissionDate.HasValue ? obj.EmissionDate.Value.ToString("yyyy-MM-dd") : string.Empty;
-            dto.ClientDocument = obj.Client.Document;
-            dto.ClientFullName = obj.Client.FirstName + " " + obj.Client.LastName;
             var address = obj.Client.Addresses.First();
-            dto.ClientAddressPostalCode = address.PostalCode;
-            dto.ClientAddressLine = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name;
-            dto.RiskType = obj.Risk.RiskType == RiskType.Automotores ? "Automovil" : (obj.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida");
-            dto.Value = obj.Value;
-            dto.StartDate = obj.StartDate.ToString("yyyy-MM-dd");
-            dto.EndDate = obj.EndDate.ToString("yyyy-MM-dd");
+
+            var dto = new PolicyRosViewDto
+            {
+                EmissionDate = obj.EmissionDate.Value,
+                ClientDocument = obj.Client.Document,
+                ClientFullName = obj.Client.FirstName + " " + obj.Client.LastName,
+                ClientAddressPostalCode = address.PostalCode,
+                ClientAddressLine = address.Street + " " + address.Number + ", " + address.Locality.Name + ", " + address.Locality.District.Name + ", " + address.Locality.District.Province.Name,
+                RiskType = obj.Risk.RiskType == RiskType.Automotores ? "Automovil" : (obj.Risk.RiskType == RiskType.Combinados_Integrales ? "Integral De Comercio" : "Seguro de Vida"),
+                Value = obj.Value,
+                StartDate = obj.StartDate,
+                EndDate = obj.EndDate,
+                Number = obj.Number,
+                SsnCompanyId = obj.Risk.Company.SsnId?.ToString(),
+                SsnRamoId = obj.Risk.SsnId?.ToString()
+            };
             return dto;
         }
     }

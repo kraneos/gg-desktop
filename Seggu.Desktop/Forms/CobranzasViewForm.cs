@@ -15,11 +15,11 @@ using Seggu.Services.Interfaces;
 
 namespace Seggu.Desktop.Forms
 {
-    public partial class RosViewForm : Form
+    public partial class CobranzasViewForm : Form
     {
         private ICashAccountService cashAccountService;
 
-        public RosViewForm(DateTime a, DateTime b, ProducerDto pro, ICashAccountService cashAccountService)
+        public CobranzasViewForm(DateTime a, DateTime b, ProducerDto pro, ICashAccountService cashAccountService)
         {
             InitializeComponent();
             var table = GetRcrView2(a, b, pro);

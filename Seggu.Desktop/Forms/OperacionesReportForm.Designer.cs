@@ -1,6 +1,6 @@
 ﻿namespace Seggu.Desktop.Forms
 {
-    partial class RcrReportForm
+    partial class OperacionesReportForm
     {
         /// <summary>
         /// Required designer variable.
@@ -66,8 +66,6 @@
             // 
             this.ToDateTimePicker.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ToDateTimePicker.Location = new System.Drawing.Point(87, 79);
-            this.ToDateTimePicker.MaxDate = new System.DateTime(2014, 12, 13, 0, 0, 0, 0);
-            this.ToDateTimePicker.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.ToDateTimePicker.Name = "ToDateTimePicker";
             this.ToDateTimePicker.Size = new System.Drawing.Size(332, 20);
             this.ToDateTimePicker.TabIndex = 4;
@@ -144,13 +142,13 @@
             this.ProductorComboBox.Size = new System.Drawing.Size(332, 21);
             this.ProductorComboBox.TabIndex = 7;
             // 
-            // RcrReportForm
+            // OperacionesReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(422, 152);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "RcrReportForm";
+            this.Name = "OperacionesReportForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Reporte ROS";

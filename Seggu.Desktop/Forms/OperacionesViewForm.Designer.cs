@@ -1,6 +1,6 @@
 ﻿namespace Seggu.Desktop.Forms
 {
-    partial class RcrViewForm
+    partial class OperacionesViewForm
     {
         /// <summary>
         /// Required designer variable.
