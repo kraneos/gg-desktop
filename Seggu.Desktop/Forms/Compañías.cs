@@ -64,6 +64,7 @@ namespace Seggu.Desktop.Forms
             cmbCompañias.ValueMember = "Id";
             cmbCompañias.DisplayMember = "Name";
             cmbCompañias.DataSource = companyService.GetAll().ToList();
+            cmbCompañias.SelectedItem = null;
             //if (cmbCompañias.Items.Count > 0)
             //{
             //    cmbCompañias.SelectedItem = cmbCompañias.Items[0];
@@ -213,6 +214,13 @@ namespace Seggu.Desktop.Forms
                     {
                         this.companyService.Create(company);
                         isNew = false;
+                        grpbContactos.Visible = true;
+                        grpbOperatoria.Visible = true;
+                        label10.Visible = true;
+                        cmbTipoRiesgos.Visible = true;
+                        grbRiesgos.Visible = true;
+                        CleanControls();
+
                     }
                     else
                     {
@@ -224,6 +232,7 @@ namespace Seggu.Desktop.Forms
                 {
                     company = (CompanyDto)cmbCompañias.SelectedItem;
                     this.companyService.Update(company);
+                    CleanControls();
                 }
                 btnEditar_Click(sender, e);
                 InitializeIndex();
@@ -342,6 +351,9 @@ namespace Seggu.Desktop.Forms
                     InitializeIndex();
                 }
             }
+
+            CleanControls();
+
         }
 
         private void btnAgregarCompañia_Click(object sender, EventArgs e)
@@ -349,11 +361,22 @@ namespace Seggu.Desktop.Forms
             isNew = true;
             btnAgregarCompañia.BackColor = SystemColors.Highlight;
 
+            CleanControls();
+
+            grpbContactos.Visible = false;
+            grpbOperatoria.Visible = false;
+            label10.Visible = false;
+            cmbTipoRiesgos.Visible = false;
+            grbRiesgos.Visible = false;
+
+            InitializeIndex();
+        }
+
+        private void CleanControls()
+        {
             //limpiar todos los controles
             ClearBindings();
             currentCompany = null;
-            cmbCompañias.DataSource = null;
-            grdContactos.DataSource = null;
 
             txtNombre.Clear();
             txtTelefono.Clear();
@@ -366,9 +389,8 @@ namespace Seggu.Desktop.Forms
             txtNombre.Clear();
             txtNotas.Clear();
             txtTelefono.Clear();
-
-            InitializeIndex();
         }
+
         private void btnQuitarCompañia_Click(object sender, EventArgs e)
         {
 
