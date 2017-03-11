@@ -274,7 +274,7 @@ namespace Seggu.Services
         }
         private static void PopulatePolicyEmployees(PolicyFullDto policy, AcroFields form)
         {
-            //haccer un foreach para lista empleados
+            //hacer un foreach para lista empleados
             form.SetField("AsegApellido1", policy.Employees.First().Apellido);
             form.SetField("AsegNombre1", policy.Employees.First().Nombre);
             form.SetField("AsegDNI1", policy.Employees.First().DNI);
