@@ -29,12 +29,12 @@ namespace Seggu.Desktop.Forms
             this.vehicleType = vehicleType;
             this.UseLabel.Text += vehicleType.Name;
             //this.UsoDeTipoVehiculo.DataSource = vehicleType.Uses.ToList();
-            var vehicleTypeUses = this.useService.GetByVehicleType(vehicleType.Id).ToList();
+            var vehicleTypeUses = this.useService.GetByVehicleType(vehicleType.Id).OrderBy(x => x.Name).ToList();
             this.UsoDeTipoVehiculo.DataSource = vehicleTypeUses;
             this.UsoDeTipoVehiculo.DisplayMember = "Name";
             var uses = this.useService.GetAll();
             var allUses = uses;
-            this.UsosExistentes.DataSource = allUses.Except(vehicleTypeUses).ToList();
+            this.UsosExistentes.DataSource = allUses.Where(bw => !vehicleTypeUses.Any(vtbw => vtbw.Id == bw.Id)).ToList();
             this.UsosExistentes.DisplayMember = "Name";
         }
 
