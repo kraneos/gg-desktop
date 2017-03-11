@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tctrlPolizasDatos = new System.Windows.Forms.TabControl();
             this.tabPageDatos = new System.Windows.Forms.TabPage();
             this.chkOtherClient = new System.Windows.Forms.CheckBox();
@@ -635,9 +635,9 @@
             this.tabPagePlanes.Controls.Add(this.lblPlanCia);
             this.tabPagePlanes.Controls.Add(this.cmbPlanAsegurado);
             this.tabPagePlanes.Controls.Add(this.cmbPlanCia);
-            this.tabPagePlanes.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePlanes.Location = new System.Drawing.Point(4, 29);
             this.tabPagePlanes.Name = "tabPagePlanes";
-            this.tabPagePlanes.Size = new System.Drawing.Size(987, 393);
+            this.tabPagePlanes.Size = new System.Drawing.Size(987, 386);
             this.tabPagePlanes.TabIndex = 3;
             this.tabPagePlanes.Text = "Sumas y Planes de Cobranza";
             this.tabPagePlanes.UseVisualStyleBackColor = true;
@@ -936,8 +936,8 @@
             this.grdFees.AllowUserToOrderColumns = true;
             this.grdFees.AllowUserToResizeColumns = false;
             this.grdFees.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
-            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SkyBlue;
+            this.grdFees.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.grdFees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.grdFees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdFees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -1153,6 +1153,7 @@
             this.btnDeleteCasualty.TabIndex = 35;
             this.btnDeleteCasualty.Text = "Eliminar";
             this.btnDeleteCasualty.UseVisualStyleBackColor = true;
+            this.btnDeleteCasualty.Visible = false;
             // 
             // btnNuevoSiniestro
             // 
@@ -1452,10 +1453,10 @@
             this.TabPage_Rec.Controls.Add(this.label58);
             this.TabPage_Rec.Controls.Add(this.label59);
             this.TabPage_Rec.Controls.Add(this.label61);
-            this.TabPage_Rec.Location = new System.Drawing.Point(4, 22);
+            this.TabPage_Rec.Location = new System.Drawing.Point(4, 29);
             this.TabPage_Rec.Name = "TabPage_Rec";
             this.TabPage_Rec.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Rec.Size = new System.Drawing.Size(973, 357);
+            this.TabPage_Rec.Size = new System.Drawing.Size(973, 350);
             this.TabPage_Rec.TabIndex = 2;
             this.TabPage_Rec.Text = "Reclamo de terceros";
             this.TabPage_Rec.UseVisualStyleBackColor = true;
@@ -1739,10 +1740,10 @@
             this.tabPageFiles.Controls.Add(this.btnEliminarFotoSiniestro);
             this.tabPageFiles.Controls.Add(this.btnAgregarFotoSiniestro);
             this.tabPageFiles.Controls.Add(this.ListViewFotosSiniestros);
-            this.tabPageFiles.Location = new System.Drawing.Point(4, 37);
+            this.tabPageFiles.Location = new System.Drawing.Point(4, 29);
             this.tabPageFiles.Name = "tabPageFiles";
             this.tabPageFiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFiles.Size = new System.Drawing.Size(973, 342);
+            this.tabPageFiles.Size = new System.Drawing.Size(973, 350);
             this.tabPageFiles.TabIndex = 3;
             this.tabPageFiles.Text = "Archivos";
             this.tabPageFiles.UseVisualStyleBackColor = true;
@@ -1786,10 +1787,10 @@
             this.Tab_PagePolicial.Controls.Add(this.label12);
             this.Tab_PagePolicial.Controls.Add(this.label18);
             this.Tab_PagePolicial.Controls.Add(this.groupBox5);
-            this.Tab_PagePolicial.Location = new System.Drawing.Point(4, 22);
+            this.Tab_PagePolicial.Location = new System.Drawing.Point(4, 29);
             this.Tab_PagePolicial.Name = "Tab_PagePolicial";
             this.Tab_PagePolicial.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PagePolicial.Size = new System.Drawing.Size(973, 357);
+            this.Tab_PagePolicial.Size = new System.Drawing.Size(973, 350);
             this.Tab_PagePolicial.TabIndex = 4;
             this.Tab_PagePolicial.Text = "Policial";
             this.Tab_PagePolicial.UseVisualStyleBackColor = true;
