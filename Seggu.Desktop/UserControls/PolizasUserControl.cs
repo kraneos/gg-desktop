@@ -575,13 +575,17 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Annulated"].Visible = false;
             grdFees.Columns["CompanyId"].Visible = false;
             grdFees.Columns["Cliente"].Visible = false;
+            grdFees.Columns["ClientId"].Visible = false;
             grdFees.Columns["EndorseId"].Visible = false;
             grdFees.Columns["Nro_Póliza"].Visible = false;
+            grdFees.Columns["Nro_Endoso"].HeaderText = "Nro Endoso";
             grdFees.Columns["Valor"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Saldo"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "0.00";
+            grdFees.Columns["Pago_Cía"].HeaderText = "Pago Cía";
             grdFees.Columns["Venc_Cuota"].HeaderText = @"Vencimiento";
             grdFees.Columns["Venc_Cuota"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            grdFees.Columns["Fecha_Liquidación"].HeaderText = "Liquidada";
         }
         private void CalculateFeeTotals()
         {
