@@ -114,6 +114,7 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.Enabled = true;
             EnablePage(tabPageSiniestros, false);
             btnPrint.Visible = false;
+            this.listViewFotos.Clear();
         }
 
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
