@@ -22,12 +22,12 @@ namespace Seggu.Desktop.Forms
         public CobranzasViewForm(DateTime a, DateTime b, ProducerDto pro, ICashAccountService cashAccountService)
         {
             InitializeComponent();
-            var table = GetRcrView2(a, b, pro);
-            this.DtgRos.DataSource = table;
+            this.cashAccountService = cashAccountService;
             from = a;
             to = b;
             producer = pro;
-            this.cashAccountService = cashAccountService;
+            var table = GetRcrView2(a, b, pro);
+            this.DtgRos.DataSource = table;
         }
 
         private void button1_Click(object sender, EventArgs e)
