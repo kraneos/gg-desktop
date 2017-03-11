@@ -27,6 +27,12 @@ namespace Seggu.Desktop.Forms
             this.ProductorComboBox.DataSource = this.producerService.GetProducers().ToList();
             this.ProductorComboBox.ValueMember = "Id";
             this.ProductorComboBox.DisplayMember = "Name";
+            this.FromDateTimePicker.MinDate = DateTime.MinValue;
+            this.ToDateTimePicker.MinDate = DateTime.MinValue;
+            this.FromDateTimePicker.MaxDate = DateTime.Today;
+            this.ToDateTimePicker.MaxDate = DateTime.Today;
+            this.FromDateTimePicker.Value = DateTime.Today;
+            this.ToDateTimePicker.Value = DateTime.Today;
         }
 
         private void SubmitButton_Click(object sender, EventArgs e)
