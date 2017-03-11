@@ -37,18 +37,18 @@
             // DtgRos
             // 
             this.DtgRos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtgRos.Location = new System.Drawing.Point(38, 52);
-            this.DtgRos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.DtgRos.Location = new System.Drawing.Point(34, 42);
+            this.DtgRos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DtgRos.Name = "DtgRos";
-            this.DtgRos.Size = new System.Drawing.Size(1425, 846);
+            this.DtgRos.Size = new System.Drawing.Size(1267, 677);
             this.DtgRos.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1006, 1023);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(965, 727);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(184, 35);
+            this.button1.Size = new System.Drawing.Size(164, 28);
             this.button1.TabIndex = 1;
             this.button1.Text = "Generar XML";
             this.button1.UseVisualStyleBackColor = true;
@@ -56,10 +56,10 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(1228, 1023);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCancelar.Location = new System.Drawing.Point(1137, 727);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(184, 35);
+            this.btnCancelar.Size = new System.Drawing.Size(164, 28);
             this.btnCancelar.TabIndex = 2;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -67,13 +67,13 @@
             // 
             // CobranzasViewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1512, 1154);
+            this.ClientSize = new System.Drawing.Size(1344, 836);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.DtgRos);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CobranzasViewForm";
             this.ShowIcon = false;
             this.Text = "Rcr Detalle";
