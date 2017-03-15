@@ -37,19 +37,19 @@
             // DTGRcr
             // 
             this.DTGRcr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DTGRcr.Location = new System.Drawing.Point(18, 18);
-            this.DTGRcr.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.DTGRcr.Location = new System.Drawing.Point(16, 14);
+            this.DTGRcr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DTGRcr.Name = "DTGRcr";
-            this.DTGRcr.Size = new System.Drawing.Size(1476, 846);
+            this.DTGRcr.Size = new System.Drawing.Size(1312, 677);
             this.DTGRcr.TabIndex = 0;
             this.DTGRcr.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DTGRcr_CellContentClick);
             // 
             // BtnEnviar
             // 
-            this.BtnEnviar.Location = new System.Drawing.Point(1006, 923);
-            this.BtnEnviar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnEnviar.Location = new System.Drawing.Point(1036, 699);
+            this.BtnEnviar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnEnviar.Name = "BtnEnviar";
-            this.BtnEnviar.Size = new System.Drawing.Size(160, 35);
+            this.BtnEnviar.Size = new System.Drawing.Size(142, 28);
             this.BtnEnviar.TabIndex = 1;
             this.BtnEnviar.Text = "Generar XML";
             this.BtnEnviar.UseVisualStyleBackColor = true;
@@ -57,10 +57,10 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(1218, 923);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnCancel.Location = new System.Drawing.Point(1186, 699);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 35);
+            this.BtnCancel.Size = new System.Drawing.Size(142, 28);
             this.BtnCancel.TabIndex = 2;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -68,13 +68,13 @@
             // 
             // OperacionesViewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1512, 1000);
+            this.ClientSize = new System.Drawing.Size(1344, 745);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnEnviar);
             this.Controls.Add(this.DTGRcr);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperacionesViewForm";
             this.ShowIcon = false;
             this.Text = "Ros Detalle";
