@@ -69,8 +69,8 @@ namespace Seggu.Services
             message.To.Add(clientInformation.Mail);
             message.Subject = "Nuevo usuario Seggu";
             message.Body =
-                $@"Puede entrar a este link para comenzar a ver sus polizas en su celular.
-{Properties.Settings.Default.AppSegguUrl}/seggu-clients/{setting.SegguClientId}/register";
+                $@"Estimado, para comenzar a ver las pólizas en su celular puede entrar a este enlace.
+                {Properties.Settings.Default.AppSegguUrl}/seggu-clients/{setting.SegguClientId}/register";
             this.emailService.Send(message);
         }
 
