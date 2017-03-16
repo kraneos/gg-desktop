@@ -62,6 +62,7 @@ namespace Seggu.Desktop.UserControls
         {
             clientGrid.Columns["Id"].Visible = false;
             clientGrid.Columns["PolicyCount"].Visible = false;
+            clientGrid.Columns["BirthDate"].HeaderText = "Nacimiento";
         }
 
         public void ListClientsWithValidsPolicies()

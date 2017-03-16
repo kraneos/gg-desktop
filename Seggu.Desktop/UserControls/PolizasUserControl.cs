@@ -114,6 +114,7 @@ namespace Seggu.Desktop.UserControls
             cmbPlanes.Enabled = true;
             EnablePage(tabPageSiniestros, false);
             btnPrint.Visible = false;
+            this.listViewFotos.Clear();
         }
 
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
@@ -369,7 +370,7 @@ namespace Seggu.Desktop.UserControls
                     break;
             }
         }
-       
+
         #region Datos grales Tab
 
         private void dtpInicio_ValueChanged(object sender, EventArgs e)
@@ -575,13 +576,17 @@ namespace Seggu.Desktop.UserControls
             grdFees.Columns["Annulated"].Visible = false;
             grdFees.Columns["CompanyId"].Visible = false;
             grdFees.Columns["Cliente"].Visible = false;
+            grdFees.Columns["ClientId"].Visible = false;
             grdFees.Columns["EndorseId"].Visible = false;
             grdFees.Columns["Nro_Póliza"].Visible = false;
+            grdFees.Columns["Nro_Endoso"].HeaderText = "Nro Endoso";
             grdFees.Columns["Valor"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Saldo"].DefaultCellStyle.Format = "0.00";
             grdFees.Columns["Pago_Cía"].DefaultCellStyle.Format = "0.00";
+            grdFees.Columns["Pago_Cía"].HeaderText = "Pago Cía";
             grdFees.Columns["Venc_Cuota"].HeaderText = @"Vencimiento";
             grdFees.Columns["Venc_Cuota"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            grdFees.Columns["Fecha_Liquidación"].HeaderText = "Liquidada";
         }
         private void CalculateFeeTotals()
         {
@@ -810,7 +815,7 @@ namespace Seggu.Desktop.UserControls
                 PaymentBonus =
                     txtBonificacionPago.Text == string.Empty ? null : (decimal?)decimal.Parse(txtBonificacionPago.Text),
                 NetCharge = txtNetoCobrar.Text == string.Empty ? null : (decimal?)decimal.Parse(txtNetoCobrar.Text),
-                AttachedFiles = imageList1.Images.Keys.Cast<string>().Select(x => new AttachedFileDto { FilePath = x , PolicyId = LayoutForm.currentPolicy?.Id ?? default(int) })
+                AttachedFiles = imageList1.Images.Keys.Cast<string>().Select(x => new AttachedFileDto { FilePath = x, PolicyId = LayoutForm.currentPolicy?.Id ?? default(int) })
             };
             return policy;
         }
@@ -934,6 +939,10 @@ namespace Seggu.Desktop.UserControls
                     //CasualtyDto submitCasualtyFormDto = this.ConvertToSubmitForm(casualty, injuries);
                     _casualtyService.Save(casualty);
                     MessageBox.Show("Guardó OK, refresque los datos con doble click en la póliza deseada");
+
+                    var mainForm = (Layout)FindForm();
+                    mainForm.CleanLeftPanel();
+                    Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -952,10 +961,6 @@ namespace Seggu.Desktop.UserControls
                 }
             }
             else MessageBox.Show("Datos obligatorios sin completar", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            var mainForm = (Layout)FindForm();
-            mainForm.CleanLeftPanel();
-            Dispose();
         }
         private CasualtyDto GetSiniestroInfo()
         {
@@ -971,7 +976,7 @@ namespace Seggu.Desktop.UserControls
             _currentCasualty.ReceiveDate = dtpRecibido.Value.ToShortDateString();
             _currentCasualty.AttachedFiles =
                 imageList2.Images.Keys.Cast<string>()
-                    .Select(x => new AttachedFileDto {FilePath = x, CasualtyId = _currentCasualty?.Id ?? default(int)});
+                    .Select(x => new AttachedFileDto { FilePath = x, CasualtyId = _currentCasualty?.Id ?? default(int) });
             return _currentCasualty;
         }
         private bool ValidateSiniestrosControls()

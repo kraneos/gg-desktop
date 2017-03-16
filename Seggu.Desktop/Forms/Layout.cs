@@ -550,12 +550,12 @@ namespace Seggu.Desktop.Forms
         #region Ines
         private void rORToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DependencyResolver.Instance.ResolveGeneric<RcrReportForm>().Show();
+            DependencyResolver.Instance.ResolveGeneric<OperacionesReportForm>().Show();
         }
 
         private void rCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new RosReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
+            new CobranzasReportForm(DependencyResolver.Instance.ResolveGeneric<IProducerService>(), DependencyResolver.Instance.ResolveGeneric<ICashAccountService>()).Show();
         }
         #endregion
 

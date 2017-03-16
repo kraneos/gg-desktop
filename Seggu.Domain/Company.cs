@@ -23,7 +23,8 @@ namespace Seggu.Domain
         public int LiqDay2 { get; set; }
         public int PaymentDay1 { get; set; }
         public int PaymentDay2 { get; set; }
-    
+        public long? SsnId { get; set; }
+
         public virtual ICollection<ProducerCode> ProducerCodes { get; set; }
         public virtual ICollection<CreditCard> CreditCards { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
