@@ -6,7 +6,7 @@
 #define MyAppPublisher "Seggu"
 #define MyAppURL "http://www.seggu.com.ar"
 #define MyAppExeName "SeGGu.exe"
-#define AppBasePath "..\app"
+#define AppBasePath "..\"
 #define AppSourcesPath "{#AppBasePath}\Seggu.Desktop\bin\Staging"
 
 [Setup]
@@ -37,8 +37,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: ..\app\Seggu.Desktop\bin\Staging\*; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;
-Source: ..\app\Seggu.Desktop\bin\Staging\seggu.sqlite; DestDir: "{app}"; Permissions: everyone-full; Flags: ignoreversion 
+Source: ..\Seggu.Desktop\bin\Staging\*; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;
+Source: ..\Seggu.Desktop\bin\Staging\seggu.sqlite; DestDir: "{app}"; Permissions: everyone-full; Flags: ignoreversion 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 
