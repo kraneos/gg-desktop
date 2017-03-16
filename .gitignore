@@ -21,3 +21,6 @@ Seggu.msi
 /InstallUtil.InstallLog
 *.DS_Store
 /deploy/output
+/packages
+/TestResults
+/app
