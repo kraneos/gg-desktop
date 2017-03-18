@@ -120,12 +120,12 @@ namespace Seggu.Services
             form.SetField("DNIEmpleador", printFee.EmployerDNI);
             form.SetField("CUITEmpleador", printFee.EmployerCUIT);
 
-            form.SetField("BenefApellido1", printFee.BeneficiaryLastName);
-            form.SetField("BenefNombre1", printFee.BeneficiaryName);
-            form.SetField("BenefDNI1", printFee.BeneficiaryDNI);
-            form.SetField("BenefCUIT1", printFee.BeneficiaryCUIT);
-            form.SetField("BenefParentesco1", printFee.BeneficiaryKinship);
-            form.SetField("Benef%1", printFee.BeneficiaryPercent);
+            //form.SetField("BenefApellido1", printFee.BeneficiaryLastName);
+            //form.SetField("BenefNombre1", printFee.BeneficiaryName);
+            //form.SetField("BenefDNI1", printFee.BeneficiaryDNI);
+            //form.SetField("BenefCUIT1", printFee.BeneficiaryCUIT);
+            //form.SetField("BenefParentesco1", printFee.BeneficiaryKinship);
+            //form.SetField("Benef%1", printFee.BeneficiaryPercent);
 
             form.SetField("Productor", printFee.Producer);
             form.SetField("CódigoCia", printFee.ProducerCode);
@@ -281,13 +281,12 @@ namespace Seggu.Services
             form.SetField("AsegCUIT1", policy.Employees.First().CUIT);
             form.SetField("AsegNacimiento1", policy.Employees.First().CUIT);
             form.SetField("AsegSuma1", policy.Employees.First().Suma.ToString());
-
-            form.SetField("AsegApellido2", policy.Employees.Last().Apellido);
-            form.SetField("AsegNombre2", policy.Employees.Last().Nombre);
-            form.SetField("AsegDNI2", policy.Employees.Last().DNI);
-            form.SetField("AsegCUIT2", policy.Employees.Last().CUIT);
-            form.SetField("AsegNacimiento2", policy.Employees.Last().CUIT);
-            form.SetField("AsegSuma2", policy.Employees.Last().Suma.ToString());
+            //form.SetField("AsegApellido2", policy.Employees.Last().Apellido);
+            //form.SetField("AsegNombre2", policy.Employees.Last().Nombre);
+            //form.SetField("AsegDNI2", policy.Employees.Last().DNI);
+            //form.SetField("AsegCUIT2", policy.Employees.Last().CUIT);
+            //form.SetField("AsegNacimiento2", policy.Employees.Last().CUIT);
+            //form.SetField("AsegSuma2", policy.Employees.Last().Suma.ToString());
         }
         private static void PopulatePolicyVehicle(VehicleDto vehicle, AcroFields form)
         {

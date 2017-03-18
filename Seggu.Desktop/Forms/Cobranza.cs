@@ -28,12 +28,13 @@ namespace Seggu.Desktop.Forms
         private int policyId;
         private int ledgerAccountId;
         private decimal cobro;
+        private IEmployeeService employeeService;
 
         public Cobranza(IClientService clientService, IFeeService feeService, IProducerService producerService
             , ILedgerAccountService ledgerAccountService, IAssetService assetService
             , ICashAccountService cashAccountService, IPrintService printService
             , ICollectionService collectionService, IVehicleService vehicleService
-            , IPolicyService policyService, IRiskService riskService, int policyId)
+            , IPolicyService policyService, IRiskService riskService, IEmployeeService employeeService, int policyId)
         {
             this.clientService = clientService;
             this.policyId = policyId;
@@ -47,6 +48,7 @@ namespace Seggu.Desktop.Forms
             this.policyService = policyService;
             this.printService = printService;
             this.riskService = riskService;
+            this.employeeService = employeeService;
             InitializeComponent();
         }
 
@@ -138,7 +140,7 @@ namespace Seggu.Desktop.Forms
         {
             PrepareFeeToUpdate();
             feeService.Update(currentFee);
-            SaveFeeInCashAccount(currentFee);            
+            SaveFeeInCashAccount(currentFee);
         }
         private void PrepareFeeToUpdate()
         {
@@ -219,36 +221,41 @@ namespace Seggu.Desktop.Forms
         private FeeLifeDto CreateLifeDto()
         {
             var client = clientService.GetShortDtoById(currentFee.ClientId);
-            
+            var policy = policyService.GetById(currentFee.PolicyId);
+            var employees = employeeService.GetByPolicyId(currentFee.PolicyId);
+            var producer = producerService.GetById(policy.ProducerId);
+
+            var firstEmployee = employees.First();
+
             var dto = new FeeLifeDto();
-            dto.BeneficiaryCUIT = "23452345234";
-            dto.BeneficiaryKinship = "hijo";
-            dto.BeneficiaryName = "Carlitos";
-            dto.BeneficiaryLastName = "way";
-            dto.BeneficiaryDNI = "979879";
-            dto.BeneficiaryPercent = "60%";
+            dto.BeneficiaryCUIT = firstEmployee.CUIT;
+            dto.BeneficiaryKinship = string.Empty;
+            dto.BeneficiaryName = firstEmployee.Nombre;
+            dto.BeneficiaryLastName = firstEmployee.Apellido;
+            dto.BeneficiaryDNI = firstEmployee.DNI;
+            dto.BeneficiaryPercent = string.Empty;
 
             dto.ClientBirthDate = client.BirthDate;
             dto.ClientCUIT = client.CUIT;
             dto.ClientDNI = client.Dni;
-            dto.ClientEnsuranceValue = "222222";
+            dto.ClientEnsuranceValue = policy.Value.ToString();
             dto.ClientLastName = client.Apellido;
             dto.ClientName = client.Nombre;
 
-            dto.CollectType = "Directa";
-            dto.CompanyName = "telodebo";
-            dto.EmployerCompanyName = "empresa X";
-            dto.EmployerCUIT = "falopa cuit";
-            dto.EmployerDNI = "falopa dni";
-            dto.EmployerLastName = "falopa apellid";
-            dto.EmployerName = "falop Nombre";
+            dto.CollectType = string.Empty;
+            dto.CompanyName = policy.Compañía;
+            dto.EmployerCompanyName = string.Empty;
+            dto.EmployerCUIT = firstEmployee.CUIT;
+            dto.EmployerDNI = firstEmployee.DNI;
+            dto.EmployerLastName = firstEmployee.Apellido;
+            dto.EmployerName = firstEmployee.Nombre;
             string feesCount = this.feeService.GetByPolicyId(currentFee.PolicyId).Count().ToString();
             dto.FeeCount = feesCount;
             dto.FeeNumber = currentFee.Cuota;
             dto.PolicyNumber = lblPolicyNumber.Text;
             dto.Producer = cmbCobrador.Text;
-            dto.ProducerCode = "te lo debo";
-            dto.ProducerComission = "5%" ;
+            dto.ProducerCode = producer.Matrícula;
+            dto.ProducerComission = string.Empty;
             dto.ReceiptNumber = txtNumeroRecibo.Text;
             dto.Value = currentFee.Valor.ToString();
             dto.ValueInWords = Convert.ToDouble(currentFee.Valor).ToSpanishTextWithDecimals();
@@ -275,18 +282,18 @@ namespace Seggu.Desktop.Forms
                             printService.VehicleReceipt(ConvertCurrentFeeToFeeChargeDto(currentFee, value));
                         break;
 
-                    case "Vida_colectivo_Otros":
+                    case "Vida Colectivo y Otros":
                         printService.LifeReceiptPDF(CreateLifeDto());
                         break;
                     case "Otros":
                         printService.LifeReceiptPDF(CreateLifeDto());
                         break;
 
-                    case "Vida_individual":
+                    case "Vida Individual":
                         printService.LifeReceiptPDF(CreateLifeDto());
                         break;
 
-                    case "Combinados_Integrales":
+                    case "Combinados Integrales":
                         printService.IntegralReceiptPDF(currentFee);//, integral_uc.province, integral_uc.district);
                         break;
                 }
@@ -298,7 +305,7 @@ namespace Seggu.Desktop.Forms
             currentFee = (FeeDto)grdCuotas.CurrentRow.DataBoundItem;
             txtImporte.Text = currentFee.Saldo.ToString("N2");
         }
-        
+
         #region Validaciones
         public bool ValidateControls()
         {
@@ -322,7 +329,7 @@ namespace Seggu.Desktop.Forms
                         }
                 }
                 if (c is ComboBox)
-                    if (c == cmbCobrador || c == cmbActivos )
+                    if (c == cmbCobrador || c == cmbActivos)
                         if ((c as ComboBox).SelectedIndex == -1)
                         {
                             errorProvider1.SetError(c, "Debe seleccionar un elemento");
