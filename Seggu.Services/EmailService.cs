@@ -20,7 +20,7 @@ namespace Seggu.Services
             this.smtpClient.Port = Properties.Settings.Default.SmtpServerPort;
             this.smtpClient.UseDefaultCredentials = false;
             this.smtpClient.EnableSsl = Properties.Settings.Default.UseSsl;
-            this.smtpClient.Credentials = new NetworkCredential("info@seggu.com.ar", "seggu2016");
+            this.smtpClient.Credentials = new NetworkCredential("info@seggu.com.ar", "leydemurphy");
             this.smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         }
 
